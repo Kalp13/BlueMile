@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Shell xmlns="http://xamarin.com/schemas/2014/forms" 
+       xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+       xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+       mc:Ignorable="d"
+       xmlns:views="clr-namespace:BlueMile.Coc.Mobile.Views"
+       xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+       Title="COC"
+       x:Class="BlueMile.Coc.Mobile.AppShell">
+    <Shell.BindingContext>
+        <viewModels:AppShellViewModel/>
+    </Shell.BindingContext>
+
+    <!-- 
+        Styles and Resources 
+    -->
+    <Shell.Resources>
+        <ResourceDictionary>
+            <Color x:Key="NavigationPrimary">#002EB0FF</Color>
+            <Style x:Key="BaseStyle" TargetType="Element">
+                <Setter Property="Shell.BackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.ForegroundColor" Value="White" />
+                <Setter Property="Shell.TitleColor" Value="White" />
+                <Setter Property="Shell.DisabledColor" Value="#B4FFFFFF" />
+                <Setter Property="Shell.UnselectedColor" Value="#95FFFFFF" />
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource NavigationPrimary}" />
+                <Setter Property="Shell.TabBarForegroundColor" Value="White"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="#95FFFF"/>
+                <Setter Property="Shell.TabBarTitleColor" Value="White"/>
+            </Style>
+            <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
+            <Style TargetType="NavigationPage" BasedOn="{StaticResource BaseStyle}"/>
+        </ResourceDictionary>
+    </Shell.Resources>
+
+    <!-- Optional Templates -->
+    <!--// These may be provided inline as below or as separate classes.-->
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <Grid BackgroundColor="#000000">
+                <ImageButton Source="{Binding ProfileImage, TargetNullValue='User.png'}"
+                             Command="{Binding ChangePhotoCommand}"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             Aspect="AspectFill"
+                             HeightRequest="200"/>
+            </Grid>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+
+    <FlyoutItem Title="Flyout"
+                FlyoutDisplayOptions="AsMultipleItems"
+                FlyoutIcon="User.png">
+        <!--// This header appears at the top of the Flyout.-->
+        <ShellContent Title="Owner"
+                      Icon="fisherman.png">
+            <views:OwnerPage/>
+        </ShellContent>
+
+        <!--// ItemTemplate is for ShellItems as displayed in a Flyout-->
+        <ShellContent Title="Boats"
+                      Icon="boat.png">
+            <views:BoatsPage/>
+        </ShellContent>
+    </FlyoutItem>
+
+</Shell>

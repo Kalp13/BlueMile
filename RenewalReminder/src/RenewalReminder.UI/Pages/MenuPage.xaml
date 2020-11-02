@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<mvxViews:MvxContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mvxViews="clr-namespace:MvvmCross.Forms.Views;assembly=MvvmCross.Forms"
+    xmlns:viewModels="clr-namespace:RenewalReminder.Core.ViewModels;assembly=RenewalReminder.Core"
+    xmlns:local="clr-namespace:RenewalReminder.UI.Pages"
+    x:Class="RenewalReminder.UI.Pages.MenuPage"
+    x:TypeArguments="viewModels:MenuViewModel"
+    x:Name="MainContent">
+
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical">
+            <StackLayout HeightRequest="40">
+                <StackLayout.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <On Platform="Android, iOS" Value="True"/>
+                    </OnPlatform>
+                </StackLayout.IsVisible>
+                <Label Text="My Menu" Margin="10" VerticalOptions="Center" HorizontalOptions="Center" FontSize="Large"/>
+            </StackLayout>
+            <ListView ItemsSource="{Binding MenuItemList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.DataContext.NavigateCommand, Source={x:Reference MainContent}}" CommandParameter="{Binding}"/>
+                                </StackLayout.GestureRecognizers>
+                                <Label Text="{Binding}" VerticalOptions="Center" HorizontalOptions="Center"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</mvxViews:MvxContentPage>

@@ -1,0 +1,10 @@
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\bin\Debug\netstandard2.0\RenewalReminder.Core.deps.json
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\bin\Debug\netstandard2.0\RenewalReminder.Core.dll
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\bin\Debug\netstandard2.0\RenewalReminder.Core.pdb
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\obj\Debug\netstandard2.0\RenewalReminder.Core.csproj.CoreCompileInputs.cache
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\obj\Debug\netstandard2.0\RenewalReminder.Core.AssemblyInfoInputs.cache
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\obj\Debug\netstandard2.0\RenewalReminder.Core.AssemblyInfo.cs
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\obj\Debug\netstandard2.0\RenewalReminder.Core.dll
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\obj\Debug\netstandard2.0\RenewalReminder.Core.pdb
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\obj\Debug\netstandard2.0\RenewalReminder.Core.csprojAssemblyReference.cache
+C:\VSTS\repos\RenewalReminder\src\RenewalReminder.Core\obj\Debug\netstandard2.0\XamlC.stamp

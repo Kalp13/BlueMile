@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             x:Class="BlueMile.Coc.Mobile.Views.CreateUpdateBoatPage"
+             xmlns:converters="clr-namespace:BlueMile.Coc.Mobile.Converters"
+             Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <viewModels:CreateUpdateBoatViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <converters:CategoryListDescriptionConverter x:Key="categoryConverter"/>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <ScrollView Orientation="Vertical"
+                    HorizontalOptions="FillAndExpand"
+                    Margin="5,2">
+            <StackLayout Orientation="Vertical"
+                         Spacing="1">
+                <Label Text="Boat Name"/>
+                <Entry Text="{Binding BoatDetails.Name, Mode=TwoWay}"
+                       Placeholder="Boat Name"
+                       Keyboard="Text"
+                       TabIndex="1"/>
+                <Label Text="Registered Number"/>
+                <Entry Text="{Binding BoatDetails.RegisteredNumber, Mode=TwoWay}"
+                       Placeholder="Register Number"
+                       Keyboard="Text"
+                       TabIndex="2"/>
+                <Label Text="Category"/>
+                <Picker ItemsSource="{Binding BoatCategories}"
+                        ItemDisplayBinding="{Binding ItemName}"
+                        SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                        Title="Select Category"
+                        TabIndex="3"/>
+                <Label Text="Boyancy Certificate"/>
+                <Entry Text="{Binding BoatDetails.BoyancyCertificateNumber, Mode=TwoWay}"
+                       Keyboard="Plain"
+                       Placeholder="Boyancy Certificate Number"
+                       TabIndex="4"/>
+                <ImageButton Source="{Binding BoatDetails.BoyancyCertificateImage.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                             Command="{Binding CaptureBoayancyCertPhotoCommand}"
+                             Aspect="AspectFit"
+                             BackgroundColor="#00000000"
+                             HeightRequest="200"/>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Is A Jetski: "/>
+                    <Switch IsToggled="{Binding IsJetSki, Mode=TwoWay}"/>
+                </StackLayout>
+                <StackLayout Orientation="Vertical"
+                             VerticalOptions="StartAndExpand"
+                             IsVisible="{Binding IsJetSki}">
+                    <Label Text="Tubbies Certificate Number"/>
+                    <Entry Text="{Binding BoatDetails.TubbiesCertificateNumber, Mode=TwoWay}"
+                           Keyboard="Plain"
+                           Placeholder="Tubbies Boyancy Certificate Number"
+                           TabIndex="5"/>
+                    <ImageButton Source="{Binding BoatDetails.TubbiesCertificateImage.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                                 Command="{Binding CaptureTubbiesCertPhotoCommand}"
+                                 Aspect="AspectFit"
+                                 BackgroundColor="#00000000"
+                                 HeightRequest="200"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Save"
+                            Command="{Binding SaveCommand}"/>
+                    <Button Text="Cancel"
+                            Command="{Binding CancelCommand}"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

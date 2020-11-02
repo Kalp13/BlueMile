@@ -1,0 +1,8 @@
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\bin\Debug\netstandard2.0\BlueMile.Coc.Data.deps.json
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\bin\Debug\netstandard2.0\BlueMile.Coc.Data.dll
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\bin\Debug\netstandard2.0\BlueMile.Coc.Data.pdb
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\obj\Debug\netstandard2.0\BlueMile.Coc.Data.AssemblyInfoInputs.cache
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\obj\Debug\netstandard2.0\BlueMile.Coc.Data.AssemblyInfo.cs
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\obj\Debug\netstandard2.0\BlueMile.Coc.Data.csproj.CoreCompileInputs.cache
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\obj\Debug\netstandard2.0\BlueMile.Coc.Data.dll
+C:\VSTS\repos\BlueMile.COC.Mobile\BlueMile.Coc.Data\obj\Debug\netstandard2.0\BlueMile.Coc.Data.pdb

@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "dgSpecHash": "C81aUMB+DxpCJJVl4ga8kujPFPa71kPQPY5i7TMwUfCpJ2H4U+0D4VQc/BUgR7KrhRw9gjYk18vRqkMjNmyJQw==",
+  "success": true,
+  "projectFilePath": "C:\\VSTS\\repos\\RenewalReminder\\src\\RenewalReminder.UI\\RenewalReminder.UI.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Rudolph\\.nuget\\packages\\acr.userdialogs\\7.0.30\\acr.userdialogs.7.0.30.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.csharp\\4.5.0\\microsoft.csharp.4.5.0.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\mvvmcross\\6.4.0\\mvvmcross.6.4.0.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\mvvmcross.forms\\6.4.0\\mvvmcross.forms.6.4.0.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\plugin.permissions\\3.0.0.12\\plugin.permissions.3.0.0.12.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\sqlite-net-pcl\\1.6.292\\sqlite-net-pcl.1.6.292.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\sqlitepclraw.bundle_green\\1.1.13\\sqlitepclraw.bundle_green.1.1.13.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\sqlitepclraw.core\\1.1.13\\sqlitepclraw.core.1.1.13.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\xamarin.essentials\\1.3.1\\xamarin.essentials.1.3.1.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\xamarin.forms\\4.2.0.815419\\xamarin.forms.4.2.0.815419.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\zxing.net.mobile\\2.4.1\\zxing.net.mobile.2.4.1.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\zxing.net.mobile.forms\\2.4.1\\zxing.net.mobile.forms.2.4.1.nupkg.sha512"
+  ],
+  "logs": []
+}

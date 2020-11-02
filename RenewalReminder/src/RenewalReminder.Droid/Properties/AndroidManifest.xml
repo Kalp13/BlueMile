@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.renewalreminder" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="19" android:targetSdkVersion="28" />
+	<uses-permission android:name="android.permission.CAMERA" />
+	<uses-permission android:name="android.permission.FLASHLIGHT" />
+	<application android:allowBackup="true" android:theme="@style/AppTheme" android:label="@string/app_name" android:resizeableActivity="true" android:icon="@drawable/time">
+		<meta-data android:name="android.max_aspect" android:value="2.1" />
+	</application>
+</manifest>
