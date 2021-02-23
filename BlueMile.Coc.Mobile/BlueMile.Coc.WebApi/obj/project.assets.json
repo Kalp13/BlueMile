@@ -8909,25 +8909,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rudolph\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\rfkal\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.WebApi\\BlueMile.Coc.WebApi.csproj",
+      "projectUniqueName": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.WebApi\\BlueMile.Coc.WebApi.csproj",
       "projectName": "BlueMile.Coc.WebApi",
-      "projectPath": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.WebApi\\BlueMile.Coc.WebApi.csproj",
-      "packagesPath": "C:\\Users\\Rudolph\\.nuget\\packages\\",
-      "outputPath": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.WebApi\\obj\\",
+      "projectPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.WebApi\\BlueMile.Coc.WebApi.csproj",
+      "packagesPath": "C:\\Users\\rfkal\\.nuget\\packages\\",
+      "outputPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.WebApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Rudolph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rfkal\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -8940,9 +8938,10 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.Data\\BlueMile.Coc.Data.csproj": {
-              "projectPath": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.Data\\BlueMile.Coc.Data.csproj"
+            "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Data\\BlueMile.Coc.Data.csproj": {
+              "projectPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Data\\BlueMile.Coc.Data.csproj"
             }
           }
         }
@@ -8955,6 +8954,7 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -9001,7 +9001,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -4624,24 +4624,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rudolph\\.nuget\\packages\\": {},
+    "C:\\Users\\rfkal\\.nuget\\packages\\": {},
     "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.iOS\\BlueMile.Coc.Mobile.iOS.csproj",
+      "projectUniqueName": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.iOS\\BlueMile.Coc.Mobile.iOS.csproj",
       "projectName": "BlueMile.Coc.Mobile.iOS",
-      "projectPath": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.iOS\\BlueMile.Coc.Mobile.iOS.csproj",
-      "packagesPath": "C:\\Users\\Rudolph\\.nuget\\packages\\",
-      "outputPath": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.iOS\\obj\\",
+      "projectPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.iOS\\BlueMile.Coc.Mobile.iOS.csproj",
+      "packagesPath": "C:\\Users\\rfkal\\.nuget\\packages\\",
+      "outputPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\Rudolph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rfkal\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -4655,8 +4655,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj": {
-              "projectPath": "C:\\VSTS\\repos\\BlueMile.COC.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj"
+            "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj": {
+              "projectPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj"
             }
           }
         }
