@@ -1,5 +1,6 @@
 ﻿using BlueMile.Certification.Mobile.Data;
 using BlueMile.Certification.Mobile.Data.Models;
+using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using SQLite;
 using System;
@@ -42,10 +43,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
                 var response = await this.dataConnection.Table<OwnerMobileEntity>().ToListAsync().ConfigureAwait(false);
 
-                return response.Select(x => new OwnerMobileModel()
-                {
-
-                });
+                return response.Select(x => DataModelHelper.ToOwnerModel(x)).ToList();
             }
             catch (Exception)
             {
@@ -161,7 +159,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         {
             try
             {
-
+                return 
             }
             catch (Exception)
             {

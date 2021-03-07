@@ -42,6 +42,18 @@ namespace BlueMile.Certification.Mobile.Data.Models
 
         public string PostalCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the <c>VHFOperatorsLicense</c> of this Owner.
+        /// </summary>
+        [Required]
+        public string VhfOperatorsLicense { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <c>SkippersLicenseNumber</c> of this Owner.
+        /// </summary>
+        [Required]
+        public string SkippersLicenseNumber { get; set; }
+
         #endregion
     }
 }

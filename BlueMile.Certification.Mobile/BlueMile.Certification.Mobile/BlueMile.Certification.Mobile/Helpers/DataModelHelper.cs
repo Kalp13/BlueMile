@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BlueMile.Certification.Mobile.Helpers
 {
-    public static class ModelHelper
+    public static class DataModelHelper
     {
         public static OwnerMobileEntity ToOwnerEntity(OwnerMobileModel owner)
         {
@@ -55,7 +55,7 @@ namespace BlueMile.Certification.Mobile.Helpers
             return convertedImage;
         }
 
-        public static ImageMobileModel ToImageModel(ImageMobileEntity image)
+        public static ImageMobileModel ToImageMobileModel(ImageMobileEntity image)
         {
             var convertedImage = new ImageMobileModel()
             {

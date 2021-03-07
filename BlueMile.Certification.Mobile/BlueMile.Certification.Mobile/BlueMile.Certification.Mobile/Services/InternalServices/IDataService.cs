@@ -48,7 +48,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         Task<bool> UpdateItemAsync(ItemMobileModel owner);
 
-        Task<List<ItemMobileModel>> GetItemsByBoatAsync(long boatId);
+        Task<List<ItemMobileModel>> FindItemsByBoatAsync(long boatId);
 
         #endregion
     }

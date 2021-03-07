@@ -203,47 +203,32 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
                 }
-                else if (await App.DataService.CreateNewImage(this.BoatDetails.BoyancyCertificateImage).ConfigureAwait(false))
+                else if (await App.DataService.CreateNewBoatAsync(BoatDetails).ConfigureAwait(false))
                 {
-                    if (this.BoatDetails.IsJetski && (!await App.DataService.CreateNewImage(this.BoatDetails.TubbiesCertificateImage).ConfigureAwait(false)))
+                    UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
+
+                    BoatMobileModel boat = new BoatMobileModel();
+                    if ((await App.ApiService.GetBoatById(BoatDetails.Id).ConfigureAwait(false)) == null)
                     {
-                        throw new ArgumentException("Tubbies Image not saved correctly.", nameof(this.BoatDetails.TubbiesCertificateImage));
+                        boat = await App.ApiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        boat = await App.ApiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
                     }
 
-                    var boyancyPhoto = await App.ApiService.CreateImage(this.BoatDetails.BoyancyCertificateImage).ConfigureAwait(false);
 
-                    if (this.BoatDetails.IsJetski)
+                    if (boat != null)
                     {
-                        var tubbiesPhoto = await App.ApiService.CreateImage(this.BoatDetails.TubbiesCertificateImage).ConfigureAwait(false);
+                        var syncResult = await App.DataService.UpdateBoatAsync(this.BoatDetails).ConfigureAwait(false);
+                        UserDialogs.Instance.Toast($"Successfully uploaded {this.BoatDetails.Name}");
                     }
 
-                    if (await App.DataService.CreateNewBoat(BoatDetails).ConfigureAwait(false))
+                    UserDialogs.Instance.HideLoading();
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
-
-                        BoatMobileModel boat = new BoatMobileModel();
-                        if ((await App.ApiService.GetBoatById(BoatDetails.Id).ConfigureAwait(false)) == null)
-                        {
-                            boat = await App.ApiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
-                        }
-                        else
-                        {
-                            boat = await App.ApiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
-                        }
-
-
-                        if (boat != null)
-                        {
-                            var syncResult = await App.DataService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
-                            UserDialogs.Instance.Toast($"Successfully uploaded {this.BoatDetails.Name}");
-                        }
-
-                        UserDialogs.Instance.HideLoading();
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
-                        });
-                    }
+                        await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                    });
                 }
                 else
                 {
@@ -293,7 +278,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(this.BoatId))
                 {
-                    this.BoatDetails = await App.DataService.GetBoatById(Guid.Parse(this.BoatId)).ConfigureAwait(false);
+                    this.BoatDetails = await App.DataService.FindBoatBySystemIdAsync(Guid.Parse(this.BoatId)).ConfigureAwait(false);
 
                     if (this.BoatDetails != null)
                     {

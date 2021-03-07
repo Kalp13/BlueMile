@@ -1,4 +1,5 @@
 ﻿using BlueMile.Certification.Mobile.Models;
+using BlueMile.Certification.Web.ApiModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,9 +11,9 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
     {
         #region Security Methods
 
-        Task<bool> RegisterUser(UserEntity user);
+        Task<bool> RegisterUser(UserModel user);
 
-        Task<UserEntity> LogUserIn(string username, string password);
+        Task<UserModel> LogUserIn(string username, string password);
 
         #endregion
 

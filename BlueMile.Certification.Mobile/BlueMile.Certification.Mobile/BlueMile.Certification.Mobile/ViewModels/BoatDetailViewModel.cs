@@ -186,16 +186,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private async Task BuildEmailContent()
         {
-            var owner = await App.DataService.GetOwnerById(this.CurrentBoat.OwnerId).ConfigureAwait(false);
-            var equipment = await App.DataService.GetItemsByBoatId(this.CurrentBoat.Id).ConfigureAwait(false);
+            var owner = await App.DataService.FindOwnerBySystemIdAsync(this.CurrentBoat.OwnerId).ConfigureAwait(false);
+            var equipment = await App.DataService.FindItemsByBoatAsync(this.CurrentBoat.Id).ConfigureAwait(false);
             var images = new List<ImageMobileModel>();
 
             //Add Owner Details
             var details = $"Owner Details\n" +
             $"Name & Surname: {owner.Name} + {owner.Surname}\n" +
-            $"Cell Number: {owner.CellNumber}\n" +
+            $"Cell Number: {owner.ContactNumber}\n" +
             $"Email: {owner.Email}\n" +
-            $"ID/Passport: {owner.IdentificationNumber}\n" +
+            $"ID/Passport: {owner.Identification}\n" +
             $"Skippers License: {owner.SkippersLicenseNumber}\n" +
             $"VHF License: {owner.VhfOperatorsLicense}\n" +
             $"Address: {owner.Address}\n\n"; ;
@@ -230,7 +230,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.BuildEmail(details, images);
         }
 
-        private async void BuildEmail(string details, List<ImageModel> images)
+        private async void BuildEmail(string details, List<ImageMobileModel> images)
         {
             try
             {

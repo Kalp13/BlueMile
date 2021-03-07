@@ -100,8 +100,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private async Task GetOwner()
         {
-            this.CurrentOwner = (await App.DataService.FindAllOwners().ConfigureAwait(false)).FirstOrDefault();
-            App.OwnerId = this.CurrentOwner.Id;
+            this.CurrentOwner = (await App.DataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
+            App.OwnerId = this.CurrentOwner.SystemId;
             SettingsService.OwnerId = this.CurrentOwner.Id.ToString();
             this.OwnerImages = new List<ImageMobileModel>();
             this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);

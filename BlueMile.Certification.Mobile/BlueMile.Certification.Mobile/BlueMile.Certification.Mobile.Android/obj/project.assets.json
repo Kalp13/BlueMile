@@ -889,9 +889,10 @@
       },
       "BlueMile.Certification.Mobile/1.0.0": {
         "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
+        "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "Acr.UserDialogs": "7.1.0.481",
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "Newtonsoft.Json": "12.0.3",
           "Xam.Plugin.Media": "5.0.1",
           "Xamarin.Essentials": "1.6.1",
@@ -903,6 +904,16 @@
         },
         "runtime": {
           "bin/placeholder/BlueMile.Certification.Mobile.dll": {}
+        }
+      },
+      "BlueMile.Certification.Web.ApiModels/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "compile": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiModels.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiModels.dll": {}
         }
       }
     }
@@ -2193,6 +2204,11 @@
       "type": "project",
       "path": "../BlueMile.Certification.Mobile/BlueMile.Certification.Mobile.csproj",
       "msbuildProject": "../BlueMile.Certification.Mobile/BlueMile.Certification.Mobile.csproj"
+    },
+    "BlueMile.Certification.Web.ApiModels/1.0.0": {
+      "type": "project",
+      "path": "../../BlueMile.Certification.Web.ApiModels/BlueMile.Certification.Web.ApiModels.csproj",
+      "msbuildProject": "../../BlueMile.Certification.Web.ApiModels/BlueMile.Certification.Web.ApiModels.csproj"
     }
   },
   "projectFileDependencyGroups": {
