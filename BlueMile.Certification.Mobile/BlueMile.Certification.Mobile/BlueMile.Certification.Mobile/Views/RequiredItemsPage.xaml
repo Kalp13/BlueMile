@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:converters="clr-namespace:BlueMile.Coc.Mobile.Converters"
+             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
+             Title="{Binding Title}"
+             x:Class="BlueMile.Coc.Mobile.Views.RequiredItemsPage">
+    <ContentPage.BindingContext>
+        <viewModels:RequiredItemsViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <converters:DateToColourConverter x:Key="dateToColourConverter"/>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView IsPullToRefreshEnabled="True"
+                      ItemsSource="{Binding RequiredItems}"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                      SelectedItem="{Binding SelectedItem}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="2"
+                                         HorizontalOptions="FillAndExpand"
+                                         Padding="5"
+                                         VerticalOptions="StartAndExpand"
+                                         BackgroundColor="{Binding ExpiryDate, Converter={StaticResource dateToColourConverter}}">
+                                <Image Aspect="AspectFit"
+                                       Source="{Binding ItemImage.FileImage}"/>
+                                <StackLayout Orientation="Vertical"
+                                             Padding="2"
+                                             VerticalOptions="StartAndExpand"
+                                             HorizontalOptions="StartAndExpand">
+                                    <Label Text="{Binding Description}"/>
+                                    <Label Text="{Binding SerialNumber}"/>
+                                </StackLayout>
+                                <Label Text="{Binding ExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}"
+                                       HorizontalOptions="EndAndExpand"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add Item" 
+                     Command="{Binding AddItemCommand}"
+                     IconImageSource="add.png"
+                     Order="Primary"/>
+        <ToolbarItem Text="View Required Items"
+                     Command="{Binding ViewRequiredItemsCommand}"
+                     Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+</ContentPage>

@@ -1,17 +1,17 @@
-﻿using BlueMile.Certification.Mobile.Models;
-using BlueMile.Certification.Mobile.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+
 using Xamarin.Forms;
+
+using BlueMile.Certification.Mobile.Models;
+using BlueMile.Certification.Mobile.Services;
 
 namespace BlueMile.Certification.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
-
         bool isBusy = false;
         public bool IsBusy
         {
@@ -27,7 +27,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         }
 
         protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName] string propertyName = "",
+            [CallerMemberName]string propertyName = "",
             Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))

@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             x:Class="BlueMile.Coc.Mobile.Views.BoatDetailPage"
+             xmlns:converter="clr-namespace:BlueMile.Coc.Mobile.Converters"
+             Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <viewModels:BoatDetailViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <converter:CategoryDescriptionConverter x:Key="categoryConverter"/>
+        <converter:BoolToTextConverter x:Key="boolConverter"/>
+        <converter:BoolToInverseConverter x:Key="boolToInverseConverter"/>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView Orientation="Vertical"
+                    HorizontalOptions="FillAndExpand"
+                    VerticalOptions="StartAndExpand">
+            <StackLayout Orientation="Vertical">
+                <StackLayout Orientation="Vertical"
+                             IsVisible="{Binding EditBoat, Converter={StaticResource boolToInverseConverter}, Mode=TwoWay}">
+                    <Label Text="{Binding CurrentBoat.Name, StringFormat='Boat Name: {0}'}"/>
+                    <Label Text="{Binding CurrentBoat.RegisteredNumber, StringFormat='Registered Number: {0}'}"/>
+                    <Label Text="{Binding CurrentBoat.CategoryId, Converter={StaticResource categoryConverter}, StringFormat='Category: {0}'}"/>
+                    <Label Text="{Binding CurrentBoat.BoyancyCertificateNumber, StringFormat='Boyancy Cert Number: {0}'}"/>
+                    <Label Text="{Binding CurrentBoat.IsJetski, Converter={StaticResource boolConverter}, StringFormat='Is Jetski: {0}'}"/>
+                    <Label Text="{Binding CurrentBoat.TubbiesCertificateNumber, StringFormat='Tubbies Cert Numebr: {0}'}"
+                           IsVisible="{Binding CurrentBoat.IsJetski}"/>
+                    <CarouselView ItemsSource="{Binding BoatImages}" 
+                                  HorizontalScrollBarVisibility="Default"
+                                  IsScrollAnimated="True">
+                        <CarouselView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout>
+                                    <Frame HasShadow="True"
+                                           Margin="1"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="CenterAndExpand">
+                                        <StackLayout>
+                                            <Label Text="{Binding FileName}"
+                                                   FontAttributes="Bold"
+                                                   FontSize="Large"
+                                                   HorizontalOptions="Center"
+                                                   VerticalOptions="Center" />
+                                            <Image Source="{Binding FileImage}"
+                                                   Aspect="AspectFill"
+                                                   HorizontalOptions="Center" />
+                                        </StackLayout>
+                                    </Frame>
+                                </StackLayout>
+                            </DataTemplate>
+                        </CarouselView.ItemTemplate>
+                    </CarouselView>
+                    <Button Text="Submit For C.O.C" Command="{Binding SubmitForCocCommand}"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical"
+                             Spacing="1"
+                             IsVisible="{Binding EditBoat, Mode=TwoWay}">
+                    <Label Text="Boat Name"/>
+                    <Entry Text="{Binding CurrentBoat.Name}"
+                           Placeholder="Boat Name"
+                           Keyboard="Text"
+                           TabIndex="1"/>
+                    <Label Text="Registered Number"/>
+                    <Entry Text="{Binding CurrentBoat.RegisteredNumber}"
+                           Placeholder="Register Number"
+                           Keyboard="Text"
+                           TabIndex="2"/>
+                    <Label Text="Category"/>
+                    <Picker ItemsSource="{Binding BoatCategories}"
+                            ItemDisplayBinding="{Binding ItemName}"
+                            SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
+                            Title="Select Category"
+                            TabIndex="3"/>
+                    <Label Text="Boyancy Certificate"/>
+                    <Entry Text="{Binding CurrentBoat.BoyancyCertificateNumber}"
+                           Keyboard="Plain"
+                           Placeholder="Boyancy Certificate Number"
+                           TabIndex="4"/>
+                    <ImageButton Source="{Binding CurrentBoat.BoyancyCertificateImage.FileImage, TargetNullValue='image.png'}"
+                                 Command="{Binding CaptureBoayancyCertPhotoCommand}"
+                                 Aspect="AspectFit"
+                                 BackgroundColor="#00000000"
+                                 HeightRequest="200"/>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Is A Jetski: "/>
+                        <Switch IsToggled="{Binding CurrentBoat.IsJetski, Mode=TwoWay}"
+                                IsEnabled="False"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Vertical"
+                                 VerticalOptions="StartAndExpand"
+                                 IsVisible="{Binding IsJetSki}">
+                        <Label Text="Tubbies Certificate Number"/>
+                        <Entry Text="{Binding CurrentBoat.TubbiesCertificateNumber}"
+                               Keyboard="Plain"
+                               Placeholder="Tubbies Boyancy Certificate Number"
+                               TabIndex="5"/>
+                        <ImageButton Source="{Binding CurrentBoat.TubbiesCertificateImage.FileImage, TargetNullValue='image.png'}"
+                                     Command="{Binding CaptureTubbiesCertPhotoCommand}"
+                                     Aspect="AspectFit"
+                                     BackgroundColor="#00000000"
+                                     HeightRequest="200"/>
+                    </StackLayout>
+
+                    <StackLayout Orientation="Horizontal">
+                        <Button Text="Save"
+                                Command="{Binding SaveCommand}"/>
+                        <Button Text="Cancel"
+                                Command="{Binding CancelCommand}"/>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+            
+            
+            
+        </ScrollView>
+    </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit"
+                     Command="{Binding EditBoatCommand}"
+                     Order="Primary"
+                     IconImageSource="edit.png"/>
+        <ToolbarItem Text="Equipment" 
+                     Command="{Binding EquipmentListCommand}"
+                     Order="Primary"/>
+        <ToolbarItem Text="View Requirements"
+                     Command="{Binding ViewRequirementsCommand}"
+                     Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+</ContentPage>

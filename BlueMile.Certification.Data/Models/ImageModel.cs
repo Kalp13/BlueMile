@@ -11,5 +11,7 @@ namespace BlueMile.Certification.Data.Models
         public string ImageName { get; set; }
 
         public string UniqueImageName { get; set; }
+
+        public string FilePath { get; set; }
     }
 }

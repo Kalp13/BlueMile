@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             xmlns:converters="clr-namespace:BlueMile.Coc.Mobile.Converters"
+             x:Class="BlueMile.Coc.Mobile.Views.ItemDetailPage"
+             Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <viewModels:ItemDetailViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <converters:ItemTypeDescriptionConverter x:Key="typeConverter"/>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout Orientation="Vertical"
+                     Spacing="1"
+                     HorizontalOptions="CenterAndExpand"
+                     Margin="1"
+                     VerticalOptions="CenterAndExpand">
+            <Label Text="{Binding SelectedItem.ItemTypeId, Converter={StaticResource typeConverter}, StringFormat='Type: {0}'}" />
+            <Label Text="{Binding SelectedItem.SerialNumber, StringFormat='Serial Number: {0}'}"/>
+            <Label Text="{Binding SelectedItem.Description, StringFormat='Description: {0}'}"/>
+            <Label Text="{Binding SelectedItem.CapturedDate, StringFormat='Captured On: {0}'}"/>
+            <Label Text="{Binding SelectedItem.ExpiryDate, StringFormat='Expires On: {0}'}"/>
+            <Image Source="{Binding SelectedItem.ItemImage.FileImage}" 
+                   Aspect="AspectFit"
+                   HeightRequest="400"/>
+            <Button Text="Close"
+                    Command="{Binding CloseCommand}"/>
+        </StackLayout>
+    </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Edit"
+                     Command="{Binding EditItemCommand}"
+                     IconImageSource="edit.png"/>
+    </ContentPage.ToolbarItems>
+</ContentPage>

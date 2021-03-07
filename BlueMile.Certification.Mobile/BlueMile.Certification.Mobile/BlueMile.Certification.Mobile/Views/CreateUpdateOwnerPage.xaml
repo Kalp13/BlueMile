@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             x:Class="BlueMile.Coc.Mobile.Views.CreateUpdateOwnerPage"
+             Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <viewModels:CreateUpdateOwnerViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <ScrollView VerticalOptions="FillAndExpand"
+                    Orientation="Vertical"
+                    Margin="5,2">
+            <StackLayout Orientation="Vertical" 
+                         Spacing="1" 
+                         HorizontalOptions="FillAndExpand">
+                <Label Text="Name and Surname"/>
+                <StackLayout Orientation="Horizontal" 
+                             HorizontalOptions="FillAndExpand" 
+                             Spacing="3">
+                    <Entry Text="{Binding OwnerDetails.Name, Mode=TwoWay}" 
+                           Keyboard="Text" 
+                           Placeholder="Name"
+                           TabIndex="1"/>
+                    <Entry Text="{Binding OwnerDetails.Surname, Mode=TwoWay}" 
+                           Keyboard="Text" 
+                           Placeholder="Surname"
+                           TabIndex="2"/>
+                </StackLayout>
+                <Label Text="Cell Number"/>
+                <Entry Text="{Binding OwnerDetails.CellNumber, Mode=TwoWay}"
+                       Keyboard="Telephone"
+                       Placeholder="Cell"
+                       TabIndex="3"
+                       ReturnType="Next"/>
+                <Label Text="Email Address"/>
+                <Entry Text="{Binding OwnerDetails.Email, Mode=TwoWay}"
+                       Keyboard="Email"
+                       Placeholder="Email"
+                       TabIndex="4"
+                       ReturnType="Next"/>
+                <!--ID-->
+                <Label Text="ID/Passport Number"/>
+                <Entry Text="{Binding OwnerDetails.IdentificationNumber, Mode=TwoWay}"
+                       Keyboard="Default"
+                       Placeholder="ID/Passport Number"
+                       TabIndex="5"/>
+                <StackLayout Orientation="Horizontal"
+                             VerticalOptions="Center"
+                             HorizontalOptions="FillAndExpand">
+                    <StackLayout Orientation="Vertical"  
+                                 HorizontalOptions="FillAndExpand"
+                                 VerticalOptions="CenterAndExpand">
+                        <Label Text="Address"/>
+                        <Entry Text="{Binding OwnerDetails.Address, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Address"
+                           TabIndex="6"/>
+                    </StackLayout>
+                    <Button ImageSource="location.png"
+                            Command="{Binding GetAddressCommand}"
+                            WidthRequest="70"
+                            HorizontalOptions="End"/>
+                </StackLayout>
+                
+                <ImageButton Source="{Binding OwnerDetails.IdentificationDocument.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                             Aspect="AspectFit"
+                             BackgroundColor="#00000000"
+                             Command="{Binding CaptureIDPhotoCommand}"
+                             HeightRequest="200"/>
+                <!--Skippers-->
+                <Label Text="Skippers Number"/>
+                <Entry Text="{Binding OwnerDetails.SkippersLicenseNumber, Mode=TwoWay}"
+                       Keyboard="Text"
+                       Placeholder="Skippers Number"
+                       TabIndex="7"/>
+                <ImageButton Source="{Binding OwnerDetails.SkippersLicenseImage.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                             Command="{Binding CaptureSkippersPhotoCommand}"
+                             Aspect="AspectFit"
+                             BackgroundColor="#00000000"
+                             HeightRequest="200"/>
+                <!--VHF-->
+                <Label Text="VHF License Number"/>
+                <Entry Text="{Binding OwnerDetails.VhfOperatorsLicense, Mode=TwoWay}"
+                       Keyboard="Text"
+                       Placeholder="VHF License"
+                       TabIndex="8"/>
+                <!--ICASA-->
+                <Label Text="ICASA POP"/>
+                <ImageButton Source="{Binding OwnerDetails.IcasaPopPhoto.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                             Command="{Binding CaptureIcasaPopPhotoCommand}"
+                             Aspect="AspectFit"
+                             BackgroundColor="#00000000"
+                             HeightRequest="200"/>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Save" 
+                            Command="{Binding SaveCommand}"/>
+                    <Button Text="Cancel"
+                            Command="{Binding CancelCommand}"/>
+                </StackLayout>
+
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,58 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             x:Class="BlueMile.Coc.Mobile.Views.BoatsPage"
+             Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <viewModels:BoatsViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding OwnersBoats}" 
+                      SelectedItem="{Binding SelectedBoat}"
+                      HasUnevenRows="True"
+                      IsPullToRefreshEnabled="True"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="2"
+                                         HorizontalOptions="StartAndExpand"
+                                         Padding="5"
+                                         VerticalOptions="CenterAndExpand">
+                                <Image Aspect="AspectFit" 
+                                       Source="boat.png" 
+                                       HeightRequest="50" 
+                                       WidthRequest="50"/>
+                                <StackLayout Orientation="Vertical"
+                                             Spacing="1"
+                                             Padding="2">
+                                    <Label Text="{Binding Name, StringFormat='Boat Name: {0}'}"/>
+                                    <Label Text="{Binding RegisteredNumber, StringFormat='Registered Nummber: {0}'}"/>
+                                </StackLayout>
+                            </StackLayout>                                         
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding NewBoatCommand}" 
+                     Text="Add Boat"
+                     IconImageSource="add.png"
+                     Order="Primary"/>
+    </ContentPage.ToolbarItems>
+</ContentPage>

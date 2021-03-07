@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("BlueMile.Certification.Mobile.Views.ItemDetailPage.xaml", "Views/ItemDetailPage.xaml", typeof(global::BlueMile.Certification.Mobile.Views.ItemDetailPage))]
+[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("BlueMile.Certification.Mobile.Views.ItemDetailPage.xaml", "Views/ItemDetailPage.xaml", typeof(global::BlueMile.Coc.Mobile.Views.ItemDetailPage))]
 
-namespace BlueMile.Certification.Mobile.Views {
+namespace BlueMile.Coc.Mobile.Views {
     
     
     [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("Views\\ItemDetailPage.xaml")]

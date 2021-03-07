@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             Title="{Binding Title}"
+             xmlns:sys="clr-namespace:System;assembly=netstandard"
+             xmlns:converter="clr-namespace:BlueMile.Coc.Mobile.Converters"
+             Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
+             x:Class="BlueMile.Coc.Mobile.Views.NewRequiredItemPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:NewRequiredItemViewModel/>
+    </ContentPage.BindingContext>
+    
+    <ContentPage.Resources>
+        <converter:ItemTypeListDescriptionConverter x:Key="typeConverter"/>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <ScrollView Orientation="Vertical"
+                    HorizontalOptions="FillAndExpand"
+                    Margin="5,2">
+            <StackLayout Orientation="Vertical"
+                         HorizontalOptions="FillAndExpand"
+                         VerticalOptions="StartAndExpand">
+                <Label Text="Type of item?"/>
+                <Picker ItemsSource="{Binding ItemTypes}"
+                        ItemDisplayBinding="{Binding ItemName}"
+                        SelectedItem="{Binding SelectedItemType, Mode=TwoWay}"
+                        Title="What kind of Item?"
+                        TabIndex="1"/>
+                <Label Text="Serial Number"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="StartAndExpand"/>
+                <Entry Text="{Binding NewItem.SerialNumber}"
+                       Placeholder="Serial Number"
+                       Keyboard="Text"
+                       TabIndex="2"/>
+                <Label Text="Description" 
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="StartAndExpand"/>
+                <Entry Text="{Binding NewItem.Description}"
+                       Placeholder="Description"
+                       Keyboard="Text"
+                       TabIndex="3"/>
+                <Label Text="Expiry Date"
+                       VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="StartAndExpand"/>
+                <DatePicker Date="{Binding NewItem.ExpiryDate}"
+                            IsEnabled="True"
+                            MinimumDate="{x:Static sys:DateTime.Now}"
+                            TabIndex="4"/>
+                <ImageButton Source="{Binding NewItem.ItemImage.FileImage, TargetNullValue='image.png'}"
+                             Command="{Binding CaptureItemPhoto}"
+                             Aspect="AspectFit"
+                             BackgroundColor="#00000000"
+                             HeightRequest="200"/>
+                <StackLayout Orientation="Horizontal">
+                    <Button Text="Save"
+                            Command="{Binding SaveCommand}"/>
+                    <Button Text="Cancel"
+                            Command="{Binding CancelCommand}"/>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
