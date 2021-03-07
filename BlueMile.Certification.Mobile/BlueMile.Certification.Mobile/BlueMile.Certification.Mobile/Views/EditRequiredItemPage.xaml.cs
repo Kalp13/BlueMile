@@ -9,7 +9,7 @@ namespace BlueMile.Certification.Mobile.Views
     {
         public EditRequiredItemPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

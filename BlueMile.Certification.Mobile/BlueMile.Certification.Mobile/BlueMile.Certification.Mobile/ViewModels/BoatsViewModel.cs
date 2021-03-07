@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         //    }
         //}
 
-        public ObservableCollection<BoatModel> OwnersBoats
+        public ObservableCollection<BoatMobileModel> OwnersBoats
         {
             get { return this.ownersBoats; }
             set
@@ -44,7 +45,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public BoatModel SelectedBoat
+        public BoatMobileModel SelectedBoat
         {
             get { return this.selectedBoat; }
             set
@@ -138,7 +139,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                this.OwnersBoats = new ObservableCollection<BoatModel>(await App.DataService.GetAllBoats(App.OwnerId).ConfigureAwait(false));
+                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await App.DataService.GetAllBoats(App.OwnerId).ConfigureAwait(false));
                 //this.OwnerId = App.OwnerId;
             }
             catch (Exception exc)
@@ -166,9 +167,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private ObservableCollection<BoatModel> ownersBoats;
+        private ObservableCollection<BoatMobileModel> ownersBoats;
 
-        private BoatModel selectedBoat;
+        private BoatMobileModel selectedBoat;
 
         private Guid ownerId;
 

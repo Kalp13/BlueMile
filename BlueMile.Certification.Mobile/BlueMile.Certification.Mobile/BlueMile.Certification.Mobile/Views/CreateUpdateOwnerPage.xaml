@@ -4,8 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
-             x:Class="BlueMile.Coc.Mobile.Views.CreateUpdateOwnerPage"
+             xmlns:viewModels="clr-namespace:BlueMile.Certification.Mobile.ViewModels"
+             x:Class="BlueMile.Certification.Mobile.Views.CreateUpdateOwnerPage"
              Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
              Title="{Binding Title}">
     <ContentPage.BindingContext>

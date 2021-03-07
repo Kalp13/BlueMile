@@ -34,7 +34,7 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// <summary>
         /// Gets or sets the foreign key to the cateogry of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public long BoatCategoryId { get; set; }
+        public int BoatCategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateNumber</c> of this <see cref="BoatMobileEntity"/>.

@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "G8nMC790tJwVqnfiRXfHXo2rsQJicdkAYP2EGTclvUDUk38SWmpHaXCx9skx+/EiIX7lqGt7v7Ln5QUvXRwo8g==",
+  "dgSpecHash": "Jc+9rnwPIxeUw7/PVklF2gtR6n/PcjGC+Lq+MUQh804jufO+fs89MBRzTvLFMApB4VjNaP/VbWQeRnvecAGGBQ==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.Mobile\\BlueMile.Certification.Mobile\\BlueMile.Certification.Mobile.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Rudolph\\.nuget\\packages\\acr.userdialogs\\7.1.0.475\\acr.userdialogs.7.1.0.475.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\acr.userdialogs\\7.1.0.481\\acr.userdialogs.7.1.0.481.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
@@ -17,6 +17,7 @@
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\xam.plugin.media\\5.0.1\\xam.plugin.media.5.0.1.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\xamarin.essentials\\1.6.1\\xamarin.essentials.1.6.1.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\xamarin.forms\\5.0.0.2012\\xamarin.forms.5.0.0.2012.nupkg.sha512"
   ],

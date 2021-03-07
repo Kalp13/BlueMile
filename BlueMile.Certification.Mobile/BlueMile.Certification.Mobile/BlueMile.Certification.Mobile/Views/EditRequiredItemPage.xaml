@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="BlueMile.Coc.Mobile.Views.EditRequiredItemPage"
-             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             x:Class="BlueMile.Certification.Mobile.Views.EditRequiredItemPage"
+             xmlns:viewModels="clr-namespace:BlueMile.Certification.Mobile.ViewModels"
              Title="{Binding Title}"
              xmlns:sys="clr-namespace:System;assembly=netstandard"
-             xmlns:converter="clr-namespace:BlueMile.Coc.Mobile.Converters"
+             xmlns:converter="clr-namespace:BlueMile.Certification.Mobile.Converters"
              Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}">
 
 

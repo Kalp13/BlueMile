@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BlueMile.Certification.Mobile.Models
 {
-    public class OwnerMobileEntity
+    public class OwnerMobileModel
     {
         #region Instance Fields
 
@@ -41,6 +41,14 @@ namespace BlueMile.Certification.Mobile.Models
         public string Country { get; set; }
 
         public string PostalCode { get; set; }
+
+        public bool IsSynced { get; set; }
+
+        public ImageMobileModel IcasaPopPhoto { get; set; }
+
+        public ImageMobileModel IdentificationDocument { get; set; }
+
+        public ImageMobileModel SkippersLicenseImage { get; set; }
 
         #endregion
     }

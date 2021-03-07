@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
     {
         #region Instance Properties
 
-        public OwnerModel OwnerDetails
+        public OwnerMobileModel OwnerDetails
         {
             get { return this.ownerDetails; }
             set
@@ -80,7 +81,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             base.Title = "Capture Owner Details";
             if (String.IsNullOrWhiteSpace(SettingsService.OwnerId))
             {
-                this.OwnerDetails = new OwnerModel();
+                this.OwnerDetails = new OwnerMobileModel();
             }
             else
             {
@@ -139,7 +140,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
 
-                    this.OwnerDetails.Address = String.Format(CultureInfo.InvariantCulture,
+                    this.OwnerDetails.AddressLine1 = String.Format(CultureInfo.InvariantCulture,
                                                     "Lat:{0}; Long:{1}",
                                                     location.Latitude,
                                                     location.Longitude);
@@ -177,7 +178,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId))
                 {
-                    this.OwnerDetails = await App.DataService.GetOwnerById(Guid.Parse(SettingsService.OwnerId)).ConfigureAwait(false);
+                    this.OwnerDetails = await App.DataService.FindOwnerBySystemIdAsync(Guid.Parse(SettingsService.OwnerId)).ConfigureAwait(false);
 
                     if (this.OwnerDetails != null)
                     {
@@ -197,11 +198,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (await UserDialogs.Instance.ConfirmAsync(this.OwnerDetails.ToString()).ConfigureAwait(false))
                 {
-                    if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
-                    {
-                        this.OwnerDetails.Id = Guid.NewGuid();
-                    }
-
                     if ((this.OwnerDetails.IcasaPopPhoto.Id == null) || (this.OwnerDetails.IcasaPopPhoto.Id == Guid.Empty))
                     {
                         this.OwnerDetails.IcasaPopPhoto.Id = Guid.NewGuid();
@@ -220,48 +216,39 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         this.OwnerDetails.SkippersLicenseImage.UniqueImageName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
                     }
 
-                    if ((await App.DataService.CreateNewImage(this.OwnerDetails.IcasaPopPhoto).ConfigureAwait(false)) &&
-                        (await App.DataService.CreateNewImage(this.OwnerDetails.IdentificationDocument).ConfigureAwait(false)) &&
-                        (await App.DataService.CreateNewImage(this.OwnerDetails.SkippersLicenseImage).ConfigureAwait(false)))
+                    var result = await App.DataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+
+                    if (result)
                     {
-                        var result = await App.DataService.CreateNewOwner(this.OwnerDetails).ConfigureAwait(false);
-
-                        if (result)
+                        UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
+                        SettingsService.OwnerId = this.OwnerDetails.Id.ToString();
+                        Device.BeginInvokeOnMainThread(async () =>
                         {
-                            UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
-                            SettingsService.OwnerId = this.OwnerDetails.Id.ToString();
-                            Device.BeginInvokeOnMainThread(async () =>
-                            {
-                                await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
-                            });
-                        }
+                            await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                        });
+                    }
 
-                        var icasaPhoto = await App.ApiService.CreateImage(this.OwnerDetails.IcasaPopPhoto).ConfigureAwait(false);
-                        var idPhoto = await App.ApiService.CreateImage(this.OwnerDetails.IdentificationDocument).ConfigureAwait(false);
-                        var skippersPhoto = await App.ApiService.CreateImage(this.OwnerDetails.SkippersLicenseImage).ConfigureAwait(false);
+                    var icasaPhoto = await App.ApiService.CreateImage(this.OwnerDetails.IcasaPopPhoto).ConfigureAwait(false);
+                    var idPhoto = await App.ApiService.CreateImage(this.OwnerDetails.IdentificationDocument).ConfigureAwait(false);
+                    var skippersPhoto = await App.ApiService.CreateImage(this.OwnerDetails.SkippersLicenseImage).ConfigureAwait(false);
 
-                        if (icasaPhoto && idPhoto && skippersPhoto)
+                    if (icasaPhoto && idPhoto && skippersPhoto)
+                    {
+                        var owner = await App.ApiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
+                        if (owner != null)
                         {
-                            var owner = await App.ApiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
-                            if (owner != null)
-                            {
-                                this.OwnerDetails.IsSynced = true;
-                                var syncResult = await App.DataService.UpdateOwner(this.OwnerDetails).ConfigureAwait(false);
-                                UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
-                            }
-                            else
-                            {
-                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
-                            }
+                            this.OwnerDetails.IsSynced = true;
+                            var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                            UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
                         }
                         else
                         {
-                            await UserDialogs.Instance.AlertAsync("Images were not saved correctly.").ConfigureAwait(false);
+                            await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
                         }
                     }
                     else
                     {
-                        await UserDialogs.Instance.AlertAsync("Images were not saved correctly.", "Image Save Error").ConfigureAwait(false);
+                        await UserDialogs.Instance.AlertAsync("Images were not saved correctly.").ConfigureAwait(false);
                     }
                 }
             }
@@ -279,7 +266,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private OwnerModel ownerDetails;
+        private OwnerMobileModel ownerDetails;
 
         #endregion
     }

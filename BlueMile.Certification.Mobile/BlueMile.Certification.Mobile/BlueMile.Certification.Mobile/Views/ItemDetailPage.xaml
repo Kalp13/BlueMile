@@ -4,9 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
-             xmlns:converters="clr-namespace:BlueMile.Coc.Mobile.Converters"
-             x:Class="BlueMile.Coc.Mobile.Views.ItemDetailPage"
+             xmlns:viewModels="clr-namespace:BlueMile.Certification.Mobile.ViewModels"
+             xmlns:converters="clr-namespace:BlueMile.Certification.Mobile.Converters"
+             x:Class="BlueMile.Certification.Mobile.Views.ItemDetailPage"
              Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
              Title="{Binding Title}">
     <ContentPage.BindingContext>

@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Data;
+using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,7 +31,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public RequiredItemModel ItemToUpdate
+        public ItemMobileModel ItemToUpdate
         {
             get { return this.itemToUpdate; }
             set
@@ -65,9 +67,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.selectedItemType = value;
                     this.OnPropertyChanged(nameof(this.SelectedItemType));
 
-                    if (this.selectedItemType.ItemId != null)
+                    if (this.selectedItemType.ItemId > 0)
                     {
-                        this.ItemToUpdate.ItemTypeId = (ItemTypeStaticEntity)this.selectedItemType.ItemId;
+                        this.ItemToUpdate.ItemTypeId = this.selectedItemType.ItemId;
                     }
                 }
             }
@@ -98,7 +100,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         public EditRequiredItemViewModel()
         {
 
-            this.ItemToUpdate = new RequiredItemModel();
+            this.ItemToUpdate = new ItemMobileModel();
             this.ItemTypes = new List<ListDisplayModel>();
             this.SelectedItemType = new ListDisplayModel();
             this.BuildItemTypeList();
@@ -148,7 +150,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(this.RequiredItemId))
                 {
-                    this.ItemToUpdate = await App.DataService.GetItemById(Guid.Parse(this.RequiredItemId)).ConfigureAwait(false);
+                    this.ItemToUpdate = await App.DataService.FindItemBySystemIdAsync(Guid.Parse(this.RequiredItemId)).ConfigureAwait(false);
 
                     if (this.ItemToUpdate != null)
                     {
@@ -176,36 +178,20 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (await this.ValidateItemPropertiesAsync().ConfigureAwait(false))
                 {
-                    if (await App.DataService.UpdateImage(this.ItemToUpdate.ItemImage).ConfigureAwait(false))
+                    if (await App.DataService.UpdateItemAsync(this.ItemToUpdate).ConfigureAwait(false))
                     {
-                        if (await App.DataService.UpdateRequireditem(this.ItemToUpdate).ConfigureAwait(false))
+                        if (await App.ApiService.UpdateImage(this.ItemToUpdate.ItemImage).ConfigureAwait(false))
                         {
-                            if (await App.ApiService.UpdateImage(this.ItemToUpdate.ItemImage).ConfigureAwait(false))
-                            {
-                                if ((await App.ApiService.UpdateItem(this.ItemToUpdate).ConfigureAwait(false)) != null)
-                                {
-                                    UserDialogs.Instance.Toast("Successfully updated " + this.ItemToUpdate.ItemTypeId, TimeSpan.FromSeconds(2));
 
-                                    Device.BeginInvokeOnMainThread(async () =>
-                                    {
-                                        await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
-                                        UserDialogs.Instance.HideLoading();
-                                    });
-                                }
-                                else
-                                {
-                                    await UserDialogs.Instance.AlertAsync("Could not upload item data.").ConfigureAwait(false);
-                                }
-                            }
-                            else
-                            {
-                                await UserDialogs.Instance.AlertAsync("Could not upload item data.").ConfigureAwait(false);
-                            }
                         }
                         else
                         {
-                            await UserDialogs.Instance.AlertAsync("Item was not saved successfully. Please try again.", "Save Unsuccessfull").ConfigureAwait(false);
+                            await UserDialogs.Instance.AlertAsync("Could not upload item data.").ConfigureAwait(false);
                         }
+                    }
+                    else
+                    {
+                        await UserDialogs.Instance.AlertAsync("Item was not saved successfully. Please try again.", "Save Unsuccessfull").ConfigureAwait(false);
                     }
                 }
             }
@@ -229,7 +215,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 return false;
             }
 
-            if (String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.FileName) ||
+            if (String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.ImageName) ||
                 String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.FilePath) ||
                 (this.ItemToUpdate.ItemImage.Id == Guid.Empty) ||
                 (this.ItemToUpdate.ItemImage.Id == null))
@@ -237,7 +223,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 await UserDialogs.Instance.AlertAsync("No image has been captured for the item. Please capture an image before continuing.", "Incomplete Item").ConfigureAwait(false);
                 return false;
             }
-            if (await CanItemExpire(this.ItemToUpdate.ItemTypeId).ConfigureAwait(false) && DateTime.Compare(DateTime.Today.AddMonths(6), this.ItemToUpdate.ExpiryDate) >= 0)
+            if (await CanItemExpire((ItemTypeEnum)this.ItemToUpdate.ItemTypeId).ConfigureAwait(false) && DateTime.Compare(DateTime.Today.AddMonths(6), this.ItemToUpdate.ExpiryDate) >= 0)
             {
                 await UserDialogs.Instance.AlertAsync("You cannot add an item that expires within 6 months.", "Incomplete Item").ConfigureAwait(false);
                 return false;
@@ -246,76 +232,76 @@ namespace BlueMile.Certification.Mobile.ViewModels
             return true;
         }
 
-        private static Task<bool> CanItemExpire(ItemTypeStaticEntity itemType)
+        private static Task<bool> CanItemExpire(ItemTypeEnum itemType)
         {
             TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
 
             switch (itemType)
             {
-                case ItemTypeStaticEntity.Anchor:
+                case ItemTypeEnum.Anchor:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.AnchorRope:
+                case ItemTypeEnum.AnchorRope:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.CapsizeBottleWith2mLaneyard:
+                case ItemTypeEnum.CapsizeBottleWith2mLaneyard:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.CodeFlag:
+                case ItemTypeEnum.CodeFlag:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.DrogueAnchor:
+                case ItemTypeEnum.DrogueAnchor:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.FireExtinguisher:
+                case ItemTypeEnum.FireExtinguisher:
                     completionSource.SetResult(true);
                     break;
-                case ItemTypeStaticEntity.FirstAidKit:
+                case ItemTypeEnum.FirstAidKit:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.FittedGrabline:
+                case ItemTypeEnum.FittedGrabline:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.FogHorn:
+                case ItemTypeEnum.FogHorn:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.HandHeldFlare:
+                case ItemTypeEnum.HandHeldFlare:
                     completionSource.SetResult(true);
                     break;
-                case ItemTypeStaticEntity.HandheldSpotlight:
+                case ItemTypeEnum.HandheldSpotlight:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.IdSheet:
+                case ItemTypeEnum.IdSheet:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.LifeJacket:
+                case ItemTypeEnum.LifeJacket:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.MagneticCompass:
+                case ItemTypeEnum.MagneticCompass:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.OarOrPaddle:
+                case ItemTypeEnum.OarOrPaddle:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.ParachuteFlare:
+                case ItemTypeEnum.ParachuteFlare:
                     completionSource.SetResult(true);
                     break;
-                case ItemTypeStaticEntity.RadarReflector:
+                case ItemTypeEnum.RadarReflector:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.SmokeFlare:
+                case ItemTypeEnum.SmokeFlare:
                     completionSource.SetResult(true);
                     break;
-                case ItemTypeStaticEntity.SpaceBlanket:
+                case ItemTypeEnum.SpaceBlanket:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.TowRope:
+                case ItemTypeEnum.TowRope:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.VhfRadio:
+                case ItemTypeEnum.VhfRadio:
                     completionSource.SetResult(false);
                     break;
-                case ItemTypeStaticEntity.WaterproofTorch:
+                case ItemTypeEnum.WaterproofTorch:
                     completionSource.SetResult(false);
                     break;
             }
@@ -326,21 +312,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
         public void BuildItemTypeList()
         {
             this.ItemTypes.Clear();
-            var types = Enum.GetValues(typeof(ItemTypeStaticEntity)).Cast<ItemTypeStaticEntity>().ToList();
+            var types = Enum.GetValues(typeof(ItemTypeEnum)).Cast<ItemTypeEnum>().ToList();
             foreach (var type in types)
             {
                 this.ItemTypes.Add(new ListDisplayModel
                 {
-                    ItemId = type,
+                    ItemId = (int)type,
                     ItemName = GetItemTypeDescription(type)
                 });
             }
         }
 
-        public static string GetItemTypeDescription(ItemTypeStaticEntity x)
+        public static string GetItemTypeDescription(ItemTypeEnum enumId)
         {
-            Type type = x.GetType();
-            MemberInfo[] memInfo = type.GetMember(x.ToString());
+            Type type = enumId.GetType();
+            MemberInfo[] memInfo = type.GetMember(enumId.ToString());
             if (memInfo != null && memInfo.Length > 0)
             {
                 object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -350,7 +336,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
             }
 
-            return x.ToString();
+            return enumId.ToString();
         }
 
         #endregion

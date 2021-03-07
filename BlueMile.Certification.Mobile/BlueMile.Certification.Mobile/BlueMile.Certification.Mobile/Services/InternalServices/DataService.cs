@@ -1,9 +1,11 @@
 ﻿using BlueMile.Certification.Mobile.Data;
 using BlueMile.Certification.Mobile.Data.Models;
+using BlueMile.Certification.Mobile.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -23,12 +25,36 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         #endregion
+
         #region IDataService Implementation
 
         #region Owner Data Methods
 
         /// <inheritdoc/>
-        public async Task<bool> CreateNewOwnerAsync(OwnerMobileEntity owner)
+        public async Task<List<OwnerMobileModel>> FindOwnersAsync()
+        {
+            try
+            {
+                if (this.dataConnection == null)
+                {
+                    this.dataConnection = this.InitializeDBConnection();
+                }
+
+                var response = await this.dataConnection.Table<OwnerMobileEntity>().ToListAsync().ConfigureAwait(false);
+
+                return response.Select(x => new OwnerMobileModel()
+                {
+
+                });
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> CreateNewOwnerAsync(OwnerMobileModel owner)
         {
             try
             {
@@ -53,7 +79,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<OwnerMobileEntity> FindOwnerBySystemIdAsync(Guid systemId)
+        public async Task<OwnerMobileModel> FindOwnerBySystemIdAsync(Guid systemId)
         {
             try
             {
@@ -78,7 +104,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<OwnerMobileEntity> FindOwnerByIdAsync(long id)
+        public async Task<OwnerMobileModel> FindOwnerByIdAsync(long id)
         {
             try
             {
@@ -103,7 +129,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<bool> UpdateOwnerAsync(OwnerMobileEntity owner)
+        public async Task<bool> UpdateOwnerAsync(OwnerMobileModel owner)
         {
             try
             {
@@ -131,8 +157,20 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         #region Boat Data Methods
 
+        public async Task<List<BoatMobileModel>> FindBoatsByOwnerAsync(long ownerId)
+        {
+            try
+            {
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         /// <inheritdoc/>
-        public async Task<bool> CreateNewBoatAsync(BoatMobileEntity boat)
+        public async Task<bool> CreateNewBoatAsync(BoatMobileModel boat)
         {
             try
             {
@@ -157,7 +195,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<BoatMobileEntity> FindBoatBySystemIdAsync(Guid systemId)
+        public async Task<BoatMobileModel> FindBoatBySystemIdAsync(Guid systemId)
         {
             try
             {
@@ -173,7 +211,12 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
                 var boat = await this.dataConnection.Table<BoatMobileEntity>().FirstOrDefaultAsync(x => x.SystemId == systemId).ConfigureAwait(false);
 
-                return boat;
+
+                return new BoatMobileModel()
+                {
+                    BoatCategoryId = boat.BoatCategoryId,
+                    BoyancyCertificateNumber = boat.BoyancyCertificateNumber
+                };
             }
             catch (Exception)
             {
@@ -182,7 +225,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<BoatMobileEntity> FindBoatByIdAsync(long id)
+        public async Task<BoatMobileModel> FindBoatByIdAsync(long id)
         {
             try
             {
@@ -207,7 +250,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<bool> UpdateBoatAsync(BoatMobileEntity boat)
+        public async Task<bool> UpdateBoatAsync(BoatMobileModel boat)
         {
             try
             {
@@ -236,7 +279,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         #region Item Data Methods
 
         /// <inheritdoc/>
-        public async Task<bool> CreateNewItemAsync(ItemMobileEntity item)
+        public async Task<bool> CreateNewItemAsync(ItemMobileModel item)
         {
             try
             {
@@ -261,7 +304,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<ItemMobileEntity> FindItemBySystemIdAsync(Guid systemId)
+        public async Task<ItemMobileModel> FindItemBySystemIdAsync(Guid systemId)
         {
             try
             {
@@ -286,7 +329,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<ItemMobileEntity> FindItemByIdAsync(long id)
+        public async Task<ItemMobileModel> FindItemByIdAsync(long id)
         {
             try
             {
@@ -311,7 +354,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<bool> UpdateItemAsync(ItemMobileEntity item)
+        public async Task<bool> UpdateItemAsync(ItemMobileModel item)
         {
             try
             {
@@ -365,6 +408,16 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
             var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BlueMileCertification.db3");
             return new SQLiteAsyncConnection(folderPath);
 
+        }
+
+        public Task<List<BoatMobileModel>> GetBoatsByOwnerIdAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<ItemMobileModel>> GetItemsByBoatAsync(long boatId)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

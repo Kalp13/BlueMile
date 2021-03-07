@@ -14,7 +14,7 @@ namespace BlueMile.Certification.Mobile.Views
     {
         public LoginPage()
         {
-            InitializeComponent();
+            this.InitializeComponent();
         }
     }
 }

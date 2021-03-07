@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
-using BlueMile.Certification.Data;
+using BlueMile.Certification.Mobile.Data;
+using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -34,7 +36,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public BoatModel BoatDetails
+        public BoatMobileModel BoatDetails
         {
             get { return this.boatDetails; }
             set
@@ -84,9 +86,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.selectedCategory = value;
                     this.OnPropertyChanged(nameof(this.SelectedCategory));
 
-                    if (this.selectedCategory.ItemId != null)
+                    if (this.selectedCategory.ItemId > 0)
                     {
-                        this.BoatDetails.CategoryId = (CategoryStaticEntity)this.selectedCategory.ItemId;
+                        this.BoatDetails.CategoryId = (BoatCategoryEnum)this.selectedCategory.ItemId;
                     }
                 }
             }
@@ -123,7 +125,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         public CreateUpdateBoatViewModel()
         {
             this.Title = "Add New Boat";
-            this.BoatDetails = new BoatModel();
+            this.BoatDetails = new BoatMobileModel();
             this.SelectedCategory = new ListDisplayModel();
             this.BoatCategories = new List<ListDisplayModel>();
             this.BuildCategoriesList();
@@ -179,15 +181,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 if (!this.BoatDetails.IsJetski)
                 {
                     this.BoatDetails.TubbiesCertificateImage.FilePath = String.Empty;
-                    this.BoatDetails.TubbiesCertificateImage.FileName = String.Empty;
+                    this.BoatDetails.TubbiesCertificateImage.ImageName = String.Empty;
                     this.BoatDetails.TubbiesCertificateImage.UniqueImageName = String.Empty;
                     this.BoatDetails.TubbiesCertificateImage.Id = Guid.Empty;
                     this.BoatDetails.TubbiesCertificateNumber = String.Empty;
-                }
-
-                if (this.BoatDetails.Id == null || this.BoatDetails.Id == Guid.Empty)
-                {
-                    this.BoatDetails.Id = Guid.NewGuid();
                 }
 
                 if ((this.BoatDetails.BoyancyCertificateImage.Id == null) || (this.BoatDetails.BoyancyCertificateImage.Id == Guid.Empty))
@@ -202,7 +199,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.BoatDetails.TubbiesCertificateImage.UniqueImageName = this.BoatDetails.TubbiesCertificateImage.Id.ToString() + ".jpg";
                 }
 
-                if (this.BoatDetails.CategoryId <= 0)
+                if (this.BoatDetails.BoatCategoryId <= 0)
                 {
                     await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
                 }
@@ -224,7 +221,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     {
                         UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
 
-                        BoatEntity boat = new BoatEntity();
+                        BoatMobileModel boat = new BoatMobileModel();
                         if ((await App.ApiService.GetBoatById(BoatDetails.Id).ConfigureAwait(false)) == null)
                         {
                             boat = await App.ApiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
@@ -263,21 +260,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private void BuildCategoriesList()
         {
             this.BoatCategories.Clear();
-            var categories = Enum.GetValues(typeof(CategoryStaticEntity)).Cast<CategoryStaticEntity>().ToList();
-            foreach (var cat in categories)
+            var categories = Enum.GetValues(typeof(BoatCategoryEnum)).Cast<BoatCategoryEnum>().ToList();
+            foreach (var category in categories)
             {
                 this.BoatCategories.Add(new ListDisplayModel
                 {
-                    ItemId = cat,
-                    ItemName = GetCategoryDescription(cat)
+                    ItemId = (int)category,
+                    ItemName = GetCategoryDescription(category)
                 });
             }
         }
 
-        public static string GetCategoryDescription(CategoryStaticEntity x)
+        public static string GetCategoryDescription(BoatCategoryEnum enumId)
         {
-            Type type = x.GetType();
-            MemberInfo[] memInfo = type.GetMember(x.ToString());
+            Type type = enumId.GetType();
+            MemberInfo[] memInfo = type.GetMember(enumId.ToString());
             if (memInfo != null && memInfo.Length > 0)
             {
                 object[] attrs = memInfo[0].GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -287,7 +284,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
             }
 
-            return x.ToString();
+            return enumId.ToString();
         }
 
         private async Task GetBoat()
@@ -314,7 +311,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private BoatModel boatDetails;
+        private BoatMobileModel boatDetails;
 
         private string boatId;
 

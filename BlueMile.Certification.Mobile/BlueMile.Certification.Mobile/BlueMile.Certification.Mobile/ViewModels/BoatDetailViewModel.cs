@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Converters;
+using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -27,7 +29,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public BoatModel CurrentBoat
+        public BoatMobileModel CurrentBoat
         {
             get { return this.currentBoat; }
             set
@@ -40,7 +42,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public ObservableCollection<ImageModel> BoatImages
+        public ObservableCollection<ImageMobileModel> BoatImages
         {
             get { return this.boatImages; }
             set
@@ -133,7 +135,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.ViewRequirementsCommand = new Command(async () =>
             {
-                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(this.CurrentBoat.Id).ConfigureAwait(false)).ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(this.CurrentBoat.SystemId).ConfigureAwait(false)).ConfigureAwait(false);
             });
             this.SubmitForCertificationCommand = new Command(async () =>
             {
@@ -146,11 +148,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 UserDialogs.Instance.ShowLoading("Saving...");
                 this.CurrentBoat.OwnerId = App.OwnerId;
 
-                if (this.CurrentBoat.CategoryId <= 0)
+                if (this.CurrentBoat.BoatCategoryId <= 0)
                 {
                     await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
                 }
-                else if (await App.DataService.UpdateBoat(CurrentBoat).ConfigureAwait(false))
+                else if (await App.DataService.UpdateBoatAsync(CurrentBoat).ConfigureAwait(false))
                 {
                     UserDialogs.Instance.Toast("Successfully updated " + this.CurrentBoat.Name, TimeSpan.FromSeconds(2));
                     this.EditBoat = false;
@@ -186,7 +188,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             var owner = await App.DataService.GetOwnerById(this.CurrentBoat.OwnerId).ConfigureAwait(false);
             var equipment = await App.DataService.GetItemsByBoatId(this.CurrentBoat.Id).ConfigureAwait(false);
-            var images = new List<ImageModel>();
+            var images = new List<ImageMobileModel>();
 
             //Add Owner Details
             var details = $"Owner Details\n" +
@@ -204,7 +206,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             ///Add Boat Details
             details += $"Boat Detail\n" +
             $"Boat Name: {this.CurrentBoat.Name}\n" +
-            $"Category: {CategoryDescriptionConverter.GetDescription(this.CurrentBoat.CategoryId)}" +
+            $"Category: {CategoryDescriptionConverter.GetDescription((BoatCategoryEnum)this.CurrentBoat.BoatCategoryId)}" +
             $"Registered Number: {this.CurrentBoat.RegisteredNumber}\n" +
             $"Boyancy Cert: {this.CurrentBoat.BoyancyCertificateNumber}\n";
             images.Add(this.CurrentBoat.BoyancyCertificateImage);
@@ -278,8 +280,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(this.CurrentBoatId))
                 {
-                    this.CurrentBoat = await App.DataService.GetBoatById(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
-                    this.BoatImages = new ObservableCollection<ImageModel>();
+                    this.CurrentBoat = await App.DataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
+                    this.BoatImages = new ObservableCollection<ImageMobileModel>();
 
                     if (this.CurrentBoat != null)
                     {
@@ -305,11 +307,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private BoatModel currentBoat;
+        private BoatMobileModel currentBoat;
 
         private string currentBoatId;
 
-        private ObservableCollection<ImageModel> boatImages;
+        private ObservableCollection<ImageMobileModel> boatImages;
 
         private bool editBoat;
 

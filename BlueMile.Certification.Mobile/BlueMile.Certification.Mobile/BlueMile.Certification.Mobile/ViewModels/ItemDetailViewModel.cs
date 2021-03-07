@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Converters;
+using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using System;
 using System.Globalization;
@@ -24,7 +25,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public RequiredItemModel SelectedItem
+        public ItemMobileModel SelectedItem
         {
             get { return this.selectedItem; }
             set
@@ -55,7 +56,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         public ItemDetailViewModel()
         {
-            this.SelectedItem = new RequiredItemModel();
+            this.SelectedItem = new ItemMobileModel();
             if (!String.IsNullOrWhiteSpace(this.CurrentItemId))
             {
                 this.GetItemDetail().ConfigureAwait(false);
@@ -84,8 +85,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                this.SelectedItem = await App.DataService.GetItemById(Guid.Parse(this.CurrentItemId)).ConfigureAwait(false);
-                this.Title = ItemTypeDescriptionConverter.GetDescription(this.SelectedItem.ItemTypeId);
+                this.SelectedItem = await App.DataService.FindItemBySystemIdAsync(Guid.Parse(this.CurrentItemId)).ConfigureAwait(false);
+                this.Title = ItemTypeDescriptionConverter.GetDescription((ItemTypeEnum)this.SelectedItem.ItemTypeId);
             }
             catch (Exception exc)
             {
@@ -97,7 +98,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private RequiredItemModel selectedItem;
+        private ItemMobileModel selectedItem;
 
         private string currentItemId;
 

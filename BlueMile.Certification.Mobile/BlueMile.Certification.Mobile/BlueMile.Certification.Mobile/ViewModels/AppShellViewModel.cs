@@ -1,5 +1,6 @@
 ﻿using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,9 +12,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
     public class AppShellViewModel : BaseViewModel
     {
 
-        private ImageModel profileImage;
+        private ImageMobileModel profileImage;
 
-        public ImageModel ProfileImage
+        public ImageMobileModel ProfileImage
         {
             get { return this.profileImage; }
             set

@@ -4,12 +4,12 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:viewModels="clr-namespace:BlueMile.Coc.Mobile.ViewModels"
+             xmlns:viewModels="clr-namespace:BlueMile.Certification.Mobile.ViewModels"
              Title="{Binding Title}"
              xmlns:sys="clr-namespace:System;assembly=netstandard"
-             xmlns:converter="clr-namespace:BlueMile.Coc.Mobile.Converters"
+             xmlns:converter="clr-namespace:BlueMile.Certification.Mobile.Converters"
              Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
-             x:Class="BlueMile.Coc.Mobile.Views.NewRequiredItemPage">
+             x:Class="BlueMile.Certification.Mobile.Views.NewRequiredItemPage">
 
     <ContentPage.BindingContext>
         <viewModels:NewRequiredItemViewModel/>

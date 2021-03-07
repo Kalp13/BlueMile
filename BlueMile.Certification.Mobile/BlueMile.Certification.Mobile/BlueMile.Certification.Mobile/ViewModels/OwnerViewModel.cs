@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
     {
         #region Instance Properties
 
-        public OwnerModel CurrentOwner
+        public OwnerMobileModel CurrentOwner
         {
             get { return this.currentOwner; }
             set
@@ -30,7 +31,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public List<ImageModel> OwnerImages
+        public List<ImageMobileModel> OwnerImages
         {
             get { return this.ownerImages; }
             set
@@ -99,10 +100,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private async Task GetOwner()
         {
-            this.CurrentOwner = (await App.DataService.GetAllOwners().ConfigureAwait(false)).FirstOrDefault();
+            this.CurrentOwner = (await App.DataService.FindAllOwners().ConfigureAwait(false)).FirstOrDefault();
             App.OwnerId = this.CurrentOwner.Id;
             SettingsService.OwnerId = this.CurrentOwner.Id.ToString();
-            this.OwnerImages = new List<ImageModel>();
+            this.OwnerImages = new List<ImageMobileModel>();
             this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
             this.OwnerImages.Add(this.CurrentOwner.IdentificationDocument);
             this.OwnerImages.Add(this.CurrentOwner.SkippersLicenseImage);
@@ -123,9 +124,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private OwnerModel currentOwner;
+        private OwnerMobileModel currentOwner;
 
-        private List<ImageModel> ownerImages;
+        private List<ImageMobileModel> ownerImages;
 
         private ImageSource menuImage;
 

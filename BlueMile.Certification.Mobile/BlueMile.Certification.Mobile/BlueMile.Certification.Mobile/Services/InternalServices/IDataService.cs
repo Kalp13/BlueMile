@@ -1,5 +1,6 @@
 ﻿using BlueMile.Certification.Mobile.Data;
 using BlueMile.Certification.Mobile.Data.Models;
+using BlueMile.Certification.Mobile.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,37 +12,43 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
     {
         #region Owner Data Methods
 
-        Task<bool> CreateNewOwnerAsync(OwnerMobileEntity owner);
+        Task<bool> CreateNewOwnerAsync(OwnerMobileModel owner);
 
-        Task<OwnerMobileEntity> FindOwnerBySystemIdAsync(Guid systemId);
+        Task<OwnerMobileModel> FindOwnerBySystemIdAsync(Guid systemId);
 
-        Task<OwnerMobileEntity> FindOwnerByIdAsync(long id);
+        Task<OwnerMobileModel> FindOwnerByIdAsync(long id);
 
-        Task<bool> UpdateOwnerAsync(OwnerMobileEntity owner);
+        Task<bool> UpdateOwnerAsync(OwnerMobileModel owner);
+
+        Task<List<OwnerMobileModel>> FindOwnersAsync();
 
         #endregion
 
         #region Boat Data Methods
 
-        Task<bool> CreateNewBoatAsync(BoatMobileEntity owner);
+        Task<bool> CreateNewBoatAsync(BoatMobileModel owner);
 
-        Task<BoatMobileEntity> FindBoatBySystemIdAsync(Guid systemId);
+        Task<BoatMobileModel> FindBoatBySystemIdAsync(Guid systemId);
 
-        Task<BoatMobileEntity> FindBoatByIdAsync(long id);
+        Task<BoatMobileModel> FindBoatByIdAsync(long id);
 
-        Task<bool> UpdateBoatAsync(BoatMobileEntity owner);
+        Task<bool> UpdateBoatAsync(BoatMobileModel owner);
+
+        Task<List<BoatMobileModel>> GetBoatsByOwnerIdAsync();
 
         #endregion
 
         #region Item Data Methods
 
-        Task<bool> CreateNewItemAsync(ItemMobileEntity owner);
+        Task<bool> CreateNewItemAsync(ItemMobileModel owner);
 
-        Task<ItemMobileEntity> FindItemBySystemIdAsync(Guid systemId);
+        Task<ItemMobileModel> FindItemBySystemIdAsync(Guid systemId);
 
-        Task<ItemMobileEntity> FindItemByIdAsync(long id);
+        Task<ItemMobileModel> FindItemByIdAsync(long id);
 
-        Task<bool> UpdateItemAsync(ItemMobileEntity owner);
+        Task<bool> UpdateItemAsync(ItemMobileModel owner);
+
+        Task<List<ItemMobileModel>> GetItemsByBoatAsync(long boatId);
 
         #endregion
     }

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace BlueMile.Certification.Mobile.Models
 {
-    public class BoatMobileEntity
+    public class BoatMobileModel
     {
         /// <summary>
         /// Gets or sets the auto incremented primary key for this boat.
@@ -34,7 +34,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the foreign key to the cateogry of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public long BoatCategoryId { get; set; }
+        public int BoatCategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateNumber</c> of this <see cref="BoatMobileEntity"/>.
@@ -44,7 +44,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageMobileModel BoyancyCertificateImageId { get; set; }
+        public ImageMobileModel BoyancyCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
@@ -59,6 +59,6 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageMobileModel TubbiesCertificateImageId { get; set; }
+        public ImageMobileModel TubbiesCertificateImage { get; set; }
     }
 }
