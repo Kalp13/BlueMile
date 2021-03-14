@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "d3/5ACoWc390uGuCmCC7YyfzH2MwWeyT8bvOf9sq3Gc7lwF22p1oLV+EYI2ZhuhA+vnB7OP2BBY+ESz73Cdfww==",
+  "success": true,
+  "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Data\\BlueMile.Certification.Data.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Rudolph\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}
