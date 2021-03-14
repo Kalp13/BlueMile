@@ -1,11 +1,15 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Data.Models;
+using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Web.ApiModels;
+using BlueMile.Certification.Web.ApiModels.Helper;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -106,24 +110,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
-
-                var convertedOwner = new OwnerMobileModel()
-                {
-                    Address = owner.Address,
-                    CellNumber = owner.CellNumber,
-                    Email = owner.Email,
-                    IcasaPopPhotoId = owner.IcasaPopPhoto.Id,
-                    IdentificationDocumentId = owner.IdentificationDocument.Id,
-                    IdentificationNumber = owner.IdentificationNumber,
-                    Name = owner.Name,
-                    Id = owner.Id,
-                    SkippersLicenseImageId = owner.SkippersLicenseImage.Id,
-                    SkippersLicenseNumber = owner.SkippersLicenseNumber,
-                    Surname = owner.Surname,
-                    VhfOperatorsLicense = owner.VhfOperatorsLicense,
-                    IsSynced = owner.IsSynced
-                };
-                string json = JsonConvert.SerializeObject(convertedOwner);
+                string json = JsonConvert.SerializeObject(owner);
                 using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
                     HttpResponseMessage response = null;
@@ -138,15 +125,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = JsonConvert.DeserializeObject<OwnerEntity>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        return result;
+                        var result = await response.Content.ReadAsStringAsync();
+                        return Guid.Parse(result);
                     }
                     else
                     {
                         await UserDialogs.Instance.AlertAsync(String.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}", response.StatusCode, response.ReasonPhrase, response.Headers),
                             "Create Owner Error").ConfigureAwait(false);
                     }
-                    return null;
+                    return Guid.Empty ;
                 }
             }
             catch (Exception)
@@ -170,24 +157,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
-
-                var convertedOwner = new OwnerEntity()
-                {
-                    Address = owner.Address,
-                    CellNumber = owner.CellNumber,
-                    Email = owner.Email,
-                    IcasaPopPhotoId = owner.IcasaPopPhoto.Id,
-                    IdentificationDocumentId = owner.IdentificationDocument.Id,
-                    IdentificationNumber = owner.IdentificationNumber,
-                    Name = owner.Name,
-                    Id = owner.Id,
-                    SkippersLicenseImageId = owner.SkippersLicenseImage.Id,
-                    SkippersLicenseNumber = owner.SkippersLicenseNumber,
-                    Surname = owner.Surname,
-                    VhfOperatorsLicense = owner.VhfOperatorsLicense,
-                    IsSynced = owner.IsSynced
-                };
-                string json = JsonConvert.SerializeObject(convertedOwner);
+                string json = JsonConvert.SerializeObject(owner);
                 using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
                     HttpResponseMessage response = null;
@@ -202,15 +172,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = JsonConvert.DeserializeObject<OwnerEntity>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        return result;
+                        var result = await response.Content.ReadAsStringAsync();
+                        return Guid.Parse(result);
                     }
                     else
                     {
                         await UserDialogs.Instance.AlertAsync(String.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}", response.StatusCode, response.ReasonPhrase, response.Headers),
                             "Update Owner Error").ConfigureAwait(false);
                     }
-                    return null;
+                    return Guid.Empty;
                 }
             }
             catch (Exception)
@@ -225,7 +195,6 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         public async Task<List<BoatMobileModel>> GetBoatsByOwnerId(Guid ownerId)
         {
-            var boats = new List<BoatEntity>();
             try
             {
                 Uri uri = new Uri(String.Format(CultureInfo.InvariantCulture, SettingsService.BoatServiceAddress, String.Empty));
@@ -233,15 +202,16 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    boats = JsonConvert.DeserializeObject<List<BoatEntity>>(content);
+                    var boats = JsonConvert.DeserializeObject<List<BoatModel>>(content);
+                    return boats.Select(x => BoatModelHelper.ToMobileModel(x)).ToList();
                 }
+
+                return null;
             }
             catch (Exception)
             {
                 throw;
             }
-
-            return boats;
         }
 
         public async Task<BoatMobileModel> GetBoatById(Guid boatId)
@@ -270,8 +240,8 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = JsonConvert.DeserializeObject<BoatEntity>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                    return result;
+                    var result = JsonConvert.DeserializeObject<BoatModel>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
+                    return BoatModelHelper.ToMobileModel(result);
                 }
                 else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
@@ -304,21 +274,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     client = CreateClient();
                 }
 
-                var convertedBoat = new BoatEntity()
-                {
-                    BoyancyCertificateImageId = boat.BoyancyCertificateImage.Id,
-                    BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
-                    CategoryId = boat.CategoryId,
-                    Id = boat.Id,
-                    IsJetski = boat.IsJetski,
-                    Name = boat.Name,
-                    OwnerId = boat.OwnerId,
-                    RegisteredNumber = boat.RegisteredNumber,
-                    TubbiesCertificateImageId = boat.TubbiesCertificateImage.Id,
-                    TubbiesCertificateNumber = boat.TubbiesCertificateNumber
-                };
-
-                string json = JsonConvert.SerializeObject(convertedBoat);
+                string json = JsonConvert.SerializeObject(BoatHelper.ToCreateBoatModel(BoatModelHelper.ToModel(boat)));
 
                 using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
@@ -334,15 +290,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = JsonConvert.DeserializeObject<BoatEntity>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        return result;
+                        var result = await response.Content.ReadAsStringAsync();
+                        return Guid.Parse(result);
                     }
                     else
                     {
                         await UserDialogs.Instance.AlertAsync(String.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}", response.StatusCode, response.ReasonPhrase, response.Headers),
                             "Create Boat Error").ConfigureAwait(false);
                     }
-                    return null;
+                    return Guid.Empty;
                 }
             }
             catch (Exception)
@@ -365,21 +321,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     client = CreateClient();
                 }
 
-                var convertedBoat = new BoatEntity()
-                {
-                    BoyancyCertificateImageId = boat.BoyancyCertificateImage.Id,
-                    BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
-                    CategoryId = boat.CategoryId,
-                    Id = boat.Id,
-                    IsJetski = boat.IsJetski,
-                    Name = boat.Name,
-                    OwnerId = boat.OwnerId,
-                    RegisteredNumber = boat.RegisteredNumber,
-                    TubbiesCertificateImageId = boat.TubbiesCertificateImage.Id,
-                    TubbiesCertificateNumber = boat.TubbiesCertificateNumber
-                };
-
-                string json = JsonConvert.SerializeObject(convertedBoat);
+                string json = JsonConvert.SerializeObject(BoatHelper.ToUpdateBoatModel(BoatModelHelper.ToModel(boat)));
 
                 using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
@@ -395,15 +337,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = JsonConvert.DeserializeObject<BoatEntity>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        return result;
+                        var result = await response.Content.ReadAsStringAsync();
+                        return Guid.Parse(result);
                     }
                     else
                     {
                         await UserDialogs.Instance.AlertAsync(String.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}", response.StatusCode, response.ReasonPhrase, response.Headers),
                             "Update Boat Error").ConfigureAwait(false);
                     }
-                    return null;
+                    return Guid.Empty;
                 }
             }
             catch (Exception)
@@ -451,19 +393,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     client = CreateClient();
                 }
 
-                var convertedItem = new ItemMobileModel()
-                {
-                    BoatId = item.BoatId,
-                    CapturedDate = item.CapturedDate,
-                    Description = item.Description,
-                    ExpiryDate = item.ExpiryDate,
-                    Id = item.Id,
-                    ItemImageId = item.ItemImage.Id,
-                    ItemTypeId = item.ItemTypeId,
-                    SerialNumber = item.SerialNumber
-                };
-
-                string json = JsonConvert.SerializeObject(convertedItem, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(ItemHelper.ToCreateItemModel(ItemModelHelper.ToItemModel(item)));
 
                 using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
@@ -479,15 +409,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = JsonConvert.DeserializeObject<ItemMobileModel>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        return result;
+                        var result = await response.Content.ReadAsStringAsync();
+                        return Guid.Parse(result);
                     }
                     else
                     {
                         await UserDialogs.Instance.AlertAsync(String.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}", response.StatusCode, response.ReasonPhrase, response.Headers),
                             "Create Item Error").ConfigureAwait(false);
                     }
-                    return null;
+                    return Guid.Empty;
                 }
             }
             catch (Exception)
@@ -496,7 +426,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
-        public async Task<Guid> UpdateItem(RequiredItemModel item)
+        public async Task<Guid> UpdateItem(ItemMobileModel item)
         {
             try
             {
@@ -510,19 +440,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     client = CreateClient();
                 }
 
-                var convertedItem = new ItemMobileModel()
-                {
-                    BoatId = item.BoatId,
-                    CapturedDate = item.CapturedDate,
-                    Description = item.Description,
-                    ExpiryDate = item.ExpiryDate,
-                    Id = item.Id,
-                    ItemImageId = item.ItemImage.Id,
-                    ItemTypeId = item.ItemTypeId,
-                    SerialNumber = item.SerialNumber
-                };
-
-                string json = JsonConvert.SerializeObject(convertedItem, Formatting.Indented);
+                string json = JsonConvert.SerializeObject(ItemHelper.ToUpdateItemModel(ItemModelHelper.ToItemModel(item)));
 
                 using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
@@ -538,15 +456,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = JsonConvert.DeserializeObject<ItemMobileModel>(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
-                        return result;
+                        var result = await response.Content.ReadAsStringAsync();
+                        return Guid.Parse(result);
                     }
                     else
                     {
                         await UserDialogs.Instance.AlertAsync(String.Format(CultureInfo.InvariantCulture, "{0}\n{1}\n{2}", response.StatusCode, response.ReasonPhrase, response.Headers),
                             "Update Item Error").ConfigureAwait(false);
                     }
-                    return null;
+                    return Guid.Empty;
                 }
             }
             catch (Exception)

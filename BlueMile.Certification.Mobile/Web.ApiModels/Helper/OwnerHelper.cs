@@ -1,18 +1,15 @@
-﻿using BlueMile.Certification.Mobile.Data.Models;
-using BlueMile.Certification.Mobile.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace BlueMile.Certification.Mobile.Data.Helpers
+namespace BlueMile.Certification.Web.ApiModels.Helper
 {
     public static class OwnerHelper
     {
-        public static OwnerMobileEntity ToOwnerDataEntity(OwnerMobileModel owner)
+        public static CreateOwnerModel ToCreateOwnerModel(OwnerModel owner)
         {
-            var OwnerMobileEntity = new OwnerMobileEntity()
+            var ownerModel = new CreateOwnerModel()
             {
-                Id = owner.Id,
                 AddressLine1 = owner.AddressLine1,
                 AddressLine2 = owner.AddressLine2,
                 AddressLine3 = owner.AddressLine3,
@@ -20,23 +17,26 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 ContactNumber = owner.ContactNumber,
                 Country = owner.Country,
                 Email = owner.Email,
+                IcasaPopPhoto = owner.IcasaPopPhoto,
                 Identification = owner.Identification,
-                SkippersLicenseNumber = owner.SkippersLicenseNumber,
-                VhfOperatorsLicense = owner.VhfOperatorsLicense,
+                IdentificationDocument = owner.IdentificationDocument,
                 Name = owner.Name,
                 PostalCode = owner.PostalCode,
                 Province = owner.Province,
+                SkippersLicenseImage = owner.SkippersLicenseImage,
+                SkippersLicenseNumber = owner.SkippersLicenseNumber,
                 Suburb = owner.Suburb,
                 Surname = owner.Surname,
-                SystemId = owner.SystemId,
-                Town = owner.Town
+                Town = owner.Town,
+                VhfOperatorsLicense = owner.VhfOperatorsLicense
             };
-            return OwnerMobileEntity;
+
+            return ownerModel;
         }
 
-        public static OwnerMobileModel ToOwnerModel(OwnerMobileEntity owner)
+        public static UpdateOwnerModel ToUpdateOwnerModel(OwnerModel owner)
         {
-            var ownerModel = new OwnerMobileModel()
+            var ownerModel = new UpdateOwnerModel()
             {
                 AddressLine1 = owner.AddressLine1,
                 AddressLine2 = owner.AddressLine2,
@@ -45,18 +45,20 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 ContactNumber = owner.ContactNumber,
                 Country = owner.Country,
                 Email = owner.Email,
+                IcasaPopPhoto = owner.IcasaPopPhoto,
                 Identification = owner.Identification,
+                IdentificationDocument = owner.IdentificationDocument,
                 Name = owner.Name,
                 PostalCode = owner.PostalCode,
                 Province = owner.Province,
+                SkippersLicenseImage = owner.SkippersLicenseImage,
+                SkippersLicenseNumber = owner.SkippersLicenseNumber,
                 Suburb = owner.Suburb,
                 Surname = owner.Surname,
-                SystemId = owner.SystemId,
                 Town = owner.Town,
-                VhfOperatorsLicense = owner.VhfOperatorsLicense,
-                SkippersLicenseNumber = owner.SkippersLicenseNumber,
-                Id = owner.Id,
+                VhfOperatorsLicense = owner.VhfOperatorsLicense
             };
+
             return ownerModel;
         }
     }

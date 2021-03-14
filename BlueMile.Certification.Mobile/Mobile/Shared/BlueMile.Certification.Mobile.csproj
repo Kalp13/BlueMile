@@ -17,4 +17,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Web.ApiModels\BlueMile.Certification.Web.ApiModels.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\NewItemPage.xaml.cs">
+      <DependentUpon>NewItemPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
 </Project>

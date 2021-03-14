@@ -5,9 +5,9 @@ using Xamarin.Forms.Xaml;
 namespace BlueMile.Certification.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NewRequiredItemPage : ContentPage
+    public partial class NewItemPage : ContentPage
     {
-        public NewRequiredItemPage()
+        public NewItemPage()
         {
             this.InitializeComponent();
             Shell.SetTabBarIsVisible(this, false);

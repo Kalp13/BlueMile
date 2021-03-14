@@ -9,7 +9,7 @@
              xmlns:sys="clr-namespace:System;assembly=netstandard"
              xmlns:converter="clr-namespace:BlueMile.Certification.Mobile.Converters"
              Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
-             x:Class="BlueMile.Certification.Mobile.Views.NewRequiredItemPage">
+             x:Class="BlueMile.Certification.Mobile.Views.NewItemPage">
 
     <ContentPage.BindingContext>
         <viewModels:NewRequiredItemViewModel/>

@@ -1,12 +1,8 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Models;
-using BlueMile.Certification.Mobile.Services;
-using BlueMile.Certification.Mobile.Views;
-using Rg.Plugins.Popup.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -141,7 +137,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private async Task GetBoatItems()
         {
-            this.RequiredItems = new ObservableCollection<ItemMobileModel>(await App.DataService.GetItemsByBoatId(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false));
+            this.RequiredItems = new ObservableCollection<ItemMobileModel>(await App.DataService.FindItemsByBoatIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false));
         }
 
         private async void OpenItemDetail()

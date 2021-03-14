@@ -44,7 +44,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
                 var response = await this.dataConnection.Table<OwnerMobileEntity>().ToListAsync().ConfigureAwait(false);
 
-                return response.Select(x => DataModelHelper.ToOwnerModel(x)).ToList();
+                return response.Select(x => OwnerHelper.ToOwnerModel(x)).ToList();
             }
             catch (Exception)
             {
