@@ -17,7 +17,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
             IDataService dataService = new DataService();
             var boat = await dataService.FindBoatBySystemIdAsync(boatId).ConfigureAwait(false);
             var requiredItems = await GetRequiredCategoryList((BoatCategoryEnum)boat.BoatCategoryId).ConfigureAwait(false);
-            var boatItems = await dataService.GetItemsByBoatAsync(boat.Id).ConfigureAwait(false);
+            var boatItems = await dataService.FindItemsByBoatIdAsync(boat.SystemId).ConfigureAwait(false);
 
             return $"You need the following required items for {boat.Name}\n{await ValidateItems(requiredItems, boatItems).ConfigureAwait(false)}";
         }

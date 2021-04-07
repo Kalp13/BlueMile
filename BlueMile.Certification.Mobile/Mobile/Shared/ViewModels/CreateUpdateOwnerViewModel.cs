@@ -198,21 +198,18 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (await UserDialogs.Instance.ConfirmAsync(this.OwnerDetails.ToString()).ConfigureAwait(false))
                 {
-                    if ((this.OwnerDetails.IcasaPopPhoto.Id == null) || (this.OwnerDetails.IcasaPopPhoto.Id == Guid.Empty))
+                    if (this.OwnerDetails.IcasaPopPhoto.Id <= 0)
                     {
-                        this.OwnerDetails.IcasaPopPhoto.Id = Guid.NewGuid();
                         this.OwnerDetails.IcasaPopPhoto.UniqueImageName = this.OwnerDetails.IcasaPopPhoto.Id.ToString() + ".jpg";
                     }
 
-                    if ((this.OwnerDetails.IdentificationDocument.Id == null) || (this.OwnerDetails.IdentificationDocument.Id == Guid.Empty))
+                    if (this.OwnerDetails.IdentificationDocument.Id <= 0)
                     {
-                        this.OwnerDetails.IdentificationDocument.Id = Guid.NewGuid();
                         this.OwnerDetails.IdentificationDocument.UniqueImageName = this.OwnerDetails.IdentificationDocument.Id.ToString() + ".jpg";
                     }
 
-                    if ((this.OwnerDetails.SkippersLicenseImage.Id == null) || (this.OwnerDetails.SkippersLicenseImage.Id == Guid.Empty))
+                    if (this.OwnerDetails.SkippersLicenseImage.Id <= 0)
                     {
-                        this.OwnerDetails.SkippersLicenseImage.Id = Guid.NewGuid();
                         this.OwnerDetails.SkippersLicenseImage.UniqueImageName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
                     }
 
@@ -228,27 +225,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         });
                     }
 
-                    var icasaPhoto = await App.ApiService.CreateImage(this.OwnerDetails.IcasaPopPhoto).ConfigureAwait(false);
-                    var idPhoto = await App.ApiService.CreateImage(this.OwnerDetails.IdentificationDocument).ConfigureAwait(false);
-                    var skippersPhoto = await App.ApiService.CreateImage(this.OwnerDetails.SkippersLicenseImage).ConfigureAwait(false);
-
-                    if (icasaPhoto && idPhoto && skippersPhoto)
+                    var owner = await App.ApiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
+                    if (owner != null)
                     {
-                        var owner = await App.ApiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
-                        if (owner != null)
-                        {
-                            this.OwnerDetails.IsSynced = true;
-                            var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
-                            UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
-                        }
-                        else
-                        {
-                            await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
-                        }
+                        this.OwnerDetails.IsSynced = true;
+                        var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                        UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
                     }
                     else
                     {
-                        await UserDialogs.Instance.AlertAsync("Images were not saved correctly.").ConfigureAwait(false);
+                        await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
                     }
                 }
             }

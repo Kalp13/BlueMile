@@ -13,6 +13,10 @@ namespace BlueMile.Certification.Mobile
             InitializeComponent();
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
+            Routing.RegisterRoute(nameof(OwnerPage), typeof(OwnerPage));
+            Routing.RegisterRoute(nameof(BoatsPage), typeof(BoatsPage));
+            Routing.RegisterRoute(nameof(RequiredItemsPage), typeof(RequiredItemsPage));
+            Routing.RegisterRoute(nameof(BoatDetailPage), typeof(BoatDetailPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

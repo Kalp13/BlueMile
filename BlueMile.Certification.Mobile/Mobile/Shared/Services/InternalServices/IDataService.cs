@@ -26,6 +26,8 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         #region Boat Data Methods
 
+        Task<List<BoatMobileModel>> FindBoatsByOwnerIdAsync(Guid ownerId);
+
         Task<bool> CreateNewBoatAsync(BoatMobileModel owner);
 
         Task<BoatMobileModel> FindBoatBySystemIdAsync(Guid systemId);
@@ -33,8 +35,6 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         Task<BoatMobileModel> FindBoatByIdAsync(long id);
 
         Task<bool> UpdateBoatAsync(BoatMobileModel owner);
-
-        Task<List<BoatMobileModel>> GetBoatsByOwnerIdAsync();
 
         #endregion
 

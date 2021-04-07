@@ -156,7 +156,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         #region Boat Data Methods
 
-        public async Task<List<BoatMobileModel>> FindBoatsByOwnerAsync(Guid ownerId)
+        public async Task<List<BoatMobileModel>> FindBoatsByOwnerIdAsync(Guid ownerId)
         {
             try
             {
@@ -444,16 +444,6 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
             var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "BlueMileCertification.db3");
             return new SQLiteAsyncConnection(folderPath);
 
-        }
-
-        public Task<List<BoatMobileModel>> GetBoatsByOwnerIdAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<List<ItemMobileModel>> GetItemsByBoatAsync(long boatId)
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

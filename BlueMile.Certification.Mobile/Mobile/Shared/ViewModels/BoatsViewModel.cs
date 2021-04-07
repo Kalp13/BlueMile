@@ -139,7 +139,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await App.DataService.GetAllBoats(App.OwnerId).ConfigureAwait(false));
+                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await App.DataService.FindBoatsByOwnerIdAsync(App.OwnerId).ConfigureAwait(false));
                 //this.OwnerId = App.OwnerId;
             }
             catch (Exception exc)

@@ -170,9 +170,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 this.ItemToUpdate.CapturedDate = DateTime.Now;
 
-                if (this.ItemToUpdate.ItemImage.Id == null || this.ItemToUpdate.ItemImage.Id == Guid.Empty)
+                if (this.ItemToUpdate.ItemImage.Id <= 0)
                 {
-                    this.ItemToUpdate.ItemImage.Id = Guid.NewGuid();
                     this.ItemToUpdate.ItemImage.UniqueImageName = this.ItemToUpdate.ItemImage.Id.ToString() + ".jpg";
                 }
 
@@ -180,14 +179,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     if (await App.DataService.UpdateItemAsync(this.ItemToUpdate).ConfigureAwait(false))
                     {
-                        if (await App.ApiService.UpdateImage(this.ItemToUpdate.ItemImage).ConfigureAwait(false))
-                        {
-
-                        }
-                        else
-                        {
-                            await UserDialogs.Instance.AlertAsync("Could not upload item data.").ConfigureAwait(false);
-                        }
+                        // Add uploading code.
                     }
                     else
                     {
@@ -217,8 +209,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
             if (String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.ImageName) ||
                 String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.FilePath) ||
-                (this.ItemToUpdate.ItemImage.Id == Guid.Empty) ||
-                (this.ItemToUpdate.ItemImage.Id == null))
+                (this.ItemToUpdate.ItemImage.Id <= 0))
             {
                 await UserDialogs.Instance.AlertAsync("No image has been captured for the item. Please capture an image before continuing.", "Incomplete Item").ConfigureAwait(false);
                 return false;

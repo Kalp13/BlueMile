@@ -187,7 +187,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private async Task BuildEmailContent()
         {
             var owner = await App.DataService.FindOwnerBySystemIdAsync(this.CurrentBoat.OwnerId).ConfigureAwait(false);
-            var equipment = await App.DataService.FindItemsByBoatAsync(this.CurrentBoat.Id).ConfigureAwait(false);
+            var equipment = await App.DataService.FindItemsByBoatIdAsync(this.CurrentBoat.SystemId).ConfigureAwait(false);
             var images = new List<ImageMobileModel>();
 
             //Add Owner Details
@@ -198,7 +198,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             $"ID/Passport: {owner.Identification}\n" +
             $"Skippers License: {owner.SkippersLicenseNumber}\n" +
             $"VHF License: {owner.VhfOperatorsLicense}\n" +
-            $"Address: {owner.Address}\n\n"; ;
+            $"Address: {owner.AddressLine1}\n\n"; ;
             images.Add(owner.IdentificationDocument);
             images.Add(owner.SkippersLicenseImage);
             images.Add(owner.IcasaPopPhoto);
@@ -220,7 +220,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             //Add Equipment Details
             foreach (var item in equipment)
             {
-                details += $"{ItemTypeDescriptionConverter.GetDescription(item.ItemTypeId)}: {item.Description} - " +
+                details += $"{ItemTypeDescriptionConverter.GetDescription((ItemTypeEnum)item.ItemTypeId)}: {item.Description} - " +
                 $"Serial: {item.SerialNumber}" +
                 $"Captured: {item.CapturedDate.ToString("00:dd/MMM/yyyy")} - " +
                 $"Expires: {item.ExpiryDate.ToString("00:dd/MMM/yyyy")}";

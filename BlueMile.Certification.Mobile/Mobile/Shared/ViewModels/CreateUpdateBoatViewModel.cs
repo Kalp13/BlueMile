@@ -88,7 +88,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (this.selectedCategory.ItemId > 0)
                     {
-                        this.BoatDetails.CategoryId = (BoatCategoryEnum)this.selectedCategory.ItemId;
+                        this.BoatDetails.BoatCategoryId = this.selectedCategory.ItemId;
                     }
                 }
             }
@@ -186,15 +186,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.BoatDetails.TubbiesCertificateNumber = String.Empty;
                 }
 
-                if ((this.BoatDetails.BoyancyCertificateImage.Id == null) || (this.BoatDetails.BoyancyCertificateImage.Id == Guid.Empty))
+                if (this.BoatDetails.BoyancyCertificateImage.Id <= 0)
                 {
-                    this.BoatDetails.BoyancyCertificateImage.Id = Guid.NewGuid();
                     this.BoatDetails.BoyancyCertificateImage.UniqueImageName = this.BoatDetails.BoyancyCertificateImage.Id.ToString() + ".jpg";
                 }
 
-                if (this.BoatDetails.IsJetski && (this.BoatDetails.TubbiesCertificateImage.Id == null) || (this.BoatDetails.TubbiesCertificateImage.Id == Guid.Empty))
+                if (this.BoatDetails.IsJetski && (this.BoatDetails.TubbiesCertificateImage.Id <= 0))
                 {
-                    this.BoatDetails.TubbiesCertificateImage.Id = Guid.NewGuid();
                     this.BoatDetails.TubbiesCertificateImage.UniqueImageName = this.BoatDetails.TubbiesCertificateImage.Id.ToString() + ".jpg";
                 }
 
@@ -206,14 +204,19 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
 
-                    BoatMobileModel boat = new BoatMobileModel();
-                    if ((await App.ApiService.GetBoatById(BoatDetails.Id).ConfigureAwait(false)) == null)
+                    BoatMobileModel boat = await App.ApiService.GetBoatById(BoatDetails.SystemId).ConfigureAwait(false);
+                    if (boat == null)
                     {
-                        boat = await App.ApiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
+                        var systemId = await App.ApiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
+                        this.BoatDetails.SystemId = systemId;
                     }
                     else
                     {
-                        boat = await App.ApiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
+                        var systemId = await App.ApiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
+                        if (boat.SystemId.ToString().ToLower() != systemId.ToString().ToLower())
+                        {
+                            throw new ArgumentException("System identifier and local identifier don't match.");
+                        }
                     }
 
 
