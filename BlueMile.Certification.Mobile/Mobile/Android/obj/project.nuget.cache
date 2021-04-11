@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "PZKG29P6XRNpwZScukedSIhfWhkA7K8E/3j1MOYpGVlbuQyIuWGhebsADtsezddhpM1s2hihqeD2f5ZeapvAAQ==",
+  "dgSpecHash": "jOR63Ops5WSVGzahQQqSEIsBZnOimevvxwRT4F8pgbu3zGVRUZxolnoEH2r3RrQ5twlrccp5T+33AmV4d/AKlw==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Mobile\\Android\\BlueMile.Certification.Mobile.Android.csproj",
   "expectedPackageFiles": [
@@ -14,6 +14,7 @@
     "C:\\Users\\Rudolph\\.nuget\\packages\\sqlitepclraw.provider.e_sqlite3\\2.0.3\\sqlitepclraw.provider.e_sqlite3.2.0.3.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.buffers\\4.4.0\\system.buffers.4.4.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.memory\\4.5.3\\system.memory.4.5.3.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\system.net.http\\4.3.4\\system.net.http.4.3.4.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.5.2\\system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\xam.plugin.media\\5.0.1\\xam.plugin.media.5.0.1.nupkg.sha512",
