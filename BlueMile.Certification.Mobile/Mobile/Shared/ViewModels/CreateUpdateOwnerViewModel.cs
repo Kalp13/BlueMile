@@ -198,18 +198,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (await UserDialogs.Instance.ConfirmAsync(this.OwnerDetails.ToString()).ConfigureAwait(false))
                 {
-                    if (this.OwnerDetails.IcasaPopPhoto.Id <= 0)
+                    if (this.OwnerDetails.IcasaPopPhoto.Id != null && this.OwnerDetails.IcasaPopPhoto.Id != Guid.Empty)
                     {
+                        this.OwnerDetails.IcasaPopPhoto.Id = Guid.NewGuid();
                         this.OwnerDetails.IcasaPopPhoto.UniqueImageName = this.OwnerDetails.IcasaPopPhoto.Id.ToString() + ".jpg";
                     }
 
-                    if (this.OwnerDetails.IdentificationDocument.Id <= 0)
+                    if (this.OwnerDetails.IdentificationDocument.Id != null && this.OwnerDetails.IdentificationDocument.Id != Guid.Empty)
                     {
+                        this.OwnerDetails.IdentificationDocument.Id = Guid.NewGuid();
                         this.OwnerDetails.IdentificationDocument.UniqueImageName = this.OwnerDetails.IdentificationDocument.Id.ToString() + ".jpg";
                     }
 
-                    if (this.OwnerDetails.SkippersLicenseImage.Id <= 0)
+                    if (this.OwnerDetails.SkippersLicenseImage.Id != null && this.OwnerDetails.SkippersLicenseImage.Id != Guid.Empty)
                     {
+                        this.OwnerDetails.SkippersLicenseImage.Id = Guid.NewGuid();
                         this.OwnerDetails.SkippersLicenseImage.UniqueImageName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
                     }
 

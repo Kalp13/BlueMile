@@ -144,8 +144,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 this.NewItem.CapturedDate = DateTime.Now;
                 this.NewItem.BoatId = Guid.Parse(this.CurrentBoatId);
 
-                if (this.NewItem.ItemImage.Id <= 0)
+                if (this.NewItem.ItemImage.Id != null && this.NewItem.ItemImage.Id != Guid.Empty)
                 {
+                    this.NewItem.ItemImage.Id = Guid.NewGuid();
                     this.NewItem.ItemImage.UniqueImageName = this.NewItem.ItemImage.Id.ToString() + ".jpg";
                 }
 
@@ -189,7 +190,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
             if (String.IsNullOrWhiteSpace(this.NewItem.ItemImage.ImageName) || 
                 String.IsNullOrWhiteSpace(this.NewItem.ItemImage.FilePath) || 
-                (this.NewItem.ItemImage.Id <= 0))
+                (this.NewItem.ItemImage.Id != null && this.NewItem.ItemImage.Id != Guid.Empty))
             {
                 await UserDialogs.Instance.AlertAsync("No image has been captured for the item. Please capture an image before continuing.", "Incomplete Item").ConfigureAwait(false);
                 return false;

@@ -26,10 +26,18 @@
                     <Label Text="{Binding CurrentOwner.Name}"/>
                     <Label Text="{Binding CurrentOwner.Surname}"/>
                 </StackLayout>
-                <Label Text="{Binding CurrentOwner.IdentificationNumber, StringFormat='ID/Passport Number: {0}'}"/>
-                <Label Text="{Binding CurrentOwner.CellNumber, StringFormat='Cell: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.Identification, StringFormat='ID/Passport Number: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.ContactNumber, StringFormat='Cell: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.Email, StringFormat='Email: {0}'}"/>
-                <Label Text="{Binding CurrentOwner.Address, StringFormat='Address: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.AddressLine1, StringFormat='Complex Name: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.AddressLine2, StringFormat='Unit Number: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.AddressLine3, StringFormat='Street Number: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.AddressLine4, StringFormat='Street Name: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.Suburb, StringFormat='Suburb: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.Town, StringFormat='Town: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.Province, StringFormat='Province: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.Country, StringFormat='Country: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.PostalCode, StringFormat='Postal Code: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.VhfOperatorsLicense, StringFormat='VHF License Number: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.SkippersLicenseNumber, StringFormat='Skippers License Number: {0}'}"/>
                 <CarouselView ItemsSource="{Binding OwnerImages}" 
@@ -64,5 +72,8 @@
                      IconImageSource="{Binding MenuImage}"
                      Command="{Binding EditOwnerCommand}"
                      Order="Primary"/>
+        <ToolbarItem Text="Sync"
+                     Command="{Binding SyncCommand}"
+                     Order="Secondary"/>
     </ContentPage.ToolbarItems>
 </ContentPage>

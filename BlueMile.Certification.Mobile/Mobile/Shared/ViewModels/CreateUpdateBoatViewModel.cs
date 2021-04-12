@@ -186,12 +186,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.BoatDetails.TubbiesCertificateNumber = String.Empty;
                 }
 
-                if (this.BoatDetails.BoyancyCertificateImage.Id <= 0)
+                if (this.BoatDetails.BoyancyCertificateImage.Id != null && this.BoatDetails.BoyancyCertificateImage.Id != Guid.Empty)
                 {
+                    this.BoatDetails.BoyancyCertificateImage.Id = this.BoatDetails.BoyancyCertificateImage.Id == Guid.Empty ? Guid.NewGuid() : this.BoatDetails.BoyancyCertificateImage.Id;
                     this.BoatDetails.BoyancyCertificateImage.UniqueImageName = this.BoatDetails.BoyancyCertificateImage.Id.ToString() + ".jpg";
                 }
 
-                if (this.BoatDetails.IsJetski && (this.BoatDetails.TubbiesCertificateImage.Id <= 0))
+                if (this.BoatDetails.IsJetski && (this.BoatDetails.TubbiesCertificateImage.Id != null && this.BoatDetails.TubbiesCertificateImage.Id != Guid.Empty))
                 {
                     this.BoatDetails.TubbiesCertificateImage.UniqueImageName = this.BoatDetails.TubbiesCertificateImage.Id.ToString() + ".jpg";
                 }

@@ -33,7 +33,7 @@
                            TabIndex="2"/>
                 </StackLayout>
                 <Label Text="Cell Number"/>
-                <Entry Text="{Binding OwnerDetails.CellNumber, Mode=TwoWay}"
+                <Entry Text="{Binding OwnerDetails.ContactNumber, Mode=TwoWay}"
                        Keyboard="Telephone"
                        Placeholder="Cell"
                        TabIndex="3"
@@ -46,7 +46,7 @@
                        ReturnType="Next"/>
                 <!--ID-->
                 <Label Text="ID/Passport Number"/>
-                <Entry Text="{Binding OwnerDetails.IdentificationNumber, Mode=TwoWay}"
+                <Entry Text="{Binding OwnerDetails.Identification, Mode=TwoWay}"
                        Keyboard="Default"
                        Placeholder="ID/Passport Number"
                        TabIndex="5"/>
@@ -57,18 +57,50 @@
                                  HorizontalOptions="FillAndExpand"
                                  VerticalOptions="CenterAndExpand">
                         <Label Text="Address"/>
-                        <Entry Text="{Binding OwnerDetails.Address, Mode=TwoWay}"
+                        <Entry Text="{Binding OwnerDetails.AddressLine1, Mode=TwoWay}"
                            Keyboard="Text"
-                           Placeholder="Address"
+                           Placeholder="Complex Name"
                            TabIndex="6"/>
+                        <Entry Text="{Binding OwnerDetails.AddressLine2, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Unit Number"
+                           TabIndex="7"/>
+                        <Entry Text="{Binding OwnerDetails.AddressLine3, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Street Number or Cross Street"
+                           TabIndex="8"/>
+                        <Entry Text="{Binding OwnerDetails.AddressLine4, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Street Name"
+                           TabIndex="9"/>
+                        <Entry Text="{Binding OwnerDetails.Suburb, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Suburb"
+                           TabIndex="10"/>
+                        <Entry Text="{Binding OwnerDetails.Town, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Town/City"
+                           TabIndex="11"/>
+                        <Entry Text="{Binding OwnerDetails.Province, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Province"
+                           TabIndex="12"/>
+                        <Entry Text="{Binding OwnerDetails.Country, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Country"
+                           TabIndex="13"/>
+                        <Entry Text="{Binding OwnerDetails.PostalCode, Mode=TwoWay}"
+                           Keyboard="Text"
+                           Placeholder="Postal Code"
+                           TabIndex="14"/>
                     </StackLayout>
-                    <Button ImageSource="location.png"
+                    <!--<Button ImageSource="location.png"
                             Command="{Binding GetAddressCommand}"
                             WidthRequest="70"
-                            HorizontalOptions="End"/>
+                            HorizontalOptions="End"/>-->
                 </StackLayout>
-                
-                <ImageButton Source="{Binding OwnerDetails.IdentificationDocument.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+
+                <ImageButton Source="{Binding OwnerDetails.IdentificationDocument.FilePath, TargetNullValue='image.png', Mode=TwoWay}"
                              Aspect="AspectFit"
                              BackgroundColor="#00000000"
                              Command="{Binding CaptureIDPhotoCommand}"
@@ -78,8 +110,8 @@
                 <Entry Text="{Binding OwnerDetails.SkippersLicenseNumber, Mode=TwoWay}"
                        Keyboard="Text"
                        Placeholder="Skippers Number"
-                       TabIndex="7"/>
-                <ImageButton Source="{Binding OwnerDetails.SkippersLicenseImage.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                       TabIndex="15"/>
+                <ImageButton Source="{Binding OwnerDetails.SkippersLicenseImage.FilePath, TargetNullValue='image.png', Mode=TwoWay}"
                              Command="{Binding CaptureSkippersPhotoCommand}"
                              Aspect="AspectFit"
                              BackgroundColor="#00000000"
@@ -89,10 +121,10 @@
                 <Entry Text="{Binding OwnerDetails.VhfOperatorsLicense, Mode=TwoWay}"
                        Keyboard="Text"
                        Placeholder="VHF License"
-                       TabIndex="8"/>
+                       TabIndex="16"/>
                 <!--ICASA-->
                 <Label Text="ICASA POP"/>
-                <ImageButton Source="{Binding OwnerDetails.IcasaPopPhoto.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                <ImageButton Source="{Binding OwnerDetails.IcasaPopPhoto.FilePath, TargetNullValue='image.png', Mode=TwoWay}"
                              Command="{Binding CaptureIcasaPopPhotoCommand}"
                              Aspect="AspectFit"
                              BackgroundColor="#00000000"

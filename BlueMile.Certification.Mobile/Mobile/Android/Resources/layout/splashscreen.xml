@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+  <item>
+    <color android:color="@color/splash_background"/>
+  </item>
+  <item>
+    <bitmap
+        android:src="@drawable/BlueMile"
+        android:tileMode="disabled"
+        android:gravity="center">
+    </bitmap>
+  </item>
+  <!--<item>
+    <rotate android:drawable="@drawable/ship"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:fromDegrees="0"
+            android:toDegrees="360"/>
+  </item>-->
+</layer-list>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+</LinearLayout>-->

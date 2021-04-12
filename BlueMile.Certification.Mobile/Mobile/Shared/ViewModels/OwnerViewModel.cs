@@ -3,6 +3,7 @@ using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -88,7 +89,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.SyncCommand = new Command(async() =>
             {
-
+                UserDialogs.Instance.ShowLoading("Syncing Owner...");
+                await this.SyncOwnerDetails().ConfigureAwait(false);
             });
             this.EditOwnerCommand = new Command(async () =>
             {
@@ -98,25 +100,80 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
         }
 
+        private async Task SyncOwnerDetails()
+        {
+            try
+            {
+                if (!this.CurrentOwner.IsSynced || this.CurrentOwner.SystemId == Guid.Empty)
+                {
+                    var owner = await App.ApiService.CreateOwner(this.CurrentOwner).ConfigureAwait(false);
+                    if (owner != null)
+                    {
+                        this.CurrentOwner.IsSynced = true;
+                        var syncResult = await App.DataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
+                        UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                    }
+                    else
+                    {
+                        await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                    }
+                }
+                else
+                {
+                    var owner = await App.ApiService.UpdateOwner(this.CurrentOwner).ConfigureAwait(false);
+                    if (owner != null)
+                    {
+                        this.CurrentOwner.IsSynced = true;
+                        var syncResult = await App.DataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
+                        UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                    }
+                    else
+                    {
+                        await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                    }
+                }
+            }
+            catch (Exception exc)
+            {
+                await UserDialogs.Instance.AlertAsync(exc.ToString(), "Sync Error").ConfigureAwait(false);
+                Crashes.TrackError(exc);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
+        }
+
         private async Task GetOwner()
         {
-            this.CurrentOwner = (await App.DataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
-            App.OwnerId = this.CurrentOwner.SystemId;
-            SettingsService.OwnerId = this.CurrentOwner.Id.ToString();
-            this.OwnerImages = new List<ImageMobileModel>();
-            this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
-            this.OwnerImages.Add(this.CurrentOwner.IdentificationDocument);
-            this.OwnerImages.Add(this.CurrentOwner.SkippersLicenseImage);
-
-            if (this.CurrentOwner != null)
+            try
             {
-                this.Title = String.Format(CultureInfo.InvariantCulture, "{0}'s Details", this.CurrentOwner.Name);
-                this.MenuImage = ImageSource.FromFile("edit.png");
+                this.CurrentOwner = (await App.DataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
+
+                if (this.CurrentOwner != null)
+                {
+                    App.OwnerId = this.CurrentOwner.SystemId;
+                    SettingsService.OwnerId = this.CurrentOwner.Id.ToString();
+                    this.OwnerImages = new List<ImageMobileModel>();
+                    this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
+                    this.OwnerImages.Add(this.CurrentOwner.IdentificationDocument);
+                    this.OwnerImages.Add(this.CurrentOwner.SkippersLicenseImage);
+
+                    this.Title = String.Format(CultureInfo.InvariantCulture, "{0}'s Details", this.CurrentOwner.Name);
+                    this.MenuImage = ImageSource.FromFile("edit.png");
+                }
+                else
+                {
+                    this.Title = "No Owner Available";
+                    this.MenuImage = ImageSource.FromFile("add.png");
+                }
             }
-            else
+            catch (Exception exc)
             {
                 this.Title = "No Owner Available";
                 this.MenuImage = ImageSource.FromFile("add.png");
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.ToString(), "Load Owner Error");
             }
         }
 

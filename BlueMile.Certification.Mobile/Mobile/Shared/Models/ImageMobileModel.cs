@@ -6,9 +6,7 @@ namespace BlueMile.Certification.Mobile.Models
 {
     public class ImageMobileModel
     {
-        public long Id { get; set; }
-
-        public Guid SystemId { get; set; }
+        public Guid Id { get; set; }
 
         public string ImageName { get; set; }
 

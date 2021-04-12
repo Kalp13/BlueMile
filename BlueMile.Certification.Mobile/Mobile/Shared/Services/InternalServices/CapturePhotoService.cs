@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace BlueMile.Certification.Mobile.Services.InternalServices
 {
@@ -17,20 +18,24 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
             {
                 if (CrossMedia.IsSupported)
                 {
-                    StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions
+                    //StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions
+                    //{
+                    //    DefaultCamera = CameraDevice.Rear,
+                    //    SaveToAlbum = true,
+                    //    PhotoSize = PhotoSize.Full,
+                    //    Directory = "Auto360",
+                    //    Name = photoName + ".jpg",
+                    //    AllowCropping = false,
+                    //    CompressionQuality = 100,
+                    //};
+                    var options = new MediaPickerOptions()
                     {
-                        DefaultCamera = CameraDevice.Rear,
-                        SaveToAlbum = true,
-                        PhotoSize = PhotoSize.Full,
-                        Directory = "Auto360",
-                        Name = photoName + ".jpg",
-                        AllowCropping = false,
-                        CompressionQuality = 100,
+                        Title = "Capture " + photoName
                     };
-                    var image = await CrossMedia.Current.TakePhotoAsync(new StoreCameraMediaOptions()).ConfigureAwait(false);
+                    var image = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(options).ConfigureAwait(false);
                     return new ImageMobileModel
                     {
-                        FilePath = image.Path,
+                        FilePath = image.FullPath,
                         ImageName = photoName + ".jpg"
                     };
                 }

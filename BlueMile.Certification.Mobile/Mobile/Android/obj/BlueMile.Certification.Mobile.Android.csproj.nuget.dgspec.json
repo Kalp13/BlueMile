@@ -46,19 +46,23 @@
           "dependencies": {
             "Acr.UserDialogs": {
               "target": "Package",
-              "version": "[7.1.0.481, )"
+              "version": "[7.1.0.483, )"
             },
-            "Acr.UserDialogs": {
+            "Microsoft.AppCenter": {
               "target": "Package",
-              "version": "[7.1.0.481, )"
+              "version": "[4.2.0, )"
+            },
+            "Microsoft.AppCenter.Analytics": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
+            "Microsoft.AppCenter.Crashes": {
+              "target": "Package",
+              "version": "[4.2.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.3, )"
-            },
-            "Newtonsoft.Json": {
-              "target": "Package",
-              "version": "[12.0.3, )"
+              "version": "[13.0.1, )"
             },
             "System.Net.Http": {
               "target": "Package",
@@ -68,14 +72,6 @@
               "target": "Package",
               "version": "[5.0.1, )"
             },
-            "Xam.Plugin.Media": {
-              "target": "Package",
-              "version": "[5.0.1, )"
-            },
-            "Xamarin.Essentials": {
-              "target": "Package",
-              "version": "[1.6.1, )"
-            },
             "Xamarin.Essentials": {
               "target": "Package",
               "version": "[1.6.1, )"
@@ -84,30 +80,19 @@
               "target": "Package",
               "version": "[5.0.0.2012, )"
             },
-            "Xamarin.Forms": {
+            "ZXing.Net.Mobile": {
               "target": "Package",
-              "version": "[5.0.0.2012, )"
+              "version": "[2.4.1, )"
             },
-            "sqlite-net-pcl": {
+            "ZXing.Net.Mobile.Forms": {
               "target": "Package",
-              "version": "[1.7.335, )"
+              "version": "[2.4.1, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",
               "version": "[1.7.335, )"
             }
           }
-        }
-      },
-      "runtimes": {
-        "win": {
-          "#import": []
-        },
-        "win-x64": {
-          "#import": []
-        },
-        "win-x86": {
-          "#import": []
         }
       }
     },
@@ -160,11 +145,23 @@
           "dependencies": {
             "Acr.UserDialogs": {
               "target": "Package",
-              "version": "[7.1.0.481, )"
+              "version": "[7.1.0.483, )"
+            },
+            "Microsoft.AppCenter": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
+            "Microsoft.AppCenter.Analytics": {
+              "target": "Package",
+              "version": "[4.2.0, )"
+            },
+            "Microsoft.AppCenter.Crashes": {
+              "target": "Package",
+              "version": "[4.2.0, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[12.0.3, )"
+              "version": "[13.0.1, )"
             },
             "System.Net.Http": {
               "target": "Package",
@@ -181,6 +178,14 @@
             "Xamarin.Forms": {
               "target": "Package",
               "version": "[5.0.0.2012, )"
+            },
+            "ZXing.Net.Mobile": {
+              "target": "Package",
+              "version": "[2.4.1, )"
+            },
+            "ZXing.Net.Mobile.Forms": {
+              "target": "Package",
+              "version": "[2.4.1, )"
             },
             "sqlite-net-pcl": {
               "target": "Package",

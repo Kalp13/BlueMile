@@ -54,5 +54,9 @@
                      Text="Add Boat"
                      IconImageSource="add.png"
                      Order="Primary"/>
+        <ToolbarItem Command="{Binding RefreshCommand}"
+                     Text="Refresh"
+                     IconImageSource="refresh.png"
+                     Order="Primary"/>
     </ContentPage.ToolbarItems>
 </ContentPage>

@@ -66,8 +66,8 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 {
                     this.dataConnection = this.InitializeDBConnection();
                 }
-
-                var response = await this.dataConnection.InsertOrReplaceAsync(owner, typeof(OwnerMobileEntity)).ConfigureAwait(false);
+                var ownerEntity = OwnerHelper.ToOwnerDataEntity(owner);
+                var response = await this.dataConnection.InsertOrReplaceAsync(ownerEntity, typeof(OwnerMobileEntity)).ConfigureAwait(false);
 
                 return response > 0;
             }
@@ -142,7 +142,8 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
 
-                var response = await this.dataConnection.UpdateAsync(owner, typeof(OwnerMobileEntity));
+                var ownerEntity = OwnerHelper.ToOwnerDataEntity(owner);
+                var response = await this.dataConnection.UpdateAsync(ownerEntity, typeof(OwnerMobileEntity));
 
                 return response > 0;
             }

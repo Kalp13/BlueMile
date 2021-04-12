@@ -2,13 +2,46 @@
   "version": 3,
   "targets": {
     ".NETStandard,Version=v2.1": {
-      "Acr.UserDialogs/7.1.0.481": {
+      "Acr.UserDialogs/7.1.0.483": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Acr.UserDialogs.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/Acr.UserDialogs.dll": {}
+        }
+      },
+      "Microsoft.AppCenter/4.2.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/Microsoft.AppCenter.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.AppCenter.dll": {}
+        }
+      },
+      "Microsoft.AppCenter.Analytics/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AppCenter": "4.2.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/Microsoft.AppCenter.Analytics.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.AppCenter.Analytics.dll": {}
+        }
+      },
+      "Microsoft.AppCenter.Crashes/4.2.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.AppCenter": "4.2.0"
+        },
+        "compile": {
+          "lib/netstandard1.0/Microsoft.AppCenter.Crashes.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/Microsoft.AppCenter.Crashes.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/1.1.1": {
@@ -29,7 +62,7 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "Newtonsoft.Json/12.0.3": {
+      "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
@@ -967,6 +1000,32 @@
           "buildTransitive/Xamarin.Forms.targets": {}
         }
       },
+      "ZXing.Net.Mobile/2.4.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard1.0/ZXing.Net.Mobile.Core.dll": {},
+          "lib/netstandard1.0/ZXingNetMobile.dll": {},
+          "lib/netstandard1.0/zxing.portable.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/ZXing.Net.Mobile.Core.dll": {},
+          "lib/netstandard1.0/ZXingNetMobile.dll": {},
+          "lib/netstandard1.0/zxing.portable.dll": {}
+        }
+      },
+      "ZXing.Net.Mobile.Forms/2.4.1": {
+        "type": "package",
+        "dependencies": {
+          "Xamarin.Forms": "2.5.0.122203",
+          "ZXing.Net.Mobile": "2.4.1"
+        },
+        "compile": {
+          "lib/netstandard1.0/ZXing.Net.Mobile.Forms.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.0/ZXing.Net.Mobile.Forms.dll": {}
+        }
+      },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
@@ -980,14 +1039,14 @@
     }
   },
   "libraries": {
-    "Acr.UserDialogs/7.1.0.481": {
-      "sha512": "s/XcLHi41gOBbo4MSNcVOAwVfoc5SVbtlibcAzDFnXb2GrTEmIHG078F3/CFjqgmRiWwzJJCYfY1vy5hCgc/ww==",
+    "Acr.UserDialogs/7.1.0.483": {
+      "sha512": "Uoo7ZcrHl9SN3M05A5/e3qwUcR7lFhgsSI+7HaVSPnIQcectHNrERJbLoV8HLjDJc+0/3t3tfinxDHu/e2fiMw==",
       "type": "package",
-      "path": "acr.userdialogs/7.1.0.481",
+      "path": "acr.userdialogs/7.1.0.483",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "acr.userdialogs.7.1.0.481.nupkg.sha512",
+        "acr.userdialogs.7.1.0.483.nupkg.sha512",
         "acr.userdialogs.nuspec",
         "lib/monoandroid10.0/Acr.UserDialogs.dll",
         "lib/monoandroid10.0/Acr.UserDialogs.pdb",
@@ -1013,6 +1072,81 @@
         "lib/xamarintvos10/Acr.UserDialogs.pdb",
         "lib/xamarintvos10/Acr.UserDialogs.xml",
         "readme.txt"
+      ]
+    },
+    "Microsoft.AppCenter/4.2.0": {
+      "sha512": "KdKGKmcqA+wZ//q7e5ZIiJTOEc6PSXTgrwieLPvCgZ/6wgnBnha0HE5gTlKpvRAO4Ga5paTt3gAMI/Fi8yprPA==",
+      "type": "package",
+      "path": "microsoft.appcenter/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid50/Microsoft.AppCenter.Android.Bindings.dll",
+        "lib/MonoAndroid50/Microsoft.AppCenter.dll",
+        "lib/MonoAndroid50/Microsoft.AppCenter.xml",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.dll",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.iOS.Bindings.dll",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.xml",
+        "lib/net461/Microsoft.AppCenter.dll",
+        "lib/net461/Microsoft.AppCenter.xml",
+        "lib/netcoreapp3.0/Microsoft.AppCenter.dll",
+        "lib/netcoreapp3.0/Microsoft.AppCenter.xml",
+        "lib/netstandard1.0/Microsoft.AppCenter.dll",
+        "lib/netstandard1.0/Microsoft.AppCenter.xml",
+        "lib/uap10.0/Microsoft.AppCenter.dll",
+        "lib/uap10.0/Microsoft.AppCenter.xml",
+        "microsoft.appcenter.4.2.0.nupkg.sha512",
+        "microsoft.appcenter.nuspec"
+      ]
+    },
+    "Microsoft.AppCenter.Analytics/4.2.0": {
+      "sha512": "JsV+cWjwUh2dRkbO2Kz8ZDihaxQcGWZt8ttABJzt+4OpftU7gxB299cmLMVSQkdv8nub80RXf230i3W/1OjB7w==",
+      "type": "package",
+      "path": "microsoft.appcenter.analytics/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid50/Microsoft.AppCenter.Analytics.Android.Bindings.dll",
+        "lib/MonoAndroid50/Microsoft.AppCenter.Analytics.dll",
+        "lib/MonoAndroid50/Microsoft.AppCenter.Analytics.xml",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.Analytics.dll",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.Analytics.iOS.Bindings.dll",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.Analytics.xml",
+        "lib/net461/Microsoft.AppCenter.Analytics.dll",
+        "lib/net461/Microsoft.AppCenter.Analytics.xml",
+        "lib/netcoreapp3.0/Microsoft.AppCenter.Analytics.dll",
+        "lib/netcoreapp3.0/Microsoft.AppCenter.Analytics.xml",
+        "lib/netstandard1.0/Microsoft.AppCenter.Analytics.dll",
+        "lib/netstandard1.0/Microsoft.AppCenter.Analytics.xml",
+        "lib/uap10.0/Microsoft.AppCenter.Analytics.dll",
+        "lib/uap10.0/Microsoft.AppCenter.Analytics.xml",
+        "microsoft.appcenter.analytics.4.2.0.nupkg.sha512",
+        "microsoft.appcenter.analytics.nuspec"
+      ]
+    },
+    "Microsoft.AppCenter.Crashes/4.2.0": {
+      "sha512": "hL6ba7LcT8v4DLFljizZWhlv3T48DFvU3EK3KF09PwQ7w4oBGNWA++EQsgqH83pSdmCGzlv5NpYCWoJVfgtCTw==",
+      "type": "package",
+      "path": "microsoft.appcenter.crashes/4.2.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid50/Microsoft.AppCenter.Crashes.Android.Bindings.dll",
+        "lib/MonoAndroid50/Microsoft.AppCenter.Crashes.dll",
+        "lib/MonoAndroid50/Microsoft.AppCenter.Crashes.xml",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.Crashes.dll",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.Crashes.iOS.Bindings.dll",
+        "lib/Xamarin.iOS10/Microsoft.AppCenter.Crashes.xml",
+        "lib/net461/Microsoft.AppCenter.Crashes.dll",
+        "lib/net461/Microsoft.AppCenter.Crashes.xml",
+        "lib/netcoreapp3.0/Microsoft.AppCenter.Crashes.dll",
+        "lib/netcoreapp3.0/Microsoft.AppCenter.Crashes.xml",
+        "lib/netstandard1.0/Microsoft.AppCenter.Crashes.dll",
+        "lib/netstandard1.0/Microsoft.AppCenter.Crashes.xml",
+        "lib/uap10.0/Microsoft.AppCenter.Crashes.dll",
+        "lib/uap10.0/Microsoft.AppCenter.Crashes.xml",
+        "microsoft.appcenter.crashes.4.2.0.nupkg.sha512",
+        "microsoft.appcenter.crashes.nuspec"
       ]
     },
     "Microsoft.NETCore.Platforms/1.1.1": {
@@ -1045,10 +1179,10 @@
         "runtime.json"
       ]
     },
-    "Newtonsoft.Json/12.0.3": {
-      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
       "type": "package",
-      "path": "newtonsoft.json/12.0.3",
+      "path": "newtonsoft.json/13.0.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1067,11 +1201,7 @@
         "lib/netstandard1.3/Newtonsoft.Json.xml",
         "lib/netstandard2.0/Newtonsoft.Json.dll",
         "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
       ]
@@ -3616,6 +3746,50 @@
         "xamarin.forms.nuspec"
       ]
     },
+    "ZXing.Net.Mobile/2.4.1": {
+      "sha512": "iCL2WcqOyUnC1iFFdzXijk0EXfoLMDqW88MyhoTZigSyhJZM2C5hKgSZVyfx9E35tgkde/IZwHkk8cVDnbQlYg==",
+      "type": "package",
+      "path": "zxing.net.mobile/2.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid71/ZXing.Net.Mobile.Core.dll",
+        "lib/MonoAndroid71/ZXingNetMobile.dll",
+        "lib/MonoAndroid71/zxing.portable.dll",
+        "lib/UAP10/ZXing.Net.Mobile.Core.dll",
+        "lib/UAP10/ZXingNetMobile.dll",
+        "lib/UAP10/ZXingNetMobile.pri",
+        "lib/UAP10/ZXingNetMobile/ZXingNetMobile.xr.xml",
+        "lib/UAP10/zxing.portable.dll",
+        "lib/Xamarin.iOS10/ZXing.Net.Mobile.Core.dll",
+        "lib/Xamarin.iOS10/ZXingNetMobile.dll",
+        "lib/Xamarin.iOS10/zxing.portable.dll",
+        "lib/netstandard1.0/ZXing.Net.Mobile.Core.dll",
+        "lib/netstandard1.0/ZXingNetMobile.dll",
+        "lib/netstandard1.0/zxing.portable.dll",
+        "zxing.net.mobile.2.4.1.nupkg.sha512",
+        "zxing.net.mobile.nuspec"
+      ]
+    },
+    "ZXing.Net.Mobile.Forms/2.4.1": {
+      "sha512": "7z+MfL8TbfE36s1GGvrnlkhLUOV5dgdn1gYhUb3GU2W6YXzpfF39k6EqkmFsyNm1O07evTaKFgh7UTOqcWub3g==",
+      "type": "package",
+      "path": "zxing.net.mobile.forms/2.4.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid71/ZXing.Net.Mobile.Forms.Android.dll",
+        "lib/MonoAndroid71/ZXing.Net.Mobile.Forms.dll",
+        "lib/UAP10/ZXing.Net.Mobile.Forms.WindowsUniversal.dll",
+        "lib/UAP10/ZXing.Net.Mobile.Forms.WindowsUniversal.pri",
+        "lib/UAP10/ZXing.Net.Mobile.Forms.dll",
+        "lib/Xamarin.iOS10/ZXing.Net.Mobile.Forms.dll",
+        "lib/Xamarin.iOS10/ZXing.Net.Mobile.Forms.iOS.dll",
+        "lib/netstandard1.0/ZXing.Net.Mobile.Forms.dll",
+        "zxing.net.mobile.forms.2.4.1.nupkg.sha512",
+        "zxing.net.mobile.forms.nuspec"
+      ]
+    },
     "BlueMile.Certification.Web.ApiModels/1.0.0": {
       "type": "project",
       "path": "../../Web.ApiModels/BlueMile.Certification.Web.ApiModels.csproj",
@@ -3624,13 +3798,18 @@
   },
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.1": [
-      "Acr.UserDialogs >= 7.1.0.481",
+      "Acr.UserDialogs >= 7.1.0.483",
       "BlueMile.Certification.Web.ApiModels >= 1.0.0",
-      "Newtonsoft.Json >= 12.0.3",
+      "Microsoft.AppCenter >= 4.2.0",
+      "Microsoft.AppCenter.Analytics >= 4.2.0",
+      "Microsoft.AppCenter.Crashes >= 4.2.0",
+      "Newtonsoft.Json >= 13.0.1",
       "System.Net.Http >= 4.3.4",
       "Xam.Plugin.Media >= 5.0.1",
       "Xamarin.Essentials >= 1.6.1",
       "Xamarin.Forms >= 5.0.0.2012",
+      "ZXing.Net.Mobile >= 2.4.1",
+      "ZXing.Net.Mobile.Forms >= 2.4.1",
       "sqlite-net-pcl >= 1.7.335"
     ]
   },
@@ -3689,11 +3868,23 @@
         "dependencies": {
           "Acr.UserDialogs": {
             "target": "Package",
-            "version": "[7.1.0.481, )"
+            "version": "[7.1.0.483, )"
+          },
+          "Microsoft.AppCenter": {
+            "target": "Package",
+            "version": "[4.2.0, )"
+          },
+          "Microsoft.AppCenter.Analytics": {
+            "target": "Package",
+            "version": "[4.2.0, )"
+          },
+          "Microsoft.AppCenter.Crashes": {
+            "target": "Package",
+            "version": "[4.2.0, )"
           },
           "Newtonsoft.Json": {
             "target": "Package",
-            "version": "[12.0.3, )"
+            "version": "[13.0.1, )"
           },
           "System.Net.Http": {
             "target": "Package",
@@ -3710,6 +3901,14 @@
           "Xamarin.Forms": {
             "target": "Package",
             "version": "[5.0.0.2012, )"
+          },
+          "ZXing.Net.Mobile": {
+            "target": "Package",
+            "version": "[2.4.1, )"
+          },
+          "ZXing.Net.Mobile.Forms": {
+            "target": "Package",
+            "version": "[2.4.1, )"
           },
           "sqlite-net-pcl": {
             "target": "Package",

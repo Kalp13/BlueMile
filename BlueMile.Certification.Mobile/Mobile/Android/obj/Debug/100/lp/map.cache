@@ -1,6 +1,13 @@
 Acr.UserDialogs.dll
 AndHUD.dll
+FastAndroidCamera.dll
 FormsViewGroup.dll
+Microsoft.AppCenter.Analytics.Android.Bindings.dll
+Microsoft.AppCenter.Analytics.dll
+Microsoft.AppCenter.Android.Bindings.dll
+Microsoft.AppCenter.Crashes.Android.Bindings.dll
+Microsoft.AppCenter.Crashes.dll
+Microsoft.AppCenter.dll
 Plugin.Media.dll
 SQLitePCLRaw.lib.e_sqlite3.android.dll
 Xamarin.AndroidX.Activity.dll
@@ -51,6 +58,8 @@ Xamarin.Forms.Platform.Android.dll
 Xamarin.Forms.Platform.dll
 Xamarin.Google.Android.Material.dll
 Xamarin.Google.Guava.ListenableFuture.dll
+ZXing.Net.Mobile.Forms.Android.dll
+ZXingNetMobile.dll
 androidx.versionedparcelable.versionedparcelable.aar
 androidx.lifecycle.lifecycle-runtime.aar
 androidx.core.core.aar

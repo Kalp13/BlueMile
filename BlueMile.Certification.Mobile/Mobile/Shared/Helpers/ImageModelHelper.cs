@@ -14,7 +14,7 @@ namespace BlueMile.Certification.Mobile.Helpers
             {
                 FilePath = image.FilePath,
                 ImageName = image.ImageName,
-                SystemId = image.SystemId,
+                Id = image.SystemId,
                 UniqueImageName = image.UniqueImageName
             };
 
@@ -27,7 +27,7 @@ namespace BlueMile.Certification.Mobile.Helpers
             {
                 FilePath = image.FilePath,
                 ImageName = image.ImageName,
-                SystemId = image.SystemId,
+                SystemId = image.Id,
                 UniqueImageName = image.UniqueImageName
             };
 

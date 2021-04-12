@@ -90,7 +90,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             
             if ((App.OwnerId == Guid.Empty) || (App.OwnerId == null))
             {
-                if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId))
+                if (Guid.TryParse(SettingsService.OwnerId, out Guid id))
                 {
                     App.OwnerId = Guid.Parse(SettingsService.OwnerId);
                 }
