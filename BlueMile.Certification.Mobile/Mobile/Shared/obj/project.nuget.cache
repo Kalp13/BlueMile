@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "37MU0ECKNrPaKvfdgIubFfYE8z5+Emh9KwmyYUJxWYXZf9T7jdCSaBT9dWFbWFTKTvwMJ7ECLuRUKUjHoZuaag==",
+  "dgSpecHash": "puTH7Zcm4j4Jk0KdkbR1nkLxbFehITViJ/P8KGYneGVg0QIU5dj41P7w5OU8WvPGDnMVZC6ekz8Ps8r+C694FA==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Mobile\\Shared\\BlueMile.Certification.Mobile.csproj",
   "expectedPackageFiles": [
@@ -34,6 +34,7 @@
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.buffers\\4.4.0\\system.buffers.4.4.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.collections\\4.3.0\\system.collections.4.3.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.collections.concurrent\\4.3.0\\system.collections.concurrent.4.3.0.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.diagnostics.debug\\4.3.0\\system.diagnostics.debug.4.3.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.diagnostics.diagnosticsource\\4.3.0\\system.diagnostics.diagnosticsource.4.3.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.diagnostics.tracing\\4.3.0\\system.diagnostics.tracing.4.3.0.nupkg.sha512",

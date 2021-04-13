@@ -1,0 +1,9 @@
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\bin\Debug\netstandard2.1\BlueMile.Certification.Data.deps.json
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\bin\Debug\netstandard2.1\BlueMile.Certification.Data.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\bin\Debug\netstandard2.1\BlueMile.Certification.Data.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.csprojAssemblyReference.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.AssemblyInfoInputs.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.AssemblyInfo.cs
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.csproj.CoreCompileInputs.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.pdb

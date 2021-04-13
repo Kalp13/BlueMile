@@ -91,6 +91,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Syncing Owner...");
                 await this.SyncOwnerDetails().ConfigureAwait(false);
+                UserDialogs.Instance.HideLoading();
             });
             this.EditOwnerCommand = new Command(async () =>
             {

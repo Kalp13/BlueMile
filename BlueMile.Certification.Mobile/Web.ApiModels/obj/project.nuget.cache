@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "S3Roh+GQYlAvcrygOj551dUfvdm1hIgqQAQ88NixscJVy/xTOKhkYJNNIGqAuwe6S7bgb6/SDIvseBaGrkyMAg==",
+  "dgSpecHash": "oXWmKstOUaKdN5NGf+oPtcFHE6TgsWf4xZ/m78ALSUjNGtnshMpr76CrB4ivkdqOb1y56eLA/hcIM44RlLVu6A==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Web.ApiModels\\BlueMile.Certification.Web.ApiModels.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Rudolph\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+  ],
   "logs": []
 }

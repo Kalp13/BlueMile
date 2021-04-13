@@ -14,3 +14,4 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Web.ApiModels\obj\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Web.ApiModels\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.csproj.CoreCompileInputs.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Web.ApiModels\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Web.ApiModels\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Web.ApiModels\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.csprojAssemblyReference.cache

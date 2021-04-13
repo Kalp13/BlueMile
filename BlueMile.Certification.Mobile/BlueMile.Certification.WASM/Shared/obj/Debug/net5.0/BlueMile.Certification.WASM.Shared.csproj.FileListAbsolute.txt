@@ -1,0 +1,12 @@
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\bin\Debug\net5.0\BlueMile.Certification.WASM.Shared.deps.json
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\bin\Debug\net5.0\BlueMile.Certification.WASM.Shared.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\bin\Debug\net5.0\ref\BlueMile.Certification.WASM.Shared.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\bin\Debug\net5.0\BlueMile.Certification.WASM.Shared.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\BlueMile.Certification.WASM.Shared.csprojAssemblyReference.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\BlueMile.Certification.WASM.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\BlueMile.Certification.WASM.Shared.AssemblyInfoInputs.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\BlueMile.Certification.WASM.Shared.AssemblyInfo.cs
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\BlueMile.Certification.WASM.Shared.csproj.CoreCompileInputs.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\BlueMile.Certification.WASM.Shared.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\ref\BlueMile.Certification.WASM.Shared.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Shared\obj\Debug\net5.0\BlueMile.Certification.WASM.Shared.pdb

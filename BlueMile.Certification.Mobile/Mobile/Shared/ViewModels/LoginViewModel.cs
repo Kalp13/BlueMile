@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -62,6 +63,31 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public bool HidePassword
+        {
+            get { return this.hidePassword; }
+            set
+            {
+                if (this.hidePassword != value)
+                {
+                    this.hidePassword = value;
+                    this.OnPropertyChanged(nameof(this.HidePassword));
+                }
+            }
+        }
+
+        public ICommand ClearCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand RegisterCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -94,6 +120,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.ForgotPasswordCommand = new Command(async () =>
             {
                 await this.ForgotPassword().ConfigureAwait(false);
+            });
+            this.RegisterCommand = new Command(async () =>
+            {
+                await Shell.Current.Navigation.PushAsync(new RegisterUserPage()).ConfigureAwait(false);
             });
         }
 
@@ -128,7 +158,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
         #region Instance Fields
 
         private string username;
+
         private string password;
+
+        private bool hidePassword;
 
         #endregion
     }
