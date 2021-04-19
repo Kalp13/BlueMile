@@ -13,5 +13,11 @@ namespace BlueMile.Certification.Data.Models
         public string UniqueImageName { get; set; }
 
         public string FilePath { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime ModifiedOn { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

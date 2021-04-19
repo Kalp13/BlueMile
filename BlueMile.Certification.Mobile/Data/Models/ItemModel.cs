@@ -46,5 +46,11 @@ namespace BlueMile.Certification.Data.Models
         /// Gets or sets the path to the image for this item.
         /// </summary>
         public Guid ItemImageId { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime ModifiedOn { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

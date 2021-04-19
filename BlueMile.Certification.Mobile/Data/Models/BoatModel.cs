@@ -30,7 +30,7 @@ namespace BlueMile.Certification.Data.Models
         /// <summary>
         /// Gets or sets the foreign key to the cateogry of this <see cref="BoatEntity"/>.
         /// </summary>
-        public BoatCategoryEnum CategoryId { get; set; }
+        public int CategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateNumber</c> of this <see cref="BoatEntity"/>.
@@ -56,5 +56,11 @@ namespace BlueMile.Certification.Data.Models
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatEntity"/>.
         /// </summary>
         public Guid TubbiesCertificateImageId { get; set; }
+
+        public DateTime CreatedOn { get; set; }
+
+        public DateTime ModifiedOn { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

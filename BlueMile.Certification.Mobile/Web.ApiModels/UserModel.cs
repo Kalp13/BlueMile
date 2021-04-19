@@ -33,4 +33,10 @@ namespace BlueMile.Certification.Web.ApiModels
         [Compare(nameof(Password), ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
     }
+
+    public class UserToken
+    {
+        public Guid OwnerId { get; set; }
+        public string Token { get; set; }
+    }
 }

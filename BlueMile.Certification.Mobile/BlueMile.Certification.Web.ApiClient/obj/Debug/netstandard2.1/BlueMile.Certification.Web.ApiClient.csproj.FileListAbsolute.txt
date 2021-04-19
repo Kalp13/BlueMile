@@ -1,0 +1,12 @@
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.deps.json
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.csprojAssemblyReference.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.AssemblyInfoInputs.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.AssemblyInfo.cs
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.csproj.CoreCompileInputs.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.csproj.CopyComplete
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Web.ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.pdb

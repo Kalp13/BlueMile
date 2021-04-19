@@ -75,6 +75,18 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand ClearDetailsCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand DisplayPasswordCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -97,6 +109,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.RegisterCommand = new Command(async () =>
             {
                 await Shell.Current.Navigation.PushAsync(new RegisterUserPage());
+            });
+            this.DisplayPasswordCommand = new Command(() =>
+            {
+                this.HidePassword = !this.HidePassword;
             });
         }
 

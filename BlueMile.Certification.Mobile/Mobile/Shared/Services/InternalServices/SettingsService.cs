@@ -90,6 +90,18 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
             }
         }
 
+        public static string UserToken
+        {
+            get
+            {
+                return Preferences.Get(userTokenKey, String.Empty);
+            }
+            set
+            {
+                Preferences.Set(userTokenKey, value);
+            }
+        }
+
         #endregion
 
         #region Class Fields
@@ -101,6 +113,8 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         private const string ownerIdKey = "ownerId_key";
 
         private const string passwordKey = "password_key";
+
+        private const string userTokenKey = "userToken_key";
 
         #endregion
     }

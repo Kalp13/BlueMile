@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Views;
+using BlueMile.Certification.Web.ApiModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -88,6 +89,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand DisplayPasswordCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -125,6 +132,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 await Shell.Current.Navigation.PushAsync(new RegisterUserPage()).ConfigureAwait(false);
             });
+            this.DisplayPasswordCommand = new Command(() =>
+            {
+                this.HidePassword = !this.HidePassword;
+            });
         }
 
         private Task LogUserOut()
@@ -141,10 +152,17 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                var login = await App.ApiService.LogUserIn(this.Username, this.Password).ConfigureAwait(false);
+                var login = await App.ApiService.LogUserIn(new UserLoginModel()
+                {
+                    EmailAddress = this.Username,
+                    Password = this.Password
+                }).ConfigureAwait(false);
+
+                var owner = await App.ApiService.GetOwnerBySystemId(login);
+
                 if (login != null)
                 {
-                    UserDialogs.Instance.Toast("Successfully logged in " + login.Name);
+                    UserDialogs.Instance.Toast($"Successfully logged in {owner.Name} {owner.Surname}");
                 }
             }
             catch (Exception exc)

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "RPETOmnhfM77855ZWZ1JenANwu0dFnW9/ze2IlAQAtKXefuujF5s/I1FRiF2cpLejBRzCsIh96Al21pGGm6aoA==",
+  "dgSpecHash": "vYqZXoU4lYXEbERLlLNEOlNJx9ZiV6X8qadK2AsKBG6+xtuWbK3TRAEzmYhFhWRaK2VJJYVGkoDF20MViEjV9A==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.WASM\\Client\\BlueMile.Certification.WASM.Client.csproj",
   "expectedPackageFiles": [
@@ -33,7 +33,7 @@
     "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.jsinterop.webassembly\\5.0.4\\microsoft.jsinterop.webassembly.5.0.4.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.io.pipelines\\5.0.1\\system.io.pipelines.5.0.1.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\system.net.http.json\\5.0.0\\system.net.http.json.5.0.0.nupkg.sha512",
-    "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.netcore.app.runtime.browser-wasm\\5.0.4\\microsoft.netcore.app.runtime.browser-wasm.5.0.4.nupkg.sha512"
+    "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.netcore.app.runtime.browser-wasm\\5.0.5\\microsoft.netcore.app.runtime.browser-wasm.5.0.5.nupkg.sha512"
   ],
   "logs": []
 }

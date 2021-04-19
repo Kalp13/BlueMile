@@ -19,11 +19,14 @@
                 <Entry Text="{Binding Password}"
                        IsPassword="{Binding HidePassword}"
                        Placeholder="Password"/>
-                <ImageButton Command="{Binding ClearCommand}"/>
+                <ImageButton Command="{Binding DisplayPasswordCommand}"/>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <Button Text="Login"
                         Command="{Binding LoginCommand}"/>
+                <Button Text="Clear Details"
+                        Command="{Binding ClearDetailsCommand}"
+                        HorizontalOptions="Center"/>
                 <Button Text="Register"
                         Command="{Binding RegisterCommand}"/>
             </StackLayout>

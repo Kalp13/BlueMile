@@ -2,7 +2,6 @@
 using BlueMile.Certification.Web.ApiModels;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlueMile.Certification.Mobile.Services.ExternalServices
@@ -11,15 +10,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
     {
         #region Security Methods
 
-        Task<bool> RegisterUser(UserModel user);
+        Task<bool> RegisterUser(UserRegistrationModel userModel);
 
-        Task<UserModel> LogUserIn(string username, string password);
+        Task<Guid> LogUserIn(UserLoginModel userModel);
 
         #endregion
 
         #region Owner Methods
 
-        Task<OwnerMobileModel> GetOwnerByDetails(string username, string password);
+        Task<OwnerMobileModel> GetOwnerBySystemId(Guid ownerId);
 
         Task<Guid> CreateOwner(OwnerMobileModel owner);
 
