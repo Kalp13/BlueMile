@@ -154,6 +154,32 @@
             </param>
             <returns></returns>
         </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.UsersController.#ctor(Microsoft.AspNetCore.Identity.SignInManager{Microsoft.AspNetCore.Identity.IdentityUser},Microsoft.AspNetCore.Identity.UserManager{Microsoft.AspNetCore.Identity.IdentityUser},BlueMile.Certification.WebApi.Services.ILoggerService,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Instantiates a new default instance of the <see cref="T:BlueMile.Certification.WebApi.Api.Controllers.UsersController"/>
+            </summary>
+            <param name="signIn"></param>
+            <param name="manager"></param>
+            <param name="logger"></param>
+            <param name="config"></param>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.UsersController.Register(BlueMile.Certification.Web.ApiModels.UserRegistrationModel)">
+            <summary>
+            Registers a new user with the given properties.
+            </summary>
+            <param name="createUser">
+                The <see cref="!:UserDTO"/> object with the user details to register.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.UsersController.Login(BlueMile.Certification.Web.ApiModels.UserLoginModel)">
+            <summary>
+            Logs the user is with the given details.
+            </summary>
+            <param name="userDTO">
+            </param>
+            <returns></returns>
+        </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.#ctor(BlueMile.Certification.WebApi.Data.ApplicationDbContext)">
             <summary>
             Creates a new instance of <see cref="T:BlueMile.Certification.WebApi.Services.CertificationRepository"/>.

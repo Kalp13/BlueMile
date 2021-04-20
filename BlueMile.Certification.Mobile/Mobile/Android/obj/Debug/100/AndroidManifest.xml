@@ -5,7 +5,7 @@
     Changes to this file may cause incorrect behavior and will be lost if
     the contents are regenerated.
     -->
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.bluemile.certification.mobile" android:installLocation="auto">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.companyname.bluemile.certification.mobile" android:installLocation="preferExternal">
   <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="28" />
   <uses-feature android:name="android.hardware.camera" android:required="false" />
   <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
@@ -18,7 +18,7 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
   <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-  <application android:label="BlueMile.Certification.Mobile.Android" android:theme="@style/MainTheme" android:name="android.app.Application" android:allowBackup="true" android:icon="@mipmap/icon" android:debuggable="true" android:extractNativeLibs="true">
+  <application android:label="BlueMile.Certification.Mobile.Android" android:theme="@style/MainTheme" android:icon="@drawable/bluemile" android:name="android.app.Application" android:allowBackup="true" android:debuggable="true" android:extractNativeLibs="true">
     <activity android:configChanges="orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:icon="@mipmap/icon" android:label="BlueMile.Certification.Mobile" android:theme="@style/MainTheme" android:name="crc64e0052b341385bb98.MainActivity" />
     <activity android:noHistory="true" android:theme="@style/MyTheme.Splash" android:name="crc64e0052b341385bb98.SplashActivity">
       <intent-filter>

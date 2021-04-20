@@ -7,35 +7,31 @@
         <viewModels:RegisterUserViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout>
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="CenterAndExpand">
-                <Label Text="Email"/>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Email" />
                 <Entry Placeholder="Email"
                        IsPassword="False"
                        Text="{Binding Email}"/>
                 <ImageButton Source="clear.png"
                              Command="{Binding ClearCommand}"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Password"/>
                 <Entry Placeholder="Password"
                        IsPassword="{Binding HidePassword}"
                        Text="{Binding Password}"/>
-                <ImageButton Source="{Binding DisplayPasswordCommand}"
-                             Command="{Binding ClearCommand}"/>
+                <ImageButton Source="{Binding}"
+                             Command="{Binding DisplayPasswordCommand}"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal"
-                         HorizontalOptions="CenterAndExpand">
+            <StackLayout Orientation="Horizontal">
                 <Label Text="Confirm Password"/>
                 <Entry Placeholder="Confirm Password"
                        IsPassword="True"
                        Text="{Binding ConfirmPassword}"/>
             </StackLayout>
             <Button Text="Register In"
-                    Command="{Binding RegisterCommand}"
-                    HorizontalOptions="Center"/>
+                    Command="{Binding RegisterCommand}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

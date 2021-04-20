@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
+using BlueMile.Certification.Mobile.Views;
 
 namespace BlueMile.Certification.Mobile
 {
@@ -25,12 +26,12 @@ namespace BlueMile.Certification.Mobile
 
             ApiService = new ServiceCommunication();
 
-            SettingsService.ServiceAddress = @"https://192.168.1.86:55999/BMCocApi";
+            SettingsService.ServiceAddress = @"https://192.168.1.86:5001/api";
 
             AppCenter.Start("android=b2d64ad6-2d95-4ab9-b1c9-434e3d0ed08f;",
                   typeof(Analytics), typeof(Crashes));
 
-            MainPage = new AppShell();
+            MainPage = new LoginPage();
 
             ToastConfig.DefaultActionTextColor = Color.FromHex("#FFFFFF");
             ToastConfig.DefaultBackgroundColor = Color.FromHex("#002EB0");

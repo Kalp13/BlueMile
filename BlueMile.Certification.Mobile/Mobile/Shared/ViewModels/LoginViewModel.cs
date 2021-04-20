@@ -128,9 +128,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 await this.ForgotPassword().ConfigureAwait(false);
             });
-            this.RegisterCommand = new Command(async () =>
+            this.RegisterCommand = new Command(() =>
             {
-                await Shell.Current.Navigation.PushAsync(new RegisterUserPage()).ConfigureAwait(false);
+                App.Current.MainPage = new RegisterUserPage();
             });
             this.DisplayPasswordCommand = new Command(() =>
             {
@@ -152,6 +152,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
+                UserDialogs.Instance.ShowLoading("Logging In...");
                 var login = await App.ApiService.LogUserIn(new UserLoginModel()
                 {
                     EmailAddress = this.Username,
@@ -163,11 +164,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 if (login != null)
                 {
                     UserDialogs.Instance.Toast($"Successfully logged in {owner.Name} {owner.Surname}");
+
+                    App.Current.MainPage = Shell.Current != null ? Shell.Current : new AppShell();
+                }
+                else
+                {
+                    await UserDialogs.Instance.AlertAsync("No user found with the given username and password.", "Log In Failed");
                 }
             }
             catch (Exception exc)
             {
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Log In Error").ConfigureAwait(false);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
             }
         }
 

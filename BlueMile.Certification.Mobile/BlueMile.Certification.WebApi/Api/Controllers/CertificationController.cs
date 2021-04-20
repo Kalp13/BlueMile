@@ -32,7 +32,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// Gets all the active owners in the system.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("owner")]
         public async Task<ActionResult<IEnumerable<OwnerModel>>> GetOwners()
         {
             var owners = await this.certificationRepository.FindAllOwners();
@@ -274,7 +274,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the boat.
         /// </param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("item/{boatId}")]
         public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
         {
             if (boatId == Guid.Empty)
@@ -301,7 +301,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the item.
         /// </param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("item/{id}")]
         public async Task<IActionResult> GetItem(Guid id)
         {
             if (id == Guid.Empty)
@@ -331,8 +331,8 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The details to update the boat with.
         /// </param>
         /// <returns></returns>
-        [HttpPut("boat/update/{id}")]
-        public async Task<IActionResult> UpdateItem(Guid id, UpdateItemModel itemEntity)
+        [HttpPut("item/update/{id}")]
+        public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemModel itemEntity)
         {
             if (id == Guid.Empty)
             {
@@ -356,8 +356,8 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The new boat properties to create with.
         /// </param>
         /// <returns></returns>
-        [HttpPost("boat/create")]
-        public async Task<IActionResult> CreateItem(CreateItemModel itemEntity)
+        [HttpPost("item/create")]
+        public async Task<IActionResult> CreateItem([FromBody] CreateItemModel itemEntity)
         {
             if (itemEntity == null)
             {

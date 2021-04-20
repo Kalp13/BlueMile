@@ -1,7 +1,11 @@
-﻿using BlueMile.Certification.Mobile.Views;
+﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Views;
+using BlueMile.Certification.Web.ApiModels;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -39,13 +43,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         public string ConfirmPassword
         {
-            get { return this.password; }
+            get { return this.confirmPassword; }
             set
             {
-                if (this.password != value)
+                if (this.confirmPassword != value)
                 {
-                    this.password = value;
-                    this.OnPropertyChanged(nameof(this.Password));
+                    this.confirmPassword = value;
+                    this.OnPropertyChanged(nameof(this.ConfirmPassword));
                 }
             }
         }
@@ -93,6 +97,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         public RegisterUserViewModel()
         {
+            this.HidePassword = true;
             this.InitCommands();
         }
 
@@ -108,12 +113,40 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.RegisterCommand = new Command(async () =>
             {
-                await Shell.Current.Navigation.PushAsync(new RegisterUserPage());
+                await this.RegisterUser().ConfigureAwait(false);
             });
             this.DisplayPasswordCommand = new Command(() =>
             {
                 this.HidePassword = !this.HidePassword;
             });
+        }
+
+        private async Task RegisterUser()
+        {
+            try
+            {
+                var register = await App.ApiService.RegisterUser(new UserRegistrationModel()
+                {
+                    EmailAddress = this.Email,
+                    Password = this.Password,
+                    ConfirmPassword = this.ConfirmPassword
+                }).ConfigureAwait(false);
+
+                if (register)
+                {
+                    UserDialogs.Instance.Toast($"Successfully registered with username {this.Email}");
+                    App.Current.MainPage = new LoginPage();
+                }
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Registration Error");
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
         }
 
         #endregion
@@ -125,6 +158,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private string password;
 
         private bool hidePassword;
+        private string confirmPassword;
 
         #endregion
     }
