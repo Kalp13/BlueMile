@@ -268,6 +268,14 @@ namespace BlueMile.Certification.WASM.Server.Controllers
 
         #region Item Methods
 
+        /// <summary>
+        /// Gets list of items with the boat unique identifier given.
+        /// </summary>
+        /// <param name="boatId">
+        ///     The unique identifier of the boat.
+        /// </param>
+        /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
         {
             if (boatId == Guid.Empty)
@@ -287,6 +295,14 @@ namespace BlueMile.Certification.WASM.Server.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets a specific item with the given unique identifier specified.
+        /// </summary>
+        /// <param name="id">
+        ///     The unique identifier of the item.
+        /// </param>
+        /// <returns></returns>
+        [HttpGet]
         public async Task<IActionResult> GetItem(Guid id)
         {
             if (id == Guid.Empty)
@@ -354,6 +370,13 @@ namespace BlueMile.Certification.WASM.Server.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Deletes an item with the given unique identifier.
+        /// </summary>
+        /// <param name="id">
+        ///     The unique identifier of the item.
+        /// </param>
+        /// <returns></returns>
         [HttpDelete("item/delete/{id}")]
         public async Task<IActionResult> DeleteItem(Guid id)
         {

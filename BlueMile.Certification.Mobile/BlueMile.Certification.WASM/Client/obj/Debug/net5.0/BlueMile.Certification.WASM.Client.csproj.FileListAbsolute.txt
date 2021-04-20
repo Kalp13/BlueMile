@@ -435,14 +435,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Clien
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\Razor\_Imports.razor.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\Razor\Shared\MainLayout.razor.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\Razor\Shared\NavMenu.razor.g.cs
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\+I9YYvdJ.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\R5S4Ro8E.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\4Ts1hDTy.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\T+TUKUdk.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\LtNWDPqw.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\l8xe+qKa.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\9RKNrJBc.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\aNFNQaOg.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\AIpokGnq.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\K7LQJAih.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\0iIhFQvJ.gz
@@ -458,8 +450,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Clien
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\vwnjIuY+.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\SnK8dzXD.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\VyWRfmce.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\SMNUcTW6.gz
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\lTMAhp+r.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\wWajqxPo.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\1TlavTEQ.gz
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\BeMGA+Dg.gz
@@ -647,3 +637,13 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Clien
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\serviceworkers\wwwroot\service-worker.js
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\service-worker-assets.js
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\BlueMile.Certification.WASM.Client.csprojAssemblyReference.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\EiLCuDtb.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\Zbh5ApQn.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\+RC+VM84.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\T8B48Zxg.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\W0wgG9lC.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\Q0PVmuwQ.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\GhPMVYTF.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\H+qj3BII.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\3W7LGm6K.gz
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Client\obj\Debug\net5.0\build-gz\mB+79k+I.gz

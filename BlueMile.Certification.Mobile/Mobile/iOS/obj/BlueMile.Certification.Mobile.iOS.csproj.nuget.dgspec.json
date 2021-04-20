@@ -150,10 +150,6 @@
               "target": "Package",
               "version": "[7.1.0.483, )"
             },
-            "IdentityModel": {
-              "target": "Package",
-              "version": "[5.1.0, )"
-            },
             "Microsoft.AppCenter": {
               "target": "Package",
               "version": "[4.2.0, )"

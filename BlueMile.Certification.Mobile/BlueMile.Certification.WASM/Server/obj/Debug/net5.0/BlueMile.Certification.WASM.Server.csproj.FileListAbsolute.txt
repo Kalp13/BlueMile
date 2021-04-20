@@ -120,3 +120,7 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Serve
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Server\obj\Debug\net5.0\ref\BlueMile.Certification.WASM.Server.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Server\obj\Debug\net5.0\BlueMile.Certification.WASM.Server.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Server\obj\Debug\net5.0\BlueMile.Certification.WASM.Server.genruntimeconfig.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Server\bin\Debug\net5.0\BlueMile.Certification.WASM.Server.xml
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Server\bin\Debug\net5.0\Microsoft.AspNetCore.JsonPatch.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Server\bin\Debug\net5.0\Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WASM\Server\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll

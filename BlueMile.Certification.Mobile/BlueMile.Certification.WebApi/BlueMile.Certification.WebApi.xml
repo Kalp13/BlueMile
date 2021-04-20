@@ -1,0 +1,224 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>BlueMile.Certification.WebApi</name>
+    </assembly>
+    <members>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.#ctor(BlueMile.Certification.WebApi.Services.ICertificationRepository)">
+            <summary>
+            Creates a new default instance of <see cref="T:BlueMile.Certification.WebApi.Api.Controllers.CertificationController"/>.
+            </summary>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwners">
+            <summary>
+            Gets all the active owners in the system.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwner(System.Nullable{System.Guid})">
+            <summary>
+            Gets the owner with the corresponding unique identifier.
+            </summary>
+            <param name="id">
+                The unique identifier of the owner to find.
+            </param>
+            <returns>
+                Returns a <see cref="T:BlueMile.Certification.Web.ApiModels.OwnerModel"/> with the given owner identifier.
+            </returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.UpdateOwner(System.Guid,BlueMile.Certification.Web.ApiModels.UpdateOwnerModel)">
+            <summary>
+            Updates an owner with the given unique identifier with the given properties.
+            </summary>
+            <param name="id">
+                The unique identifier of the owner that needs to be updated.
+            </param>
+            <param name="ownerEntity">
+                The owner details to update to.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.CreateOwner(BlueMile.Certification.Web.ApiModels.CreateOwnerModel)">
+            <summary>
+            Creates a new owner with the given details.
+            </summary>
+            <param name="ownerEntity">
+                The <see cref="T:BlueMile.Certification.Web.ApiModels.OwnerModel"/> to create.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.DeleteOwner(System.Nullable{System.Guid})">
+            <summary>
+            Deletes an owner with the given unique identifier.
+            </summary>
+            <param name="id">
+                The unique identifier of the owner.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetBoatsByOwnerId(System.Guid)">
+            <summary>
+            Gets all the boats with the corresponding unique owner identifier.
+            </summary>
+            <param name="ownerId">
+                The unique identifier of the owner.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetBoat(System.Guid)">
+            <summary>
+            Gets a <see cref="T:BlueMile.Certification.Web.ApiModels.BoatModel"/> with the given unique identifier.
+            </summary>
+            <param name="id">
+                The unique identifier of the boat to retrieve.
+            </param>
+            <returns>
+                Returns a <see cref="T:BlueMile.Certification.Web.ApiModels.BoatModel"/> with the given unique identifier.
+            </returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.UpdateBoat(System.Guid,BlueMile.Certification.Web.ApiModels.UpdateBoatModel)">
+            <summary>
+            Updates an existing boat with the corresponsing unique identifier with the given details.
+            </summary>
+            <param name="id">
+                The unique identifier of the boat.
+            </param>
+            <param name="boatEntity">
+                The details to update the boat with.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.CreateBoat(BlueMile.Certification.Web.ApiModels.CreateBoatModel)">
+            <summary>
+            Creates a new boat entity with the given properties.
+            </summary>
+            <param name="boatEntity">
+                The new boat properties to create with.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.DeleteBoat(System.Guid)">
+            <summary>
+            Deletes a boat with the given unique identifier.
+            </summary>
+            <param name="id">
+                The unique identifier of the boat.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetItemsByBoatId(System.Guid)">
+            <summary>
+            Gets list of items with the boat unique identifier given.
+            </summary>
+            <param name="boatId">
+                The unique identifier of the boat.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetItem(System.Guid)">
+            <summary>
+            Gets a specific item with the given unique identifier specified.
+            </summary>
+            <param name="id">
+                The unique identifier of the item.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.UpdateItem(System.Guid,BlueMile.Certification.Web.ApiModels.UpdateItemModel)">
+            <summary>
+            Updates an existing boat with the corresponsing unique identifier with the given details.
+            </summary>
+            <param name="id">
+                The unique identifier of the boat.
+            </param>
+            <param name="itemEntity">
+                The details to update the boat with.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.CreateItem(BlueMile.Certification.Web.ApiModels.CreateItemModel)">
+            <summary>
+            Creates a new boat entity with the given properties.
+            </summary>
+            <param name="itemEntity">
+                The new boat properties to create with.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.DeleteItem(System.Guid)">
+            <summary>
+            Deletes an item with the given unique identifier.
+            </summary>
+            <param name="id">
+                The unique identifier of the item.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.#ctor(BlueMile.Certification.WebApi.Data.ApplicationDbContext)">
+            <summary>
+            Creates a new instance of <see cref="T:BlueMile.Certification.WebApi.Services.CertificationRepository"/>.
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.CreateOwner(BlueMile.Certification.Web.ApiModels.CreateOwnerModel)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DeleteOwner(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DoesOwnerExist(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllOwners">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindOwnerById(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.UpdateOwner(BlueMile.Certification.Web.ApiModels.UpdateOwnerModel)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.CreateBoat(BlueMile.Certification.Web.ApiModels.CreateBoatModel)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DeleteBoat(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DoesBoatExist(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllBoats">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllBoatsByOwnerId(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindBoatById(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.UpdateBoat(BlueMile.Certification.Web.ApiModels.UpdateBoatModel)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.CreateItem(BlueMile.Certification.Web.ApiModels.CreateItemModel)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DeleteItem(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DoesItemExist(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllItems">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindItemById(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindItemsByBoatId(System.Guid)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.UpdateItem(BlueMile.Certification.Web.ApiModels.UpdateItemModel)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>
