@@ -20,7 +20,7 @@ namespace BlueMile.Certification.Data.Models
         /// <summary>
         /// Gets or sets the type of item for the current boat.
         /// </summary>
-        public ItemTypeEnum ItemType { get; set; }
+        public int ItemType { get; set; }
 
         /// <summary>
         /// Gets or sets the serial number of the item.

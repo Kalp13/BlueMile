@@ -16,9 +16,9 @@ namespace BlueMile.Certification.WASM.Server.Services
 
         Task<bool> DoesOwnerExist(Guid ownerId);
 
-        Task<Guid> CreateOwner(OwnerModel entity);
+        Task<Guid> CreateOwner(CreateOwnerModel entity);
 
-        Task<bool> UpdateOwner(OwnerModel entity);
+        Task<bool> UpdateOwner(UpdateOwnerModel entity);
 
         Task<bool> DeleteOwner(Guid entity);
 
@@ -34,9 +34,9 @@ namespace BlueMile.Certification.WASM.Server.Services
 
         Task<bool> DoesBoatExist(Guid boatId);
 
-        Task<Guid> CreateBoat(BoatModel entity);
+        Task<Guid> CreateBoat(CreateBoatModel entity);
 
-        Task<bool> UpdateBoat(BoatModel entity);
+        Task<bool> UpdateBoat(UpdateBoatModel entity);
 
         Task<bool> DeleteBoat(Guid entity);
 
@@ -52,9 +52,9 @@ namespace BlueMile.Certification.WASM.Server.Services
 
         Task<bool> DoesItemExist(Guid id);
 
-        Task<Guid> CreateItem(ItemModel entity);
+        Task<Guid> CreateItem(CreateItemModel entity);
 
-        Task<bool> UpdateItem(ItemModel entity);
+        Task<bool> UpdateItem(UpdateItemModel entity);
 
         Task<bool> DeleteItem(Guid entity);
 

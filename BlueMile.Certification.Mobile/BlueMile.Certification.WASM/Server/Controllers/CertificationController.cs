@@ -60,7 +60,14 @@ namespace BlueMile.Certification.WASM.Server.Controllers
 
             var owner = await this.certificationRepository.FindOwnerById(id.Value);
 
-            return Ok(owner);
+            if (owner != null)
+            {
+                return Ok(owner);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -74,7 +81,7 @@ namespace BlueMile.Certification.WASM.Server.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("owner/update/{id}")]
-        public async Task<IActionResult> UpdateOwner(Guid id, OwnerModel ownerEntity)
+        public async Task<IActionResult> UpdateOwner(Guid id, [FromBody] UpdateOwnerModel ownerEntity)
         {
             if (id == Guid.Empty)
             {
@@ -99,7 +106,7 @@ namespace BlueMile.Certification.WASM.Server.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("owner/create")]
-        public async Task<IActionResult> CreateOwner([FromBody] OwnerModel ownerEntity)
+        public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerModel ownerEntity)
         {
             if (ownerEntity == null)
             {
@@ -151,7 +158,14 @@ namespace BlueMile.Certification.WASM.Server.Controllers
 
             var boats = await this.certificationRepository.FindAllBoatsByOwnerId(ownerId);
 
-            return Ok(boats);
+            if (boats != null && boats.Count > 0)
+            {
+                return Ok(boats);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -171,9 +185,16 @@ namespace BlueMile.Certification.WASM.Server.Controllers
                 throw new ArgumentNullException(nameof(id));
             }
 
-            var boats = await this.certificationRepository.FindBoatById(id);
+            var boat = await this.certificationRepository.FindBoatById(id);
 
-            return Ok(boats);
+            if (boat != null)
+            {
+                return Ok(boat);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         /// <summary>
@@ -187,7 +208,7 @@ namespace BlueMile.Certification.WASM.Server.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("boat/update/{id}")]
-        public async Task<IActionResult> UpdateBoat(Guid id, BoatModel boatEntity)
+        public async Task<IActionResult> UpdateBoat(Guid id, [FromBody] UpdateBoatModel boatEntity)
         {
             if (id == Guid.Empty)
             {
@@ -212,7 +233,7 @@ namespace BlueMile.Certification.WASM.Server.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("boat/create")]
-        public async Task<IActionResult> CreateBoat(BoatModel boatEntity)
+        public async Task<IActionResult> CreateBoat([FromBody] CreateBoatModel boatEntity)
         {
             if (boatEntity == null)
             {
@@ -241,6 +262,116 @@ namespace BlueMile.Certification.WASM.Server.Controllers
 
             var result = await this.certificationRepository.DeleteBoat(id);
             return Ok(result);
+        }
+
+        #endregion
+
+        #region Item Methods
+
+        public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
+        {
+            if (boatId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(boatId));
+            }
+
+            var items = await this.certificationRepository.FindItemsByBoatId(boatId);
+
+            if (items != null && items.Count > 0)
+            {
+                return Ok(items);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        public async Task<IActionResult> GetItem(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            var boat = await this.certificationRepository.FindBoatById(id);
+
+            if (boat != null)
+            {
+                return Ok(boat);
+            }
+            else
+            {
+                return NotFound();
+            }
+        }
+
+        /// <summary>
+        /// Updates an existing boat with the corresponsing unique identifier with the given details.
+        /// </summary>
+        /// <param name="id">
+        ///     The unique identifier of the boat.
+        /// </param>
+        /// <param name="itemEntity">
+        ///     The details to update the boat with.
+        /// </param>
+        /// <returns></returns>
+        [HttpPut("boat/update/{id}")]
+        public async Task<IActionResult> UpdateItem(Guid id, UpdateItemModel itemEntity)
+        {
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            if (itemEntity == null)
+            {
+                throw new ArgumentNullException(nameof(itemEntity));
+            }
+
+            var result = await this.certificationRepository.UpdateItem(itemEntity);
+
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Creates a new boat entity with the given properties.
+        /// </summary>
+        /// <param name="itemEntity">
+        ///     The new boat properties to create with.
+        /// </param>
+        /// <returns></returns>
+        [HttpPost("boat/create")]
+        public async Task<IActionResult> CreateItem(CreateItemModel itemEntity)
+        {
+            if (itemEntity == null)
+            {
+                throw new ArgumentNullException(nameof(itemEntity));
+            }
+
+            var result = await this.certificationRepository.CreateItem(itemEntity);
+
+            return Ok(result);
+        }
+
+        [HttpDelete("item/delete/{id}")]
+        public async Task<IActionResult> DeleteItem(Guid id)
+        {
+            if (id == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+
+            var result = await this.certificationRepository.DeleteItem(id);
+
+            if (result)
+            {
+                return Ok(result);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         #endregion

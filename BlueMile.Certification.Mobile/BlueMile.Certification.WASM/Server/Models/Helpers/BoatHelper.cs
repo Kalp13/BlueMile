@@ -8,7 +8,7 @@ namespace BlueMile.Certification.WASM.Server.Models.Helpers
 {
     public static class BoatHelper
     {
-        public static BoatModel ToCreateBoatData(Web.ApiModels.BoatModel boatModel)
+        public static BoatModel ToCreateBoatData(Web.ApiModels.CreateBoatModel boatModel)
         {
             var boat = new BoatModel()
             {
@@ -24,7 +24,8 @@ namespace BlueMile.Certification.WASM.Server.Models.Helpers
 
             return boat;
         }
-        public static BoatModel ToUpdateBoatData(Web.ApiModels.BoatModel boatModel)
+
+        public static BoatModel ToUpdateBoatData(Web.ApiModels.UpdateBoatModel boatModel)
         {
             var boat = new BoatModel()
             {

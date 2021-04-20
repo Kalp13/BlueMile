@@ -8,7 +8,7 @@ namespace BlueMile.Certification.WASM.Server.Models.Helpers
 {
     public static class OwnerHelper
     {
-        public static OwnerModel ToCreateOwnerModel(Web.ApiModels.OwnerModel model)
+        public static OwnerModel ToCreateOwnerModel(Web.ApiModels.CreateOwnerModel model)
         {
             var owner = new OwnerModel()
             {
@@ -32,7 +32,7 @@ namespace BlueMile.Certification.WASM.Server.Models.Helpers
             return owner;
         }
 
-        public static OwnerModel ToUpdateOwnerModel(Web.ApiModels.OwnerModel ownerModel)
+        public static OwnerModel ToUpdateOwnerModel(Web.ApiModels.UpdateOwnerModel ownerModel)
         {
             var owner = new OwnerModel()
             {

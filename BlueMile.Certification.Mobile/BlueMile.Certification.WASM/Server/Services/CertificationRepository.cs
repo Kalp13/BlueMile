@@ -13,6 +13,10 @@ namespace BlueMile.Certification.WASM.Server.Services
     {
         #region Constructor
 
+        /// <summary>
+        /// Creates a new instance of <see cref="CertificationRepository"/>.
+        /// </summary>
+        /// <param name="dbContext"></param>
         public CertificationRepository(ApplicationDbContext dbContext)
         {
             this.applicationDb = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
@@ -24,7 +28,8 @@ namespace BlueMile.Certification.WASM.Server.Services
 
         #region Owner Methods
 
-        public async Task<Guid> CreateOwner(OwnerModel entity)
+        /// <inheritdoc/>
+        public async Task<Guid> CreateOwner(CreateOwnerModel entity)
         {
             var owner = OwnerHelper.ToCreateOwnerModel(entity);
             await this.applicationDb.Owners.AddAsync(owner);
@@ -34,6 +39,7 @@ namespace BlueMile.Certification.WASM.Server.Services
             return owner.Id;
         }
 
+        /// <inheritdoc/>
         public async Task<bool> DeleteOwner(Guid ownerId)
         {
             if (await this.DoesOwnerExist(ownerId))
@@ -49,6 +55,7 @@ namespace BlueMile.Certification.WASM.Server.Services
             }
         }
 
+        /// <inheritdoc/>
         public async Task<bool> DoesOwnerExist(Guid ownerId)
         {
             var owner = await this.applicationDb.Owners.FindAsync(ownerId);
@@ -56,6 +63,7 @@ namespace BlueMile.Certification.WASM.Server.Services
             return owner != null;
         }
 
+        /// <inheritdoc/>
         public async Task<List<OwnerModel>> FindAllOwners()
         {
             var owners = this.applicationDb.Owners.Where(x => x.IsActive);
@@ -63,6 +71,7 @@ namespace BlueMile.Certification.WASM.Server.Services
             return await owners.Select(y => OwnerHelper.ToApiOwnerModel(y)).ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<OwnerModel> FindOwnerById(Guid ownerId)
         {
             var owner = await this.applicationDb.Owners.FindAsync(ownerId);
@@ -70,18 +79,26 @@ namespace BlueMile.Certification.WASM.Server.Services
             return OwnerHelper.ToApiOwnerModel(owner);
         }
 
-        public async Task<bool> UpdateOwner(OwnerModel entity)
+        /// <inheritdoc/>
+        public Task<bool> UpdateOwner(UpdateOwnerModel entity)
         {
-            this.applicationDb.Owners.Update(OwnerHelper.ToUpdateOwnerModel(entity));
+            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
+            var owner = OwnerHelper.ToUpdateOwnerModel(entity);
+            this.applicationDb.Owners.Update(owner);
 
-            return (await this.applicationDb.SaveChangesAsync()) > 0;
+            var result = this.applicationDb.SaveChanges();
+
+            completionSource.SetResult(result > 0);
+
+            return completionSource.Task;
         }
 
         #endregion
 
         #region Boat Methods
 
-        public async Task<Guid> CreateBoat(BoatModel entity)
+        /// <inheritdoc/>
+        public async Task<Guid> CreateBoat(CreateBoatModel entity)
         {
             var boat = BoatHelper.ToCreateBoatData(entity);
             await this.applicationDb.Boats.AddAsync(boat);
@@ -91,6 +108,7 @@ namespace BlueMile.Certification.WASM.Server.Services
             return boat.Id;
         }
 
+        /// <inheritdoc/>
         public async Task<bool> DeleteBoat(Guid boatId)
         {
             if (await this.DoesBoatExist(boatId))
@@ -106,13 +124,15 @@ namespace BlueMile.Certification.WASM.Server.Services
             }
         }
 
+        /// <inheritdoc/>
         public async Task<bool> DoesBoatExist(Guid boatId)
         {
-            var owner = await this.applicationDb.Boats.FindAsync(boatId);
+            var boat = await this.applicationDb.Boats.FindAsync(boatId);
 
-            return owner != null;
+            return boat != null;
         }
 
+        /// <inheritdoc/>
         public async Task<List<BoatModel>> FindAllBoats()
         {
             var boats = this.applicationDb.Boats.Where(x => x.IsActive);
@@ -120,6 +140,7 @@ namespace BlueMile.Certification.WASM.Server.Services
             return await boats.Select(y => BoatHelper.ToApiBoatModel(y)).ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<List<BoatModel>> FindAllBoatsByOwnerId(Guid ownerId)
         {
             var boats = this.applicationDb.Boats.Where(x => x.IsActive && x.Id == ownerId);
@@ -127,6 +148,7 @@ namespace BlueMile.Certification.WASM.Server.Services
             return await boats.Select(y => BoatHelper.ToApiBoatModel(y)).ToListAsync();
         }
 
+        /// <inheritdoc/>
         public async Task<BoatModel> FindBoatById(Guid boatId)
         {
             var boats = this.applicationDb.Boats.Where(x => x.IsActive && x.Id == boatId);
@@ -134,50 +156,97 @@ namespace BlueMile.Certification.WASM.Server.Services
             return await boats.Select(y => BoatHelper.ToApiBoatModel(y)).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> UpdateBoat(BoatModel entity)
+        /// <inheritdoc/>
+        public Task<bool> UpdateBoat(UpdateBoatModel entity)
         {
-            this.applicationDb.Boats.Update(BoatHelper.ToUpdateBoatData(entity));
+            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
 
-            return (await this.applicationDb.SaveChangesAsync()) > 0;
+            var boat = BoatHelper.ToUpdateBoatData(entity);
+            this.applicationDb.Boats.Update(boat);
+
+            var result = this.applicationDb.SaveChanges();
+
+            completionSource.SetResult(result > 0);
+
+            return completionSource.Task;
         }
 
         #endregion
 
         #region Item Methods
 
-        public Task<Guid> CreateItem(ItemModel entity)
+        /// <inheritdoc/>
+        public async Task<Guid> CreateItem(CreateItemModel entity)
         {
-            throw new NotImplementedException();
+            var item = ItemHelper.ToCreateItemModel(entity);
+            await this.applicationDb.Items.AddAsync(item);
+
+            await this.applicationDb.SaveChangesAsync();
+
+            return item.Id;
         }
 
-        public Task<bool> DeleteItem(Guid entity)
+        /// <inheritdoc/>
+        public async Task<bool> DeleteItem(Guid itemId)
         {
-            throw new NotImplementedException();
+            if (await this.DoesItemExist(itemId))
+            {
+                var item = await this.FindItemById(itemId);
+                this.applicationDb.Items.Remove(ItemHelper.ToItemDataModel(item));
+
+                return (await this.applicationDb.SaveChangesAsync()) > 0;
+            }
+            else
+            {
+                return false;
+            }
         }
 
-        public Task<bool> DoesItemExist(Guid id)
+        /// <inheritdoc/>
+        public async Task<bool> DoesItemExist(Guid id)
         {
-            throw new NotImplementedException();
+            var item = await this.applicationDb.Items.FindAsync(id);
+
+            return item != null;
         }
 
-        public Task<List<ItemModel>> FindAllItems()
+        /// <inheritdoc/>
+        public async Task<List<ItemModel>> FindAllItems()
         {
-            throw new NotImplementedException();
+            var items = await this.applicationDb.Items.Where(x => x.IsActive).ToListAsync();
+
+            return items.Select(x => ItemHelper.ToItemApiModel(x)).ToList();
         }
 
-        public Task<ItemModel> FindItemById(Guid id)
+        /// <inheritdoc/>
+        public async Task<ItemModel> FindItemById(Guid id)
         {
-            throw new NotImplementedException();
+            var item = await this.applicationDb.Items.FindAsync(id);
+
+            return ItemHelper.ToItemApiModel(item);
         }
 
-        public Task<List<ItemModel>> FindItemsByBoatId(Guid boatId)
+        /// <inheritdoc/>
+        public async Task<List<ItemModel>> FindItemsByBoatId(Guid boatId)
         {
-            throw new NotImplementedException();
+            var items = await this.applicationDb.Items.Where(x => x.IsActive && x.BoatId == boatId).ToListAsync();
+
+            return items.Select(x => ItemHelper.ToItemApiModel(x)).ToList();
         }
 
-        public Task<bool> UpdateItem(ItemModel entity)
+        /// <inheritdoc/>
+        public Task<bool> UpdateItem(UpdateItemModel entity)
         {
-            throw new NotImplementedException();
+            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
+
+            var item = ItemHelper.ToUpdateItemModel(entity);
+            this.applicationDb.Items.Update(item);
+
+            var result = this.applicationDb.SaveChanges();
+
+            completionSource.SetResult(result > 0);
+
+            return completionSource.Task;
         }
 
         #endregion
