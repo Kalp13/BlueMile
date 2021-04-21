@@ -659,8 +659,19 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             //var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
             //var _client = new ;
 
+            var httpClientHandler = new HttpClientHandler
+            {
+                ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; },
+
+            };
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
+            HttpClient client = new HttpClient(httpClientHandler, false);
+            client.BaseAddress = new Uri($"{Endpoints.CertificationEndpoint}");
+            client.Timeout = TimeSpan.FromMinutes(30);
+            return client;
+
 #if DEBUG
-            return new HttpClient(DependencyService.Get<IHttpClientHandlerService>().GetInsecureHandler());
+            //return new HttpClient(DependencyService.Get<IHttpClientHandlerService>().GetInsecureHandler());
             //client = new HttpClient();
 #else
             return new HttpClient();
