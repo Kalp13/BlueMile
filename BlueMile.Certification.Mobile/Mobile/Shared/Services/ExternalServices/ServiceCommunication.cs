@@ -47,12 +47,30 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     this.client = this.CreateClient();
                 }
 
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoints.RegisterEndpoint);
+                var request = new HttpRequestMessage(HttpMethod.Post, $@"{SettingsService.UserServiceAddress}/register");
                 request.Content = new StringContent(JsonConvert.SerializeObject(userModel), Encoding.UTF8, "application/json");
                 
                 HttpResponseMessage response = await this.client.SendAsync(request);
 
-                return response.IsSuccessStatusCode;
+                if (response.IsSuccessStatusCode)
+                {
+                    var owner = await this.CreateOwner(new OwnerMobileModel()
+                    {
+                        Email = userModel.EmailAddress,
+                        ContactNumber = userModel.ContactNumber,
+                        Identification = userModel.Identification,
+                        Name = userModel.FirstName,
+                        Surname = userModel.LastName
+                    });
+
+                    SettingsService.OwnerId = owner.ToString();
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {
@@ -60,7 +78,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
-        public async Task<Guid> LogUserIn(UserLoginModel userModel)
+        public async Task<UserToken> LogUserIn(UserLoginModel userModel)
         {
             try
             {
@@ -69,26 +87,23 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     this.client = this.CreateClient();
                 }
 
-                var request = new HttpRequestMessage(HttpMethod.Post, Endpoints.LoginEndpoint);
+                var request = new HttpRequestMessage(HttpMethod.Post, $@"{SettingsService.UserServiceAddress}/login");
                 request.Content = new StringContent(JsonConvert.SerializeObject(userModel), Encoding.UTF8, "application/json");
 
                 HttpResponseMessage response = await this.client.SendAsync(request);
 
                 if (!response.IsSuccessStatusCode)
                 {
-                    return Guid.Empty;
+                    return null;
                 }
 
                 var content = await response.Content.ReadAsStringAsync();
                 var token = JsonConvert.DeserializeObject<UserToken>(content);
-
-                //Store Token
-                SettingsService.UserToken = token.Token;
-                SettingsService.OwnerId = token.OwnerId.ToString();
+                SettingsService.Username = userModel.EmailAddress;
 
                 client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token.Token);
 
-                return token.OwnerId;
+                return token;
             }
             catch (Exception)
             {
@@ -115,6 +130,37 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 }
 
                 Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/get/{ownerId}");
+                HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    var owner = JsonConvert.DeserializeObject<OwnerModel>(content);
+                    return OwnerModelHelper.ToOwnerMobileModel(owner);
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<OwnerMobileModel> GetOwnerByUsername(string username)
+        {
+            try
+            {
+                if (String.IsNullOrWhiteSpace(username))
+                {
+                    throw new ArgumentNullException(nameof(username));
+                }
+
+                if (client == null)
+                {
+                    client = CreateClient();
+                }
+
+                Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/get/{username}");
                 HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
@@ -666,7 +712,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             };
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             HttpClient client = new HttpClient(httpClientHandler, false);
-            client.BaseAddress = new Uri($"{Endpoints.CertificationEndpoint}");
+            client.BaseAddress = new Uri($"{SettingsService.ServiceAddress}");
             client.Timeout = TimeSpan.FromMinutes(30);
             return client;
 

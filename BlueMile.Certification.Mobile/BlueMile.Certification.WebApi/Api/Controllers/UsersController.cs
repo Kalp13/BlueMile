@@ -1,4 +1,5 @@
-﻿using BlueMile.Certification.Web.ApiModels;
+﻿using BlueMile.Certification.Data.Static;
+using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -68,14 +69,14 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 var user = new IdentityUser
                 {
                     Email = username,
-                    UserName = username
+                    UserName = username,
+                    PhoneNumber = createUser.ContactNumber,
                 };
 
                 var result = await this.userManager.CreateAsync(user, password);
 
                 if (!result.Succeeded)
                 {
-                    //this.loggerService.LogError($"{this.GetControllerActionNames()}: User Registration Failed for user: {userDTO.EmailAddress}");
                     foreach (var error in result.Errors)
                     {
                         this.loggerService.LogError($"{this.GetControllerActionNames()}: {error.Code} - {error.Description}");
@@ -84,7 +85,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 }
                 else
                 {
-                    await this.userManager.AddToRoleAsync(user, "Owner");
+                    await this.userManager.AddToRoleAsync(user, Enum.GetName(typeof(UserRoles), UserRoles.Owner));
                     return Ok(new { result.Succeeded });
                 }
             }
@@ -97,7 +98,8 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <summary>
         /// Logs the user is with the given details.
         /// </summary>
-        /// <param name="userDTO">
+        /// <param name="userModel">
+        ///     The user details to log in with.
         /// </param>
         /// <returns></returns>
         [Route("login")]
@@ -119,7 +121,14 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                     var tokenString = await this.GenerateJSONWebToken(user);
                     this.loggerService.LogInfo($"{this.GetControllerActionNames()}: Successfully Authenticated {user.Email}");
 
-                    return Ok(new { token = tokenString });
+                    var roles = await this.userManager.GetRolesAsync(user);
+
+                    return Ok(new UserToken()
+                    { 
+                        Token = tokenString,
+                        Roles = roles.ToArray(),
+                        Username = user.UserName
+                    });
                 }
                 else
                 {

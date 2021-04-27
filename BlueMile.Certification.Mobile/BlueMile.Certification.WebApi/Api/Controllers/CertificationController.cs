@@ -1,5 +1,6 @@
 ﻿using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -33,11 +34,33 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("owner")]
+        [Authorize(Roles = "Administrator")]
         public async Task<ActionResult<IEnumerable<OwnerModel>>> GetOwners()
         {
             var owners = await this.certificationRepository.FindAllOwners();
 
             return Ok(owners);
+        }
+
+        /// <summary>
+        /// Gets a certain owner with the given username.
+        /// </summary>
+        /// <param name="username">
+        ///     The username of the owner to find.
+        /// </param>
+        /// <returns></returns>
+        [HttpGet("owner/{username}")]
+        [Authorize(Roles = "Owner, Administrator")]
+        public async Task<ActionResult<OwnerModel>> GetOwnerByUsername(string username)
+        {
+            if (String.IsNullOrWhiteSpace(username))
+            {
+                throw new ArgumentNullException(nameof(username));
+            }
+
+            var owner = await this.certificationRepository.FindOwnerByUsername(username);
+
+            return Ok(owner);
         }
 
         /// <summary>
@@ -50,6 +73,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     Returns a <see cref="OwnerModel"/> with the given owner identifier.
         /// </returns>
         [HttpGet("owner/get/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> GetOwner(Guid? id)
         {
             if (!id.HasValue)
@@ -80,6 +104,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("owner/update/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> UpdateOwner(Guid id, [FromBody] UpdateOwnerModel ownerEntity)
         {
             if (id == Guid.Empty)
@@ -105,6 +130,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("owner/create")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerModel ownerEntity)
         {
             if (ownerEntity == null)
@@ -125,6 +151,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpDelete("owner/delete/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> DeleteOwner(Guid? id)
         {
             if (!id.HasValue || id.Value == Guid.Empty)
@@ -148,6 +175,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("boat/{ownerId}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> GetBoatsByOwnerId(Guid ownerId)
         {
             if (ownerId == Guid.Empty)
@@ -177,6 +205,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     Returns a <see cref="BoatModel"/> with the given unique identifier.
         /// </returns>
         [HttpGet("boat/get/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> GetBoat(Guid id)
         {
             if (id == Guid.Empty)
@@ -207,6 +236,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("boat/update/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> UpdateBoat(Guid id, [FromBody] UpdateBoatModel boatEntity)
         {
             if (id == Guid.Empty)
@@ -232,6 +262,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("boat/create")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> CreateBoat([FromBody] CreateBoatModel boatEntity)
         {
             if (boatEntity == null)
@@ -252,6 +283,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpDelete("boat/delete/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> DeleteBoat(Guid id)
         {
             if (id == Guid.Empty)
@@ -275,6 +307,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("item/{boatId}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
         {
             if (boatId == Guid.Empty)
@@ -302,6 +335,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("item/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> GetItem(Guid id)
         {
             if (id == Guid.Empty)
@@ -332,6 +366,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut("item/update/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemModel itemEntity)
         {
             if (id == Guid.Empty)
@@ -357,6 +392,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("item/create")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> CreateItem([FromBody] CreateItemModel itemEntity)
         {
             if (itemEntity == null)
@@ -377,6 +413,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpDelete("item/delete/{id}")]
+        [Authorize(Roles = "Owner, Administrator")]
         public async Task<IActionResult> DeleteItem(Guid id)
         {
             if (id == Guid.Empty)

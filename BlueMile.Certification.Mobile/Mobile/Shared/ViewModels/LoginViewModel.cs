@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
 using System;
@@ -153,19 +154,38 @@ namespace BlueMile.Certification.Mobile.ViewModels
             try
             {
                 UserDialogs.Instance.ShowLoading("Logging In...");
-                var login = await App.ApiService.LogUserIn(new UserLoginModel()
+                var userLogin = await App.ApiService.LogUserIn(new UserLoginModel()
                 {
                     EmailAddress = this.Username,
                     Password = this.Password
                 }).ConfigureAwait(false);
 
-                var owner = await App.ApiService.GetOwnerBySystemId(login);
-
-                if (login != null)
+                if (!String.IsNullOrWhiteSpace(userLogin.Token))
                 {
-                    UserDialogs.Instance.Toast($"Successfully logged in {owner.Name} {owner.Surname}");
+                    if (!String.IsNullOrWhiteSpace(userLogin.Username))
+                    {
+                        var owner = await App.ApiService.GetOwnerByUsername(userLogin.Username);
 
-                    App.Current.MainPage = Shell.Current != null ? Shell.Current : new AppShell();
+                        //Store Token
+                        SettingsService.UserToken = userLogin.Token;
+                        SettingsService.Username = userLogin.Username;
+
+                        if (owner != null)
+                        {
+                            SettingsService.OwnerId = owner.SystemId.ToString();
+
+                            UserDialogs.Instance.Toast($"Successfully logged in {owner.Name} {owner.Surname}");
+                        }
+                        else
+                        {
+                            UserDialogs.Instance.Toast($"No owner found for {userLogin.Username}");
+                        }
+                    }
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        App.Current.MainPage = Shell.Current != null ? Shell.Current : new AppShell();
+                    });
                 }
                 else
                 {

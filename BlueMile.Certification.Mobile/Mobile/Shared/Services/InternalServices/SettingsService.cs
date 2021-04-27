@@ -38,7 +38,15 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         {
             get
             {
-                return String.Format(CultureInfo.InvariantCulture, @"{0}/api/Images", ServiceAddress);
+                return String.Format(CultureInfo.InvariantCulture, @"{0}/Images", ServiceAddress);
+            }
+        }
+
+        public static string UserServiceAddress
+        {
+            get
+            {
+                return $"{ServiceAddress}/Users";
             }
         }
 

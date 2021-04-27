@@ -15,41 +15,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
     {
         #region Instance Properties
 
-        public string Email
+        public UserRegistrationModel UserRegistration
         {
-            get { return this.username; }
+            get { return this.userRegistration; }
             set
             {
-                if (this.username != value)
+                if (this.userRegistration != value)
                 {
-                    this.username = value;
-                    this.OnPropertyChanged(nameof(this.Email));
-                }
-            }
-        }
-
-        public string Password
-        {
-            get { return this.password; }
-            set
-            {
-                if (this.password != value)
-                {
-                    this.password = value;
-                    this.OnPropertyChanged(nameof(this.Password));
-                }
-            }
-        }
-
-        public string ConfirmPassword
-        {
-            get { return this.confirmPassword; }
-            set
-            {
-                if (this.confirmPassword != value)
-                {
-                    this.confirmPassword = value;
-                    this.OnPropertyChanged(nameof(this.ConfirmPassword));
+                    this.userRegistration = value;
+                    this.OnPropertyChanged(nameof(this.UserRegistration));
                 }
             }
         }
@@ -125,17 +99,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                var register = await App.ApiService.RegisterUser(new UserRegistrationModel()
-                {
-                    EmailAddress = this.Email,
-                    Password = this.Password,
-                    ConfirmPassword = this.ConfirmPassword
-                }).ConfigureAwait(false);
+                var register = await App.ApiService.RegisterUser(this.UserRegistration).ConfigureAwait(false);
 
                 if (register)
                 {
-                    UserDialogs.Instance.Toast($"Successfully registered with username {this.Email}");
-                    App.Current.MainPage = new LoginPage();
+                    UserDialogs.Instance.Toast($"Successfully registered with username {this.UserRegistration.EmailAddress}");
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        App.Current.MainPage = new LoginPage();
+                    });
                 }
             }
             catch (Exception exc)
@@ -153,12 +125,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private string username;
-
-        private string password;
+        private UserRegistrationModel userRegistration;
 
         private bool hidePassword;
-        private string confirmPassword;
 
         #endregion
     }

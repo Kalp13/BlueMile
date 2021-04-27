@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BlueMile.Certification.Mobile.Views.OwnersPage"
+             xmlns:viewModels="clr-namespace:BlueMile.Certification.Mobile.ViewModels">
+    <ContentPage.BindingContext>
+        <viewModels:OwnersViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <StackLayout>
+            <ListView HorizontalOptions="CenterAndExpand"
+                      VerticalOptions="StartAndExpand"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsRefreshing}"
+                      ItemsSource="{Binding Owners}"
+                      RefreshCommand="{Binding RefreshCommand}"
+                      SelectionMode="Single"
+                      SelectedItem="{Binding SelectedOwner}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical"
+                                         Spacing="2"
+                                         HorizontalOptions="StartAndExpand"
+                                         VerticalOptions="CenterAndExpand">
+                                <StackLayout Orientation="Horizontal"
+                                             Spacing="2"
+                                             HorizontalOptions="CenterAndExpand"
+                                             VerticalOptions="CenterAndExpand">
+                                    <Label Text="{Binding Name}" 
+                                           HorizontalOptions="Start"/>
+                                    <Label Text="{Binding Surname}" 
+                                           HorizontalOptions="Start"/>
+                                </StackLayout>
+                                <Label Text="{Binding Identification}"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

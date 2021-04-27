@@ -15,6 +15,15 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwnerByUsername(System.String)">
+            <summary>
+            Gets a certain owner with the given username.
+            </summary>
+            <param name="username">
+                The username of the owner to find.
+            </param>
+            <returns></returns>
+        </member>
         <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwner(System.Nullable{System.Guid})">
             <summary>
             Gets the owner with the corresponding unique identifier.
@@ -176,7 +185,8 @@
             <summary>
             Logs the user is with the given details.
             </summary>
-            <param name="userDTO">
+            <param name="userModel">
+                The user details to log in with.
             </param>
             <returns></returns>
         </member>
@@ -196,6 +206,9 @@
             <inheritdoc/>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllOwners">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindOwnerByUsername(System.String)">
             <inheritdoc/>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindOwnerById(System.Guid)">

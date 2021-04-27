@@ -14,6 +14,8 @@ namespace BlueMile.Certification.WebApi.Services
 
         Task<OwnerModel> FindOwnerById(Guid ownerId);
 
+        Task<OwnerModel> FindOwnerByUsername(string username);
+
         Task<bool> DoesOwnerExist(Guid ownerId);
 
         Task<Guid> CreateOwner(CreateOwnerModel entity);

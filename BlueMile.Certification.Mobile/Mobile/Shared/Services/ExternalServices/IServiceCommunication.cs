@@ -12,13 +12,15 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         Task<bool> RegisterUser(UserRegistrationModel userModel);
 
-        Task<Guid> LogUserIn(UserLoginModel userModel);
+        Task<UserToken> LogUserIn(UserLoginModel userModel);
 
         #endregion
 
         #region Owner Methods
 
         Task<OwnerMobileModel> GetOwnerBySystemId(Guid ownerId);
+
+        Task<OwnerMobileModel> GetOwnerByUsername(string username);
 
         Task<Guid> CreateOwner(OwnerMobileModel owner);
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BlueMile.Certification.Data.Static;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Threading.Tasks;
 
 namespace BlueMile.Certification.WebApi.Data
@@ -25,29 +27,23 @@ namespace BlueMile.Certification.WebApi.Data
 
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(user, "Administrator").ConfigureAwait(false);
+                    await userManager.AddToRoleAsync(user, Enum.GetName(typeof(UserRoles), UserRoles.Administrator)).ConfigureAwait(false);
                 }
             }
         }
 
         private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            if (!await roleManager.RoleExistsAsync("Administrator"))
+            foreach (var role in Enum.GetNames(typeof(UserRoles)))
             {
-                var role = new IdentityRole
+                if (!await roleManager.RoleExistsAsync(Enum.GetName(typeof(UserRoles), role)))
                 {
-                    Name = "Administrator"
-                };
-                await roleManager.CreateAsync(role);
-            }
-
-            if (!await roleManager.RoleExistsAsync("Owner"))
-            {
-                var role = new IdentityRole
-                {
-                    Name = "Owner"
-                };
-                await roleManager.CreateAsync(role);
+                    var newRole = new IdentityRole
+                    {
+                        Name = Enum.GetName(typeof(UserRoles), role)
+                    };
+                    await roleManager.CreateAsync(newRole);
+                }
             }
         }
     }

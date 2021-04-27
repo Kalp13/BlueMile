@@ -21,7 +21,7 @@
                        Placeholder="Password"/>
                 <ImageButton Command="{Binding DisplayPasswordCommand}"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal">
+            <StackLayout Orientation="Vertical">
                 <Button Text="Login"
                         Command="{Binding LoginCommand}"/>
                 <Button Text="Clear Details"
