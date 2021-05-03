@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.InternalServices;
+using BlueMile.Certification.Web.ApiModels.Helper;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -228,7 +230,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         });
                     }
 
-                    var owner = await App.ApiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
+                    var owner = await App.ApiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
                     if (owner != null)
                     {
                         this.OwnerDetails.IsSynced = true;

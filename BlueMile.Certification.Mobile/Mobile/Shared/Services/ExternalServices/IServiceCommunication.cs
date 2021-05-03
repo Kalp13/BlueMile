@@ -10,7 +10,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
     {
         #region Security Methods
 
-        Task<bool> RegisterUser(UserRegistrationModel userModel);
+        Task<bool> RegisterUser(UserRegistrationModel userModel, OwnerMobileModel ownerModel);
 
         Task<UserToken> LogUserIn(UserLoginModel userModel);
 
@@ -22,9 +22,9 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         Task<OwnerMobileModel> GetOwnerByUsername(string username);
 
-        Task<Guid> CreateOwner(OwnerMobileModel owner);
+        Task<Guid> CreateOwner(CreateOwnerModel owner);
 
-        Task<Guid> UpdateOwner(OwnerMobileModel owner);
+        Task<Guid> UpdateOwner(UpdateOwnerModel owner);
 
         #endregion
 

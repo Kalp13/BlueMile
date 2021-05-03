@@ -1,4 +1,5 @@
-﻿using BlueMile.Certification.Data.Static;
+﻿using BlueMile.Certification.Data.Models;
+using BlueMile.Certification.Data.Static;
 using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -33,8 +34,8 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <param name="manager"></param>
         /// <param name="logger"></param>
         /// <param name="config"></param>
-        public UsersController(SignInManager<IdentityUser> signIn,
-                               UserManager<IdentityUser> manager,
+        public UsersController(SignInManager<ApplicationUser> signIn,
+                               UserManager<ApplicationUser> manager,
                                ILoggerService logger,
                                IConfiguration config)
         {
@@ -66,14 +67,16 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
                 string username = createUser.EmailAddress;
                 string password = createUser.Password;
-                var user = new IdentityUser
+                var user = new ApplicationUser
                 {
+                    OwnerId = createUser.OwnerId,
                     Email = username,
                     UserName = username,
                     PhoneNumber = createUser.ContactNumber,
                 };
 
                 var result = await this.userManager.CreateAsync(user, password);
+                
 
                 if (!result.Succeeded)
                 {
@@ -161,7 +164,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong. Please contact the Administrator.");
         }
 
-        private async Task<string> GenerateJSONWebToken(IdentityUser user)
+        private async Task<string> GenerateJSONWebToken(ApplicationUser user)
         {
             try
             {
@@ -172,7 +175,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 {
                     new Claim(JwtRegisteredClaimNames.Sub, user.Email),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 };
 
                 var roles = await this.userManager.GetRolesAsync(user);
@@ -197,9 +200,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
         #region Instance Fields
 
-        private readonly SignInManager<IdentityUser> signInManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
 
-        private readonly UserManager<IdentityUser> userManager;
+        private readonly UserManager<ApplicationUser> userManager;
 
         private ILoggerService loggerService;
 

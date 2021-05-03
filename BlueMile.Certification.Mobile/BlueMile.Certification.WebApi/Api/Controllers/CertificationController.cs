@@ -130,7 +130,8 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPost("owner/create")]
-        [Authorize(Roles = "Owner, Administrator")]
+        //[Authorize(Roles = "Owner, Administrator")]
+        [AllowAnonymous]
         public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerModel ownerEntity)
         {
             if (ownerEntity == null)

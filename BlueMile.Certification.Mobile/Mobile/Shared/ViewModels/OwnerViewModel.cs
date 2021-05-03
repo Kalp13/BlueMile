@@ -1,8 +1,10 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
+using BlueMile.Certification.Web.ApiModels.Helper;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
@@ -107,7 +109,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!this.CurrentOwner.IsSynced || this.CurrentOwner.SystemId == Guid.Empty)
                 {
-                    var owner = await App.ApiService.CreateOwner(this.CurrentOwner).ConfigureAwait(false);
+                    var owner = await App.ApiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
                     if (owner != null)
                     {
                         this.CurrentOwner.IsSynced = true;
@@ -121,7 +123,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else
                 {
-                    var owner = await App.ApiService.UpdateOwner(this.CurrentOwner).ConfigureAwait(false);
+                    var owner = await App.ApiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
                     if (owner != null)
                     {
                         this.CurrentOwner.IsSynced = true;

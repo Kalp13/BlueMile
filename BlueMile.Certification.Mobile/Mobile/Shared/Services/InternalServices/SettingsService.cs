@@ -14,7 +14,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         {
             get
             {
-                return String.Format(CultureInfo.InvariantCulture, @"{0}/api/Owners", ServiceAddress);
+                return String.Format(CultureInfo.InvariantCulture, @"{0}/Certification/owner", ServiceAddress);
             }
         }
 
@@ -22,7 +22,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         {
             get
             {
-                return String.Format(CultureInfo.InvariantCulture, @"{0}/api/Boats", ServiceAddress);
+                return String.Format(CultureInfo.InvariantCulture, @"{0}/Certification/Boat", ServiceAddress);
             }
         }
 
@@ -30,7 +30,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         {
             get
             {
-                return String.Format(CultureInfo.InvariantCulture, @"{0}/api/Requireditems", ServiceAddress);
+                return String.Format(CultureInfo.InvariantCulture, @"{0}/Certification/item", ServiceAddress);
             }
         }
 
@@ -38,7 +38,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         {
             get
             {
-                return String.Format(CultureInfo.InvariantCulture, @"{0}/Images", ServiceAddress);
+                return String.Format(CultureInfo.InvariantCulture, @"{0}/Certification/image", ServiceAddress);
             }
         }
 

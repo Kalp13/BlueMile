@@ -38,7 +38,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         #region Login Methods
 
-        public async Task<bool> RegisterUser(UserRegistrationModel userModel)
+        public async Task<bool> RegisterUser(UserRegistrationModel userModel, OwnerMobileModel ownerModel)
         {
             try
             {
@@ -47,6 +47,9 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     this.client = this.CreateClient();
                 }
 
+                var ownerId = await this.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(ownerModel)));
+                userModel.OwnerId = ownerId;
+
                 var request = new HttpRequestMessage(HttpMethod.Post, $@"{SettingsService.UserServiceAddress}/register");
                 request.Content = new StringContent(JsonConvert.SerializeObject(userModel), Encoding.UTF8, "application/json");
                 
@@ -54,21 +57,11 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var owner = await this.CreateOwner(new OwnerMobileModel()
-                    {
-                        Email = userModel.EmailAddress,
-                        ContactNumber = userModel.ContactNumber,
-                        Identification = userModel.Identification,
-                        Name = userModel.FirstName,
-                        Surname = userModel.LastName
-                    });
-
-                    SettingsService.OwnerId = owner.ToString();
-
                     return true;
                 }
                 else
                 {
+                    await UserDialogs.Instance.AlertAsync(response.ReasonPhrase, "Registration Failed", "Ok");
                     return false;
                 }
             }
@@ -177,7 +170,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
-        public async Task<Guid> CreateOwner(OwnerMobileModel owner)
+        public async Task<Guid> CreateOwner(CreateOwnerModel owner)
         {
             try
             {
@@ -220,7 +213,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
-        public async Task<Guid> UpdateOwner(OwnerMobileModel owner)
+        public async Task<Guid> UpdateOwner(UpdateOwnerModel owner)
         {
             try
             {
@@ -239,7 +232,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     HttpResponseMessage response = null;
 
-                    Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/update/{owner.Id}");
+                    Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/update/{owner.SystemId}");
                     
                     response = await client.PostAsync(uri, content).ConfigureAwait(false);
 

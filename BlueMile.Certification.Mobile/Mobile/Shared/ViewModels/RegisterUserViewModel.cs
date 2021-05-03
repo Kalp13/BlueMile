@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
 using Microsoft.AppCenter.Crashes;
@@ -15,15 +16,93 @@ namespace BlueMile.Certification.Mobile.ViewModels
     {
         #region Instance Properties
 
-        public UserRegistrationModel UserRegistration
+        public string FirstName
         {
-            get { return this.userRegistration; }
+            get { return this.firstName; }
             set
             {
-                if (this.userRegistration != value)
+                if (this.firstName != value)
                 {
-                    this.userRegistration = value;
-                    this.OnPropertyChanged(nameof(this.UserRegistration));
+                    this.firstName = value;
+                    this.OnPropertyChanged(nameof(this.FirstName));
+                }
+            }
+        }
+
+        public string LastName
+        {
+            get { return this.lastName; }
+            set
+            {
+                if (this.lastName != value)
+                {
+                    this.lastName = value;
+                    this.OnPropertyChanged(nameof(this.LastName));
+                }
+            }
+        }
+
+        public string Identification
+        {
+            get { return this.identification; }
+            set
+            {
+                if (this.identification != value)
+                {
+                    this.identification = value;
+                    this.OnPropertyChanged(nameof(this.Identification));
+                }
+            }
+        }
+
+        public string ContactNumber
+        {
+            get { return this.contactNumber; }
+            set
+            {
+                if (this.contactNumber != value)
+                {
+                    this.contactNumber = value;
+                    this.OnPropertyChanged(nameof(this.ContactNumber));
+                }
+            }
+        }
+
+        public string EmailAddress
+        {
+            get { return this.emailAddress; }
+            set
+            {
+                if (this.emailAddress != value)
+                {
+                    this.emailAddress = value;
+                    this.OnPropertyChanged(nameof(this.EmailAddress));
+                }
+            }
+        }
+
+        public string Password
+        {
+            get { return this.password; }
+            set
+            {
+                if (this.password != value)
+                {
+                    this.password = value;
+                    this.OnPropertyChanged(nameof(this.Password));
+                }
+            }
+        }
+
+        public string ConfirmPassword
+        {
+            get { return this.confirmPassword; }
+            set
+            {
+                if (this.confirmPassword != value)
+                {
+                    this.confirmPassword = value;
+                    this.OnPropertyChanged(nameof(this.ConfirmPassword));
                 }
             }
         }
@@ -99,11 +178,26 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                var register = await App.ApiService.RegisterUser(this.UserRegistration).ConfigureAwait(false);
+                var registration = new UserRegistrationModel()
+                {
+                    EmailAddress = this.EmailAddress,
+                    ConfirmPassword = this.ConfirmPassword,
+                    Password = this.Password,
+                    ContactNumber = this.ContactNumber
+                };
+                var owner = new OwnerMobileModel()
+                {
+                    ContactNumber = this.ContactNumber,
+                    Email = this.EmailAddress,
+                    Identification = this.Identification,
+                    Name = this.FirstName,
+                    Surname = this.LastName,
+                };
+                var register = await App.ApiService.RegisterUser(registration, owner).ConfigureAwait(false);
 
                 if (register)
                 {
-                    UserDialogs.Instance.Toast($"Successfully registered with username {this.UserRegistration.EmailAddress}");
+                    UserDialogs.Instance.Toast($"Successfully registered with username {registration.EmailAddress}");
                     Device.BeginInvokeOnMainThread(() =>
                     {
                         App.Current.MainPage = new LoginPage();
@@ -125,9 +219,17 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #region Instance Fields
 
-        private UserRegistrationModel userRegistration;
-
         private bool hidePassword;
+
+        private string firstName;
+
+        private string lastName;
+
+        private string identification;
+        private string contactNumber;
+        private string emailAddress;
+        private string password;
+        private string confirmPassword;
 
         #endregion
     }

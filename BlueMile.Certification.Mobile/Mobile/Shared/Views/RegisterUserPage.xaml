@@ -12,23 +12,23 @@
             <StackLayout Orientation="Horizontal" 
                              HorizontalOptions="FillAndExpand" 
                              Spacing="3">
-                <Entry Text="{Binding UserRegistrationModel.FirstName, Mode=TwoWay}" 
+                <Entry Text="{Binding FirstName, Mode=TwoWay}" 
                            Keyboard="Text" 
                            Placeholder="Name"
                            TabIndex="1"/>
-                <Entry Text="{Binding UserRegistrationModel.LastName, Mode=TwoWay}" 
+                <Entry Text="{Binding LastName, Mode=TwoWay}" 
                            Keyboard="Text" 
                            Placeholder="Surname"
                            TabIndex="2"/>
             </StackLayout>
             <Label Text="Cell Number"/>
-            <Entry Text="{Binding UserRegistrationModel.ContactNumber, Mode=TwoWay}"
+            <Entry Text="{Binding ContactNumber, Mode=TwoWay}"
                        Keyboard="Telephone"
                        Placeholder="Cell"
                        TabIndex="3"
                        ReturnType="Next"/>
             <Label Text="ID/Passport Number"/>
-            <Entry Text="{Binding UserRegistrationModel.Identification, Mode=TwoWay}"
+            <Entry Text="{Binding Identification, Mode=TwoWay}"
                        Keyboard="Default"
                        Placeholder="ID/Passport Number"
                        TabIndex="5"/>
@@ -36,7 +36,7 @@
                 <Label Text="Email" />
                 <Entry Placeholder="Email"
                        IsPassword="False"
-                       Text="{Binding UserRegistration.EmailAddress}"/>
+                       Text="{Binding EmailAddress}"/>
                 <ImageButton Source="clear.png"
                              Command="{Binding ClearCommand}"/>
             </StackLayout>
@@ -44,7 +44,7 @@
                 <Label Text="Password"/>
                 <Entry Placeholder="Password"
                        IsPassword="{Binding HidePassword}"
-                       Text="{Binding UserRegistration.Password}"/>
+                       Text="{Binding Password}"/>
                 <ImageButton Source="{Binding}"
                              Command="{Binding DisplayPasswordCommand}"/>
             </StackLayout>
@@ -52,7 +52,7 @@
                 <Label Text="Confirm Password"/>
                 <Entry Placeholder="Confirm Password"
                        IsPassword="True"
-                       Text="{Binding UserRegistration.ConfirmPassword}"/>
+                       Text="{Binding ConfirmPassword}"/>
             </StackLayout>
             <Button Text="Register In"
                     Command="{Binding RegisterCommand}"/>

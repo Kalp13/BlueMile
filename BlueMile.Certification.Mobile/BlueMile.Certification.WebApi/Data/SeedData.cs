@@ -34,13 +34,14 @@ namespace BlueMile.Certification.WebApi.Data
 
         private static async Task SeedRoles(RoleManager<IdentityRole> roleManager)
         {
-            foreach (var role in Enum.GetNames(typeof(UserRoles)))
+            foreach (var role in Enum.GetValues(typeof(UserRoles)))
             {
-                if (!await roleManager.RoleExistsAsync(Enum.GetName(typeof(UserRoles), role)))
+                var roleName = Enum.GetName<UserRoles>((UserRoles)role);
+                if (!await roleManager.RoleExistsAsync(roleName))
                 {
                     var newRole = new IdentityRole
                     {
-                        Name = Enum.GetName(typeof(UserRoles), role)
+                        Name = roleName
                     };
                     await roleManager.CreateAsync(newRole);
                 }
