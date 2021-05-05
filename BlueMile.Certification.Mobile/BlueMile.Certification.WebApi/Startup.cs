@@ -1,3 +1,5 @@
+using BlueMile.Certification.Data;
+using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.WebApi.Areas.Identity;
 using BlueMile.Certification.WebApi.Data;
 using BlueMile.Certification.WebApi.Services;
@@ -38,32 +40,56 @@ namespace BlueMile.Certification.WebApi
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
-                    .AddRoles<IdentityRole>()
-                    .AddEntityFrameworkStores<ApplicationDbContext>();
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddCors(x =>
-            {
-                x.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-            });
+            services.AddDbContextFactory<ApplicationDbContext>(
+                options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"),
+                sqlOptions => sqlOptions.CommandTimeout((int)TimeSpan.FromMinutes(2).TotalSeconds).EnableRetryOnFailure(3)),
+                ServiceLifetime.Transient);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
-            {
-                x.TokenValidationParameters = new TokenValidationParameters
+            services.AddDbContext<ApplicationDbContext>(
+                options => options.UseSqlServer(this.Configuration.GetConnectionString("DefaultConnection"),
+                sqlOptions => sqlOptions.CommandTimeout((int)TimeSpan.FromMinutes(2).TotalSeconds).EnableRetryOnFailure(3)),
+                ServiceLifetime.Transient);
+
+            //services.AddDefaultIdentity<ApplicationUser>(/*options => options.SignIn.RequireConfirmedAccount = true*/)
+            //        .AddRoles<ApplicationRole>()
+            //        .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+            services.AddIdentity<ApplicationUser, ApplicationRole>(
+                options =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = Configuration["JWT:Issuer"],
-                    ValidAudience = Configuration["JWT:Issuer"],
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
-                };
-            });
+                    //options.SignIn.RequireConfirmedAccount = true;
+                    options.Lockout.AllowedForNewUsers = true;
+                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                    options.Lockout.MaxFailedAccessAttempts = 5;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddAuthentication();
+
+            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(x =>
+            //{
+            //    x.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuer = true,
+            //        ValidateAudience = true,
+            //        ValidateLifetime = true,
+            //        ValidateIssuerSigningKey = true,
+            //        ValidIssuer = Configuration["JWT:Issuer"],
+            //        ValidAudience = Configuration["JWT:Issuer"],
+            //        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:Key"]))
+            //    };
+            //});
+            services.AddServerSideBlazor();
+            services.AddDatabaseDeveloperPageExceptionFilter();
+            services.AddHttpContextAccessor();
+
+            services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<IdentityUser>>();
 
             services.AddSwaggerGen(c =>
             {
@@ -82,7 +108,9 @@ namespace BlueMile.Certification.WebApi
             services.AddSingleton<ILoggerService, LoggerService>();
             services.AddScoped<ICertificationRepository, CertificationRepository>();
 
-            services.AddControllers();
+            services.AddScoped<IAuditUserProvider, AuditUserProvider>();
+
+            services.AddControllers().AddNewtonsoftJson(op => op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

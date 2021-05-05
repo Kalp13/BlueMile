@@ -1,0 +1,83 @@
+﻿@page "/owners/detail/{Id}"
+
+@inject NavigationManager navigationManager
+
+<h3>View Author Details</h3>
+
+@if (int.Parse(Id) < 1 || string.IsNullOrWhiteSpace(Id))
+{
+    <ErrorMessage Message="Invalid Selection. Please Try Again"/>
+}
+else
+{
+    <LoadingDisplay IsLoading="this.IsLoading">
+        <div class="col-md-6">
+            <table class="table table-responsive">
+                <tr>
+                    <td>Name</td>
+                    <td>@(this.Model.Name + " " + this.Model.Surname)</td>
+                    <td>Identification</td>
+                    <td>@this.Model.Identification</td>
+                </tr>
+                <tr>
+                    <td>Contact Number</td>
+                    <td>@this.Model.ContactNumber</td>
+                    <td>Email</td>
+                    <td>@this.Model.Email</td>
+                </tr>
+                <tr>
+                    <td>Skippers License</td>
+                    <td>@this.Model.SkippersLicenseNumber</td>
+                    <td>VHF License</td>
+                    <td>@this.Model.VhfOperatorsLicense</td>
+                </tr>
+                <tr>
+                    <td>Address</td>
+                    <td>@($"{this.Model.AddressLine1} {this.Model.AddressLine2}<br/>{this.Model.AddressLine3} {this.Model.AddressLine4}<br/>{this.Model.Suburb}<br/>{this.Model.Town}<br/>{this.Model.Province}<br/>{this.Model.Country}<br/>{this.Model.PostalCode}<br/>")</td>
+                </tr>
+                <tr>
+                    <td>VHF License</td>
+                    <td>@this.Model.VhfOperatorsLicense</td>
+                </tr>
+            </table>
+            <br />
+            @*@if (Model.Books == null || this.Model.Count < 1)
+            {
+                <div class="alert alert-dismissible alert-secondary">
+                    No Books for @Model.FirstName @Model.LastName
+                </div>
+            }
+            else
+            {
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h4>Books</h4>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var book in @Model.Books)
+                        {
+                            <li class="list-group-item">@book.Title - @book.Price <a href="/books/details/@book.Id">View</a></li>
+                        }
+                    </ul>
+                </div>
+                <br />
+                <AuthorizeView Roles="Administrator">
+                    <a href="/authors/update/@Model.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                        Edit
+                    </a>
+                    <a href="/authors/delete/@Model.Id" class="btn btn-danger">
+                        <span class="oi oi-delete"></span>
+                        Delete
+                    </a>
+                </AuthorizeView>
+                <br />
+            }*@
+        </div>
+    </LoadingDisplay>
+}
+
+<button @onclick="BackToList" class="btn btn-outline-secondary">
+    <span class="oi oi-media-skip-backward"></span>
+    Back To List
+</button>

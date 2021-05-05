@@ -9,51 +9,52 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical"
                      VerticalOptions="CenterAndExpand">
-            <StackLayout Orientation="Horizontal" 
-                             HorizontalOptions="FillAndExpand" 
-                             Spacing="3">
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="FillAndExpand" 
+                         Spacing="3">
                 <Entry Text="{Binding FirstName, Mode=TwoWay}" 
-                           Keyboard="Text" 
-                           Placeholder="Name"
-                           TabIndex="1"/>
+                       Keyboard="Text"
+                       Placeholder="Name"
+                       TabIndex="1"/>
                 <Entry Text="{Binding LastName, Mode=TwoWay}" 
-                           Keyboard="Text" 
-                           Placeholder="Surname"
-                           TabIndex="2"/>
+                       Keyboard="Text" 
+                       Placeholder="Surname"
+                       TabIndex="2"/>
             </StackLayout>
             <Label Text="Cell Number"/>
             <Entry Text="{Binding ContactNumber, Mode=TwoWay}"
-                       Keyboard="Telephone"
-                       Placeholder="Cell"
-                       TabIndex="3"
-                       ReturnType="Next"/>
+                   Keyboard="Telephone"
+                   Placeholder="Cell"
+                   TabIndex="3"
+                   ReturnType="Next"/>
             <Label Text="ID/Passport Number"/>
             <Entry Text="{Binding Identification, Mode=TwoWay}"
-                       Keyboard="Default"
-                       Placeholder="ID/Passport Number"
-                       TabIndex="5"/>
+                    Keyboard="Default"
+                    Placeholder="ID/Passport Number"
+                    TabIndex="4"/>
+            <Label Text="Email" />
             <StackLayout Orientation="Horizontal">
-                <Label Text="Email" />
                 <Entry Placeholder="Email"
                        IsPassword="False"
+                       TabIndex="5"
                        Text="{Binding EmailAddress}"/>
                 <ImageButton Source="clear.png"
                              Command="{Binding ClearCommand}"/>
             </StackLayout>
+            <Label Text="Password"/>
             <StackLayout Orientation="Horizontal">
-                <Label Text="Password"/>
                 <Entry Placeholder="Password"
+                       TabIndex="6"
                        IsPassword="{Binding HidePassword}"
                        Text="{Binding Password}"/>
                 <ImageButton Source="{Binding}"
                              Command="{Binding DisplayPasswordCommand}"/>
             </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <Label Text="Confirm Password"/>
-                <Entry Placeholder="Confirm Password"
-                       IsPassword="True"
-                       Text="{Binding ConfirmPassword}"/>
-            </StackLayout>
+            <Label Text="Confirm Password"/>
+            <Entry Placeholder="Confirm Password"
+                   TabIndex="7"
+                   IsPassword="True"
+                   Text="{Binding ConfirmPassword}"/>
             <Button Text="Register In"
                     Command="{Binding RegisterCommand}"/>
         </StackLayout>

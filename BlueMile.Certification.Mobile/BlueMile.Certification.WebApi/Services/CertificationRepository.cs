@@ -1,4 +1,5 @@
-﻿using BlueMile.Certification.Web.ApiModels;
+﻿using BlueMile.Certification.Data;
+using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Data;
 using BlueMile.Certification.WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;

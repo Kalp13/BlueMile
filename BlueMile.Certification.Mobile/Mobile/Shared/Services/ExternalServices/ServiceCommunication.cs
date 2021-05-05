@@ -49,21 +49,40 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                 var ownerId = await this.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(ownerModel)));
                 userModel.OwnerId = ownerId;
-
-                var request = new HttpRequestMessage(HttpMethod.Post, $@"{SettingsService.UserServiceAddress}/register");
-                request.Content = new StringContent(JsonConvert.SerializeObject(userModel), Encoding.UTF8, "application/json");
-                
-                HttpResponseMessage response = await this.client.SendAsync(request);
-
-                if (response.IsSuccessStatusCode)
+                var json = JsonConvert.SerializeObject(userModel, typeof(UserRegistrationModel), Formatting.None, null);
+                using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
                 {
-                    return true;
+                    HttpResponseMessage response = null;
+
+                    Uri uri = new Uri($@"{SettingsService.UserServiceAddress}/register");
+
+                    response = await client.PostAsync(uri, content).ConfigureAwait(false);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        await UserDialogs.Instance.AlertAsync(response.ReasonPhrase, "Registration Failed", "Ok");
+                        return false;
+                    }
                 }
-                else
-                {
-                    await UserDialogs.Instance.AlertAsync(response.ReasonPhrase, "Registration Failed", "Ok");
-                    return false;
-                }
+
+                //var request = new HttpRequestMessage(HttpMethod.Post, $@"{SettingsService.UserServiceAddress}/register");
+                //request.Content = new StringContent(JsonConvert.SerializeObject(userModel), Encoding.UTF8, "application/json");
+
+                //HttpResponseMessage response = await this.client.SendAsync(request);
+
+                //if (response.IsSuccessStatusCode)
+                //{
+                //    return true;
+                //}
+                //else
+                //{
+                //    await UserDialogs.Instance.AlertAsync(response.ReasonPhrase, "Registration Failed", "Ok");
+                //    return false;
+                //}
             }
             catch (Exception)
             {
@@ -190,12 +209,13 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/create");
 
-                    response = await client.PostAsync(uri, content).ConfigureAwait(false);
+                    response = await client.PostAsync(uri, content);
 
                     if (response.IsSuccessStatusCode)
                     {
                         var result = await response.Content.ReadAsStringAsync();
-                        return Guid.Parse(result);
+                        var ownerId = JsonConvert.DeserializeObject<Guid>(result);
+                        return ownerId;
                     }
                     else
                     {

@@ -22,11 +22,11 @@ namespace BlueMile.Certification.Mobile
         {
             this.InitializeComponent();
 
+            SettingsService.ServiceAddress = @"https://192.168.1.85:5001/api";
+
             DataService = new DataService();
 
             ApiService = new ServiceCommunication();
-
-            SettingsService.ServiceAddress = @"https://192.168.1.85:5001/api";
 
             AppCenter.Start("android=b2d64ad6-2d95-4ab9-b1c9-434e3d0ed08f;",
                   typeof(Analytics), typeof(Crashes));

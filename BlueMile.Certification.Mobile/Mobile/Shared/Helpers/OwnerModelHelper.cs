@@ -59,10 +59,10 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Surname = owner.Surname,
                 SystemId = owner.SystemId,
                 Town = owner.Town,
-                IcasaPopPhoto = ImageModelHelper.ToImageModel(owner.IcasaPopPhoto),
-                IdentificationDocument = ImageModelHelper.ToImageModel(owner.IdentificationDocument),
+                //IcasaPopPhoto = ImageModelHelper.ToImageModel(owner.IcasaPopPhoto),
+                //IdentificationDocument = ImageModelHelper.ToImageModel(owner.IdentificationDocument),
                 IsSynced = owner.IsSynced,
-                SkippersLicenseImage = ImageModelHelper.ToImageModel(owner.SkippersLicenseImage)
+                //SkippersLicenseImage = ImageModelHelper.ToImageModel(owner.SkippersLicenseImage)
             };
 
             return ownerModel;

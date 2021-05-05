@@ -14,6 +14,14 @@ namespace BlueMile.Certification.Web.ApiModels
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        /// <summary>
+        /// Creates a new default instance of <see cref="UserLoginModel"/>.
+        /// </summary>
+        public UserLoginModel()
+        {
+
+        }
     }
 
     public class UserRegistrationModel
@@ -36,6 +44,14 @@ namespace BlueMile.Certification.Web.ApiModels
         public string ContactNumber { get; set; }
 
         public Guid OwnerId { get; set; }
+
+        /// <summary>
+        /// Creates a new default instance of <see cref="UserRegistrationModel"/>.
+        /// </summary>
+        public UserRegistrationModel()
+        {
+
+        }
     }
 
     public class UserToken

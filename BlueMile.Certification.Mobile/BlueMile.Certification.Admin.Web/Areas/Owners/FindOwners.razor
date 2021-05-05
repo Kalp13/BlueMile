@@ -1,0 +1,83 @@
+﻿@page "/owners/find"
+
+<LoadingDisplay IsLoading="this.IsLoadingPage">
+    <div class="card  card-navheader">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-6">
+                    <div class="mat-subtitle1 mdc-list-item__secondary-text">
+                        <MatIcon Icon="home"></MatIcon>
+                        <span class="breadcrumb-text">
+                            <a href="@($"/")">Home</a>
+                        </span>
+                        <MatIcon Icon="navigate_next"></MatIcon>
+                        <span class="breadcrumb-text">Sales</span>
+                    </div><h3 class="mdc-theme--primary">Find Sellables</h3>
+                </div>
+                <div class="col-6 text-right">
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="card ">
+        <div class="card-body">
+
+            <div class="form-inline p-0 ">
+                <div class="form-row align-middle">
+                    <div class="col-auto align-middle pr-2">
+                        <MatTextField @bind-Value="@this.Filter.SearchTerm" Label="Search Term" Outlined="true"></MatTextField>
+                    </div>
+                    <div class="col-auto align-middle pr-2">
+                        <MatButton Type="button" OnClick="@this.LoadData" Outlined="true" Icon="search">Search</MatButton>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+            @if (Results == null)
+            {
+                <p><em>Loading...</em></p>
+            }
+            else
+            {
+
+        <LoadingDisplay IsLoading="IsPaging">
+            <MatTable Items="@this.Results.Items" PageSize="@this.Filter.PageSize" ShowPaging="false" LoadInitialData="false">
+                <MatTableHeader>
+                    <th>Name & Surname</th>
+                    <th>Identification</th>
+                    <th>Contact Number</th>
+                    <th>Email</th>
+                    <th>Skippers License</th>
+                    <th>VHF License</th>
+                </MatTableHeader>
+                <MatTableRow>
+                    <td>
+                        <a href="/owners/detail/@context.SystemId">@context.Name @context.Surname</a>
+                    </td>
+                    <td>
+                        @context.Identification
+                    </td>
+                    <td>
+                        @context.ContactNumber
+                    </td>
+
+                    <td>
+                        @context.Email
+                    </td>
+                    <td>
+                        @context.SkippersLicenseNumber
+                    </td>
+                    <td>
+                        @context.VhfOperatorsLicense
+                    </td>
+                </MatTableRow>
+            </MatTable>
+        </LoadingDisplay>
+                <MatPaginator Page="@this.OnPageData" PageSize="this.Filter.PageSize" Length="@((int)this.Results.Total)"></MatPaginator>
+            }
+        </div>
+    </div>
+</LoadingDisplay>

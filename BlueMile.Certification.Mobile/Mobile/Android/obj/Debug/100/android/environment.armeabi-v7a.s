@@ -23,8 +23,8 @@
 	.section	.rodata.env.str.1,"aMS",%progbits,1
 	.type	.L.env.str.1, %object
 .L.env.str.1:
-	.asciz	"com.companyname.bluemile.certification.mobile"
-	.size	.L.env.str.1, 46
+	.asciz	"com.bluemile.certification.mobile"
+	.size	.L.env.str.1, 34
 	.section	.data.application_config,"aw",%progbits
 	.type	application_config, %object
 	.p2align	2
@@ -92,7 +92,7 @@ mono_aot_mode_name:
 	.section	.rodata.env.str.8,"aMS",%progbits,1
 	.type	.L.env.str.8, %object
 .L.env.str.8:
-	.asciz	"9725cdab-ffac-4e4a-914f-7dd1f6eabe14"
+	.asciz	"4e62a8dc-6d65-4266-994a-27b23be4f987"
 	.size	.L.env.str.8, 37
 	.section	.rodata.env.str.9,"aMS",%progbits,1
 	.type	.L.env.str.9, %object

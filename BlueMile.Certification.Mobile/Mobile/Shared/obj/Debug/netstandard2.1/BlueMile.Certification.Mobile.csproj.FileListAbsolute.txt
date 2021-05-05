@@ -17,6 +17,7 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\LoginPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\NewItemPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\OwnerPage.xaml.g.cs
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\OwnersPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\RegisterUserPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\RequiredItemsPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.AssemblyInfoInputs.cache
@@ -27,4 +28,3 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\ref\BlueMile.Certification.Mobile.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.pdb
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\OwnersPage.xaml.g.cs
