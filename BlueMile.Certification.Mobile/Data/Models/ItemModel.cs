@@ -5,17 +5,19 @@ using BlueMile.Certification.Data.Static;
 
 namespace BlueMile.Certification.Data.Models
 {
-    public class ItemModel
+    public class ItemModel : IBaseDbEntity
     {
         /// <summary>
-        /// Gets or sets the primary unique identifier for a <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the primary unique identifier for a <see cref="ItemModel"/>.
         /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique indexed foreign key to the <see cref="BoatEntity"/> for this <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the unique indexed foreign key to the <see cref="BoatModel"/> for this <see cref="ItemModel"/>.
         /// </summary>
         public Guid BoatId { get; set; }
+
+        public BoatModel Boat { get; set; }
 
         /// <summary>
         /// Gets or sets the type of item for the current boat.
@@ -47,10 +49,23 @@ namespace BlueMile.Certification.Data.Models
         /// </summary>
         public Guid ItemImageId { get; set; }
 
+        #region IBaseDbEntity Implementation
+
+        /// <inheritdoc/>
         public DateTime CreatedOn { get; set; }
 
+        /// <inheritdoc/>
         public DateTime ModifiedOn { get; set; }
 
+        /// <inheritdoc/>
+        public string CreatedBy { get; set; }
+
+        /// <inheritdoc/>
+        public string ModifiedBy { get; set; }
+
+        /// <inheritdoc/>
         public bool IsActive { get; set; }
+
+        #endregion
     }
 }

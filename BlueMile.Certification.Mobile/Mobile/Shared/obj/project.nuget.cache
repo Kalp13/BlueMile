@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "hjsn6k+k/3IJbWclydBux+PQ+t1GxiVehY5N23NdZb/EFLTldeKgsrhOVgmIKPR1MNUF7i8YH2sLVnkbRPl1fQ==",
+  "dgSpecHash": "FuZ4/toISiz4e3C4JL7YVPydNK8KbqBVZMgIlltJeAiYGk/1qn5PvYMBwFJYSYPejfLyKZrembXB3Km1Rwa4VQ==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Mobile\\Shared\\BlueMile.Certification.Mobile.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Rudolph\\.nuget\\packages\\acr.userdialogs\\7.1.0.483\\acr.userdialogs.7.1.0.483.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\acr.userdialogs\\7.1.0.514\\acr.userdialogs.7.1.0.514.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.appcenter\\4.2.0\\microsoft.appcenter.4.2.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.appcenter.analytics\\4.2.0\\microsoft.appcenter.analytics.4.2.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.appcenter.crashes\\4.2.0\\microsoft.appcenter.crashes.4.2.0.nupkg.sha512",

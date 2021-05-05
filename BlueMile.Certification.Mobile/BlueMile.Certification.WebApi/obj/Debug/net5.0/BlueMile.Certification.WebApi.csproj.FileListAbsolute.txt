@@ -118,3 +118,4 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\ref\BlueMile.Certification.WebApi.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.genruntimeconfig.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\bin\Debug\net5.0\System.Private.ServiceModel.dll

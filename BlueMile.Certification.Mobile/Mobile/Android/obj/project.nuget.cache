@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "t5y8Lu3NXSyGwAy4OdVj4+AyIfufBGlgnExPL/ERi/xdnjuoPsYOGezAyurDiDzaqosJ38MCRAwnrojff0M/gA==",
+  "dgSpecHash": "eIglQfUnk7MVSZkYx8mEMy1rNmjXN42pOl9fFTLveAsovK0GCIOQTtHbZjnqxanRzu4NbWFd2u6aUTuxUuKGPQ==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Mobile\\Android\\BlueMile.Certification.Mobile.Android.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Rudolph\\.nuget\\packages\\acr.userdialogs\\7.1.0.483\\acr.userdialogs.7.1.0.483.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\acr.userdialogs\\7.1.0.514\\acr.userdialogs.7.1.0.514.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\andhud\\1.4.2\\andhud.1.4.2.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\fastandroidcamera\\2.0.0\\fastandroidcamera.2.0.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\microsoft.appcenter\\4.2.0\\microsoft.appcenter.4.2.0.nupkg.sha512",

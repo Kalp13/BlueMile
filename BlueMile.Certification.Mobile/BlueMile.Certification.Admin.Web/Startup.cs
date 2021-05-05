@@ -42,8 +42,6 @@ namespace BlueMile.Certification.Admin.Web
                 config.MaximumOpacity = 95;
                 config.VisibleStateDuration = 3000;
             });
-
-            services.AddSingleton<WeatherForecastService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

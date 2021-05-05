@@ -9,7 +9,7 @@
     ".NETStandard,Version=v2.1/": {
       "BlueMile.Certification.Mobile/1.0.0": {
         "dependencies": {
-          "Acr.UserDialogs": "7.1.0.483",
+          "Acr.UserDialogs": "7.1.0.514",
           "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "Microsoft.AppCenter": "4.2.0",
           "Microsoft.AppCenter.Analytics": "4.2.0",
@@ -27,11 +27,11 @@
           "BlueMile.Certification.Mobile.dll": {}
         }
       },
-      "Acr.UserDialogs/7.1.0.483": {
+      "Acr.UserDialogs/7.1.0.514": {
         "runtime": {
           "lib/netstandard2.0/Acr.UserDialogs.dll": {
-            "assemblyVersion": "7.1.0.483",
-            "fileVersion": "7.1.0.483"
+            "assemblyVersion": "7.1.0.514",
+            "fileVersion": "7.1.0.514"
           }
         }
       },
@@ -687,12 +687,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Acr.UserDialogs/7.1.0.483": {
+    "Acr.UserDialogs/7.1.0.514": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Uoo7ZcrHl9SN3M05A5/e3qwUcR7lFhgsSI+7HaVSPnIQcectHNrERJbLoV8HLjDJc+0/3t3tfinxDHu/e2fiMw==",
-      "path": "acr.userdialogs/7.1.0.483",
-      "hashPath": "acr.userdialogs.7.1.0.483.nupkg.sha512"
+      "sha512": "sha512-jSjxoOtwS4qHXRpRJxt5anCwRxga+RK22N0w/hR4wLwmxfVBv7eVHX+BsMYFF/Qe6SJGO5dJDcIyh/7+gbEkCA==",
+      "path": "acr.userdialogs/7.1.0.514",
+      "hashPath": "acr.userdialogs.7.1.0.514.nupkg.sha512"
     },
     "Microsoft.AppCenter/4.2.0": {
       "type": "package",

@@ -1,29 +1,22 @@
 using BlueMile.Certification.Data;
 using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.WebApi.Areas.Identity;
-using BlueMile.Certification.WebApi.Data;
 using BlueMile.Certification.WebApi.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BlueMile.Certification.WebApi
 {
@@ -58,17 +51,18 @@ namespace BlueMile.Certification.WebApi
             //        .AddRoles<ApplicationRole>()
             //        .AddEntityFrameworkStores<ApplicationDbContext>();
 
-
-            services.AddIdentity<ApplicationUser, ApplicationRole>(
-                options =>
+            services
+                .AddDefaultIdentity<ApplicationUser>(options =>
                 {
-                    //options.SignIn.RequireConfirmedAccount = true;
-                    options.Lockout.AllowedForNewUsers = true;
-                    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-                    options.Lockout.MaxFailedAccessAttempts = 5;
+                    options.SignIn.RequireConfirmedAccount = false;
                 })
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services
+              .AddDataProtection()
+              .PersistKeysToDbContext<ApplicationDbContext>()
+              .SetApplicationName("BlueMile.Certification");
 
             services.AddAuthentication();
 
@@ -115,9 +109,7 @@ namespace BlueMile.Certification.WebApi
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
-                              IWebHostEnvironment env,
-                              UserManager<IdentityUser> userManager,
-                              RoleManager<IdentityRole> roleManager)
+                              IWebHostEnvironment env)
         {
             using (var servicescope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
@@ -147,8 +139,6 @@ namespace BlueMile.Certification.WebApi
             app.UseHttpsRedirection();
 
             app.UseCors("CorsPolicy");
-
-            SeedData.Seed(userManager, roleManager).Wait();
 
             app.UseRouting();
 

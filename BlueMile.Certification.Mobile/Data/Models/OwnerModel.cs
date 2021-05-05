@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BlueMile.Certification.Data.Models
 {
-    public class OwnerModel
+    public class OwnerModel : IBaseDbEntity
     {
         public Guid Id { get; set; }
 
@@ -34,10 +35,38 @@ namespace BlueMile.Certification.Data.Models
 
         public string PostalCode { get; set; }
 
+        /// <summary>
+        /// Gets or sets the collection of <see cref="BoatModel"/>s
+        /// associated to the current <see cref="OwnerModel"/>.
+        /// </summary>		
+        public ICollection<BoatModel> Boats { get; set; }
+
+        #region Constructor
+
+        public OwnerModel()
+        {
+
+        }
+
+        #endregion
+
+        #region IBaseDbEntity Implementation
+
+        /// <inheritdoc/>
         public DateTime CreatedOn { get; set; }
 
+        /// <inheritdoc/>
         public DateTime ModifiedOn { get; set; }
 
+        /// <inheritdoc/>
+        public string CreatedBy { get; set; }
+
+        /// <inheritdoc/>
+        public string ModifiedBy { get; set; }
+
+        /// <inheritdoc/>
         public bool IsActive { get; set; }
+
+        #endregion
     }
 }

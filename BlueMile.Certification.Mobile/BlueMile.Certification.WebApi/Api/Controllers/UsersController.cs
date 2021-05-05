@@ -1,4 +1,5 @@
-﻿using BlueMile.Certification.Data.Models;
+﻿using BlueMile.Certification.Data;
+using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.Data.Static;
 using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Services;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -34,13 +36,15 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <param name="config"></param>
         public UsersController(SignInManager<ApplicationUser> signIn,
                                UserManager<ApplicationUser> manager,
+                               IDbContextFactory<ApplicationDbContext> dbFactory,
                                ILoggerService logger,
                                IConfiguration config)
         {
-            this.loggerService = logger;
-            this.signInManager = signIn;
-            this.userManager = manager;
-            this.configuration = config;
+            this.loggerService = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.signInManager = signIn ?? throw new ArgumentNullException(nameof(signIn));
+            this.userManager = manager ?? throw new ArgumentNullException(nameof(manager));
+            this.configuration = config ?? throw new ArgumentNullException(nameof(config));
+            this.dbFactory = dbFactory ?? throw new ArgumentNullException(nameof(dbFactory));
         }
 
         #endregion
@@ -62,6 +66,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
             try
             {
                 this.loggerService.LogInfo($"{this.GetControllerActionNames()}: Login Attempt from user {createUser.EmailAddress}");
+                using ApplicationDbContext dbContext = this.dbFactory.CreateDbContext();
 
                 string username = createUser.EmailAddress;
                 string password = createUser.Password;
@@ -74,7 +79,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 };
 
                 var result = await this.userManager.CreateAsync(user, password);
-                
 
                 if (!result.Succeeded)
                 {
@@ -86,7 +90,10 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 }
                 else
                 {
-                    await this.userManager.AddToRoleAsync(user, Enum.GetName(typeof(UserRoles), UserRoles.Owner));
+                    user = await this.userManager.FindByNameAsync(user.UserName);
+                    dbContext.UserRoles.Add(new IdentityUserRole<Guid>() { RoleId = ApplicationRoleIdentifiers.OwnerUser, UserId = user.Id });
+
+                    await dbContext.SaveChangesAsync();
                     return Ok(new { result.Succeeded });
                 }
             }
@@ -205,6 +212,11 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         private ILoggerService loggerService;
 
         private IConfiguration configuration;
+
+        /// <summary>
+        /// Provides access to the underlying data store.
+        /// </summary>
+        private IDbContextFactory<ApplicationDbContext> dbFactory;
 
         #endregion
     }

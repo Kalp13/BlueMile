@@ -2,7 +2,7 @@
   "version": 3,
   "targets": {
     "MonoAndroid,Version=v10.0": {
-      "Acr.UserDialogs/7.1.0.483": {
+      "Acr.UserDialogs/7.1.0.514": {
         "type": "package",
         "dependencies": {
           "AndHUD": "1.4.2",
@@ -1335,7 +1335,7 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
-          "Acr.UserDialogs": "7.1.0.483",
+          "Acr.UserDialogs": "7.1.0.514",
           "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "Microsoft.AppCenter": "4.2.0",
           "Microsoft.AppCenter.Analytics": "4.2.0",
@@ -1372,14 +1372,14 @@
     }
   },
   "libraries": {
-    "Acr.UserDialogs/7.1.0.483": {
-      "sha512": "Uoo7ZcrHl9SN3M05A5/e3qwUcR7lFhgsSI+7HaVSPnIQcectHNrERJbLoV8HLjDJc+0/3t3tfinxDHu/e2fiMw==",
+    "Acr.UserDialogs/7.1.0.514": {
+      "sha512": "jSjxoOtwS4qHXRpRJxt5anCwRxga+RK22N0w/hR4wLwmxfVBv7eVHX+BsMYFF/Qe6SJGO5dJDcIyh/7+gbEkCA==",
       "type": "package",
-      "path": "acr.userdialogs/7.1.0.483",
+      "path": "acr.userdialogs/7.1.0.514",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
-        "acr.userdialogs.7.1.0.483.nupkg.sha512",
+        "acr.userdialogs.7.1.0.514.nupkg.sha512",
         "acr.userdialogs.nuspec",
         "lib/monoandroid10.0/Acr.UserDialogs.dll",
         "lib/monoandroid10.0/Acr.UserDialogs.pdb",
@@ -3144,7 +3144,7 @@
   },
   "projectFileDependencyGroups": {
     "MonoAndroid,Version=v10.0": [
-      "Acr.UserDialogs >= 7.1.0.483",
+      "Acr.UserDialogs >= 7.1.0.514",
       "BlueMile.Certification.Mobile >= 1.0.0",
       "Microsoft.AppCenter >= 4.2.0",
       "Microsoft.AppCenter.Analytics >= 4.2.0",
@@ -3206,7 +3206,7 @@
         "dependencies": {
           "Acr.UserDialogs": {
             "target": "Package",
-            "version": "[7.1.0.483, )"
+            "version": "[7.1.0.514, )"
           },
           "Microsoft.AppCenter": {
             "target": "Package",
