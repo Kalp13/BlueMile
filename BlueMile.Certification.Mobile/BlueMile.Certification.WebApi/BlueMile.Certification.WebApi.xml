@@ -24,7 +24,7 @@
             </param>
             <returns></returns>
         </member>
-        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwner(System.Nullable{System.Guid})">
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwner(System.String)">
             <summary>
             Gets the owner with the corresponding unique identifier.
             </summary>

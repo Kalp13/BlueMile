@@ -1,6 +1,8 @@
-﻿using BlueMile.Certification.Web.ApiModels;
+﻿using BlueMile.Certification.Data.Static;
+using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,9 @@ using System.Threading.Tasks;
 namespace BlueMile.Certification.WebApi.Api.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public class CertificationController : ControllerBase
     {
         #region Constructor
@@ -33,8 +37,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// Gets all the active owners in the system.
         /// </summary>
         /// <returns></returns>
-        [HttpGet("owner")]
-        [Authorize(Roles = "Administrator")]
+        [HttpGet]
+        [Route("owner")]
+        [Authorize(Roles = nameof(UserRoles.Owner))]
         public async Task<ActionResult<IEnumerable<OwnerModel>>> GetOwners()
         {
             var owners = await this.certificationRepository.FindAllOwners();
@@ -49,8 +54,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The username of the owner to find.
         /// </param>
         /// <returns></returns>
-        [HttpGet("owner/{username}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpGet]
+        [Route("owner/get/{username}")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<ActionResult<OwnerModel>> GetOwnerByUsername(string username)
         {
             if (String.IsNullOrWhiteSpace(username))
@@ -72,16 +78,17 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns>
         ///     Returns a <see cref="OwnerModel"/> with the given owner identifier.
         /// </returns>
-        [HttpGet("owner/get/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
-        public async Task<IActionResult> GetOwner(Guid? id)
+        [HttpGet]
+        [Route("owner/{id}")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        public async Task<IActionResult> GetOwner(string id)
         {
-            if (!id.HasValue)
+            if (String.IsNullOrWhiteSpace(id))
             {
                 throw new ArgumentNullException(nameof(id));
             }
 
-            var owner = await this.certificationRepository.FindOwnerById(id.Value);
+            var owner = await this.certificationRepository.FindOwnerById(Guid.Parse(id));
 
             if (owner != null)
             {
@@ -103,8 +110,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The owner details to update to.
         /// </param>
         /// <returns></returns>
-        [HttpPut("owner/update/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpPut]
+        [Route("owner/update/{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateOwner(Guid id, [FromBody] UpdateOwnerModel ownerEntity)
         {
             if (id == Guid.Empty)
@@ -129,8 +137,8 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The <see cref="OwnerModel"/> to create.
         /// </param>
         /// <returns></returns>
-        [HttpPost("owner/create")]
-        //[Authorize(Roles = "Owner, Administrator")]
+        [HttpPost]
+        [Route("owner/create")]
         [AllowAnonymous]
         public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerModel ownerEntity)
         {
@@ -151,8 +159,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the owner.
         /// </param>
         /// <returns></returns>
-        [HttpDelete("owner/delete/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpDelete]
+        [Route("owner/delete/{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteOwner(Guid? id)
         {
             if (!id.HasValue || id.Value == Guid.Empty)
@@ -175,8 +184,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the owner.
         /// </param>
         /// <returns></returns>
-        [HttpGet("boat/{ownerId}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpGet]
+        [Route("boat/{ownerId}")]
+        [Authorize/*(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))*/]
         public async Task<IActionResult> GetBoatsByOwnerId(Guid ownerId)
         {
             if (ownerId == Guid.Empty)
@@ -205,8 +215,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns>
         ///     Returns a <see cref="BoatModel"/> with the given unique identifier.
         /// </returns>
-        [HttpGet("boat/get/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpGet]
+        [Route("boat/get/{id}")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<IActionResult> GetBoat(Guid id)
         {
             if (id == Guid.Empty)
@@ -236,8 +247,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The details to update the boat with.
         /// </param>
         /// <returns></returns>
-        [HttpPut("boat/update/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpPut]
+        [Route("boat/update/{id}")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<IActionResult> UpdateBoat(Guid id, [FromBody] UpdateBoatModel boatEntity)
         {
             if (id == Guid.Empty)
@@ -262,8 +274,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The new boat properties to create with.
         /// </param>
         /// <returns></returns>
-        [HttpPost("boat/create")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpPost]
+        [Route("boat/create")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<IActionResult> CreateBoat([FromBody] CreateBoatModel boatEntity)
         {
             if (boatEntity == null)
@@ -283,8 +296,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the boat.
         /// </param>
         /// <returns></returns>
-        [HttpDelete("boat/delete/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpDelete]
+        [Route("boat/delete/{id}")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<IActionResult> DeleteBoat(Guid id)
         {
             if (id == Guid.Empty)
@@ -307,8 +321,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the boat.
         /// </param>
         /// <returns></returns>
-        [HttpGet("item/{boatId}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpGet]
+        [Route("item/{boatId}")]
+        [Authorize/*(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))*/]
         public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
         {
             if (boatId == Guid.Empty)
@@ -335,8 +350,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the item.
         /// </param>
         /// <returns></returns>
-        [HttpGet("item/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpGet]
+        [Route("item/{id}")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<IActionResult> GetItem(Guid id)
         {
             if (id == Guid.Empty)
@@ -366,8 +382,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The details to update the boat with.
         /// </param>
         /// <returns></returns>
-        [HttpPut("item/update/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpPut]
+        [Route("item/update/{id}")]
+        [Authorize/*(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))*/]
         public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemModel itemEntity)
         {
             if (id == Guid.Empty)
@@ -392,8 +409,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The new boat properties to create with.
         /// </param>
         /// <returns></returns>
-        [HttpPost("item/create")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpPost]
+        [Route("item/create")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<IActionResult> CreateItem([FromBody] CreateItemModel itemEntity)
         {
             if (itemEntity == null)
@@ -413,8 +431,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the item.
         /// </param>
         /// <returns></returns>
-        [HttpDelete("item/delete/{id}")]
-        [Authorize(Roles = "Owner, Administrator")]
+        [HttpDelete]
+        [Route("item/delete/{id}")]
+        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
         public async Task<IActionResult> DeleteItem(Guid id)
         {
             if (id == Guid.Empty)

@@ -24,6 +24,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.username = value;
                     this.OnPropertyChanged(nameof(this.Username));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -37,6 +38,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.password = value;
                     this.OnPropertyChanged(nameof(this.Password));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -115,7 +117,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Logging In...");
                 await this.LogUserIn().ConfigureAwait(false);
-            });
+            }, () => (!String.IsNullOrWhiteSpace(this.Username) && !String.IsNullOrWhiteSpace(this.Password)));
             this.LogoutCommand = new Command(async () =>
             {
                 await this.LogUserOut().ConfigureAwait(false);
@@ -162,29 +164,22 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (!String.IsNullOrWhiteSpace(userLogin.Token))
                 {
-                    if (!String.IsNullOrWhiteSpace(userLogin.Username))
-                    {
-                        var owner = await App.ApiService.GetOwnerByUsername(userLogin.Username);
+                    SettingsService.UserToken = userLogin.Token;
+                    SettingsService.Username = userLogin.Username;
 
-                        //Store Token
-                        SettingsService.UserToken = userLogin.Token;
-                        SettingsService.Username = userLogin.Username;
+                    SettingsService.OwnerId = userLogin.OwnerId.ToString();
 
-                        if (owner != null)
-                        {
-                            SettingsService.OwnerId = owner.SystemId.ToString();
+                    UserDialogs.Instance.Toast($"Successfully logged in {userLogin.Username}");
 
-                            UserDialogs.Instance.Toast($"Successfully logged in {owner.Name} {owner.Surname}");
-                        }
-                        else
-                        {
-                            UserDialogs.Instance.Toast($"No owner found for {userLogin.Username}");
-                        }
-                    }
+                    UserDialogs.Instance.HideLoading();
 
                     Device.BeginInvokeOnMainThread(() =>
                     {
-                        App.Current.MainPage = Shell.Current != null ? Shell.Current : new AppShell();
+                        UserDialogs.Instance.ShowLoading("Loading...");
+
+                        App.Current.MainPage = Shell.Current ?? new AppShell();
+
+                        UserDialogs.Instance.HideLoading();
                     });
                 }
                 else
@@ -200,6 +195,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.HideLoading();
             }
+        }
+
+        void RefreshCanExecutes()
+        {
+            (this.LogoutCommand as Command).ChangeCanExecute();
+            (this.LoginCommand as Command).ChangeCanExecute();
+            (this.RegisterCommand as Command).ChangeCanExecute();
+            (this.ForgotPasswordCommand as Command).ChangeCanExecute();
         }
 
         #endregion

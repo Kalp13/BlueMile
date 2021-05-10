@@ -89,17 +89,21 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         /// <inheritdoc/>
-        public Task<bool> UpdateOwner(UpdateOwnerModel entity)
+        public async Task<Guid> UpdateOwner(UpdateOwnerModel entity)
         {
-            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
             var owner = OwnerHelper.ToUpdateOwnerModel(entity);
             this.applicationDb.Owners.Update(owner);
 
-            var result = this.applicationDb.SaveChanges();
+            var result = await this.applicationDb.SaveChangesAsync();
 
-            completionSource.SetResult(result > 0);
-
-            return completionSource.Task;
+            if (result > 0)
+            {
+                return entity.SystemId;
+            }
+            else
+            {
+                throw new ArgumentException(nameof(entity));
+            }
         }
 
         #endregion
@@ -166,18 +170,21 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         /// <inheritdoc/>
-        public Task<bool> UpdateBoat(UpdateBoatModel entity)
+        public async Task<Guid> UpdateBoat(UpdateBoatModel entity)
         {
-            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
-
             var boat = BoatHelper.ToUpdateBoatData(entity);
             this.applicationDb.Boats.Update(boat);
 
-            var result = this.applicationDb.SaveChanges();
+            var result = await this.applicationDb.SaveChangesAsync();
 
-            completionSource.SetResult(result > 0);
-
-            return completionSource.Task;
+            if (result > 0)
+            {
+                return entity.SystemId;
+            }
+            else
+            {
+                throw new ArgumentException(nameof(entity));
+            }
         }
 
         #endregion
@@ -244,18 +251,21 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         /// <inheritdoc/>
-        public Task<bool> UpdateItem(UpdateItemModel entity)
+        public async Task<Guid> UpdateItem(UpdateItemModel entity)
         {
-            TaskCompletionSource<bool> completionSource = new TaskCompletionSource<bool>();
-
             var item = ItemHelper.ToUpdateItemModel(entity);
             this.applicationDb.Items.Update(item);
 
-            var result = this.applicationDb.SaveChanges();
+            var result = await this.applicationDb.SaveChangesAsync();
 
-            completionSource.SetResult(result > 0);
-
-            return completionSource.Task;
+            if (result > 0)
+            {
+                return entity.SystemId;
+            }
+            else
+            {
+                throw new ArgumentException(nameof(entity));
+            }
         }
 
         #endregion

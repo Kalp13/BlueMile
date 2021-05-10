@@ -11,19 +11,23 @@ namespace BlueMile.Certification.Mobile
         public AppShell()
         {
             InitializeComponent();
+            //Owner Pages
+            Routing.RegisterRoute(nameof(OwnerPage), typeof(OwnerPage));
+
+            //Boat Pages
+            Routing.RegisterRoute(nameof(BoatsPage), typeof(BoatsPage));
+            Routing.RegisterRoute(nameof(BoatDetailPage), typeof(BoatDetailPage));
+            Routing.RegisterRoute(nameof(CreateUpdateBoatPage), typeof(CreateUpdateBoatPage));
+
+            //Item Pages
             Routing.RegisterRoute(nameof(ItemDetailPage), typeof(ItemDetailPage));
             Routing.RegisterRoute(nameof(NewItemPage), typeof(NewItemPage));
-            Routing.RegisterRoute(nameof(OwnerPage), typeof(OwnerPage));
-            Routing.RegisterRoute(nameof(BoatsPage), typeof(BoatsPage));
             Routing.RegisterRoute(nameof(RequiredItemsPage), typeof(RequiredItemsPage));
-            Routing.RegisterRoute(nameof(BoatDetailPage), typeof(BoatDetailPage));
+            Routing.RegisterRoute(nameof(EditRequiredItemPage), typeof(EditRequiredItemPage));
+
+            //User Pages
             Routing.RegisterRoute(nameof(RegisterUserPage), typeof(RegisterUserPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
-        }
-
-        private async void OnMenuItemClicked(object sender, EventArgs e)
-        {
-            await Shell.Current.GoToAsync("//LoginPage");
         }
     }
 }

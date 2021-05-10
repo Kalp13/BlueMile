@@ -4,8 +4,6 @@ using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
 using Microsoft.AppCenter.Crashes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -25,6 +23,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.firstName = value;
                     this.OnPropertyChanged(nameof(this.FirstName));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -38,6 +37,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.lastName = value;
                     this.OnPropertyChanged(nameof(this.LastName));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -51,6 +51,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.identification = value;
                     this.OnPropertyChanged(nameof(this.Identification));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -64,6 +65,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.contactNumber = value;
                     this.OnPropertyChanged(nameof(this.ContactNumber));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -77,6 +79,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.emailAddress = value;
                     this.OnPropertyChanged(nameof(this.EmailAddress));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -90,6 +93,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.password = value;
                     this.OnPropertyChanged(nameof(this.Password));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -103,6 +107,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.confirmPassword = value;
                     this.OnPropertyChanged(nameof(this.ConfirmPassword));
+                    this.RefreshCanExecutes();
                 }
             }
         }
@@ -162,15 +167,31 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.ClearCommand = new Command(() =>
             {
-
+                this.EmailAddress = String.Empty;
+                this.FirstName = String.Empty;
+                this.LastName = String.Empty;
+                this.ContactNumber = String.Empty;
+                this.Password = String.Empty;
+                this.ConfirmPassword = String.Empty;
+                this.Identification = String.Empty;
             });
             this.RegisterCommand = new Command(async () =>
             {
                 await this.RegisterUser().ConfigureAwait(false);
-            });
+            }, () => (!String.IsNullOrWhiteSpace(this.FirstName) &&
+                      !String.IsNullOrWhiteSpace(this.LastName) &&
+                      !String.IsNullOrWhiteSpace(this.EmailAddress) &&
+                      !String.IsNullOrWhiteSpace(this.ContactNumber) &&
+                      !String.IsNullOrWhiteSpace(this.Identification) &&
+                      !String.IsNullOrWhiteSpace(this.Password) &&
+                      !String.IsNullOrWhiteSpace(this.ConfirmPassword)));
             this.DisplayPasswordCommand = new Command(() =>
             {
                 this.HidePassword = !this.HidePassword;
+            });
+            this.ClearDetailsCommand = new Command(() =>
+            {
+                
             });
         }
 
@@ -215,6 +236,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
+        void RefreshCanExecutes()
+        {
+            (this.ClearCommand as Command).ChangeCanExecute();
+            (this.ClearDetailsCommand as Command).ChangeCanExecute();
+            (this.RegisterCommand as Command).ChangeCanExecute();
+            (this.DisplayPasswordCommand as Command).ChangeCanExecute();
+        }
+
         #endregion
 
         #region Instance Fields
@@ -226,9 +255,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private string lastName;
 
         private string identification;
+
         private string contactNumber;
+
         private string emailAddress;
+
         private string password;
+
         private string confirmPassword;
 
         #endregion

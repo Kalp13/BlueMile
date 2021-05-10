@@ -20,7 +20,7 @@ namespace BlueMile.Certification.WebApi.Services
 
         Task<Guid> CreateOwner(CreateOwnerModel entity);
 
-        Task<bool> UpdateOwner(UpdateOwnerModel entity);
+        Task<Guid> UpdateOwner(UpdateOwnerModel entity);
 
         Task<bool> DeleteOwner(Guid entity);
 
@@ -38,7 +38,7 @@ namespace BlueMile.Certification.WebApi.Services
 
         Task<Guid> CreateBoat(CreateBoatModel entity);
 
-        Task<bool> UpdateBoat(UpdateBoatModel entity);
+        Task<Guid> UpdateBoat(UpdateBoatModel entity);
 
         Task<bool> DeleteBoat(Guid entity);
 
@@ -56,7 +56,7 @@ namespace BlueMile.Certification.WebApi.Services
 
         Task<Guid> CreateItem(CreateItemModel entity);
 
-        Task<bool> UpdateItem(UpdateItemModel entity);
+        Task<Guid> UpdateItem(UpdateItemModel entity);
 
         Task<bool> DeleteItem(Guid entity);
 

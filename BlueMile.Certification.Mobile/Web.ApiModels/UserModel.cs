@@ -60,6 +60,8 @@ namespace BlueMile.Certification.Web.ApiModels
 
         public string Token { get; set; }
 
+        public Guid OwnerId { get; set; }
+
         public string[] Roles { get; set; }
     }
 }

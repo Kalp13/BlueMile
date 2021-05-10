@@ -29,10 +29,10 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Surname = owner.Surname,
                 SystemId = owner.SystemId,
                 Town = owner.Town,
-                IcasaPopPhoto = ImageModelHelper.ToImageMobileModel(owner.IcasaPopPhoto),
-                IdentificationDocument = ImageModelHelper.ToImageMobileModel(owner.IdentificationDocument),
+                IcasaPopPhoto = owner.IcasaPopPhoto != null ? ImageModelHelper.ToImageMobileModel(owner.IcasaPopPhoto) : null,
+                IdentificationDocument = owner.IdentificationDocument != null ? ImageModelHelper.ToImageMobileModel(owner.IdentificationDocument) : null,
                 IsSynced = owner.IsSynced,
-                SkippersLicenseImage = ImageModelHelper.ToImageMobileModel(owner.SkippersLicenseImage)
+                SkippersLicenseImage = owner.SkippersLicenseImage != null ? ImageModelHelper.ToImageMobileModel(owner.SkippersLicenseImage) : null 
             };
 
             return ownerModel;
@@ -59,10 +59,10 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Surname = owner.Surname,
                 SystemId = owner.SystemId,
                 Town = owner.Town,
-                //IcasaPopPhoto = ImageModelHelper.ToImageModel(owner.IcasaPopPhoto),
-                //IdentificationDocument = ImageModelHelper.ToImageModel(owner.IdentificationDocument),
+                IcasaPopPhoto = owner.IcasaPopPhoto != null ? ImageModelHelper.ToImageModel(owner.IcasaPopPhoto) : null,
+                IdentificationDocument = owner.IdentificationDocument != null ? ImageModelHelper.ToImageModel(owner.IdentificationDocument) : null,
                 IsSynced = owner.IsSynced,
-                //SkippersLicenseImage = ImageModelHelper.ToImageModel(owner.SkippersLicenseImage)
+                SkippersLicenseImage = owner.SkippersLicenseImage != null ? ImageModelHelper.ToImageModel(owner.SkippersLicenseImage) : null
             };
 
             return ownerModel;

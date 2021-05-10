@@ -20,17 +20,17 @@ namespace BlueMile.Certification.Mobile.ViewModels
     {
         #region Implementation Properties
 
-        //public Guid OwnerId
-        //{
-        //    get { return this.ownerId; }
-        //    set
-        //    {
-        //        if (this.ownerId != value)
-        //        {
-        //            this.ownerId = Guid.Parse(Uri.UnescapeDataString(value.ToString()));
-        //        }
-        //    }
-        //}
+        public string OwnerId
+        {
+            get { return this.ownerId; }
+            set
+            {
+                if (this.ownerId != value)
+                {
+                    this.ownerId = Uri.UnescapeDataString(value.ToString());
+                }
+            }
+        }
 
         public ObservableCollection<BoatMobileModel> OwnersBoats
         {
@@ -130,21 +130,35 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private async Task AddNewBoat()
         {
-            var destinationRoute = "boats/new";
-            ShellNavigationState state = Shell.Current.CurrentState;
-            await Shell.Current.GoToAsync($"{destinationRoute}?ownerId={App.OwnerId}", true).ConfigureAwait(false);
+            try
+            {
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{nameof(CreateUpdateBoatPage)}?boatId={Guid.Empty}", true).ConfigureAwait(false);
+            }
+            catch (Exception exc)
+            {
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Add Boat Error").ConfigureAwait(false);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
         }
 
         private async Task GetBoats()
         {
             try
             {
-                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await App.DataService.FindBoatsByOwnerIdAsync(App.OwnerId).ConfigureAwait(false));
-                //this.OwnerId = App.OwnerId;
+                var owner = Guid.Parse(this.OwnerId);
+                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await App.DataService.FindBoatsByOwnerIdAsync(owner).ConfigureAwait(false));
             }
             catch (Exception exc)
             {
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Get Boats Error").ConfigureAwait(false);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -171,7 +185,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private BoatMobileModel selectedBoat;
 
-        private Guid ownerId;
+        private string ownerId;
 
         private bool isRefreshing;
 

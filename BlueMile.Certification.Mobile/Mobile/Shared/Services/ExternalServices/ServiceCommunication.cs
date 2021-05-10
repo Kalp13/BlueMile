@@ -140,8 +140,9 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
-                Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/get/{ownerId}");
+                Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/{ownerId}");
                 HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
@@ -246,6 +247,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
                 string json = JsonConvert.SerializeObject(owner);
                 using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
@@ -254,12 +256,12 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/update/{owner.SystemId}");
                     
-                    response = await client.PostAsync(uri, content).ConfigureAwait(false);
+                    response = await client.PutAsync(uri, content).ConfigureAwait(false);
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = await response.Content.ReadAsStringAsync();
-                        return Guid.Parse(result);
+                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                        return result;
                     }
                     else
                     {
@@ -292,6 +294,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
                 Uri uri = new Uri($@"{SettingsService.BoatServiceAddress}/{ownerId}");
                 HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
@@ -323,6 +326,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
                 HttpResponseMessage response = null;
 
@@ -369,6 +373,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
                 string json = JsonConvert.SerializeObject(BoatHelper.ToCreateBoatModel(BoatModelHelper.ToModel(boat)));
 
@@ -416,6 +421,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
                 string json = JsonConvert.SerializeObject(BoatHelper.ToUpdateBoatModel(BoatModelHelper.ToModel(boat)));
 
@@ -433,8 +439,8 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = await response.Content.ReadAsStringAsync();
-                        return Guid.Parse(result);
+                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                        return result;
                     }
                     else
                     {
@@ -459,6 +465,17 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             var items = new List<ItemMobileModel>();
             try
             {
+                if (boatId == null || boatId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(boatId));
+                }
+
+                if (client == null)
+                {
+                    client = CreateClient();
+                }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
+
                 Uri uri = new Uri(String.Format(CultureInfo.InvariantCulture, SettingsService.ItemServiceAddress, String.Empty));
                 HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
@@ -488,6 +505,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
                 string json = JsonConvert.SerializeObject(ItemHelper.ToCreateItemModel(ItemModelHelper.ToItemModel(item)));
 
@@ -535,6 +553,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
                 string json = JsonConvert.SerializeObject(ItemHelper.ToUpdateItemModel(ItemModelHelper.ToItemModel(item)));
 
@@ -552,8 +571,8 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = await response.Content.ReadAsStringAsync();
-                        return Guid.Parse(result);
+                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                        return result;
                     }
                     else
                     {

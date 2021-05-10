@@ -1,6 +1,8 @@
-﻿using BlueMile.Certification.Mobile.Models;
+﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.InternalServices;
+using BlueMile.Certification.Mobile.Views;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -26,7 +28,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
             }
         }
+
         public ICommand ChangePhotoCommand
+        {
+            get;
+            private set;
+        }
+
+        public ICommand LogOutCommand
         {
             get;
             private set;
@@ -34,9 +43,23 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         public AppShellViewModel()
         {
+            this.InitCommands();
+        }
+
+        private void InitCommands()
+        {
             this.ChangePhotoCommand = new Command(async () =>
             {
                 this.ProfileImage = await CapturePhotoService.CapturePhotoAsync("OwnerPhoto").ConfigureAwait(false);
+            });
+            this.LogOutCommand = new Command(() =>
+            {
+                UserDialogs.Instance.ShowLoading("Logging Out...");
+                SettingsService.OwnerId = String.Empty;
+                SettingsService.Username = String.Empty;
+                SettingsService.Password = String.Empty;
+                App.Current.MainPage = new LoginPage();
+                UserDialogs.Instance.HideLoading();
             });
         }
     }

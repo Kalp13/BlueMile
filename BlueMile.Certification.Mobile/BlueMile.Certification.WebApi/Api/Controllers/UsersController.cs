@@ -86,7 +86,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                     {
                         this.loggerService.LogError($"{this.GetControllerActionNames()}: {error.Code} - {error.Description}");
                     }
-                    return this.InternalError(new AuthenticationException($"User Registration Failed for user: {createUser.EmailAddress}"));
+                    return this.BadRequest(result);
                 }
                 else
                 {
@@ -135,6 +135,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                     { 
                         Token = tokenString,
                         Roles = roles.ToArray(),
+                        OwnerId = user.OwnerId.HasValue ? user.OwnerId.Value : Guid.Empty,
                         Username = user.UserName
                     });
                 }

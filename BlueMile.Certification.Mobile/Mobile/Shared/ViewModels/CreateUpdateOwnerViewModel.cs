@@ -80,10 +80,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         public CreateUpdateOwnerViewModel()
         {
-            base.Title = "Capture Owner Details";
             if (String.IsNullOrWhiteSpace(SettingsService.OwnerId))
             {
                 this.OwnerDetails = new OwnerMobileModel();
+                base.Title = "Capture Owner Details";
             }
             else
             {
@@ -180,7 +180,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId))
                 {
-                    this.OwnerDetails = await App.DataService.FindOwnerBySystemIdAsync(Guid.Parse(SettingsService.OwnerId)).ConfigureAwait(false);
+                    var ownerId = Guid.Parse(SettingsService.OwnerId);
+                    this.OwnerDetails = await App.DataService.FindOwnerBySystemIdAsync(ownerId).ConfigureAwait(false);
 
                     if (this.OwnerDetails != null)
                     {
@@ -200,47 +201,85 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (await UserDialogs.Instance.ConfirmAsync(this.OwnerDetails.ToString()).ConfigureAwait(false))
                 {
-                    if (this.OwnerDetails.IcasaPopPhoto.Id != null && this.OwnerDetails.IcasaPopPhoto.Id != Guid.Empty)
+                    if (this.OwnerDetails.IcasaPopPhoto != null)
                     {
-                        this.OwnerDetails.IcasaPopPhoto.Id = Guid.NewGuid();
-                        this.OwnerDetails.IcasaPopPhoto.UniqueImageName = this.OwnerDetails.IcasaPopPhoto.Id.ToString() + ".jpg";
-                    }
-
-                    if (this.OwnerDetails.IdentificationDocument.Id != null && this.OwnerDetails.IdentificationDocument.Id != Guid.Empty)
-                    {
-                        this.OwnerDetails.IdentificationDocument.Id = Guid.NewGuid();
-                        this.OwnerDetails.IdentificationDocument.UniqueImageName = this.OwnerDetails.IdentificationDocument.Id.ToString() + ".jpg";
-                    }
-
-                    if (this.OwnerDetails.SkippersLicenseImage.Id != null && this.OwnerDetails.SkippersLicenseImage.Id != Guid.Empty)
-                    {
-                        this.OwnerDetails.SkippersLicenseImage.Id = Guid.NewGuid();
-                        this.OwnerDetails.SkippersLicenseImage.UniqueImageName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
-                    }
-
-                    var result = await App.DataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
-
-                    if (result)
-                    {
-                        UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
-                        SettingsService.OwnerId = this.OwnerDetails.Id.ToString();
-                        Device.BeginInvokeOnMainThread(async () =>
+                        if (this.OwnerDetails.IcasaPopPhoto?.Id == null || this.OwnerDetails.IcasaPopPhoto?.Id == Guid.Empty)
                         {
-                            await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
-                        });
+                            this.OwnerDetails.IcasaPopPhoto.Id = Guid.NewGuid();
+                            this.OwnerDetails.IcasaPopPhoto.UniqueImageName = this.OwnerDetails.IcasaPopPhoto.Id.ToString() + ".jpg";
+                        }
                     }
 
-                    var owner = await App.ApiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
-                    if (owner != null)
+                    if (this.OwnerDetails.IdentificationDocument != null)
                     {
-                        this.OwnerDetails.IsSynced = true;
-                        var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
-                        UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                        if (this.OwnerDetails.IdentificationDocument?.Id == null || this.OwnerDetails.IdentificationDocument?.Id == Guid.Empty)
+                        {
+                            this.OwnerDetails.IdentificationDocument.Id = Guid.NewGuid();
+                            this.OwnerDetails.IdentificationDocument.UniqueImageName = this.OwnerDetails.IdentificationDocument.Id.ToString() + ".jpg";
+                        }
+                    }
+
+                    if (this.OwnerDetails.SkippersLicenseImage != null)
+                    {
+                        if (this.OwnerDetails.SkippersLicenseImage?.Id == null || this.OwnerDetails.SkippersLicenseImage?.Id == Guid.Empty)
+                        {
+                            this.OwnerDetails.SkippersLicenseImage.Id = Guid.NewGuid();
+                            this.OwnerDetails.SkippersLicenseImage.UniqueImageName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
+                        }
+                    }
+
+                    if (this.OwnerDetails.SystemId == null || this.OwnerDetails.SystemId == Guid.Empty)
+                    {
+                        var result = await App.DataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
+                        if (result)
+                        {
+                            UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
+
+                            var owner = await App.ApiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
+                            SettingsService.OwnerId = owner.ToString();
+                            if (owner != null && owner != Guid.Empty)
+                            {
+                                this.OwnerDetails.IsSynced = true;
+                                var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                                UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                            }
+                            else
+                            {
+                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                            }
+
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                            });
+                        }
                     }
                     else
                     {
-                        await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                        var result = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                        if (result)
+                        {
+                            UserDialogs.Instance.Toast("Successfully updated Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
+                            var owner = await App.ApiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
+                            SettingsService.OwnerId = owner.ToString();
+                            if (owner != null && owner != Guid.Empty)
+                            {
+                                this.OwnerDetails.IsSynced = true;
+                                var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                                UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                            }
+                            else
+                            {
+                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                            }
+                            Device.BeginInvokeOnMainThread(async () =>
+                            {
+                                await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                            });
+                        }
                     }
+
+                    
                 }
             }
             catch (WebException webExc)

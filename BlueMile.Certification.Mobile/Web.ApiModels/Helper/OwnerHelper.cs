@@ -55,6 +55,7 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
                 SkippersLicenseNumber = owner.SkippersLicenseNumber,
                 Suburb = owner.Suburb,
                 Surname = owner.Surname,
+                SystemId = owner.SystemId,
                 Town = owner.Town,
                 VhfOperatorsLicense = owner.VhfOperatorsLicense
             };
