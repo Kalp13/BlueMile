@@ -77,7 +77,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private void InitCommands()
         {
-            throw new NotImplementedException();
+            
         }
 
         #endregion

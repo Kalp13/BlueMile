@@ -19,7 +19,9 @@
                 <Entry Text="{Binding Password}"
                        IsPassword="{Binding HidePassword}"
                        Placeholder="Password"/>
-                <ImageButton Command="{Binding DisplayPasswordCommand}"/>
+                <Button Text="Show"
+                        Command="{Binding DisplayPasswordCommand}"
+                        Style="{StaticResource ShowPasswordButtonStyle}"/>
             </StackLayout>
             <StackLayout Orientation="Vertical">
                 <Button Text="Login"

@@ -10,8 +10,28 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
     {
         #region Security Methods
 
+        /// <summary>
+        /// Registers a new user with the given <see cref="UserRegistrationModel"/>
+        /// and <see cref="OwnerMobileModel"/> data.
+        /// </summary>
+        /// <param name="userModel">
+        ///     The user registration details to register the user with.
+        /// </param>
+        /// <param name="ownerModel">
+        ///     The owner details to use and link to the user that will be registered.
+        /// </param>
+        /// <returns></returns>
         Task<bool> RegisterUser(UserRegistrationModel userModel, OwnerMobileModel ownerModel);
 
+        /// <summary>
+        /// Logs a user in with the given <see cref="UserLoginModel"/> details.
+        /// </summary>
+        /// <param name="userModel">
+        ///     The user details to log in with.
+        /// </param>
+        /// <returns>
+        ///     Returns a <see cref="UserToken"/> containing the user's unique authentication token and properties.
+        /// </returns>
         Task<UserToken> LogUserIn(UserLoginModel userModel);
 
         #endregion

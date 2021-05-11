@@ -26,7 +26,7 @@
             <StackLayout Orientation="Vertical"
                          HorizontalOptions="FillAndExpand"
                          VerticalOptions="StartAndExpand">
-                <Label Text="Type of item?"/>
+                <Label Text="Type of item"/>
                 <Picker ItemsSource="{Binding ItemTypes}"
                         ItemDisplayBinding="{Binding ItemName}"
                         SelectedItem="{Binding SelectedItemType, Mode=TwoWay}"

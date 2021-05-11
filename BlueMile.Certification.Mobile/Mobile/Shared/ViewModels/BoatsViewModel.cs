@@ -3,34 +3,18 @@ using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
+using Microsoft.AppCenter.Crashes;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace BlueMile.Certification.Mobile.ViewModels
 {
-    [QueryProperty("OwnerId", "ownerid")]
     public class BoatsViewModel : BaseViewModel
     {
         #region Implementation Properties
-
-        public string OwnerId
-        {
-            get { return this.ownerId; }
-            set
-            {
-                if (this.ownerId != value)
-                {
-                    this.ownerId = Uri.UnescapeDataString(value.ToString());
-                }
-            }
-        }
 
         public ObservableCollection<BoatMobileModel> OwnersBoats
         {
@@ -79,6 +63,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand RefreshCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -87,19 +77,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.Title = "Boats";
             this.InitCommands();
-            
-            if ((App.OwnerId == Guid.Empty) || (App.OwnerId == null))
-            {
-                if (Guid.TryParse(SettingsService.OwnerId, out Guid id))
-                {
-                    App.OwnerId = Guid.Parse(SettingsService.OwnerId);
-                }
-                else
-                {
-                    App.OwnerId = Guid.Empty;
-                }
-            }
-            if ((App.OwnerId != Guid.Empty) && (App.OwnerId != null))
+
+            if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId))
             {
                 this.GetBoats().ConfigureAwait(false);
             }
@@ -119,7 +98,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
                 await AddNewBoat().ConfigureAwait(false);
-            }, () => App.OwnerId != Guid.Empty);
+            }, () => !String.IsNullOrWhiteSpace(SettingsService.OwnerId));
             this.RefreshCommand = new Command(async () =>
             {
                 this.IsRefreshing = true;
@@ -133,7 +112,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             try
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{nameof(CreateUpdateBoatPage)}?boatId={Guid.Empty}", true).ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatEditRoute}?boatId={Guid.Empty}", true).ConfigureAwait(false);
             }
             catch (Exception exc)
             {
@@ -149,8 +128,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                var owner = Guid.Parse(this.OwnerId);
-                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await App.DataService.FindBoatsByOwnerIdAsync(owner).ConfigureAwait(false));
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                var owner = Guid.Parse(SettingsService.OwnerId);
+                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await this.dataService.FindBoatsByOwnerIdAsync(owner).ConfigureAwait(false));
             }
             catch (Exception exc)
             {
@@ -162,19 +146,20 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public ICommand RefreshCommand
-        {
-            get;
-            private set;
-        }
-
         private async void OpenBoatDetail()
         {
-            UserDialogs.Instance.ShowLoading("Loading...");
-            var destinationRoute = "boats/detail";
-            ShellNavigationState state = Shell.Current.CurrentState;
-            await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.SelectedBoat.Id}").ConfigureAwait(false);
-            Shell.Current.FlyoutIsPresented = false;
+            try
+            {
+                UserDialogs.Instance.ShowLoading("Loading...");
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{nameof(CreateUpdateBoatPage)}?boatId={this.SelectedBoat.SystemId}").ConfigureAwait(false);
+                Shell.Current.FlyoutIsPresented = false;
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Open Boat Error", "Ok").ConfigureAwait(false);
+            }
         }
 
         #endregion
@@ -185,9 +170,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private BoatMobileModel selectedBoat;
 
-        private string ownerId;
-
         private bool isRefreshing;
+
+        private IDataService dataService;
 
         #endregion
     }

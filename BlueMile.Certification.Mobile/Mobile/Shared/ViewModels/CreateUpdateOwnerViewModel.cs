@@ -2,6 +2,7 @@
 using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Web.ApiModels.Helper;
 using System;
@@ -180,8 +181,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId))
                 {
+                    if (this.dataService == null)
+                    {
+                        this.dataService = new DataService();
+                    }
+
                     var ownerId = Guid.Parse(SettingsService.OwnerId);
-                    this.OwnerDetails = await App.DataService.FindOwnerBySystemIdAsync(ownerId).ConfigureAwait(false);
+                    this.OwnerDetails = await this.dataService.FindOwnerBySystemIdAsync(ownerId).ConfigureAwait(false);
 
                     if (this.OwnerDetails != null)
                     {
@@ -201,6 +207,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (await UserDialogs.Instance.ConfirmAsync(this.OwnerDetails.ToString()).ConfigureAwait(false))
                 {
+                    if (this.dataService == null)
+                    {
+                        this.dataService = new DataService();
+                    }
+
                     if (this.OwnerDetails.IcasaPopPhoto != null)
                     {
                         if (this.OwnerDetails.IcasaPopPhoto?.Id == null || this.OwnerDetails.IcasaPopPhoto?.Id == Guid.Empty)
@@ -230,17 +241,22 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (this.OwnerDetails.SystemId == null || this.OwnerDetails.SystemId == Guid.Empty)
                     {
-                        var result = await App.DataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
+                        var result = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
                         if (result)
                         {
+                            if (this.apiService == null)
+                            {
+                                this.apiService = new ServiceCommunication();
+                            }
+
                             UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
 
-                            var owner = await App.ApiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
+                            var owner = await this.apiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
                             SettingsService.OwnerId = owner.ToString();
                             if (owner != null && owner != Guid.Empty)
                             {
                                 this.OwnerDetails.IsSynced = true;
-                                var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                                var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
                                 UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
                             }
                             else
@@ -256,16 +272,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
                     else
                     {
-                        var result = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                        var result = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
                         if (result)
                         {
+                            if (this.apiService == null)
+                            {
+                                this.apiService = new ServiceCommunication();
+                            }
+
                             UserDialogs.Instance.Toast("Successfully updated Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
-                            var owner = await App.ApiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
+                            var owner = await this.apiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
                             SettingsService.OwnerId = owner.ToString();
                             if (owner != null && owner != Guid.Empty)
                             {
                                 this.OwnerDetails.IsSynced = true;
-                                var syncResult = await App.DataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                                var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
                                 UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
                             }
                             else
@@ -284,11 +305,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
             catch (WebException webExc)
             {
-                await UserDialogs.Instance.AlertAsync(String.Format(CultureInfo.InvariantCulture, "{0} - {1} - {2}", webExc.Status.ToString(), webExc.Message, webExc.Response)).ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync($"{webExc.Status} - {webExc.Message} - {webExc.Response}", "Save Owner Error").ConfigureAwait(false);
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message + " - " + exc.InnerException?.Message, "Create Owner Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message + " - " + exc.InnerException?.Message, "Save Owner Error").ConfigureAwait(false);
             }
         }
 
@@ -297,6 +318,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
         #region Instance Fields
 
         private OwnerMobileModel ownerDetails;
+
+        private IDataService dataService;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

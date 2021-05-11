@@ -45,6 +45,8 @@ namespace BlueMile.Certification.Web.ApiModels
         /// Gets or sets the path to the image for this item.
         /// </summary>
         public ImageModel ItemImage { get; set; }
+
+        public bool IsSynced { get; set; }
     }
 
     public class CreateItemModel

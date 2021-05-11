@@ -3,6 +3,7 @@ using BlueMile.Certification.Mobile.Data;
 using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.Generic;
@@ -176,66 +177,83 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                this.BoatDetails.OwnerId = App.OwnerId;
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                this.BoatDetails.OwnerId = Guid.Parse(SettingsService.OwnerId);
 
                 if (!this.BoatDetails.IsJetski)
                 {
-                    this.BoatDetails.TubbiesCertificateImage.FilePath = String.Empty;
-                    this.BoatDetails.TubbiesCertificateImage.ImageName = String.Empty;
-                    this.BoatDetails.TubbiesCertificateImage.UniqueImageName = String.Empty;
                     this.BoatDetails.TubbiesCertificateNumber = String.Empty;
+
+                    if (this.BoatDetails.TubbiesCertificateImage != null)
+                    {
+                        this.BoatDetails.TubbiesCertificateImage.FilePath = String.Empty;
+                        this.BoatDetails.TubbiesCertificateImage.ImageName = String.Empty;
+                        this.BoatDetails.TubbiesCertificateImage.UniqueImageName = String.Empty;
+                    }
                 }
 
-                if (this.BoatDetails.BoyancyCertificateImage.Id != null && this.BoatDetails.BoyancyCertificateImage.Id != Guid.Empty)
+                if (this.BoatDetails.BoyancyCertificateImage != null)
                 {
-                    this.BoatDetails.BoyancyCertificateImage.Id = this.BoatDetails.BoyancyCertificateImage.Id == Guid.Empty ? Guid.NewGuid() : this.BoatDetails.BoyancyCertificateImage.Id;
-                    this.BoatDetails.BoyancyCertificateImage.UniqueImageName = this.BoatDetails.BoyancyCertificateImage.Id.ToString() + ".jpg";
+                    if (this.BoatDetails.BoyancyCertificateImage.Id == null || this.BoatDetails.BoyancyCertificateImage.Id == Guid.Empty)
+                    {
+                        this.BoatDetails.BoyancyCertificateImage.Id = Guid.NewGuid();
+                        this.BoatDetails.BoyancyCertificateImage.UniqueImageName = this.BoatDetails.BoyancyCertificateImage.Id.ToString() + ".jpg";
+                    }
                 }
 
-                if (this.BoatDetails.IsJetski && (this.BoatDetails.TubbiesCertificateImage.Id != null && this.BoatDetails.TubbiesCertificateImage.Id != Guid.Empty))
+                if (this.BoatDetails.IsJetski && this.BoatDetails.TubbiesCertificateImage != null)
                 {
-                    this.BoatDetails.TubbiesCertificateImage.UniqueImageName = this.BoatDetails.TubbiesCertificateImage.Id.ToString() + ".jpg";
+                    if (this.BoatDetails.TubbiesCertificateImage.Id == null || this.BoatDetails.TubbiesCertificateImage.Id == Guid.Empty)
+                    {
+                        this.BoatDetails.TubbiesCertificateImage.Id = Guid.NewGuid();
+                        this.BoatDetails.TubbiesCertificateImage.UniqueImageName = this.BoatDetails.TubbiesCertificateImage.Id.ToString() + ".jpg";
+                    }
                 }
 
                 if (this.BoatDetails.BoatCategoryId <= 0)
                 {
                     await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
                 }
-                else if (await App.DataService.CreateNewBoatAsync(BoatDetails).ConfigureAwait(false))
+                else
                 {
-                    UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
-
-                    BoatMobileModel boat = await App.ApiService.GetBoatById(BoatDetails.SystemId).ConfigureAwait(false);
-                    if (boat == null)
+                    this.BoatDetails.Id = await this.dataService.CreateNewBoatAsync(this.BoatDetails).ConfigureAwait(false);
+                    if (this.BoatDetails.Id > 0)
                     {
-                        var systemId = await App.ApiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
-                        this.BoatDetails.SystemId = systemId;
+                        if (this.apiService == null)
+                        {
+                            this.apiService = new ServiceCommunication();
+                        }
+
+                        UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
+
+                        if (this.BoatDetails.SystemId == Guid.Empty)
+                        {
+                            var boatId = await this.apiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
+                            this.BoatDetails.SystemId = boatId;
+                        }
+                        else
+                        {
+                            var boatId = await this.apiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
+                            this.BoatDetails.SystemId = boatId;
+                        }
+
+                        var syncResult = await this.dataService.UpdateBoatAsync(this.BoatDetails).ConfigureAwait(false);
+                        UserDialogs.Instance.Toast($"Successfully uploaded {this.BoatDetails.Name}");
+
+                        UserDialogs.Instance.HideLoading();
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                        });
                     }
                     else
                     {
-                        var systemId = await App.ApiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
-                        if (boat.SystemId.ToString().ToLower() != systemId.ToString().ToLower())
-                        {
-                            throw new ArgumentException("System identifier and local identifier don't match.");
-                        }
+                        await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok").ConfigureAwait(false);
                     }
-
-
-                    if (boat != null)
-                    {
-                        var syncResult = await App.DataService.UpdateBoatAsync(this.BoatDetails).ConfigureAwait(false);
-                        UserDialogs.Instance.Toast($"Successfully uploaded {this.BoatDetails.Name}");
-                    }
-
-                    UserDialogs.Instance.HideLoading();
-                    Device.BeginInvokeOnMainThread(async () =>
-                    {
-                        await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
-                    });
-                }
-                else
-                {
-                    await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok").ConfigureAwait(false);
                 }
             }
             catch (Exception exc)
@@ -281,11 +299,25 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(this.BoatId))
                 {
-                    this.BoatDetails = await App.DataService.FindBoatBySystemIdAsync(Guid.Parse(this.BoatId)).ConfigureAwait(false);
-
-                    if (this.BoatDetails != null)
+                    if (this.dataService == null)
                     {
-                        this.Title = $"Edit {this.BoatDetails.Name}";
+                        this.dataService = new DataService();
+                    }
+
+                    var id = Guid.Parse(this.BoatId);
+
+                    if (id != Guid.Empty)
+                    {
+                        this.BoatDetails = await this.dataService.FindBoatBySystemIdAsync(id).ConfigureAwait(false);
+
+                        if (this.BoatDetails != null)
+                        {
+                            this.Title = $"Edit {this.BoatDetails.Name}";
+                        }
+                    }
+                    else
+                    {
+                        this.Title = "Add New Boat";
                     }
                 }
             }
@@ -308,6 +340,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private ListDisplayModel selectedCategory;
 
         private bool isJetSki;
+
+        private IDataService dataService;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

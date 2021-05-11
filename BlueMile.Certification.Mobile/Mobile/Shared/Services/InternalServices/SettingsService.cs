@@ -22,7 +22,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         {
             get
             {
-                return String.Format(CultureInfo.InvariantCulture, @"{0}/Certification/Boat", ServiceAddress);
+                return String.Format(CultureInfo.InvariantCulture, @"{0}/Certification/boat", ServiceAddress);
             }
         }
 

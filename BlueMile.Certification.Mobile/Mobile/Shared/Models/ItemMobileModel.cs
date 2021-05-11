@@ -49,5 +49,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// Gets or sets the path to the image for this item.
         /// </summary>
         public ImageMobileModel ItemImage { get; set; }
+
+        public bool IsSynced { get; set; }
     }
 }

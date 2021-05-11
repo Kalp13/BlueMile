@@ -1,8 +1,5 @@
 ﻿using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Web.ApiModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BlueMile.Certification.Mobile.Helpers
 {
@@ -13,15 +10,16 @@ namespace BlueMile.Certification.Mobile.Helpers
             var boatModel = new BoatMobileModel()
             {
                 BoatCategoryId = boat.BoatCategoryId,
-                BoyancyCertificateImage = ImageModelHelper.ToImageMobileModel(boat.BoyancyCertificateImage),
+                BoyancyCertificateImage = boat.BoyancyCertificateImage != null ? ImageModelHelper.ToImageMobileModel(boat.BoyancyCertificateImage) : null,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 SystemId = boat.SystemId,
-                TubbiesCertificateImage = ImageModelHelper.ToImageMobileModel(boat.TubbiesCertificateImage),
-                TubbiesCertificateNumber = boat.TubbiesCertificateNumber
+                TubbiesCertificateImage = boat.TubbiesCertificateImage != null ? ImageModelHelper.ToImageMobileModel(boat.TubbiesCertificateImage) : null,
+                TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
+                IsSynced = boat.IsSynced
             };
 
             return boatModel;
@@ -32,15 +30,16 @@ namespace BlueMile.Certification.Mobile.Helpers
             var boatModel = new BoatModel()
             {
                 BoatCategoryId = boat.BoatCategoryId,
-                BoyancyCertificateImage = ImageModelHelper.ToImageModel(boat.BoyancyCertificateImage),
+                BoyancyCertificateImage = boat.BoyancyCertificateImage != null ? ImageModelHelper.ToImageModel(boat.BoyancyCertificateImage) : null,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 SystemId = boat.SystemId,
-                TubbiesCertificateImage = ImageModelHelper.ToImageModel(boat.TubbiesCertificateImage),
-                TubbiesCertificateNumber = boat.TubbiesCertificateNumber
+                TubbiesCertificateImage = boat.TubbiesCertificateImage != null ? ImageModelHelper.ToImageModel(boat.TubbiesCertificateImage) : null,
+                TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
+                IsSynced = boat.IsSynced
             };
             return boatModel;
         }

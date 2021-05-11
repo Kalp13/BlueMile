@@ -2,6 +2,7 @@
 using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels.Helper;
@@ -111,11 +112,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     if (!this.CurrentOwner.IsSynced && this.CurrentOwner.SystemId == Guid.Empty)
                     {
-                        var owner = await App.ApiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
+                        if (this.apiService == null)
+                        {
+                            this.apiService = new ServiceCommunication();
+                        }
+
+                        var owner = await this.apiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
                         if (owner != null && owner != Guid.Empty)
                         {
+                            if (this.dataService == null)
+                            {
+                                this.dataService = new DataService();
+                            }
+
                             this.CurrentOwner.IsSynced = true;
-                            var syncResult = await App.DataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
+                            var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
                             UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
                         }
                         else
@@ -125,11 +136,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
                     else
                     {
-                        var owner = await App.ApiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
+                        if (this.apiService == null)
+                        {
+                            this.apiService = new ServiceCommunication();
+                        }
+
+                        var owner = await this.apiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
                         if (owner != null && owner != Guid.Empty)
                         {
+                            if (this.dataService == null)
+                            {
+                                this.dataService = new DataService();
+                            }
+
                             this.CurrentOwner.IsSynced = true;
-                            var syncResult = await App.DataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
+                            var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
                             UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
                         }
                         else
@@ -140,11 +161,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else
                 {
-                    this.CurrentOwner = (await App.DataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
+                    if (this.dataService == null)
+                    {
+                        this.dataService = new DataService();
+                    }
+
+                    this.CurrentOwner = (await this.dataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
 
                     if (this.CurrentOwner != null)
                     {
-                        App.OwnerId = this.CurrentOwner.SystemId;
                         SettingsService.OwnerId = this.CurrentOwner.SystemId.ToString();
                         this.OwnerImages = new List<ImageMobileModel>();
                         this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
@@ -158,10 +183,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     {
                         if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId) && Guid.Parse(SettingsService.OwnerId) != Guid.Empty)
                         {
-                            var onlineOwner = await App.ApiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
+                            if (this.apiService == null)
+                            {
+                                this.apiService = new ServiceCommunication();
+                            }
+
+                            var onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
                             if (onlineOwner != null)
                             {
-                                if (await App.DataService.CreateNewOwnerAsync(onlineOwner))
+                                this.CurrentOwner.Id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
+                                if (this.CurrentOwner.Id > 0)
                                 {
                                     this.CurrentOwner = onlineOwner;
                                 }
@@ -195,11 +226,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                this.CurrentOwner = (await App.DataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                this.CurrentOwner = (await this.dataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
 
                 if (this.CurrentOwner != null)
                 {
-                    App.OwnerId = this.CurrentOwner.SystemId;
                     SettingsService.OwnerId = this.CurrentOwner.SystemId.ToString();
                     this.OwnerImages = new List<ImageMobileModel>();
                     this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
@@ -213,10 +248,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId) && Guid.Parse(SettingsService.OwnerId) != Guid.Empty)
                     {
-                        var onlineOwner = await App.ApiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
+                        if (this.apiService == null)
+                        {
+                            this.apiService = new ServiceCommunication();
+                        }
+
+                        var onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
                         if (onlineOwner != null)
                         {
-                            if (await App.DataService.CreateNewOwnerAsync(onlineOwner))
+                            this.CurrentOwner.Id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
+                            if (this.CurrentOwner.Id > 0)
                             {
                                 this.CurrentOwner = onlineOwner;
                             }
@@ -252,6 +293,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private List<ImageMobileModel> ownerImages;
 
         private ImageSource menuImage;
+
+        private IDataService dataService;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

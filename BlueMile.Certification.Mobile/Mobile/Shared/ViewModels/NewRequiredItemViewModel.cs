@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.Generic;
@@ -152,7 +153,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (await this.ValidateItemPropertiesAsync().ConfigureAwait(false))
                 {
-                    if ((await App.ApiService.CreateItem(this.NewItem).ConfigureAwait(false)) != null)
+                    if (this.apiService == null)
+                    {
+                        this.apiService = new ServiceCommunication();
+                    }
+
+                    if ((await this.apiService.CreateItem(this.NewItem).ConfigureAwait(false)) != null)
                     {
                         UserDialogs.Instance.Toast("Successfully created " + this.NewItem.ItemTypeId, TimeSpan.FromSeconds(2));
 
@@ -322,6 +328,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private List<ListDisplayModel> itemTypes;
 
         private ListDisplayModel selectedItemType;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

@@ -14,5 +14,25 @@ namespace BlueMile.Certification.Mobile.Services
         public static string ClientId = "native.hybrid";
         public static string ClientSecret = "xoxo";
         public static string Scope = "openid profile api";
+
+        #region Routes
+
+        // Owner Routes
+        public static string ownersRoute = "owner/find";
+        public static string ownerDetailRoute = "owner/detail";
+        public static string ownerEditRoute = "owner/edit";
+
+        // Boat Routes
+        public static string boatsRoute = "boat/find";
+        public static string boatDetailRoute = "boat/detail";
+        public static string boatEditRoute = "boat/edit";
+
+        // Item Routes
+        public static string itemsRoute = "item/find";
+        public static string itemDetailRoute = "item/detail";
+        public static string itemEditRoute = "item/edit";
+        public static string itemNewRoute = "item/new";
+
+        #endregion
     }
 }

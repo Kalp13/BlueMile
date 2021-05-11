@@ -47,13 +47,14 @@
                        TabIndex="6"
                        IsPassword="{Binding HidePassword}"
                        Text="{Binding Password}"/>
-                <ImageButton Source="{Binding}"
-                             Command="{Binding DisplayPasswordCommand}"/>
+                <Button Command="{Binding DisplayPasswordCommand}"
+                        Text="Show"
+                        Style="{StaticResource ShowPasswordButtonStyle}"/>
             </StackLayout>
             <Label Text="Confirm Password"/>
             <Entry Placeholder="Confirm Password"
                    TabIndex="7"
-                   IsPassword="True"
+                   IsPassword="{Binding HidePassword}"
                    Text="{Binding ConfirmPassword}"/>
             <Button Text="Register In"
                     Command="{Binding RegisterCommand}"/>

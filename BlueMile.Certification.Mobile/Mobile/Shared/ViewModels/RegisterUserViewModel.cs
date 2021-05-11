@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Models;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
 using Microsoft.AppCenter.Crashes;
@@ -214,7 +215,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     Name = this.FirstName,
                     Surname = this.LastName,
                 };
-                var register = await App.ApiService.RegisterUser(registration, owner).ConfigureAwait(false);
+
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                var register = await this.apiService.RegisterUser(registration, owner).ConfigureAwait(false);
 
                 if (register)
                 {
@@ -263,6 +270,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private string password;
 
         private string confirmPassword;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

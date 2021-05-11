@@ -4,6 +4,7 @@ using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.InternalServices;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -146,13 +147,18 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.SaveCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Saving...");
-                this.CurrentBoat.OwnerId = App.OwnerId;
+                this.CurrentBoat.OwnerId = Guid.Parse(SettingsService.OwnerId);
+
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
 
                 if (this.CurrentBoat.BoatCategoryId <= 0)
                 {
                     await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
                 }
-                else if (await App.DataService.UpdateBoatAsync(CurrentBoat).ConfigureAwait(false))
+                else if (await this.dataService.UpdateBoatAsync(CurrentBoat).ConfigureAwait(false))
                 {
                     UserDialogs.Instance.Toast("Successfully updated " + this.CurrentBoat.Name, TimeSpan.FromSeconds(2));
                     this.EditBoat = false;
@@ -186,48 +192,61 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private async Task BuildEmailContent()
         {
-            var owner = await App.DataService.FindOwnerBySystemIdAsync(this.CurrentBoat.OwnerId).ConfigureAwait(false);
-            var equipment = await App.DataService.FindItemsByBoatIdAsync(this.CurrentBoat.SystemId).ConfigureAwait(false);
-            var images = new List<ImageMobileModel>();
-
-            //Add Owner Details
-            var details = $"Owner Details\n" +
-            $"Name & Surname: {owner.Name} + {owner.Surname}\n" +
-            $"Cell Number: {owner.ContactNumber}\n" +
-            $"Email: {owner.Email}\n" +
-            $"ID/Passport: {owner.Identification}\n" +
-            $"Skippers License: {owner.SkippersLicenseNumber}\n" +
-            $"VHF License: {owner.VhfOperatorsLicense}\n" +
-            $"Address: {owner.AddressLine1}\n\n"; ;
-            images.Add(owner.IdentificationDocument);
-            images.Add(owner.SkippersLicenseImage);
-            images.Add(owner.IcasaPopPhoto);
-
-            ///Add Boat Details
-            details += $"Boat Detail\n" +
-            $"Boat Name: {this.CurrentBoat.Name}\n" +
-            $"Category: {CategoryDescriptionConverter.GetDescription((BoatCategoryEnum)this.CurrentBoat.BoatCategoryId)}" +
-            $"Registered Number: {this.CurrentBoat.RegisteredNumber}\n" +
-            $"Boyancy Cert: {this.CurrentBoat.BoyancyCertificateNumber}\n";
-            images.Add(this.CurrentBoat.BoyancyCertificateImage);
-
-            if (this.CurrentBoat.IsJetski)
+            try
             {
-                details += $"Tubbies Boyancy Cert: {this.CurrentBoat.TubbiesCertificateNumber}\n";
-                images.Add(this.CurrentBoat.TubbiesCertificateImage);
-            }
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
 
-            //Add Equipment Details
-            foreach (var item in equipment)
+                var owner = await this.dataService.FindOwnerBySystemIdAsync(this.CurrentBoat.OwnerId).ConfigureAwait(false);
+                var equipment = await this.dataService.FindItemsByBoatIdAsync(this.CurrentBoat.SystemId).ConfigureAwait(false);
+                var images = new List<ImageMobileModel>();
+
+                //Add Owner Details
+                var details = $"Owner Details\n" +
+                $"Name & Surname: {owner.Name} + {owner.Surname}\n" +
+                $"Cell Number: {owner.ContactNumber}\n" +
+                $"Email: {owner.Email}\n" +
+                $"ID/Passport: {owner.Identification}\n" +
+                $"Skippers License: {owner.SkippersLicenseNumber}\n" +
+                $"VHF License: {owner.VhfOperatorsLicense}\n" +
+                $"Address: {owner.AddressLine1}\n\n"; ;
+                images.Add(owner.IdentificationDocument);
+                images.Add(owner.SkippersLicenseImage);
+                images.Add(owner.IcasaPopPhoto);
+
+                ///Add Boat Details
+                details += $"Boat Detail\n" +
+                $"Boat Name: {this.CurrentBoat.Name}\n" +
+                $"Category: {CategoryDescriptionConverter.GetDescription((BoatCategoryEnum)this.CurrentBoat.BoatCategoryId)}" +
+                $"Registered Number: {this.CurrentBoat.RegisteredNumber}\n" +
+                $"Boyancy Cert: {this.CurrentBoat.BoyancyCertificateNumber}\n";
+                images.Add(this.CurrentBoat.BoyancyCertificateImage);
+
+                if (this.CurrentBoat.IsJetski)
+                {
+                    details += $"Tubbies Boyancy Cert: {this.CurrentBoat.TubbiesCertificateNumber}\n";
+                    images.Add(this.CurrentBoat.TubbiesCertificateImage);
+                }
+
+                //Add Equipment Details
+                foreach (var item in equipment)
+                {
+                    details += $"{ItemTypeDescriptionConverter.GetDescription((ItemTypeEnum)item.ItemTypeId)}: {item.Description} - " +
+                    $"Serial: {item.SerialNumber}" +
+                    $"Captured: {item.CapturedDate.ToString("00:dd/MMM/yyyy")} - " +
+                    $"Expires: {item.ExpiryDate.ToString("00:dd/MMM/yyyy")}";
+                    images.Add(item.ItemImage);
+                }
+
+                this.BuildEmail(details, images);
+            }
+            catch (Exception exc)
             {
-                details += $"{ItemTypeDescriptionConverter.GetDescription((ItemTypeEnum)item.ItemTypeId)}: {item.Description} - " +
-                $"Serial: {item.SerialNumber}" +
-                $"Captured: {item.CapturedDate.ToString("00:dd/MMM/yyyy")} - " +
-                $"Expires: {item.ExpiryDate.ToString("00:dd/MMM/yyyy")}";
-                images.Add(item.ItemImage);
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Create Email Error");
             }
-
-            this.BuildEmail(details, images);
         }
 
         private async void BuildEmail(string details, List<ImageMobileModel> images)
@@ -280,7 +299,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(this.CurrentBoatId))
                 {
-                    this.CurrentBoat = await App.DataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
+                    this.CurrentBoat = await this.dataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
                     this.BoatImages = new ObservableCollection<ImageMobileModel>();
 
                     if (this.CurrentBoat != null)
@@ -314,6 +333,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private ObservableCollection<ImageMobileModel> boatImages;
 
         private bool editBoat;
+
+        private IDataService dataService;
 
         #endregion
     }

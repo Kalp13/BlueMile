@@ -12,7 +12,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
     {
         #region Owner Data Methods
 
-        Task<bool> CreateNewOwnerAsync(OwnerMobileModel owner);
+        Task<long> CreateNewOwnerAsync(OwnerMobileModel owner);
 
         Task<OwnerMobileModel> FindOwnerBySystemIdAsync(Guid systemId);
 
@@ -28,7 +28,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         Task<List<BoatMobileModel>> FindBoatsByOwnerIdAsync(Guid ownerId);
 
-        Task<bool> CreateNewBoatAsync(BoatMobileModel owner);
+        Task<long> CreateNewBoatAsync(BoatMobileModel owner);
 
         Task<BoatMobileModel> FindBoatBySystemIdAsync(Guid systemId);
 
@@ -40,7 +40,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         #region Item Data Methods
 
-        Task<bool> CreateNewItemAsync(ItemMobileModel owner);
+        Task<long> CreateNewItemAsync(ItemMobileModel owner);
 
         Task<ItemMobileModel> FindItemBySystemIdAsync(Guid systemId);
 

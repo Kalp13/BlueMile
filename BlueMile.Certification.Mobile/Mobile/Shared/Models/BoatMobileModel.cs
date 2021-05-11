@@ -60,5 +60,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
         public ImageMobileModel TubbiesCertificateImage { get; set; }
+
+        public bool IsSynced { get; set; }
     }
 }

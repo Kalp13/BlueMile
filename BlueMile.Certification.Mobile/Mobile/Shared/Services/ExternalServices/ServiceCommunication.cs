@@ -38,6 +38,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         #region Login Methods
 
+        /// <inheritdoc/>
         public async Task<bool> RegisterUser(UserRegistrationModel userModel, OwnerMobileModel ownerModel)
         {
             try
@@ -90,6 +91,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<UserToken> LogUserIn(UserLoginModel userModel)
         {
             try
@@ -127,6 +129,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         #region Owner Methods
 
+        /// <inheritdoc/>
         public async Task<OwnerMobileModel> GetOwnerBySystemId(Guid ownerId)
         {
             try
@@ -159,6 +162,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<OwnerMobileModel> GetOwnerByUsername(string username)
         {
             try
@@ -190,6 +194,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<Guid> CreateOwner(CreateOwnerModel owner)
         {
             try
@@ -234,6 +239,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<Guid> UpdateOwner(UpdateOwnerModel owner)
         {
             try
@@ -281,6 +287,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         #region Boat Methods
 
+        /// <inheritdoc/>
         public async Task<List<BoatMobileModel>> GetBoatsByOwnerId(Guid ownerId)
         {
             try
@@ -313,6 +320,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<BoatMobileModel> GetBoatById(Guid boatId)
         {
             try
@@ -360,6 +368,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<Guid> CreateBoat(BoatMobileModel boat)
         {
             try
@@ -408,6 +417,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<Guid> UpdateBoat(BoatMobileModel boat)
         {
             try
@@ -460,6 +470,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         #region Item Methods
 
+        /// <inheritdoc/>
         public async Task<List<ItemMobileModel>> GetBoatRequiredItems(Guid boatId)
         {
             var items = new List<ItemMobileModel>();
@@ -492,6 +503,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             return items;
         }
 
+        /// <inheritdoc/>
         public async Task<Guid> CreateItem(ItemMobileModel item)
         {
             try
@@ -540,6 +552,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             }
         }
 
+        /// <inheritdoc/>
         public async Task<Guid> UpdateItem(ItemMobileModel item)
         {
             try

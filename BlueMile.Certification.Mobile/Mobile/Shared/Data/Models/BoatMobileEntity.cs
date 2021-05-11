@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SQLite;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -9,6 +10,8 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// <summary>
         /// Gets or sets the auto incremented primary key for this boat.
         /// </summary>
+        /// 
+        [AutoIncrement, PrimaryKey]
         public long Id { get; set; }
 
         /// <summary>
@@ -44,7 +47,7 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public Guid BoyancyCertificateImageId { get; set; }
+        public Guid? BoyancyCertificateImageId { get; set; }
 
         /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
@@ -59,6 +62,8 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// <summary>
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public Guid TubbiesCertificateImageId { get; set; }
+        public Guid? TubbiesCertificateImageId { get; set; }
+
+        public bool IsSynced { get; set; }
     }
 }

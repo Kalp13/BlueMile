@@ -48,6 +48,8 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public Guid ItemImageId { get; set; }
+        public Guid? ItemImageId { get; set; }
+
+        public bool IsSynced { get; set; }
     }
 }

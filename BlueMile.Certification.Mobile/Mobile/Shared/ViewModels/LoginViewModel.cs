@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -105,6 +107,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
         public LoginViewModel()
         {
             this.InitCommands();
+            this.HidePassword = true;
+
+#if DEBUG
+            this.Username = "rfkalp@live.co.za";
+            this.Password = "Password@1";
+#endif
         }
 
         #endregion
@@ -115,17 +123,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.LoginCommand = new Command(async () =>
             {
-                UserDialogs.Instance.ShowLoading("Logging In...");
-                await this.LogUserIn().ConfigureAwait(false);
+                await this.LogUserIn();
             }, () => (!String.IsNullOrWhiteSpace(this.Username) && !String.IsNullOrWhiteSpace(this.Password)));
             this.LogoutCommand = new Command(async () =>
             {
                 await this.LogUserOut().ConfigureAwait(false);
             });
-            this.ClearDetailsCommand = new Command(() =>
+            this.ClearDetailsCommand = new Command(async () =>
             {
-                this.Username = String.Empty;
-                this.Password = String.Empty;
+                await this.ClearUserDetails().ConfigureAwait(false);
             });
             this.ForgotPasswordCommand = new Command(async () =>
             {
@@ -139,6 +145,28 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 this.HidePassword = !this.HidePassword;
             });
+        }
+
+        private async Task ClearUserDetails()
+        {
+            try
+            {
+                this.Username = String.Empty;
+                this.Password = String.Empty;
+                
+                if (await UserDialogs.Instance.ConfirmAsync("Would you like to clear all the user details stored?", "Clear User Details", "Yes", "No").ConfigureAwait(false))
+                {
+                    SettingsService.Username = String.Empty;
+                    SettingsService.Password = String.Empty;
+                    SettingsService.OwnerId = String.Empty;
+                    SettingsService.UserToken = String.Empty;
+                }
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Clearing User Details Error");
+            }
         }
 
         private Task LogUserOut()
@@ -156,12 +184,22 @@ namespace BlueMile.Certification.Mobile.ViewModels
             try
             {
                 UserDialogs.Instance.ShowLoading("Logging In...");
-                var userLogin = await App.ApiService.LogUserIn(new UserLoginModel()
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                //Device.BeginInvokeOnMainThread(() =>
+                //{
+                    
+                //});
+                var userLogin = await this.apiService.LogUserIn(new UserLoginModel()
                 {
                     EmailAddress = this.Username,
                     Password = this.Password
                 }).ConfigureAwait(false);
 
+                UserDialogs.Instance.ShowLoading("Loading...");
                 if (!String.IsNullOrWhiteSpace(userLogin.Token))
                 {
                     SettingsService.UserToken = userLogin.Token;
@@ -170,22 +208,18 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     SettingsService.OwnerId = userLogin.OwnerId.ToString();
 
                     UserDialogs.Instance.Toast($"Successfully logged in {userLogin.Username}");
-
-                    UserDialogs.Instance.HideLoading();
-
-                    Device.BeginInvokeOnMainThread(() =>
-                    {
-                        UserDialogs.Instance.ShowLoading("Loading...");
-
-                        App.Current.MainPage = Shell.Current ?? new AppShell();
-
-                        UserDialogs.Instance.HideLoading();
-                    });
                 }
                 else
                 {
-                    await UserDialogs.Instance.AlertAsync("No user found with the given username and password.", "Log In Failed");
+                    UserDialogs.Instance.Alert("No user found with the given username and password.", "Log In Failed");
                 }
+
+                UserDialogs.Instance.HideLoading();
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    App.Current.MainPage = Shell.Current ?? new AppShell();
+                });
             }
             catch (Exception exc)
             {
@@ -214,6 +248,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private string password;
 
         private bool hidePassword;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

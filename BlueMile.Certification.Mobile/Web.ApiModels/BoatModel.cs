@@ -55,6 +55,8 @@ namespace BlueMile.Certification.Web.ApiModels
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
         public ImageModel TubbiesCertificateImage { get; set; }
+
+        public bool IsSynced { get; set; }
     }
 
     public class CreateBoatModel

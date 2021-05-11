@@ -99,7 +99,6 @@ namespace BlueMile.Certification.WebApi
                 c.IncludeXmlComments(xPath);
             });
 
-            services.AddSingleton<ILoggerService, LoggerService>();
             services.AddScoped<ICertificationRepository, CertificationRepository>();
 
             services.AddScoped<IAuditUserProvider, AuditUserProvider>();

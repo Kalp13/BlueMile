@@ -16,10 +16,11 @@ namespace BlueMile.Certification.Mobile.Helpers
                 CapturedDate = item.CapturedDate,
                 Description = item.Description,
                 ExpiryDate = item.ExpiryDate,
-                ItemImage = ImageModelHelper.ToImageMobileModel(item.ItemImage),
+                ItemImage = item.ItemImage != null ? ImageModelHelper.ToImageMobileModel(item.ItemImage) : null,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId
+                SystemId = item.SystemId,
+                IsSynced = item.IsSynced
             };
 
             return itemModel;
@@ -33,10 +34,11 @@ namespace BlueMile.Certification.Mobile.Helpers
                 CapturedDate = item.CapturedDate,
                 Description = item.Description,
                 ExpiryDate = item.ExpiryDate,
-                ItemImage = ImageModelHelper.ToImageModel(item.ItemImage),
+                ItemImage = item.ItemImage != null ? ImageModelHelper.ToImageModel(item.ItemImage) : null,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId
+                SystemId = item.SystemId,
+                IsSynced = item.IsSynced
             };
 
             return itemModel;

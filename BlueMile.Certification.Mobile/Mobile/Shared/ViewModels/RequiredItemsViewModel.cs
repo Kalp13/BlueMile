@@ -137,7 +137,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private async Task GetBoatItems()
         {
-            this.RequiredItems = new ObservableCollection<ItemMobileModel>(await App.DataService.FindItemsByBoatIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false));
+            if (this.dataService == null)
+            {
+                this.dataService = new DataService();
+            }
+
+            this.RequiredItems = new ObservableCollection<ItemMobileModel>(await this.dataService.FindItemsByBoatIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false));
         }
 
         private async void OpenItemDetail()
@@ -165,6 +170,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private bool isRefreshing;
 
         private ItemMobileModel selectedItem;
+
+        private IDataService dataService;
 
         #endregion
     }

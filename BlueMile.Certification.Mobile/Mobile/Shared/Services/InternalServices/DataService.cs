@@ -1,14 +1,11 @@
-﻿using BlueMile.Certification.Mobile.Data;
-using BlueMile.Certification.Mobile.Data.Helpers;
+﻿using BlueMile.Certification.Mobile.Data.Helpers;
 using BlueMile.Certification.Mobile.Data.Models;
-using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace BlueMile.Certification.Mobile.Services.InternalServices
@@ -53,7 +50,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<bool> CreateNewOwnerAsync(OwnerMobileModel owner)
+        public async Task<long> CreateNewOwnerAsync(OwnerMobileModel owner)
         {
             try
             {
@@ -67,9 +64,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
                 var ownerEntity = OwnerHelper.ToOwnerDataEntity(owner);
-                var response = await this.dataConnection.InsertOrReplaceAsync(ownerEntity, typeof(OwnerMobileEntity)).ConfigureAwait(false);
+                var count = await this.dataConnection.Table<OwnerMobileEntity>().CountAsync();
+                ownerEntity.Id = count + 1;
+                var response = await this.dataConnection.InsertAsync(ownerEntity, typeof(OwnerMobileEntity)).ConfigureAwait(false);
 
-                return response > 0;
+                return ownerEntity.Id;
             }
             catch (Exception)
             {
@@ -157,6 +156,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         #region Boat Data Methods
 
+        /// <inheritdoc/>
         public async Task<List<BoatMobileModel>> FindBoatsByOwnerIdAsync(Guid ownerId)
         {
             try
@@ -182,7 +182,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         }
 
         /// <inheritdoc/>
-        public async Task<bool> CreateNewBoatAsync(BoatMobileModel boat)
+        public async Task<long> CreateNewBoatAsync(BoatMobileModel boat)
         {
             try
             {
@@ -195,10 +195,10 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 {
                     this.dataConnection = this.InitializeDBConnection();
                 }
+                var boatEntity = BoatHelper.ToBoatEntity(boat);
+                var response = await this.dataConnection.InsertOrReplaceAsync(boatEntity, typeof(BoatMobileEntity)).ConfigureAwait(false);
 
-                var response = await this.dataConnection.InsertOrReplaceAsync(boat, typeof(BoatMobileEntity)).ConfigureAwait(false);
-
-                return response > 0;
+                return boatEntity.Id;
             }
             catch (Exception)
             {
@@ -223,12 +223,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
                 var boat = await this.dataConnection.Table<BoatMobileEntity>().FirstOrDefaultAsync(x => x.SystemId == systemId).ConfigureAwait(false);
 
-
-                return new BoatMobileModel()
-                {
-                    BoatCategoryId = boat.BoatCategoryId,
-                    BoyancyCertificateNumber = boat.BoyancyCertificateNumber
-                };
+                return BoatHelper.ToBoatModel(boat);
             }
             catch (Exception)
             {
@@ -276,7 +271,8 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
 
-                var response = await this.dataConnection.UpdateAsync(boat, typeof(BoatMobileEntity));
+                var boatEntity = BoatHelper.ToBoatEntity(boat);
+                var response = await this.dataConnection.UpdateAsync(boatEntity, typeof(BoatMobileEntity)).ConfigureAwait(false);
 
                 return response > 0;
             }
@@ -291,7 +287,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         #region Item Data Methods
 
         /// <inheritdoc/>
-        public async Task<bool> CreateNewItemAsync(ItemMobileModel item)
+        public async Task<long> CreateNewItemAsync(ItemMobileModel item)
         {
             try
             {
@@ -305,9 +301,10 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
 
-                var response = await this.dataConnection.InsertOrReplaceAsync(item, typeof(ItemMobileEntity)).ConfigureAwait(false);
+                var itemEntity = ItemHelper.ToItemEntity(item);
+                var response = await this.dataConnection.InsertAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
 
-                return response > 0;
+                return itemEntity.Id;
             }
             catch (Exception)
             {
@@ -405,7 +402,8 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
 
-                var response = await this.dataConnection.UpdateAsync(item, typeof(ItemMobileEntity));
+                var itemEntity = ItemHelper.ToItemEntity(item);
+                var response = await this.dataConnection.UpdateAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
 
                 return response > 0;
             }

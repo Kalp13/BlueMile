@@ -29,7 +29,11 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Suburb = owner.Suburb,
                 Surname = owner.Surname,
                 SystemId = owner.SystemId,
-                Town = owner.Town
+                Town = owner.Town,
+
+                IcasaPopImageId = owner.IcasaPopPhoto?.Id,
+                IdentificationDocumentId = owner.IdentificationDocument?.Id,
+                SkippersLicenseImageId = owner.SkippersLicenseImage?.Id
             };
             return OwnerMobileEntity;
         }

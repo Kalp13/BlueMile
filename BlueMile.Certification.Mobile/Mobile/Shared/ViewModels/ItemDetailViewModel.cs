@@ -2,6 +2,8 @@
 using BlueMile.Certification.Mobile.Converters;
 using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
+using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -78,6 +80,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.EditItemCommand = new Command(async () =>
             {
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{Constants.itemEditRoute}?itemId={this.SelectedItem.SystemId}", true).ConfigureAwait(false);
             });
         }
 
@@ -85,7 +89,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                this.SelectedItem = await App.DataService.FindItemBySystemIdAsync(Guid.Parse(this.CurrentItemId)).ConfigureAwait(false);
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                this.SelectedItem = await this.dataService.FindItemBySystemIdAsync(Guid.Parse(this.CurrentItemId)).ConfigureAwait(false);
                 this.Title = ItemTypeDescriptionConverter.GetDescription((ItemTypeEnum)this.SelectedItem.ItemTypeId);
             }
             catch (Exception exc)
@@ -101,6 +110,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private ItemMobileModel selectedItem;
 
         private string currentItemId;
+
+        private IDataService dataService;
 
         #endregion
     }

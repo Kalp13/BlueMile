@@ -2,6 +2,7 @@
 using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.Data.Static;
 using BlueMile.Certification.Web.ApiModels;
+using BlueMile.Certification.WebApi.Infrastructure.Extensions;
 using BlueMile.Certification.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -37,10 +39,10 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         public UsersController(SignInManager<ApplicationUser> signIn,
                                UserManager<ApplicationUser> manager,
                                IDbContextFactory<ApplicationDbContext> dbFactory,
-                               ILoggerService logger,
+                               ILogger<UsersController> logger,
                                IConfiguration config)
         {
-            this.loggerService = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.signInManager = signIn ?? throw new ArgumentNullException(nameof(signIn));
             this.userManager = manager ?? throw new ArgumentNullException(nameof(manager));
             this.configuration = config ?? throw new ArgumentNullException(nameof(config));
@@ -65,7 +67,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         {
             try
             {
-                this.loggerService.LogInfo($"{this.GetControllerActionNames()}: Login Attempt from user {createUser.EmailAddress}");
+                this.logger.TraceRequest(createUser);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
                 using ApplicationDbContext dbContext = this.dbFactory.CreateDbContext();
 
                 string username = createUser.EmailAddress;
@@ -84,7 +88,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 {
                     foreach (var error in result.Errors)
                     {
-                        this.loggerService.LogError($"{this.GetControllerActionNames()}: {error.Code} - {error.Description}");
+                        this.logger.LogError($"{this.GetControllerActionNames()}: {error.Code} - {error.Description}");
                     }
                     return this.BadRequest(result);
                 }
@@ -117,7 +121,8 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         {
             try
             {
-                this.loggerService.LogInfo($"{this.GetControllerActionNames()}: Login Attempt from user {userModel.EmailAddress}");
+                this.logger.TraceRequest(userModel);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
                 string username = userModel.EmailAddress;
                 string password = userModel.Password;
@@ -127,7 +132,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 {
                     var user = await this.userManager.FindByNameAsync(username).ConfigureAwait(false);
                     var tokenString = await this.GenerateJSONWebToken(user);
-                    this.loggerService.LogInfo($"{this.GetControllerActionNames()}: Successfully Authenticated {user.Email}");
+                    this.logger.LogInformation($"{this.GetControllerActionNames()}: Successfully Authenticated {user.Email}");
 
                     var roles = await this.userManager.GetRolesAsync(user);
 
@@ -141,7 +146,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 }
                 else
                 {
-                    this.loggerService.LogWarning($"{this.GetControllerActionNames()}: Authentication Failed for user: {userModel.EmailAddress}");
+                    this.logger.LogWarning($"{this.GetControllerActionNames()}: Authentication Failed for user: {userModel.EmailAddress}");
                     return Unauthorized(userModel);
                 }
             }
@@ -165,7 +170,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
         private ObjectResult InternalError(Exception exc)
         {
-            this.loggerService.LogError($"{this.GetControllerActionNames()} - {exc.Message} - {exc.InnerException}: {exc.InnerException?.Message}");
+            this.logger.LogError($"{this.GetControllerActionNames()} - {exc.Message} - {exc.InnerException}: {exc.InnerException?.Message}");
 
             return StatusCode(StatusCodes.Status500InternalServerError, "Something went wrong. Please contact the Administrator.");
         }
@@ -210,7 +215,10 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
         private readonly UserManager<ApplicationUser> userManager;
 
-        private ILoggerService loggerService;
+        /// <summary>
+        /// Used for logging events
+        /// </summary>
+        private readonly ILogger<UsersController> logger;
 
         private IConfiguration configuration;
 

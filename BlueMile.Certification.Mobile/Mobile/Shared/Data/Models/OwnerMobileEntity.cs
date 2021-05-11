@@ -10,7 +10,7 @@ namespace BlueMile.Certification.Mobile.Data.Models
         #region Instance Fields
 
         [AutoIncrement, PrimaryKey]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         public Guid SystemId { get; set; }
 
@@ -41,6 +41,14 @@ namespace BlueMile.Certification.Mobile.Data.Models
         public string Country { get; set; }
 
         public string PostalCode { get; set; }
+
+        public Guid? IdentificationDocumentId { get; set; }
+
+        public Guid? SkippersLicenseImageId { get; set; }
+
+        public Guid? IcasaPopImageId { get; set; }
+
+        public bool IsSynced { get; set; }
 
         /// <summary>
         /// Gets or sets the <c>VHFOperatorsLicense</c> of this Owner.

@@ -150,7 +150,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(this.RequiredItemId))
                 {
-                    this.ItemToUpdate = await App.DataService.FindItemBySystemIdAsync(Guid.Parse(this.RequiredItemId)).ConfigureAwait(false);
+                    if (this.dataService == null)
+                    {
+                        this.dataService = new DataService();
+                    }
+
+                    this.ItemToUpdate = await this.dataService.FindItemBySystemIdAsync(Guid.Parse(this.RequiredItemId)).ConfigureAwait(false);
 
                     if (this.ItemToUpdate != null)
                     {
@@ -177,7 +182,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (await this.ValidateItemPropertiesAsync().ConfigureAwait(false))
                 {
-                    if (await App.DataService.UpdateItemAsync(this.ItemToUpdate).ConfigureAwait(false))
+                    if (this.dataService == null)
+                    {
+                        this.dataService = new DataService();
+                    }
+
+                    if (await this.dataService.UpdateItemAsync(this.ItemToUpdate).ConfigureAwait(false))
                     {
                         // Add uploading code.
                     }
@@ -341,6 +351,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private List<ListDisplayModel> itemTypes;
 
         private ListDisplayModel selectedItemType;
+
+        private IDataService dataService;
 
         #endregion
     }

@@ -1,9 +1,11 @@
 ﻿using BlueMile.Certification.Data.Static;
 using BlueMile.Certification.Web.ApiModels;
+using BlueMile.Certification.WebApi.Infrastructure.Extensions;
 using BlueMile.Certification.WebApi.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +26,11 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <summary>
         /// Creates a new default instance of <see cref="CertificationController"/>.
         /// </summary>
-        public CertificationController(ICertificationRepository certificationRepository)
+        public CertificationController(ICertificationRepository certificationRepository,
+                                       ILogger<CertificationController> logger)
         {
             this.certificationRepository = certificationRepository ?? throw new ArgumentNullException(nameof(certificationRepository));
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         #endregion
@@ -39,12 +43,25 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("owner")]
-        [Authorize(Roles = nameof(UserRoles.Owner))]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<OwnerModel>>> GetOwners()
         {
-            var owners = await this.certificationRepository.FindAllOwners();
+            try
+            {
+                this.logger.TraceRequest(nameof(GetOwners));
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            return Ok(owners);
+                var owners = await this.certificationRepository.FindAllOwners();
+
+                this.logger.LogInformation($"Successfully retrieved {owners.Count} owners.");
+
+                return this.Ok(owners);
+            }
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
         }
 
         /// <summary>
@@ -56,17 +73,39 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("owner/get/{username}")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<ActionResult<OwnerModel>> GetOwnerByUsername(string username)
         {
-            if (String.IsNullOrWhiteSpace(username))
+            try
             {
-                throw new ArgumentNullException(nameof(username));
+                this.logger.TraceRequest(username);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                if (String.IsNullOrWhiteSpace(username))
+                {
+                    throw new ArgumentNullException(nameof(username));
+                }
+
+                var owner = await this.certificationRepository.FindOwnerByUsername(username);
+
+                if (owner != null)
+                {
+                    this.logger.LogInformation($"Successfully found owner with username {username} - {owner.Name} {owner.Surname}");
+
+                    return this.Ok(owner);
+                }
+                else
+                {
+                    this.logger.LogInformation($"No owner found with username {username}");
+
+                    return this.NotFound("No owner found with username: " + username);
+                }
             }
-
-            var owner = await this.certificationRepository.FindOwnerByUsername(username);
-
-            return Ok(owner);
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
         }
 
         /// <summary>
@@ -80,23 +119,38 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </returns>
         [HttpGet]
         [Route("owner/{id}")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> GetOwner(string id)
         {
-            if (String.IsNullOrWhiteSpace(id))
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var owner = await this.certificationRepository.FindOwnerById(Guid.Parse(id));
+                if (String.IsNullOrWhiteSpace(id))
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
 
-            if (owner != null)
-            {
-                return Ok(owner);
+                var owner = await this.certificationRepository.FindOwnerById(Guid.Parse(id));
+
+                if (owner != null)
+                {
+                    this.logger.LogInformation($"Successfully found owner with unique identifier {id} - {owner.Name} {owner.Surname}");
+
+                    return this.Ok(owner);
+                }
+                else
+                {
+                    this.logger.LogInformation($"No owner found with unique identifier {id}");
+
+                    return this.NotFound("No owner found with the given identifier: " + id);
+                }
             }
-            else
+            catch (Exception exc)
             {
-                return NotFound();
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
         }
 
@@ -115,19 +169,41 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         [Authorize]
         public async Task<IActionResult> UpdateOwner(Guid id, [FromBody] UpdateOwnerModel ownerEntity)
         {
-            if (id == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(ownerEntity);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            if (ownerEntity == null)
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
+
+                if (ownerEntity == null)
+                {
+                    throw new ArgumentNullException(nameof(ownerEntity));
+                }
+
+                var ownerId = await this.certificationRepository.UpdateOwner(ownerEntity);
+
+                if (ownerId != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully updates owner {ownerEntity.Name} {ownerEntity.Surname}");
+
+                    return this.Ok(ownerId);
+                }
+                else
+                {
+                    this.logger.LogInformation($"Could not update owner {ownerEntity.Name} {ownerEntity.Surname}");
+
+                    return this.NotFound("No owner found with the given details.");
+                }
+            }
+            catch (Exception exc)
             {
-                throw new ArgumentNullException(nameof(ownerEntity));
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
-
-            var owner = await this.certificationRepository.UpdateOwner(ownerEntity);
-
-            return Ok(owner);
         }
 
         /// <summary>
@@ -142,14 +218,34 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerModel ownerEntity)
         {
-            if (ownerEntity == null)
+            try
             {
-                throw new ArgumentNullException(nameof(ownerEntity));
+                this.logger.TraceRequest(ownerEntity);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                if (ownerEntity == null)
+                {
+                    throw new ArgumentNullException(nameof(ownerEntity));
+                }
+
+                var ownerId = await this.certificationRepository.CreateOwner(ownerEntity);
+
+                if (ownerId != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully created new owner {ownerEntity.Name} {ownerEntity.Surname} with unique system identifier {ownerId}");
+                    return this.Ok(ownerId);
+                }
+                else
+                {
+                    this.logger.LogInformation($"Could not create new owner {ownerEntity.Name} {ownerEntity.Surname}.");
+                    return this.BadRequest($"Could not create new owner with given details.");
+                }
             }
-
-            var result = await this.certificationRepository.CreateOwner(ownerEntity);
-
-            return Ok(result);
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
         }
 
         /// <summary>
@@ -164,13 +260,34 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteOwner(Guid? id)
         {
-            if (!id.HasValue || id.Value == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var result = await this.certificationRepository.DeleteOwner(id.Value);
-            return Ok(result);
+                if (!id.HasValue || id.Value == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
+
+                var result = await this.certificationRepository.DeleteOwner(id.Value);
+
+                if (result)
+                {
+                    this.logger.LogInformation($"Successfully deleted owner with unique system identifier {id}");
+                    return this.Ok(result);
+                }
+                else
+                {
+                    this.logger.LogError($"Could not delete user with unique system identifier {id}");
+                    return this.BadRequest("Could not delete owner.");
+                }
+            }
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
         }
 
         #endregion
@@ -186,23 +303,35 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("boat/{ownerId}")]
-        [Authorize/*(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))*/]
+        [Authorize]
         public async Task<IActionResult> GetBoatsByOwnerId(Guid ownerId)
         {
-            if (ownerId == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(ownerId));
-            }
+                this.logger.TraceRequest(ownerId);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var boats = await this.certificationRepository.FindAllBoatsByOwnerId(ownerId);
+                if (ownerId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(ownerId));
+                }
 
-            if (boats != null && boats.Count > 0)
-            {
-                return Ok(boats);
+                var boats = await this.certificationRepository.FindAllBoatsByOwnerId(ownerId);
+
+                if (boats != null)
+                {
+                    this.logger.LogInformation($"Successfully found {boats.Count} for owner with unique system identifier {ownerId}");
+                    return this.Ok(boats);
+                }
+                else
+                {
+                    throw new ArgumentNullException(nameof(boats));
+                }
             }
-            else
+            catch (Exception exc)
             {
-                return NotFound();
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
         }
 
@@ -217,23 +346,36 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </returns>
         [HttpGet]
         [Route("boat/get/{id}")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> GetBoat(Guid id)
         {
-            if (id == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var boat = await this.certificationRepository.FindBoatById(id);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
 
-            if (boat != null)
-            {
-                return Ok(boat);
+                var boat = await this.certificationRepository.FindBoatById(id);
+
+                if (boat != null)
+                {
+                    this.logger.LogInformation($"Successfully found boat {boat.RegisteredNumber} with unique system identifier {id}");
+                    return this.Ok(boat);
+                }
+                else
+                {
+                    this.logger.LogInformation($"No boat found with the given unique system identifier {id}");
+                    return this.NotFound();
+                }
             }
-            else
+            catch (Exception exc)
             {
-                return NotFound();
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
         }
 
@@ -249,22 +391,42 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("boat/update/{id}")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> UpdateBoat(Guid id, [FromBody] UpdateBoatModel boatEntity)
         {
-            if (id == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(boatEntity);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            if (boatEntity == null)
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
+
+                if (boatEntity == null)
+                {
+                    throw new ArgumentNullException(nameof(boatEntity));
+                }
+
+                var boatId = await this.certificationRepository.UpdateBoat(boatEntity);
+
+                if (boatId != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully updated boat {boatEntity.RegisteredNumber} with unique identifier {boatId}");
+                    return this.Ok(boatId);
+                }
+                else
+                {
+                    this.logger.LogInformation($"Could not update boat {boatEntity.RegisteredNumber}");
+                    return this.BadRequest("Could not update boat with given details.");
+                }
+            }
+            catch (Exception exc)
             {
-                throw new ArgumentNullException(nameof(boatEntity));
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
-
-            var boat = await this.certificationRepository.UpdateBoat(boatEntity);
-
-            return Ok(boat);
         }
 
         /// <summary>
@@ -276,17 +438,37 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("boat/create")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> CreateBoat([FromBody] CreateBoatModel boatEntity)
         {
-            if (boatEntity == null)
+            try
             {
-                throw new ArgumentNullException(nameof(boatEntity));
+                this.logger.TraceRequest(boatEntity);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                if (boatEntity == null)
+                {
+                    throw new ArgumentNullException(nameof(boatEntity));
+                }
+
+                var boatId = await this.certificationRepository.CreateBoat(boatEntity);
+
+                if (boatId != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully created new boat {boatEntity.RegisteredNumber} with unique identifier {boatId}");
+                    return this.Ok(boatId);
+                }
+                else
+                {
+                    this.logger.LogInformation($"Could not create new boat {boatEntity.RegisteredNumber}");
+                    return BadRequest("Could not create new boat with the given details");
+                }
             }
-
-            var result = await this.certificationRepository.CreateBoat(boatEntity);
-
-            return Ok(result);
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
         }
 
         /// <summary>
@@ -298,16 +480,37 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("boat/delete/{id}")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> DeleteBoat(Guid id)
         {
-            if (id == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var result = await this.certificationRepository.DeleteBoat(id);
-            return Ok(result);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
+
+                var result = await this.certificationRepository.DeleteBoat(id);
+                
+                if (result)
+                {
+                    this.logger.LogInformation($"Successfully deleted boat with unique system identifier {id}");
+                    return this.Ok(result);
+                }
+                else
+                {
+                    this.logger.LogError($"Could not delete boat with unique system identifier {id}");
+                    return this.BadRequest("Could not delete boat.");
+                }
+            }
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
         }
 
         #endregion
@@ -323,23 +526,35 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("item/{boatId}")]
-        [Authorize/*(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))*/]
+        [Authorize]
         public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
         {
-            if (boatId == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(boatId));
-            }
+                this.logger.TraceRequest(boatId);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var items = await this.certificationRepository.FindItemsByBoatId(boatId);
+                if (boatId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(boatId));
+                }
 
-            if (items != null && items.Count > 0)
-            {
-                return Ok(items);
+                var items = await this.certificationRepository.FindItemsByBoatId(boatId);
+
+                if (items != null)
+                {
+                    this.logger.LogInformation($"Successfully retrieved {items.Count} items for boat with unique system identifier {boatId}");
+                    return this.Ok(items);
+                }
+                else
+                {
+                    throw new ArgumentNullException(nameof(items));
+                }
             }
-            else
+            catch (Exception exc)
             {
-                return NotFound();
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
         }
 
@@ -352,23 +567,36 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("item/{id}")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> GetItem(Guid id)
         {
-            if (id == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var boat = await this.certificationRepository.FindBoatById(id);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
 
-            if (boat != null)
-            {
-                return Ok(boat);
+                var item = await this.certificationRepository.FindItemById(id);
+
+                if (item != null)
+                {
+                    this.logger.LogInformation($"Successfully retrieved item {item} with unique system identifier {id}");
+                    return this.Ok(item);
+                }
+                else
+                {
+                    this.logger.LogInformation($"No item found with unique system identifier {id}");
+                    return this.NotFound();
+                }
             }
-            else
+            catch (Exception exc)
             {
-                return NotFound();
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
         }
 
@@ -384,22 +612,42 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("item/update/{id}")]
-        [Authorize/*(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))*/]
+        [Authorize]
         public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemModel itemEntity)
         {
-            if (id == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            if (itemEntity == null)
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
+
+                if (itemEntity == null)
+                {
+                    throw new ArgumentNullException(nameof(itemEntity));
+                }
+
+                var itemId = await this.certificationRepository.UpdateItem(itemEntity);
+
+                if (itemId != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully updated {itemEntity.Description} with unique system identifier {itemId}");
+                    return this.Ok(itemId);
+                }
+                else
+                {
+                    this.logger.LogError($"Could not update item {itemEntity.Description}");
+                    return this.BadRequest("Could not update item.");
+                }
+            }
+            catch (Exception exc)
             {
-                throw new ArgumentNullException(nameof(itemEntity));
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
-
-            var result = await this.certificationRepository.UpdateItem(itemEntity);
-
-            return Ok(result);
         }
 
         /// <summary>
@@ -411,17 +659,37 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("item/create")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> CreateItem([FromBody] CreateItemModel itemEntity)
         {
-            if (itemEntity == null)
+            try
             {
-                throw new ArgumentNullException(nameof(itemEntity));
+                this.logger.TraceRequest(itemEntity);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                if (itemEntity == null)
+                {
+                    throw new ArgumentNullException(nameof(itemEntity));
+                }
+
+                var itemId = await this.certificationRepository.CreateItem(itemEntity);
+
+                if (itemId != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully created new item {itemEntity.Description} with unique system identifier {itemId}");
+                    return this.Ok(itemId);
+                }
+                else
+                {
+                    this.logger.LogError($"Could not create new item {itemEntity.Description}");
+                    return this.BadRequest("Could not create new item.");
+                }
             }
-
-            var result = await this.certificationRepository.CreateItem(itemEntity);
-
-            return Ok(result);
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
         }
 
         /// <summary>
@@ -433,31 +701,67 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("item/delete/{id}")]
-        [Authorize(Roles = nameof(UserRoles.Owner) + ", " + nameof(UserRoles.Administrator))]
+        [Authorize]
         public async Task<IActionResult> DeleteItem(Guid id)
         {
-            if (id == Guid.Empty)
+            try
             {
-                throw new ArgumentNullException(nameof(id));
-            }
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-            var result = await this.certificationRepository.DeleteItem(id);
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
 
-            if (result)
-            {
-                return Ok(result);
+                var result = await this.certificationRepository.DeleteItem(id);
+
+                if (result)
+                {
+                    this.logger.LogInformation($"Successfully deleted item with unique identifier {id}");
+                    return this.Ok(result);
+                }
+                else
+                {
+                    this.logger.LogInformation($"Could not delete item with unique system idenfitier {id}");
+                    return this.NotFound();
+                }
             }
-            else
+            catch (Exception exc)
             {
-                return NotFound();
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
             }
         }
 
         #endregion
 
+        #region Instance Methods
+        
+
+		/// <summary>
+		/// Gets the name of the action where an error occurs.
+		/// </summary>
+		/// <returns>
+		///		Returns the string name of the action where the error occurred.
+		/// </returns>
+		private string GetControllerActionNames()
+		{
+			var controller = this.ControllerContext.ActionDescriptor.ControllerName;
+			var action = this.ControllerContext.ActionDescriptor.ActionName;
+
+			return $"{controller} - {action}";
+		}
+        #endregion
+
         #region Instance Fields
 
         private readonly ICertificationRepository certificationRepository;
+
+        /// <summary>
+        /// Used for logging events
+        /// </summary>
+        private readonly ILogger<CertificationController> logger;
 
         #endregion
     }
