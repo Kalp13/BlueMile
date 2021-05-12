@@ -130,8 +130,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.EquipmentListCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
-                var destinationRoute = "items";
-                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={CurrentBoat.Id.ToString()}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemsRoute}?boatId={CurrentBoat.Id}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
             this.ViewRequirementsCommand = new Command(async () =>
@@ -145,6 +144,32 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
 
             this.SaveCommand = new Command(async () =>
+            {
+                await this.SaveBoatDetails();
+            });
+            this.CancelCommand = new Command(async () =>
+            {
+                if (await UserDialogs.Instance.ConfirmAsync("Are you sure you want to cancel capturing this boat?", "Cancel Boat?", "Yes", "No").ConfigureAwait(false))
+                {
+                    this.EditBoat = false;
+                    await this.GetBoat().ConfigureAwait(false);
+                }
+            });
+
+            this.EditBoatCommand = new Command(async () =>
+            {
+                this.EditBoat = true;
+                UserDialogs.Instance.ShowLoading("Loading...");
+                var destinationRoute = "boats/update";
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.Id}").ConfigureAwait(false);
+                Shell.Current.FlyoutIsPresented = false;
+            });
+        }
+
+        private async Task SaveBoatDetails()
+        {
+            try
             {
                 UserDialogs.Instance.ShowLoading("Saving...");
                 this.CurrentBoat.OwnerId = Guid.Parse(SettingsService.OwnerId);
@@ -169,25 +194,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok").ConfigureAwait(false);
                 }
-            });
-            this.CancelCommand = new Command(async () =>
+            }
+            catch (Exception exc)
             {
-                if (await UserDialogs.Instance.ConfirmAsync("Are you sure you want to cancel capturing this boat?", "Cancel Boat?", "Yes", "No").ConfigureAwait(false))
-                {
-                    this.EditBoat = false;
-                    await this.GetBoat().ConfigureAwait(false);
-                }
-            });
-
-            this.EditBoatCommand = new Command(async () =>
-            {
-                this.EditBoat = true;
-                UserDialogs.Instance.ShowLoading("Loading...");
-                var destinationRoute = "boats/update";
-                ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.Id}").ConfigureAwait(false);
-                Shell.Current.FlyoutIsPresented = false;
-            });
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Save Details Error");
+            }
         }
 
         private async Task BuildEmailContent()
@@ -299,6 +311,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (!String.IsNullOrWhiteSpace(this.CurrentBoatId))
                 {
+                    if (this.dataService == null)
+                    {
+                        this.dataService = new DataService();
+                    }
+
                     this.CurrentBoat = await this.dataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
                     this.BoatImages = new ObservableCollection<ImageMobileModel>();
 

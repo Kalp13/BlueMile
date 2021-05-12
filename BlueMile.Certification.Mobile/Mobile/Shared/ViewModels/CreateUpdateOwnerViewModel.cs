@@ -242,7 +242,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     if (this.OwnerDetails.SystemId == null || this.OwnerDetails.SystemId == Guid.Empty)
                     {
                         var result = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
-                        if (result)
+                        if (result > 0)
                         {
                             if (this.apiService == null)
                             {

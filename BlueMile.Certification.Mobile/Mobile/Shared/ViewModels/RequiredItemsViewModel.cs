@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Models;
+using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.ObjectModel;
@@ -149,14 +150,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             UserDialogs.Instance.ShowLoading("Loading...");
             var destinationRoute = $"items/detail";
-            await Shell.Current.GoToAsync($"{destinationRoute}?itemId={this.SelectedItem.Id}").ConfigureAwait(false);
+            await Shell.Current.GoToAsync($"{Constants.itemDetailRoute}?itemId={this.SelectedItem.Id}").ConfigureAwait(false);
             Shell.Current.FlyoutIsPresented = false;
-
-            //UserDialogs.Instance.ShowLoading("Loading...");
-            //var destinationRoute = "items/detail";
-            //ShellNavigationState state = Shell.Current.CurrentState;
-            //await Shell.Current.GoToAsync($"{destinationRoute}?itemId={this.SelectedItem.Id.ToString()}").ConfigureAwait(false);
-            //Shell.Current.FlyoutIsPresented = false;
         }
 
         #endregion

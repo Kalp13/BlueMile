@@ -29,6 +29,9 @@ namespace BlueMile.Certification.Mobile
             //User Pages
             Routing.RegisterRoute(nameof(RegisterUserPage), typeof(RegisterUserPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));
+
+            //Extra Routes
+            Routing.RegisterRoute(Constants.settingsRoute, typeof(SettingsPage));
         }
 
         private async void OnMenuItemClicked(object sender, EventArgs e)

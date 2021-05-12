@@ -33,6 +33,9 @@ namespace BlueMile.Certification.Mobile.Services
         public static string itemEditRoute = "item/edit";
         public static string itemNewRoute = "item/new";
 
+        //Extra Routes
+        public static string settingsRoute = "settings";
+
         #endregion
     }
 }

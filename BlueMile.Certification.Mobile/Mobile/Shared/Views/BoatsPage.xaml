@@ -40,7 +40,7 @@
                                              Spacing="1"
                                              Padding="2">
                                     <Label Text="{Binding Name, StringFormat='Boat Name: {0}'}"/>
-                                    <Label Text="{Binding RegisteredNumber, StringFormat='Registered Nummber: {0}'}"/>
+                                    <Label Text="{Binding RegisteredNumber, StringFormat='Registered Number: {0}'}"/>
                                 </StackLayout>
                             </StackLayout>                                         
                         </ViewCell>

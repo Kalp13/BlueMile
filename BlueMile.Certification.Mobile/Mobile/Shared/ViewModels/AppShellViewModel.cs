@@ -41,6 +41,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand SettingsCommand
+        {
+            get;
+            private set;
+        }
+
         public AppShellViewModel()
         {
             this.InitCommands();
@@ -60,6 +66,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 SettingsService.Password = String.Empty;
                 App.Current.MainPage = new LoginPage();
                 UserDialogs.Instance.HideLoading();
+            });
+            this.SettingsCommand = new Command(async () =>
+            {
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{Constants.settingsRoute}", true).ConfigureAwait(false);
             });
         }
     }
