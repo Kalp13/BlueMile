@@ -58,5 +58,9 @@
                      Text="Refresh"
                      IconImageSource="refresh.png"
                      Order="Primary"/>
+        <ToolbarItem Command="{Binding SyncBoatsCommand}"
+                     Text="Sync Boats"
+                     Order="Secondary"
+                     Priority="1"/>
     </ContentPage.ToolbarItems>
 </ContentPage>

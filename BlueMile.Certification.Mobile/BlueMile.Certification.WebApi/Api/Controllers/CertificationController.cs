@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 namespace BlueMile.Certification.WebApi.Api.Controllers
 {
     [Route("api/[controller]")]
-    [Authorize]
     [ApiController]
     [ProducesResponseType(StatusCodes.Status200OK)]
     public class CertificationController : ControllerBase
@@ -43,15 +42,14 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("owner")]
-        [Authorize]
-        public async Task<ActionResult<IEnumerable<OwnerModel>>> GetOwners()
+        public async Task<ActionResult<IEnumerable<OwnerModel>>> GetOwners([FromQuery]FindOwnerModel findOwnerModel)
         {
             try
             {
                 this.logger.TraceRequest(nameof(GetOwners));
                 this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-                var owners = await this.certificationRepository.FindAllOwners();
+                var owners = await this.certificationRepository.FindAllOwners(findOwnerModel);
 
                 this.logger.LogInformation($"Successfully retrieved {owners.Count} owners.");
 
@@ -73,7 +71,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("owner/get/{username}")]
-        [Authorize]
         public async Task<ActionResult<OwnerModel>> GetOwnerByUsername(string username)
         {
             try
@@ -119,7 +116,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </returns>
         [HttpGet]
         [Route("owner/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetOwner(string id)
         {
             try
@@ -166,7 +162,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("owner/update/{id}")]
-        [Authorize]
         public async Task<IActionResult> UpdateOwner(Guid id, [FromBody] UpdateOwnerModel ownerEntity)
         {
             try
@@ -257,7 +252,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("owner/delete/{id}")]
-        [Authorize]
         public async Task<IActionResult> DeleteOwner(Guid? id)
         {
             try
@@ -303,7 +297,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("boat/{ownerId}")]
-        [Authorize]
         public async Task<IActionResult> GetBoatsByOwnerId(Guid ownerId)
         {
             try
@@ -346,7 +339,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </returns>
         [HttpGet]
         [Route("boat/get/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetBoat(Guid id)
         {
             try
@@ -391,7 +383,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("boat/update/{id}")]
-        [Authorize]
         public async Task<IActionResult> UpdateBoat(Guid id, [FromBody] UpdateBoatModel boatEntity)
         {
             try
@@ -438,7 +429,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("boat/create")]
-        [Authorize]
         public async Task<IActionResult> CreateBoat([FromBody] CreateBoatModel boatEntity)
         {
             try
@@ -480,7 +470,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("boat/delete/{id}")]
-        [Authorize]
         public async Task<IActionResult> DeleteBoat(Guid id)
         {
             try
@@ -526,7 +515,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("item/{boatId}")]
-        [Authorize]
         public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
         {
             try
@@ -567,7 +555,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("item/{id}")]
-        [Authorize]
         public async Task<IActionResult> GetItem(Guid id)
         {
             try
@@ -612,7 +599,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("item/update/{id}")]
-        [Authorize]
         public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemModel itemEntity)
         {
             try
@@ -659,7 +645,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("item/create")]
-        [Authorize]
         public async Task<IActionResult> CreateItem([FromBody] CreateItemModel itemEntity)
         {
             try
@@ -701,7 +686,6 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpDelete]
         [Route("item/delete/{id}")]
-        [Authorize]
         public async Task<IActionResult> DeleteItem(Guid id)
         {
             try

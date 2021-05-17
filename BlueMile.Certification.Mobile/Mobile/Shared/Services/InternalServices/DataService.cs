@@ -196,9 +196,18 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
                 var boatEntity = BoatHelper.ToBoatEntity(boat);
-                var response = await this.dataConnection.InsertOrReplaceAsync(boatEntity, typeof(BoatMobileEntity)).ConfigureAwait(false);
+                var count = await this.dataConnection.Table<BoatMobileEntity>().CountAsync();
+                boatEntity.Id = count + 1;
+                 var result = await this.dataConnection.InsertAsync(boatEntity, typeof(BoatMobileEntity)).ConfigureAwait(false);
 
-                return boatEntity.Id;
+                if (result > 0)
+                {
+                    return boatEntity.Id;
+                }
+                else
+                {
+                    throw new InvalidDataException("Could not save new boat details.");
+                }
             }
             catch (Exception)
             {
@@ -302,6 +311,8 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 }
 
                 var itemEntity = ItemHelper.ToItemEntity(item);
+                var count = await this.dataConnection.Table<ItemMobileEntity>().CountAsync();
+                itemEntity.Id = count + 1;
                 var response = await this.dataConnection.InsertAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
 
                 return itemEntity.Id;

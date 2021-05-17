@@ -18,7 +18,10 @@
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
   <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-  <application android:name="android.app.Application" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:debuggable="true" android:extractNativeLibs="true" android:icon="@drawable/bluemile" android:label="BM Certification" android:theme="@style/MainTheme">
+  <application android:name="android.app.Application" android:allowBackup="true" android:appComponentFactory="androidx.core.app.CoreComponentFactory" android:debuggable="true" android:extractNativeLibs="true" android:icon="@drawable/bluemile" android:label="BlueMile" android:networkSecurityConfig="@xml/network_security_config" android:theme="@style/MainTheme">
+    <provider android:name="androidx.core.content.FileProvider" android:authorities="com.bluemile.certification.mobile.fileprovider" android:exported="false" android:grantUriPermissions="true">
+      <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths" />
+    </provider>
     <activity android:name="crc64e0052b341385bb98.MainActivity" android:configChanges="orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:icon="@mipmap/icon" android:label="BlueMile.Certification.Mobile" android:theme="@style/MainTheme" />
     <activity android:name="crc64e0052b341385bb98.SplashActivity" android:noHistory="true" android:theme="@style/MyTheme.Splash">
       <intent-filter>

@@ -9,7 +9,7 @@
             Creates a new default instance of <see cref="T:BlueMile.Certification.WebApi.Api.Controllers.CertificationController"/>.
             </summary>
         </member>
-        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwners">
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwners(BlueMile.Certification.Web.ApiModels.FindOwnerModel)">
             <summary>
             Gets all the active owners in the system.
             </summary>
@@ -228,7 +228,7 @@
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DoesOwnerExist(System.Guid)">
             <inheritdoc/>
         </member>
-        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllOwners">
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllOwners(BlueMile.Certification.Web.ApiModels.FindOwnerModel)">
             <inheritdoc/>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindOwnerByUsername(System.String)">

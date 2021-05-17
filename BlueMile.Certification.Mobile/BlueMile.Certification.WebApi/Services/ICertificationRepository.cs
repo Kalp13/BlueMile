@@ -10,7 +10,7 @@ namespace BlueMile.Certification.WebApi.Services
     {
         #region Owner Methods
 
-        Task<List<OwnerModel>> FindAllOwners();
+        Task<List<OwnerModel>> FindAllOwners(FindOwnerModel findOwnerModel);
 
         Task<OwnerModel> FindOwnerById(Guid ownerId);
 

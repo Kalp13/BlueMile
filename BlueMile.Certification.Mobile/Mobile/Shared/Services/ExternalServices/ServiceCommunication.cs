@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using Xamarin.Forms;
 
 namespace BlueMile.Certification.Mobile.Services.ExternalServices
@@ -143,15 +144,31 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 {
                     client = CreateClient();
                 }
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
 
-                Uri uri = new Uri($@"{SettingsService.OwnerServiceAddress}/{ownerId}");
-                HttpResponseMessage response = await client.GetAsync(uri).ConfigureAwait(false);
+                var filterModel = new FindOwnerModel()
+                {
+                    OwnerId = ownerId,
+                    SearchTerm = ""
+                };
+                var addressBuilder = new UriBuilder($"{SettingsService.OwnerServiceAddress}");
+                var query = HttpUtility.ParseQueryString(addressBuilder.Query);
+                query[nameof(filterModel.OwnerId)] = filterModel.OwnerId.ToString();
+                query[nameof(filterModel.SearchTerm)] = filterModel.SearchTerm;
+
+                addressBuilder.Query = query.ToString();
+
+                var authHeader = new AuthenticationHeaderValue("bearer", SettingsService.UserToken);
+                client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var request = new HttpRequestMessage(HttpMethod.Get, addressBuilder.ToString());
+                request.Headers.Authorization = authHeader;
+
+                var response = await client.SendAsync(request).ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
                     string content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
-                    var owner = JsonConvert.DeserializeObject<OwnerModel>(content);
-                    return OwnerModelHelper.ToOwnerMobileModel(owner);
+                    var owner = JsonConvert.DeserializeObject<IEnumerable<OwnerModel>>(content);
+                    return OwnerModelHelper.ToOwnerMobileModel(owner.FirstOrDefault());
                 }
 
                 return null;
@@ -400,8 +417,8 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                     if (response.IsSuccessStatusCode)
                     {
-                        var result = await response.Content.ReadAsStringAsync();
-                        return Guid.Parse(result);
+                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                        return result;
                     }
                     else
                     {

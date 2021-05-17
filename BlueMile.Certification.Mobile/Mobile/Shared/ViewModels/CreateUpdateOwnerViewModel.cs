@@ -264,6 +264,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
                                 await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
                             }
 
+                            MessagingCenter.Instance.Send<OwnerMobileModel, string>(this.OwnerDetails, "Owner", "");
+
                             Device.BeginInvokeOnMainThread(async () =>
                             {
                                 await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
@@ -293,14 +295,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             {
                                 await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
                             }
+
+                            MessagingCenter.Instance.Send<OwnerMobileModel, string>(this.OwnerDetails, "Owner", "");
                             Device.BeginInvokeOnMainThread(async () =>
                             {
-                                await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                                await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
                             });
                         }
                     }
-
-                    
                 }
             }
             catch (WebException webExc)

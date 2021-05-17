@@ -65,9 +65,26 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         /// <inheritdoc/>
-        public async Task<List<OwnerModel>> FindAllOwners()
+        public async Task<List<OwnerModel>> FindAllOwners(FindOwnerModel findOwnerModel)
         {
+            if (findOwnerModel == null)
+            {
+                throw new ArgumentNullException(nameof(findOwnerModel));
+            }
+
             var owners = this.applicationDb.Owners.Where(x => x.IsActive);
+
+            if (!String.IsNullOrWhiteSpace(findOwnerModel.SearchTerm))
+            {
+                owners.Where(x => x.Name.Contains(findOwnerModel.SearchTerm) ||
+                                  x.Surname.Contains(findOwnerModel.SearchTerm) ||
+                                  x.Identification.Contains(findOwnerModel.SearchTerm));
+            }
+
+            if (findOwnerModel.OwnerId.HasValue && findOwnerModel.OwnerId.Value != Guid.Empty)
+            {
+                owners = owners.Where(x => x.Id == findOwnerModel.OwnerId);
+            }
 
             return await owners.Select(y => OwnerHelper.ToApiOwnerModel(y)).ToListAsync();
         }

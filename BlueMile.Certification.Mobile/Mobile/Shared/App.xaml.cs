@@ -29,8 +29,10 @@ namespace BlueMile.Certification.Mobile
             ToastConfig.DefaultActionTextColor = Color.FromHex("#FFFFFF");
             ToastConfig.DefaultBackgroundColor = Color.FromHex("#002EB0");
             ToastConfig.DefaultMessageTextColor = Color.FromHex("#FFFFFF");
-            ToastConfig.DefaultDuration = TimeSpan.FromSeconds(4);
+            ToastConfig.DefaultDuration = TimeSpan.FromSeconds(2);
             ToastConfig.DefaultPosition = ToastPosition.Bottom;
+
+            IDataService dataService = new DataService();
         }
 
         protected override void OnStart()

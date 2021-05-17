@@ -244,7 +244,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         var syncResult = await this.dataService.UpdateBoatAsync(this.BoatDetails).ConfigureAwait(false);
                         UserDialogs.Instance.Toast($"Successfully uploaded {this.BoatDetails.Name}");
 
-                        UserDialogs.Instance.HideLoading();
+                        MessagingCenter.Instance.Send<string, string>("Add", "Boat", "");
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);

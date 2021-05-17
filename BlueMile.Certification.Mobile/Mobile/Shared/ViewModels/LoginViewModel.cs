@@ -200,7 +200,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }).ConfigureAwait(false);
 
                 UserDialogs.Instance.ShowLoading("Loading...");
-                if (!String.IsNullOrWhiteSpace(userLogin.Token))
+                if (userLogin != null && !String.IsNullOrWhiteSpace(userLogin.Token))
                 {
                     SettingsService.UserToken = userLogin.Token;
                     SettingsService.Username = userLogin.Username;
@@ -208,18 +208,18 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     SettingsService.OwnerId = userLogin.OwnerId.ToString();
 
                     UserDialogs.Instance.Toast($"Successfully logged in {userLogin.Username}");
+
+                    UserDialogs.Instance.HideLoading();
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        App.Current.MainPage = Shell.Current ?? new AppShell();
+                    });
                 }
                 else
                 {
-                    UserDialogs.Instance.Alert("No user found with the given username and password.", "Log In Failed");
+                    await UserDialogs.Instance.AlertAsync("No user found with the given username and password.", "Log In Failed");
                 }
-
-                UserDialogs.Instance.HideLoading();
-
-                Device.BeginInvokeOnMainThread(() =>
-                {
-                    App.Current.MainPage = Shell.Current ?? new AppShell();
-                });
             }
             catch (Exception exc)
             {

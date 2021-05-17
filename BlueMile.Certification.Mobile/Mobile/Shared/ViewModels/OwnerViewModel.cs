@@ -80,6 +80,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         public OwnerViewModel()
         {
             this.InitCommands();
+
+            this.CurrentOwner = new OwnerMobileModel();
             
             this.GetOwner().ConfigureAwait(false);
         }
@@ -98,10 +100,32 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.EditOwnerCommand = new Command(async () =>
             {
-                UserDialogs.Instance.ShowLoading("Loading...");
-                await Shell.Current.Navigation.PushAsync(new CreateUpdateOwnerPage()).ConfigureAwait(false);
-                UserDialogs.Instance.HideLoading();
+                await this.EditOwnerDetails();
             });
+        }
+
+        private async Task EditOwnerDetails()
+        {
+            try
+            {
+                UserDialogs.Instance.ShowLoading("Loading...");
+
+                MessagingCenter.Instance.Subscribe<OwnerMobileModel, string>(this.CurrentOwner, "Owner", (sender, e) =>
+                {
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await this.GetOwner();
+                    });
+                });
+                await Shell.Current.Navigation.PushAsync(new CreateUpdateOwnerPage()).ConfigureAwait(false);
+
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Edit Owner Error");
+            }
         }
 
         private async Task SyncOwnerDetails()
@@ -231,7 +255,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.dataService = new DataService();
                 }
 
-                this.CurrentOwner = (await this.dataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
+                var owner = await this.dataService.FindOwnersAsync().ConfigureAwait(false);
+
+                this.CurrentOwner = owner?.FirstOrDefault(x => x.SystemId == Guid.Parse(SettingsService.OwnerId));
 
                 if (this.CurrentOwner != null)
                 {
@@ -256,10 +282,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         var onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
                         if (onlineOwner != null)
                         {
-                            this.CurrentOwner.Id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
-                            if (this.CurrentOwner.Id > 0)
+                            var id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
+                            if (id > 0)
                             {
                                 this.CurrentOwner = onlineOwner;
+                                this.CurrentOwner.Id = id;
+                                this.Title = $"{this.CurrentOwner.Name}'s Details";
+                                this.MenuImage = ImageSource.FromFile("edit.png");
                             }
                         }
                         else

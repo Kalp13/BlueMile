@@ -1,9 +1,9 @@
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\com.bluemile.certification.mobile-Signed.apk
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\BlueMile.Certification.Mobile.Android.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\BlueMile.Certification.Mobile.Android.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\com.bluemile.certification.mobile.apk
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\com.bluemile.certification.mobile.aab
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\com.bluemile.certification.mobile-Signed.aab
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\com.bluemile.certification.mobile-Signed.apk
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\com.bluemile.certification.mobile-Signed.apk.idsig
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\BlueMile.Certification.Mobile.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\bin\Debug\BlueMile.Certification.Web.ApiModels.dll
@@ -279,10 +279,7 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\andr
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\android\assets\ZXing.Net.Mobile.Forms.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\android\assets\zxing.portable.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\android\assets\ZXingNetMobile.dll
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\jl\a77a5c8a-1a33-4d7d-8b05-7df4a7023f59.jar
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_AndroidXJetifyJavaLibraryRules.stamp
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\90dcd23b-a033-4ce6-81c6-6844e75de646.txt
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\acec51ca-a62b-4896-93e3-49f4da29cf66.cfg
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_AndroidXJetifyProguardRules.stamp
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\_AndroidXJetifyProguardRules.jetify
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_AndroidXCecilfy.stamp
@@ -679,3 +676,8 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stam
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_GenerateJavaStubs.stamp
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_GeneratePackageManagerJava.stamp
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_ResolveLibraryProjectImports.stamp
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\res\xml\network_security_config.xml
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\res\xml\file_paths.xml
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\jl\244b5dee-7619-46ce-91a6-a8fd4d94f4fe.jar
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\a92be3ee-af16-4475-8fe4-2d036a7552e7.txt
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\ed237993-3c67-4fd7-b0d1-06ae2b528d58.cfg
