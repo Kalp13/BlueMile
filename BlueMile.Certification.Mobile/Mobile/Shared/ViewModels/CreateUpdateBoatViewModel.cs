@@ -184,7 +184,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 this.BoatDetails.OwnerId = Guid.Parse(SettingsService.OwnerId);
 
-                if (!this.BoatDetails.IsJetski)
+                if (this.BoatDetails.IsJetski)
                 {
                     this.BoatDetails.TubbiesCertificateNumber = String.Empty;
 
@@ -218,42 +218,47 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
                 }
-                else
+                else if (this.BoatDetails.Id == null || this.BoatDetails.Id == Guid.Empty)
                 {
                     this.BoatDetails.Id = await this.dataService.CreateNewBoatAsync(this.BoatDetails).ConfigureAwait(false);
-                    if (this.BoatDetails.Id > 0)
+                }
+                else
+                {
+                    await this.dataService.UpdateBoatAsync(this.BoatDetails);
+                }
+
+                if (this.BoatDetails.Id != null && this.BoatDetails.Id != Guid.Empty)
+                {
+                    if (this.apiService == null)
                     {
-                        if (this.apiService == null)
-                        {
-                            this.apiService = new ServiceCommunication();
-                        }
+                        this.apiService = new ServiceCommunication();
+                    }
 
-                        UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
+                    UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
 
-                        if (this.BoatDetails.SystemId == Guid.Empty)
-                        {
-                            var boatId = await this.apiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
-                            this.BoatDetails.SystemId = boatId;
-                        }
-                        else
-                        {
-                            var boatId = await this.apiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
-                            this.BoatDetails.SystemId = boatId;
-                        }
-
-                        var syncResult = await this.dataService.UpdateBoatAsync(this.BoatDetails).ConfigureAwait(false);
-                        UserDialogs.Instance.Toast($"Successfully uploaded {this.BoatDetails.Name}");
-
-                        MessagingCenter.Instance.Send<string, string>("Add", "Boat", "");
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
-                        });
+                    if (this.BoatDetails.SystemId == null || (this.BoatDetails.SystemId == Guid.Empty))
+                    {
+                        var boatId = await this.apiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
+                        this.BoatDetails.SystemId = boatId;
                     }
                     else
                     {
-                        await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok").ConfigureAwait(false);
+                        var boatId = await this.apiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
+                        this.BoatDetails.SystemId = boatId;
                     }
+
+                    var syncResult = await this.dataService.UpdateBoatAsync(this.BoatDetails).ConfigureAwait(false);
+                    UserDialogs.Instance.Toast($"Successfully uploaded {this.BoatDetails.Name}");
+
+                    MessagingCenter.Instance.Send<string, string>("Add", "Boat", "");
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                    });
+                }
+                else
+                {
+                    await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok").ConfigureAwait(false);
                 }
             }
             catch (Exception exc)

@@ -14,7 +14,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
             {
                 BoatCategoryId = boat.BoatCategoryId,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
-                Id = boat.Id,
+                Id = boat.Id != null && boat.Id != Guid.Empty ? boat.Id : Guid.NewGuid(),
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,

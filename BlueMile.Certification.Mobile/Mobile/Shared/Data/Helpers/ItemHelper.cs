@@ -16,7 +16,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 CapturedDate = item.CapturedDate,
                 Description = item.Description,
                 ExpiryDate = item.ExpiryDate,
-                Id = item.Id,
+                Id = item.Id != null && item.Id != Guid.Empty ? item.Id : Guid.NewGuid(),
                 ItemImageId = item.ItemImage?.Id,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,

@@ -9,7 +9,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the auto incremented primary key for this boat.
         /// </summary>
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the primary unique identifier of this <see cref="BoatMobileEntity"/>.

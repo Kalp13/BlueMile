@@ -56,7 +56,7 @@
                    TabIndex="7"
                    IsPassword="{Binding HidePassword}"
                    Text="{Binding ConfirmPassword}"/>
-            <Button Text="Register In"
+            <Button Text="Register"
                     Command="{Binding RegisterCommand}"/>
         </StackLayout>
     </ContentPage.Content>

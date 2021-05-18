@@ -9,7 +9,7 @@ namespace BlueMile.Certification.Mobile.Models
     {
         #region Instance Fields
 
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public Guid SystemId { get; set; }
 
@@ -58,6 +58,33 @@ namespace BlueMile.Certification.Mobile.Models
         public ImageMobileModel IdentificationDocument { get; set; }
 
         public ImageMobileModel SkippersLicenseImage { get; set; }
+
+        #endregion
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates a new default instance of <see cref="OwnerMobileModel"/>.
+        /// </summary>
+        public OwnerMobileModel()
+        {
+
+        }
+
+        #endregion
+
+        #region Class Methods
+
+        public override string ToString()
+        {
+            var message = $"{this.Name} {this.Surname}\n" +
+                          $"{this.Identification}\n" +
+                          $"{this.Email}\n" +
+                          $"{this.ContactNumber}\n" +
+                          $"{this.SkippersLicenseNumber}\n" +
+                          $"{this.VhfOperatorsLicense}";
+            return message;
+        }
 
         #endregion
     }

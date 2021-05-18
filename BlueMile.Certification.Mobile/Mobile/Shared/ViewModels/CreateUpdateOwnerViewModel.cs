@@ -205,7 +205,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                if (await UserDialogs.Instance.ConfirmAsync(this.OwnerDetails.ToString()).ConfigureAwait(false))
+                if (await UserDialogs.Instance.ConfirmAsync($"Are the following details correct:\n{this.OwnerDetails.ToString()}").ConfigureAwait(false))
                 {
                     if (this.dataService == null)
                     {
@@ -239,10 +239,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         }
                     }
 
-                    if (this.OwnerDetails.SystemId == null || this.OwnerDetails.SystemId == Guid.Empty)
+                    if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
                     {
-                        var result = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
-                        if (result > 0)
+                        this.OwnerDetails.Id = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
+                        if (this.OwnerDetails.SystemId == null || this.OwnerDetails.SystemId == Guid.Empty)
                         {
                             if (this.apiService == null)
                             {

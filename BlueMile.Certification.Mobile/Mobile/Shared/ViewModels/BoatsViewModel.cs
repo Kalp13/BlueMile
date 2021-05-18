@@ -250,7 +250,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 else
                 {
                     boat.Id = await this.dataService.CreateNewBoatAsync(boat).ConfigureAwait(false);
-                    if (boat.Id > 0)
+                    if (boat.Id != null && boat.Id != Guid.Empty)
                     {
                         if (this.apiService == null)
                         {

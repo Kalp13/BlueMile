@@ -215,11 +215,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             var onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
                             if (onlineOwner != null)
                             {
+                                this.CurrentOwner = onlineOwner;
                                 this.CurrentOwner.Id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
-                                if (this.CurrentOwner.Id > 0)
-                                {
-                                    this.CurrentOwner = onlineOwner;
-                                }
                             }
                             else
                             {
@@ -282,14 +279,19 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         var onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
                         if (onlineOwner != null)
                         {
-                            var id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
-                            if (id > 0)
+                            this.CurrentOwner = onlineOwner;
+                            var localOwner = await this.dataService.FindOwnerBySystemIdAsync(onlineOwner.SystemId);
+                            if (localOwner != null)
                             {
-                                this.CurrentOwner = onlineOwner;
-                                this.CurrentOwner.Id = id;
-                                this.Title = $"{this.CurrentOwner.Name}'s Details";
-                                this.MenuImage = ImageSource.FromFile("edit.png");
+                                await this.dataService.UpdateOwnerAsync(this.CurrentOwner);
                             }
+                            else
+                            {
+                                this.CurrentOwner.Id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
+                            }
+
+                            this.Title = $"{this.CurrentOwner.Name}'s Details";
+                            this.MenuImage = ImageSource.FromFile("edit.png");
                         }
                         else
                         {

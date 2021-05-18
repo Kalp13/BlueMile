@@ -126,9 +126,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                var destinationRoute = "items/new";
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoatId}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemNewRoute}?boatId={this.CurrentBoatId}").ConfigureAwait(false);
             }
             catch (Exception exc)
             {

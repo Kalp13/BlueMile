@@ -130,7 +130,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.EquipmentListCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
-                await Shell.Current.GoToAsync($"{Constants.itemsRoute}?boatId={CurrentBoat.Id}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemsRoute}?boatId={this.CurrentBoat.SystemId}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
             this.ViewRequirementsCommand = new Command(async () =>
@@ -162,7 +162,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 UserDialogs.Instance.ShowLoading("Loading...");
                 var destinationRoute = "boats/update";
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.Id}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.SystemId}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
         }
@@ -183,7 +183,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
                 }
-                else if (await this.dataService.UpdateBoatAsync(CurrentBoat).ConfigureAwait(false))
+                else if (await this.dataService.UpdateBoatAsync(this.CurrentBoat).ConfigureAwait(false))
                 {
                     UserDialogs.Instance.Toast("Successfully updated " + this.CurrentBoat.Name, TimeSpan.FromSeconds(2));
                     this.EditBoat = false;

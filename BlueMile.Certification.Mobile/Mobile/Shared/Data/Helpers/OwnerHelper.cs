@@ -12,7 +12,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
         {
             var OwnerMobileEntity = new OwnerMobileEntity()
             {
-                Id = owner.Id,
+                Id = owner.Id != null && owner.Id != Guid.Empty ? owner.Id : Guid.NewGuid(),
                 AddressLine1 = owner.AddressLine1,
                 AddressLine2 = owner.AddressLine2,
                 AddressLine3 = owner.AddressLine3,

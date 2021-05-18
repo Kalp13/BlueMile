@@ -15,6 +15,7 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\EditRequiredItemPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\ItemDetailPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\LoginPage.xaml.g.cs
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\MainMenuPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\NewItemPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\OwnerPage.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\OwnersPage.xaml.g.cs
@@ -29,4 +30,3 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\ref\BlueMile.Certification.Mobile.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.pdb
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\MainMenuPage.xaml.g.cs

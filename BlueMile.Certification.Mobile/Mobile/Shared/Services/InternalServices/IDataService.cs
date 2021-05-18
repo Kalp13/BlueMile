@@ -12,11 +12,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
     {
         #region Owner Data Methods
 
-        Task<long> CreateNewOwnerAsync(OwnerMobileModel owner);
+        Task<Guid> CreateNewOwnerAsync(OwnerMobileModel owner);
 
         Task<OwnerMobileModel> FindOwnerBySystemIdAsync(Guid systemId);
 
-        Task<OwnerMobileModel> FindOwnerByIdAsync(long id);
+        Task<OwnerMobileModel> FindOwnerByIdAsync(Guid id);
 
         Task<bool> UpdateOwnerAsync(OwnerMobileModel owner);
 
@@ -28,11 +28,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         Task<List<BoatMobileModel>> FindBoatsByOwnerIdAsync(Guid ownerId);
 
-        Task<long> CreateNewBoatAsync(BoatMobileModel owner);
+        Task<Guid> CreateNewBoatAsync(BoatMobileModel owner);
 
         Task<BoatMobileModel> FindBoatBySystemIdAsync(Guid systemId);
 
-        Task<BoatMobileModel> FindBoatByIdAsync(long id);
+        Task<BoatMobileModel> FindBoatByIdAsync(Guid id);
 
         Task<bool> UpdateBoatAsync(BoatMobileModel owner);
 
@@ -40,11 +40,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         #region Item Data Methods
 
-        Task<long> CreateNewItemAsync(ItemMobileModel owner);
+        Task<Guid> CreateNewItemAsync(ItemMobileModel owner);
 
         Task<ItemMobileModel> FindItemBySystemIdAsync(Guid systemId);
 
-        Task<ItemMobileModel> FindItemByIdAsync(long id);
+        Task<ItemMobileModel> FindItemByIdAsync(Guid id);
 
         Task<bool> UpdateItemAsync(ItemMobileModel owner);
 

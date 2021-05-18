@@ -9,8 +9,8 @@ namespace BlueMile.Certification.Mobile.Data.Models
     {
         #region Instance Fields
 
-        [AutoIncrement, PrimaryKey]
-        public long Id { get; set; }
+        [PrimaryKey]
+        public Guid Id { get; set; }
 
         public Guid SystemId { get; set; }
 

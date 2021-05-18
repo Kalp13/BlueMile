@@ -7,8 +7,8 @@ namespace BlueMile.Certification.Mobile.Data.Models
 {
     public class ItemMobileEntity
     {
-        [AutoIncrement, PrimaryKey]
-        public long Id { get; set; }
+        [PrimaryKey]
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the primary unique identifier for a <see cref="ItemMobileEntity"/>.
