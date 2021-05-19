@@ -4,6 +4,7 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
+             xmlns:converters="clr-namespace:BlueMile.Certification.Mobile.Converters"
              xmlns:viewModels="clr-namespace:BlueMile.Certification.Mobile.ViewModels"
              x:Class="BlueMile.Certification.Mobile.Views.BoatsPage"
              Shell.BackgroundColor="{StaticResource DefaultBackgroundColor}"
@@ -11,6 +12,9 @@
     <ContentPage.BindingContext>
         <viewModels:BoatsViewModel/>
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <converters:BoolToInverseConverter x:Key="boolInverseConvert"/>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <Grid>
@@ -42,6 +46,12 @@
                                     <Label Text="{Binding Name, StringFormat='Boat Name: {0}'}"/>
                                     <Label Text="{Binding RegisteredNumber, StringFormat='Registered Number: {0}'}"/>
                                 </StackLayout>
+                                <Image Source="in_sync.png"
+                                       Aspect="AspectFit"
+                                       IsVisible="{Binding IsSynced}"/>
+                                <Image Source="not_synced.png"
+                                       Aspect="AspectFit"
+                                       IsVisible="{Binding IsSynced, Converter={StaticResource boolInverseConvert}}"/>
                             </StackLayout>                                         
                         </ViewCell>
                     </DataTemplate>

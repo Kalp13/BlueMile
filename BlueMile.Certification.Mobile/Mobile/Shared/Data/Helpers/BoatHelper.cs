@@ -16,6 +16,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
                 Id = boat.Id != null && boat.Id != Guid.Empty ? boat.Id : Guid.NewGuid(),
                 IsJetski = boat.IsJetski,
+                IsSynced = boat.IsSynced,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
@@ -41,6 +42,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 RegisteredNumber = boat.RegisteredNumber,
                 SystemId = boat.SystemId,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
+                IsSynced = boat.IsSynced
             };
 
             return boatModel;

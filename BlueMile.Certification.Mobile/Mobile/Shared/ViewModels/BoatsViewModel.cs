@@ -129,6 +129,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     await this.SaveBoatDetails(boat);
                 }
 
+                await this.GetBoats();
+
                 UserDialogs.Instance.HideLoading();
             }
             catch (Exception exc)
@@ -173,8 +175,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.dataService = new DataService();
                 }
 
-                var owner = Guid.Parse(SettingsService.OwnerId);
-                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await this.dataService.FindBoatsByOwnerIdAsync(owner).ConfigureAwait(false));
+                var ownerId = Guid.Parse(SettingsService.OwnerId);
+                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await this.dataService.FindBoatsByOwnerIdAsync(ownerId).ConfigureAwait(false));
             }
             catch (Exception exc)
             {
@@ -206,77 +208,53 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                if (boat.SystemId == null || boat.SystemId == Guid.Empty)
+                {
+                    var boatId = await this.apiService.CreateBoat(boat).ConfigureAwait(false);
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        boat.SystemId = boatId;
+                        boat.IsSynced = true;
+                    }
+                    else
+                    {
+                        boat.IsSynced = false;
+                    }
+                }
+                else
+                {
+                    var boatId = await this.apiService.UpdateBoat(boat).ConfigureAwait(false);
+
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        boat.SystemId = boatId;
+                        boat.IsSynced = true;
+
+                        UserDialogs.Instance.Toast($"Successfully uploaded {boat.Name}");
+                    }
+                    else
+                    {
+                        boat.IsSynced = false;
+                    }
+                }
+
                 if (this.dataService == null)
                 {
                     this.dataService = new DataService();
                 }
 
-                boat.OwnerId = Guid.Parse(SettingsService.OwnerId);
-
-                if (!boat.IsJetski)
+                if (boat.Id == null || boat.Id == Guid.Empty)
                 {
-                    boat.TubbiesCertificateNumber = String.Empty;
-
-                    if (boat.TubbiesCertificateImage != null)
-                    {
-                        boat.TubbiesCertificateImage.FilePath = String.Empty;
-                        boat.TubbiesCertificateImage.ImageName = String.Empty;
-                        boat.TubbiesCertificateImage.UniqueImageName = String.Empty;
-                    }
-                }
-
-                if (boat.BoyancyCertificateImage != null)
-                {
-                    if (boat.BoyancyCertificateImage.Id == null || boat.BoyancyCertificateImage.Id == Guid.Empty)
-                    {
-                        boat.BoyancyCertificateImage.Id = Guid.NewGuid();
-                        boat.BoyancyCertificateImage.UniqueImageName = boat.BoyancyCertificateImage.Id.ToString() + ".jpg";
-                    }
-                }
-
-                if (boat.IsJetski && boat.TubbiesCertificateImage != null)
-                {
-                    if (boat.TubbiesCertificateImage.Id == null || boat.TubbiesCertificateImage.Id == Guid.Empty)
-                    {
-                        boat.TubbiesCertificateImage.Id = Guid.NewGuid();
-                        boat.TubbiesCertificateImage.UniqueImageName = boat.TubbiesCertificateImage.Id.ToString() + ".jpg";
-                    }
-                }
-
-                if (boat.BoatCategoryId <= 0)
-                {
-                    await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
+                    boat.Id = await this.dataService.CreateNewBoatAsync(boat).ConfigureAwait(false);
                 }
                 else
                 {
-                    boat.Id = await this.dataService.CreateNewBoatAsync(boat).ConfigureAwait(false);
-                    if (boat.Id != null && boat.Id != Guid.Empty)
-                    {
-                        if (this.apiService == null)
-                        {
-                            this.apiService = new ServiceCommunication();
-                        }
-
-                        UserDialogs.Instance.Toast($"Successfulle saved {boat.Name}");
-
-                        if (boat.SystemId == Guid.Empty)
-                        {
-                            var boatId = await this.apiService.CreateBoat(boat).ConfigureAwait(false);
-                            boat.SystemId = boatId;
-                        }
-                        else
-                        {
-                            var boatId = await this.apiService.UpdateBoat(boat).ConfigureAwait(false);
-                            boat.SystemId = boatId;
-                        }
-
-                        var syncResult = await this.dataService.UpdateBoatAsync(boat).ConfigureAwait(false);
-                        UserDialogs.Instance.Toast($"Successfully uploaded {boat.Name}");
-                    }
-                    else
-                    {
-                        await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok").ConfigureAwait(false);
-                    }
+                    await this.dataService.UpdateBoatAsync(boat).ConfigureAwait(false);
                 }
             }
             catch (Exception exc)
@@ -288,7 +266,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         #endregion
 
-            #region Instance Fields
+        #region Instance Fields
 
         private ObservableCollection<BoatMobileModel> ownersBoats;
 

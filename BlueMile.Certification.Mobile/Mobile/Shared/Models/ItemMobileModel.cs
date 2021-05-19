@@ -50,6 +50,9 @@ namespace BlueMile.Certification.Mobile.Models
         /// </summary>
         public ImageMobileModel ItemImage { get; set; }
 
+        /// <summary>
+        /// Gets or sets the flag indicating if this item has been synchronized to the server.
+        /// </summary>
         public bool IsSynced { get; set; }
     }
 }

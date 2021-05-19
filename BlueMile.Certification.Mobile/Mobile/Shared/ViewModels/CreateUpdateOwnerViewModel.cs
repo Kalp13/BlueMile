@@ -5,6 +5,7 @@ using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Web.ApiModels.Helper;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Globalization;
 using System.Linq;
@@ -249,20 +250,22 @@ namespace BlueMile.Certification.Mobile.ViewModels
                                 this.apiService = new ServiceCommunication();
                             }
 
-                            UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
+                            UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name);
 
-                            var owner = await this.apiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
-                            SettingsService.OwnerId = owner.ToString();
-                            if (owner != null && owner != Guid.Empty)
+                            var ownerId = await this.apiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
+                            if (ownerId != null && ownerId != Guid.Empty)
                             {
+                                SettingsService.OwnerId = ownerId.ToString();
                                 this.OwnerDetails.IsSynced = true;
-                                var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
-                                UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                                UserDialogs.Instance.Toast("Successfully created owner details on server.");
                             }
                             else
                             {
-                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                                this.OwnerDetails.IsSynced = false;
+                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.").ConfigureAwait(false);
                             }
+
+                            var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
 
                             MessagingCenter.Instance.Send<OwnerMobileModel, string>(this.OwnerDetails, "Owner", "");
 
@@ -282,19 +285,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
                                 this.apiService = new ServiceCommunication();
                             }
 
-                            UserDialogs.Instance.Toast("Successfully updated Owner: " + this.OwnerDetails.Name, TimeSpan.FromSeconds(2));
-                            var owner = await this.apiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.OwnerDetails))).ConfigureAwait(false);
-                            SettingsService.OwnerId = owner.ToString();
-                            if (owner != null && owner != Guid.Empty)
+                            UserDialogs.Instance.Toast("Successfully updated Owner: " + this.OwnerDetails.Name);
+                            var ownerId = await this.apiService.UpdateOwner(this.OwnerDetails).ConfigureAwait(false);
+                            if (ownerId != null && ownerId != Guid.Empty)
                             {
+                                SettingsService.OwnerId = ownerId.ToString();
                                 this.OwnerDetails.IsSynced = true;
-                                var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
-                                UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                                UserDialogs.Instance.Toast("Successfully updated owner details to server.");
                             }
                             else
                             {
-                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                                this.OwnerDetails.IsSynced = false;
+                                await UserDialogs.Instance.AlertAsync("Could not update your details on the server. Please try again later.").ConfigureAwait(false);
                             }
+
+                            var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
 
                             MessagingCenter.Instance.Send<OwnerMobileModel, string>(this.OwnerDetails, "Owner", "");
                             Device.BeginInvokeOnMainThread(async () =>
@@ -308,10 +313,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             catch (WebException webExc)
             {
                 await UserDialogs.Instance.AlertAsync($"{webExc.Status} - {webExc.Message} - {webExc.Response}", "Save Owner Error").ConfigureAwait(false);
+                Crashes.TrackError(webExc);
             }
             catch (Exception exc)
             {
                 await UserDialogs.Instance.AlertAsync(exc.Message + " - " + exc.InnerException?.Message, "Save Owner Error").ConfigureAwait(false);
+                Crashes.TrackError(exc);
             }
         }
 

@@ -384,6 +384,7 @@
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "Acr.UserDialogs": "7.1.0.514",
+          "BlueMile.Certification.Web.ApiClient": "1.0.0",
           "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "Microsoft.AppCenter": "4.2.0",
           "Microsoft.AppCenter.Analytics": "4.2.0",
@@ -402,6 +403,20 @@
         },
         "runtime": {
           "bin/placeholder/BlueMile.Certification.Mobile.dll": {}
+        }
+      },
+      "BlueMile.Certification.Web.ApiClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
         }
       },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
@@ -791,6 +806,7 @@
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "Acr.UserDialogs": "7.1.0.514",
+          "BlueMile.Certification.Web.ApiClient": "1.0.0",
           "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "Microsoft.AppCenter": "4.2.0",
           "Microsoft.AppCenter.Analytics": "4.2.0",
@@ -809,6 +825,20 @@
         },
         "runtime": {
           "bin/placeholder/BlueMile.Certification.Mobile.dll": {}
+        }
+      },
+      "BlueMile.Certification.Web.ApiClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
         }
       },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
@@ -1198,6 +1228,7 @@
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "Acr.UserDialogs": "7.1.0.514",
+          "BlueMile.Certification.Web.ApiClient": "1.0.0",
           "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "Microsoft.AppCenter": "4.2.0",
           "Microsoft.AppCenter.Analytics": "4.2.0",
@@ -1216,6 +1247,20 @@
         },
         "runtime": {
           "bin/placeholder/BlueMile.Certification.Mobile.dll": {}
+        }
+      },
+      "BlueMile.Certification.Web.ApiClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
         }
       },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
@@ -1605,6 +1650,7 @@
         "framework": ".NETStandard,Version=v2.1",
         "dependencies": {
           "Acr.UserDialogs": "7.1.0.514",
+          "BlueMile.Certification.Web.ApiClient": "1.0.0",
           "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "Microsoft.AppCenter": "4.2.0",
           "Microsoft.AppCenter.Analytics": "4.2.0",
@@ -1623,6 +1669,20 @@
         },
         "runtime": {
           "bin/placeholder/BlueMile.Certification.Mobile.dll": {}
+        }
+      },
+      "BlueMile.Certification.Web.ApiClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
         }
       },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
@@ -2455,6 +2515,11 @@
       "type": "project",
       "path": "../Shared/BlueMile.Certification.Mobile.csproj",
       "msbuildProject": "../Shared/BlueMile.Certification.Mobile.csproj"
+    },
+    "BlueMile.Certification.Web.ApiClient/1.0.0": {
+      "type": "project",
+      "path": "../../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj",
+      "msbuildProject": "../../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj"
     },
     "BlueMile.Certification.Web.ApiModels/1.0.0": {
       "type": "project",

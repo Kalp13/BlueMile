@@ -30,6 +30,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Surname = owner.Surname,
                 SystemId = owner.SystemId,
                 Town = owner.Town,
+                IsSynced = owner.IsSynced,
 
                 IcasaPopImageId = owner.IcasaPopPhoto?.Id,
                 IdentificationDocumentId = owner.IdentificationDocument?.Id,
@@ -60,6 +61,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 VhfOperatorsLicense = owner.VhfOperatorsLicense,
                 SkippersLicenseNumber = owner.SkippersLicenseNumber,
                 Id = owner.Id,
+                IsSynced = owner.IsSynced,
             };
             return ownerModel;
         }

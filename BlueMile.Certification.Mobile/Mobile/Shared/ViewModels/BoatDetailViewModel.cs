@@ -3,6 +3,7 @@ using BlueMile.Certification.Mobile.Converters;
 using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using Microsoft.AppCenter.Crashes;
 using System;
@@ -105,6 +106,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand SyncCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -165,6 +172,62 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.SystemId}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
+            this.SyncCommand = new Command(async () =>
+            {
+                await this.UploadItemToServer().ConfigureAwait(false);
+            });
+        }
+
+        private async Task UploadItemToServer()
+        {
+            try
+            {
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                if (this.CurrentBoat.SystemId == null || this.CurrentBoat.SystemId == Guid.Empty)
+                {
+                    var boatId = await this.apiService.CreateBoat(this.CurrentBoat).ConfigureAwait(false);
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        this.CurrentBoat.SystemId = boatId;
+                        this.CurrentBoat.IsSynced = true;
+                    }
+                    else
+                    {
+                        this.CurrentBoat.IsSynced = false;
+                    }
+                }
+                else
+                {
+                    var boatId = await this.apiService.UpdateBoat(this.CurrentBoat).ConfigureAwait(false);
+
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        this.CurrentBoat.SystemId = boatId;
+                        this.CurrentBoat.IsSynced = true;
+                    }
+                    else
+                    {
+                        this.CurrentBoat.IsSynced = false;
+                    }
+                }
+
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                var syncResult = await this.dataService.UpdateBoatAsync(this.CurrentBoat).ConfigureAwait(false);
+                UserDialogs.Instance.Toast($"Successfully uploaded {this.CurrentBoat.Name}");
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Sync Error");
+            }
         }
 
         private async Task SaveBoatDetails()
@@ -185,7 +248,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else if (await this.dataService.UpdateBoatAsync(this.CurrentBoat).ConfigureAwait(false))
                 {
-                    UserDialogs.Instance.Toast("Successfully updated " + this.CurrentBoat.Name, TimeSpan.FromSeconds(2));
+                    UserDialogs.Instance.Toast("Successfully updated " + this.CurrentBoat.Name);
                     this.EditBoat = false;
                     await this.GetBoat().ConfigureAwait(false);
                     UserDialogs.Instance.HideLoading();
@@ -352,6 +415,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private bool editBoat;
 
         private IDataService dataService;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

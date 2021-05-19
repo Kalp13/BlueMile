@@ -64,6 +64,10 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// </summary>
         public Guid? TubbiesCertificateImageId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the boolean field indicating if this <see cref="BoatMobileEntity"/>
+        /// has been synchronized to the server.
+        /// </summary>
         public bool IsSynced { get; set; }
     }
 }

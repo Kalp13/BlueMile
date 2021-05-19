@@ -189,10 +189,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                //Device.BeginInvokeOnMainThread(() =>
-                //{
-                    
-                //});
                 var userLogin = await this.apiService.LogUserIn(new UserLoginModel()
                 {
                     EmailAddress = this.Username,
@@ -200,25 +196,55 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }).ConfigureAwait(false);
 
                 UserDialogs.Instance.ShowLoading("Loading...");
-                if (userLogin != null && !String.IsNullOrWhiteSpace(userLogin.Token))
+                
+                if (userLogin != null)
                 {
-                    SettingsService.UserToken = userLogin.Token;
-                    SettingsService.Username = userLogin.Username;
-
-                    SettingsService.OwnerId = userLogin.OwnerId.ToString();
-
-                    UserDialogs.Instance.Toast($"Successfully logged in {userLogin.Username}");
-
-                    UserDialogs.Instance.HideLoading();
-
-                    Device.BeginInvokeOnMainThread(() =>
+                    if (!String.IsNullOrWhiteSpace(userLogin.Token))
                     {
-                        App.Current.MainPage = Shell.Current ?? new AppShell();
-                    });
+                        SettingsService.UserToken = userLogin.Token;
+                        SettingsService.Username = userLogin.Username;
+                        SettingsService.Password = this.Password;
+
+                        SettingsService.OwnerId = userLogin.OwnerId.ToString();
+
+                        UserDialogs.Instance.Toast($"Successfully logged in {userLogin.Username}");
+
+                        Device.BeginInvokeOnMainThread(() =>
+                        {
+                            App.Current.MainPage = Shell.Current ?? new AppShell();
+                        });
+                    }
+                    else
+                    {
+                        await UserDialogs.Instance.AlertAsync("No user found with the given username and password.", "Log In Failed");
+                    }
                 }
-                else
+                else if (!String.IsNullOrWhiteSpace(SettingsService.UserToken) && 
+                         !String.IsNullOrWhiteSpace(SettingsService.Username) && 
+                         !String.IsNullOrWhiteSpace(SettingsService.Password))
                 {
-                    await UserDialogs.Instance.AlertAsync("No user found with the given username and password.", "Log In Failed");
+                    if (await UserDialogs.Instance.ConfirmAsync("Could not log you into the server.\n Would you like to try and log in locally?",
+                                                                "", "Yes", "No").ConfigureAwait(false))
+                    {
+                        if ((this.Username == SettingsService.Username) && (this.Password == SettingsService.Password))
+                        {
+                            await UserDialogs.Instance.AlertAsync("You been successfully logged in locally.\n" +
+                                "Please log out and re-establish connection to the internet when possible.").ConfigureAwait(false);
+
+                            Device.BeginInvokeOnMainThread(() =>
+                            {
+                                App.Current.MainPage = Shell.Current ?? new AppShell();
+                            });
+                        }
+                        else
+                        {
+                            await UserDialogs.Instance.AlertAsync("User details don't match the locally stored details.").ConfigureAwait(false);
+                        }
+                    }
+                    else
+                    {
+                        await UserDialogs.Instance.AlertAsync("Please re-establish connection and try to log in again.");
+                    }
                 }
             }
             catch (Exception exc)

@@ -26,11 +26,12 @@
                              IsVisible="{Binding EditBoat, Converter={StaticResource boolToInverseConverter}, Mode=TwoWay}">
                     <Label Text="{Binding CurrentBoat.Name, StringFormat='Boat Name: {0}'}"/>
                     <Label Text="{Binding CurrentBoat.RegisteredNumber, StringFormat='Registered Number: {0}'}"/>
-                    <Label Text="{Binding CurrentBoat.CategoryId, Converter={StaticResource categoryConverter}, StringFormat='Category: {0}'}"/>
+                    <Label Text="{Binding CurrentBoat.BoatCategoryId, Converter={StaticResource categoryConverter}, StringFormat='Category: {0}'}"/>
                     <Label Text="{Binding CurrentBoat.BoyancyCertificateNumber, StringFormat='Boyancy Cert Number: {0}'}"/>
                     <Label Text="{Binding CurrentBoat.IsJetski, Converter={StaticResource boolConverter}, StringFormat='Is Jetski: {0}'}"/>
                     <Label Text="{Binding CurrentBoat.TubbiesCertificateNumber, StringFormat='Tubbies Cert Numebr: {0}'}"
                            IsVisible="{Binding CurrentBoat.IsJetski}"/>
+                    <Label Text="{Binding CurrentBoat.IsSynced, Converter={StaticResource boolConverter}, StringFormat='Synced: {0}'}"/>
                     <CarouselView ItemsSource="{Binding BoatImages}" 
                                   HorizontalScrollBarVisibility="Default"
                                   IsScrollAnimated="True">
@@ -115,10 +116,11 @@
                                 Command="{Binding CancelCommand}"/>
                     </StackLayout>
                 </StackLayout>
+                <Button Text="Sync"
+                    Command="{Binding SyncCommand}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"/>
             </StackLayout>
-            
-            
-            
         </ScrollView>
     </ContentPage.Content>
     <ContentPage.ToolbarItems>

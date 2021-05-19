@@ -30,6 +30,7 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
                 CapturedDate = item.CapturedDate,
                 Description = item.Description,
                 ExpiryDate = item.ExpiryDate,
+                SystemId = item.SystemId,
                 ItemImage = item.ItemImage,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber

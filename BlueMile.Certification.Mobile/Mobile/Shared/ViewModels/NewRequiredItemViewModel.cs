@@ -177,27 +177,42 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (this.NewItem.SystemId == null || this.NewItem.SystemId == Guid.Empty)
                     {
-                        this.NewItem.SystemId = await this.apiService.CreateItem(this.NewItem).ConfigureAwait(false);
-                    }
-                    else
-                    {
-                        this.NewItem.SystemId = await this.apiService.UpdateItem(this.NewItem).ConfigureAwait(false);
-                    }
-
-                    if (this.NewItem.SystemId != null && this.NewItem.SystemId != Guid.Empty)
-                    {
-                        UserDialogs.Instance.Toast("Successfully created " + this.NewItem.ItemTypeId, TimeSpan.FromSeconds(2));
-
-                        Device.BeginInvokeOnMainThread(async () =>
+                        var itemId = await this.apiService.CreateItem(this.NewItem).ConfigureAwait(false);
+                        
+                        if (itemId != null && itemId != Guid.Empty)
                         {
-                            await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
-                            UserDialogs.Instance.HideLoading();
-                        });
+                            this.NewItem.IsSynced = true;
+                            this.NewItem.SystemId = itemId;
+                            UserDialogs.Instance.Toast("Successfully uploaded " + this.NewItem.Description);
+                        }
+                        else
+                        {
+                            this.NewItem.IsSynced = false;
+                        }
                     }
                     else
                     {
-                        await UserDialogs.Instance.AlertAsync("Could not upload item data.").ConfigureAwait(false);
+                        var itemId = await this.apiService.UpdateItem(this.NewItem).ConfigureAwait(false);
+
+                        if (itemId != null && itemId != Guid.Empty)
+                        {
+                            this.NewItem.IsSynced = true;
+                            this.NewItem.SystemId = itemId;
+                            UserDialogs.Instance.Toast("Successfully updated " + this.NewItem.Description);
+                        }
+                        else
+                        {
+                            this.NewItem.IsSynced = false;
+                        }
                     }
+
+                    var syncResult = await this.dataService.UpdateItemAsync(this.NewItem).ConfigureAwait(false);
+
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
+                        UserDialogs.Instance.HideLoading();
+                    });
                 }
             }
             catch (Exception exc)
@@ -236,7 +251,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     return false;
                 }
 
-                if (await CanItemExpire((ItemTypeEnum)this.NewItem.ItemTypeId).ConfigureAwait(false) && DateTime.Compare(DateTime.Today.AddMonths(6), this.NewItem.ExpiryDate) >= 0)
+                if (await CanItemExpire((ItemTypeEnum)this.NewItem.ItemTypeId).ConfigureAwait(false) && 
+                    DateTime.Compare(DateTime.Today.AddMonths(6), this.NewItem.ExpiryDate) >= 0)
                 {
                     await UserDialogs.Instance.AlertAsync("You cannot add an item that expires within 6 months.", "Incomplete Item").ConfigureAwait(false);
                     return false;

@@ -7,30 +7,42 @@
         <viewModels:LoginViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Vertical" 
+                     VerticalOptions="CenterAndExpand" 
+                     HorizontalOptions="Center"
+                     Padding="2">
+            <Image Source="BlueMile.png"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"/>
             <Label Text="Username"/>
             <StackLayout Orientation="Horizontal">
                 <Entry Text="{Binding Username}"
-                       Placeholder="Username/Email"/>
-                <ImageButton Command="{Binding ClearCommand}"/>
+                       Placeholder="Username/Email"
+                       TabIndex="1"/>
+                <ImageButton Source="clear.png"
+                             Command="{Binding ClearCommand}"/>
             </StackLayout>
             <Label Text="Password"/>
             <StackLayout Orientation="Horizontal">
                 <Entry Text="{Binding Password}"
                        IsPassword="{Binding HidePassword}"
-                       Placeholder="Password"/>
+                       Placeholder="Password"
+                       TabIndex="2"/>
                 <Button Text="Show"
                         Command="{Binding DisplayPasswordCommand}"
                         Style="{StaticResource ShowPasswordButtonStyle}"/>
             </StackLayout>
-            <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal">
                 <Button Text="Login"
                         Command="{Binding LoginCommand}"/>
-                <Button Text="Clear Details"
-                        Command="{Binding ClearDetailsCommand}"
-                        HorizontalOptions="Center"/>
                 <Button Text="Register"
                         Command="{Binding RegisterCommand}"/>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Button Text="Forgot Password"
+                        Command="{Binding ForgotPasswordCommand}"/>
+                <Button Text="Clear Details"
+                        Command="{Binding ClearDetailsCommand}"/>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>

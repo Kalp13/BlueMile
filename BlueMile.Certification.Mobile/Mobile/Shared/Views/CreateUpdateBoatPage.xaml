@@ -44,7 +44,7 @@
                        Keyboard="Plain"
                        Placeholder="Boyancy Certificate Number"
                        TabIndex="4"/>
-                <ImageButton Source="{Binding BoatDetails.BoyancyCertificateImage.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                <ImageButton Source="{Binding BoatDetails.BoyancyCertificateImage.FilePath, TargetNullValue='image.png', Mode=TwoWay}"
                              Command="{Binding CaptureBoayancyCertPhotoCommand}"
                              Aspect="AspectFit"
                              BackgroundColor="#00000000"
@@ -61,20 +61,25 @@
                            Keyboard="Plain"
                            Placeholder="Tubbies Boyancy Certificate Number"
                            TabIndex="5"/>
-                    <ImageButton Source="{Binding BoatDetails.TubbiesCertificateImage.FileImage, TargetNullValue='image.png', Mode=TwoWay}"
+                    <ImageButton Source="{Binding BoatDetails.TubbiesCertificateImage.FilePath, TargetNullValue='image.png', Mode=TwoWay}"
                                  Command="{Binding CaptureTubbiesCertPhotoCommand}"
                                  Aspect="AspectFit"
                                  BackgroundColor="#00000000"
                                  HeightRequest="200"/>
                 </StackLayout>
-                
-                <StackLayout Orientation="Horizontal">
-                    <Button Text="Save"
-                            Command="{Binding SaveCommand}"/>
-                    <Button Text="Cancel"
-                            Command="{Binding CancelCommand}"/>
-                </StackLayout>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Save"
+                     IconImageSource="save.png"
+                     Command="{Binding SaveCommand}"
+                     Order="Primary"
+                     Priority="1"/>
+        <ToolbarItem Text="Cancel"
+                     IconImageSource="cancel.png"
+                     Command="{Binding CancelCommand}"
+                     Order="Primary"
+                     Priority="2"/>
+    </ContentPage.ToolbarItems>
 </ContentPage>

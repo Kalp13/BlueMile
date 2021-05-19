@@ -3,7 +3,9 @@ using BlueMile.Certification.Mobile.Converters;
 using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Globalization;
 using System.Threading.Tasks;
@@ -46,7 +48,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
-        public ICommand CloseCommand
+        public ICommand SyncCommand
         {
             get;
             private set;
@@ -74,15 +76,67 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private void InitCommands()
         {
-            this.CloseCommand = new Command(async () =>
-            {
-                await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
-            });
             this.EditItemCommand = new Command(async () =>
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
                 await Shell.Current.GoToAsync($"{Constants.itemEditRoute}?itemId={this.SelectedItem.SystemId}", true).ConfigureAwait(false);
             });
+            this.SyncCommand = new Command(async () =>
+            {
+                await this.UploadItemToServer().ConfigureAwait(false);
+            });
+        }
+
+        private async Task UploadItemToServer()
+        {
+            try
+            {
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                if (this.SelectedItem.SystemId == null || this.SelectedItem.SystemId == Guid.Empty)
+                {
+                    var boatId = await this.apiService.CreateItem(this.SelectedItem).ConfigureAwait(false);
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        this.SelectedItem.SystemId = boatId;
+                        this.SelectedItem.IsSynced = true;
+                    }
+                    else
+                    {
+                        this.SelectedItem.IsSynced = false;
+                    }
+                }
+                else
+                {
+                    var boatId = await this.apiService.UpdateItem(this.SelectedItem).ConfigureAwait(false);
+
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        this.SelectedItem.SystemId = boatId;
+                        this.SelectedItem.IsSynced = true;
+                    }
+                    else
+                    {
+                        this.SelectedItem.IsSynced = false;
+                    }
+                }
+
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                var syncResult = await this.dataService.UpdateItemAsync(this.SelectedItem).ConfigureAwait(false);
+                UserDialogs.Instance.Toast($"Successfully uploaded {this.SelectedItem.Description}");
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Sync Error");
+            }
         }
 
         private async Task GetItemDetail()
@@ -112,6 +166,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private string currentItemId;
 
         private IDataService dataService;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

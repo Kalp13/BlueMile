@@ -4,6 +4,7 @@ public class MonoPackageManager_Resources {
 		/* We need to ensure that "BlueMile.Certification.Mobile.Android.dll" comes first in this list. */
 		"BlueMile.Certification.Mobile.Android.dll",
 		"BlueMile.Certification.Web.ApiModels.dll",
+		"BlueMile.Certification.Web.ApiClient.dll",
 		"Acr.UserDialogs.dll",
 		"AndHUD.dll",
 		"BlueMile.Certification.Mobile.dll",

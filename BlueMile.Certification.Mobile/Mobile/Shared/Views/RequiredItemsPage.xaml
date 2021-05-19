@@ -14,6 +14,7 @@
     </ContentPage.BindingContext>
     <ContentPage.Resources>
         <converters:DateToColourConverter x:Key="dateToColourConverter"/>
+        <converters:BoolToInverseConverter x:Key="boolInverseConvert"/>
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
@@ -32,7 +33,7 @@
                                          VerticalOptions="StartAndExpand"
                                          BackgroundColor="{Binding ExpiryDate, Converter={StaticResource dateToColourConverter}}">
                                 <Image Aspect="AspectFit"
-                                       Source="{Binding ItemImage.FileImage}"/>
+                                       Source="{Binding ItemImage.FilePath}"/>
                                 <StackLayout Orientation="Vertical"
                                              Padding="2"
                                              VerticalOptions="StartAndExpand"
@@ -42,6 +43,12 @@
                                 </StackLayout>
                                 <Label Text="{Binding ExpiryDate, StringFormat='{}{0:dd-MMM-yyyy}'}"
                                        HorizontalOptions="EndAndExpand"/>
+                                <Image Source="in_sync.png"
+                                       Aspect="AspectFit"
+                                       IsVisible="{Binding IsSynced}"/>
+                                <Image Source="not_synced.png"
+                                       Aspect="AspectFit"
+                                       IsVisible="{Binding IsSynced, Converter={StaticResource boolInverseConvert}}"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>
@@ -54,8 +61,13 @@
                      Command="{Binding AddItemCommand}"
                      IconImageSource="add.png"
                      Order="Primary"/>
+        <ToolbarItem Text="Sync Items"
+                     Command="{Binding SyncItemsCommand}"
+                     Order="Secondary"
+                     Priority="1"/>
         <ToolbarItem Text="View Required Items"
                      Command="{Binding ViewRequiredItemsCommand}"
-                     Order="Secondary"/>
+                     Order="Secondary"
+                     Priority="2"/>
     </ContentPage.ToolbarItems>
 </ContentPage>

@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -84,6 +86,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand SyncItemsCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -120,6 +128,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 await this.GetBoatItems().ConfigureAwait(false);
                 this.IsRefreshing = false;
             });
+            this.SyncItemsCommand = new Command(async () =>
+            {
+                await this.SyncBoatsToServer();
+            });
         }
 
         private async Task CreateNewItem()
@@ -148,9 +160,90 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private async void OpenItemDetail()
         {
             UserDialogs.Instance.ShowLoading("Loading...");
-            var destinationRoute = $"items/detail";
             await Shell.Current.GoToAsync($"{Constants.itemDetailRoute}?itemId={this.SelectedItem.Id}").ConfigureAwait(false);
             Shell.Current.FlyoutIsPresented = false;
+        }
+
+        private async Task SyncBoatsToServer()
+        {
+            try
+            {
+                UserDialogs.Instance.ShowLoading("Syncing...");
+
+                foreach (var item in this.RequiredItems)
+                {
+                    await this.SaveItemDetails(item);
+                }
+
+                await this.GetBoatItems();
+
+                UserDialogs.Instance.HideLoading();
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Sync Error");
+            }
+        }
+
+        private async Task SaveItemDetails(ItemMobileModel item)
+        {
+            try
+            {
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                if (item.SystemId == null || item.SystemId == Guid.Empty)
+                {
+                    var boatId = await this.apiService.CreateItem(item).ConfigureAwait(false);
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        item.SystemId = boatId;
+                        item.IsSynced = true;
+                    }
+                    else
+                    {
+                        item.IsSynced = false;
+                    }
+                }
+                else
+                {
+                    var boatId = await this.apiService.UpdateItem(item).ConfigureAwait(false);
+
+                    if (boatId != null && boatId != Guid.Empty)
+                    {
+                        item.SystemId = boatId;
+                        item.IsSynced = true;
+
+                        UserDialogs.Instance.Toast($"Successfully uploaded {item.Description}");
+                    }
+                    else
+                    {
+                        item.IsSynced = false;
+                    }
+                }
+
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                if (item.Id == null || item.Id == Guid.Empty)
+                {
+                    item.Id = await this.dataService.CreateNewItemAsync(item).ConfigureAwait(false);
+                }
+                else
+                {
+                    await this.dataService.UpdateItemAsync(item).ConfigureAwait(false);
+                }
+            }
+            catch (Exception exc)
+            {
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Items Error").ConfigureAwait(false);
+                UserDialogs.Instance.HideLoading();
+            }
         }
 
         #endregion
@@ -166,6 +259,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private ItemMobileModel selectedItem;
 
         private IDataService dataService;
+
+        private IServiceCommunication apiService;
 
         #endregion
     }

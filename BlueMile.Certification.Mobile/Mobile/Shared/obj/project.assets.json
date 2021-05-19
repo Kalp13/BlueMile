@@ -1035,6 +1035,20 @@
           "lib/netstandard1.0/ZXing.Net.Mobile.Forms.dll": {}
         }
       },
+      "BlueMile.Certification.Web.ApiClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        }
+      },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
@@ -3892,6 +3906,11 @@
         "zxing.net.mobile.forms.nuspec"
       ]
     },
+    "BlueMile.Certification.Web.ApiClient/1.0.0": {
+      "type": "project",
+      "path": "../../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj",
+      "msbuildProject": "../../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj"
+    },
     "BlueMile.Certification.Web.ApiModels/1.0.0": {
       "type": "project",
       "path": "../../Web.ApiModels/BlueMile.Certification.Web.ApiModels.csproj",
@@ -3901,6 +3920,7 @@
   "projectFileDependencyGroups": {
     ".NETStandard,Version=v2.1": [
       "Acr.UserDialogs >= 7.1.0.514",
+      "BlueMile.Certification.Web.ApiClient >= 1.0.0",
       "BlueMile.Certification.Web.ApiModels >= 1.0.0",
       "Microsoft.AppCenter >= 4.2.0",
       "Microsoft.AppCenter.Analytics >= 4.2.0",
@@ -3952,6 +3972,9 @@
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
           "projectReferences": {
+            "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.Web.ApiClient\\BlueMile.Certification.Web.ApiClient.csproj": {
+              "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.Web.ApiClient\\BlueMile.Certification.Web.ApiClient.csproj"
+            },
             "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Web.ApiModels\\BlueMile.Certification.Web.ApiModels.csproj": {
               "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Web.ApiModels\\BlueMile.Certification.Web.ApiModels.csproj"
             }

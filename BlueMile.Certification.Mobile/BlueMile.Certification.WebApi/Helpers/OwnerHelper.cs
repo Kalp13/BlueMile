@@ -26,7 +26,10 @@ namespace BlueMile.Certification.WebApi.Helpers
                 Suburb = model.Suburb,
                 Surname = model.Surname,
                 Town = model.Town,
-                Id = Guid.NewGuid()
+                Id = Guid.NewGuid(),
+                CreatedOn = DateTime.Now,
+                ModifiedOn = DateTime.Now,
+                IsActive = true,
             };
 
             return owner;
@@ -51,6 +54,8 @@ namespace BlueMile.Certification.WebApi.Helpers
                 Surname = ownerModel.Surname,
                 Town = ownerModel.Town,
                 Id = ownerModel.SystemId,
+                ModifiedOn = DateTime.Now,
+                IsActive = true,
             };
 
             return owner;

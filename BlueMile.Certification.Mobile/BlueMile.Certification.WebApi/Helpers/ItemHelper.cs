@@ -19,10 +19,9 @@ namespace BlueMile.Certification.WebApi.Helpers
                 ExpiryDate = createItem.ExpiryDate,
                 Id = Guid.NewGuid(),
                 IsActive = true,
-                ItemImageId = createItem.ItemImage.SystemId,
                 ItemType = createItem.ItemTypeId,
                 ModifiedOn = DateTime.Now,
-                SerialNumber = createItem.SerialNumber
+                SerialNumber = createItem.SerialNumber,
             };
             return item;
         }
@@ -37,7 +36,6 @@ namespace BlueMile.Certification.WebApi.Helpers
                 ExpiryDate = updateItem.ExpiryDate,
                 Id = updateItem.SystemId,
                 IsActive = true,
-                ItemImageId = updateItem.ItemImage.SystemId,
                 ItemType = updateItem.ItemTypeId,
                 ModifiedOn = DateTime.Now,
                 SerialNumber = updateItem.SerialNumber

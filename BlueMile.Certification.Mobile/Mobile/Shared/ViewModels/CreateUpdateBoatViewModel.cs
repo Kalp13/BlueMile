@@ -239,12 +239,30 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     if (this.BoatDetails.SystemId == null || (this.BoatDetails.SystemId == Guid.Empty))
                     {
                         var boatId = await this.apiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
-                        this.BoatDetails.SystemId = boatId;
+
+                        if (boatId != null && boatId != Guid.Empty)
+                        {
+                            this.BoatDetails.IsSynced = true;
+                            this.BoatDetails.SystemId = boatId;
+                        }
+                        else
+                        {
+                            this.BoatDetails.IsSynced = false;
+                        }
                     }
                     else
                     {
                         var boatId = await this.apiService.UpdateBoat(this.BoatDetails).ConfigureAwait(false);
-                        this.BoatDetails.SystemId = boatId;
+
+                        if (boatId != null && boatId != Guid.Empty)
+                        {
+                            this.BoatDetails.IsSynced = true;
+                            this.BoatDetails.SystemId = boatId;
+                        }
+                        else
+                        {
+                            this.BoatDetails.IsSynced = false;
+                        }
                     }
 
                     var syncResult = await this.dataService.UpdateBoatAsync(this.BoatDetails).ConfigureAwait(false);
@@ -253,7 +271,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     MessagingCenter.Instance.Send<string, string>("Add", "Boat", "");
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                        await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
                     });
                 }
                 else

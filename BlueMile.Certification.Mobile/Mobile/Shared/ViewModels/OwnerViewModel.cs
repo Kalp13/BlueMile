@@ -141,22 +141,23 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             this.apiService = new ServiceCommunication();
                         }
 
-                        var owner = await this.apiService.CreateOwner(OwnerHelper.ToCreateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
-                        if (owner != null && owner != Guid.Empty)
+                        var ownerId = await this.apiService.CreateOwner(this.CurrentOwner).ConfigureAwait(false);
+                        if (ownerId != null && ownerId != Guid.Empty)
                         {
-                            if (this.dataService == null)
-                            {
-                                this.dataService = new DataService();
-                            }
-
                             this.CurrentOwner.IsSynced = true;
-                            var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
-                            UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                            UserDialogs.Instance.Toast("Successfully saved owner details to server.");
                         }
                         else
                         {
+                            this.CurrentOwner.IsSynced = false;
                             await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
                         }
+
+                        if (this.dataService == null)
+                        {
+                            this.dataService = new DataService();
+                        }
+                        var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
                     }
                     else
                     {
@@ -165,22 +166,23 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             this.apiService = new ServiceCommunication();
                         }
 
-                        var owner = await this.apiService.UpdateOwner(OwnerHelper.ToUpdateOwnerModel(OwnerModelHelper.ToOwnerModel(this.CurrentOwner))).ConfigureAwait(false);
+                        var owner = await this.apiService.UpdateOwner(this.CurrentOwner).ConfigureAwait(false);
                         if (owner != null && owner != Guid.Empty)
                         {
-                            if (this.dataService == null)
-                            {
-                                this.dataService = new DataService();
-                            }
-
                             this.CurrentOwner.IsSynced = true;
-                            var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
-                            UserDialogs.Instance.Toast("Successfully saved owner details to server.", TimeSpan.FromSeconds(5));
+                            UserDialogs.Instance.Toast("Successfully updaed owner details on server.");
                         }
                         else
                         {
+                            this.CurrentOwner.IsSynced = false;
                             await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
                         }
+
+                        if (this.dataService == null)
+                        {
+                            this.dataService = new DataService();
+                        }
+                        var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
                     }
                 }
                 else

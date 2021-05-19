@@ -3,6 +3,7 @@ using BlueMile.Certification.Mobile.Data;
 using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
+using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using System.Collections.Generic;
@@ -189,7 +190,49 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (await this.dataService.UpdateItemAsync(this.ItemToUpdate).ConfigureAwait(false))
                     {
-                        // Add uploading code.
+                        if (this.apiService == null)
+                        {
+                            this.apiService = new ServiceCommunication();
+                        }
+
+                        if (this.ItemToUpdate.SystemId == null || this.ItemToUpdate.SystemId == Guid.Empty)
+                        {
+                            var itemId = await this.apiService.CreateItem(this.ItemToUpdate).ConfigureAwait(false);
+
+                            if (itemId != null && itemId != Guid.Empty)
+                            {
+                                this.ItemToUpdate.IsSynced = true;
+                                this.ItemToUpdate.SystemId = itemId;
+                                UserDialogs.Instance.Toast("Successfully uploaded " + this.ItemToUpdate.Description);
+                            }
+                            else
+                            {
+                                this.ItemToUpdate.IsSynced = false;
+                            }
+                        }
+                        else
+                        {
+                            var itemId = await this.apiService.UpdateItem(this.ItemToUpdate).ConfigureAwait(false);
+
+                            if (itemId != null && itemId != Guid.Empty)
+                            {
+                                this.ItemToUpdate.IsSynced = true;
+                                this.ItemToUpdate.SystemId = itemId;
+                                UserDialogs.Instance.Toast("Successfully updated " + this.ItemToUpdate.Description);
+                            }
+                            else
+                            {
+                                this.ItemToUpdate.IsSynced = false;
+                            }
+                        }
+
+                        var syncResult = await this.dataService.UpdateItemAsync(this.ItemToUpdate).ConfigureAwait(false);
+
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
+                            UserDialogs.Instance.HideLoading();
+                        });
                     }
                     else
                     {
@@ -219,12 +262,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
             if (String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.ImageName) ||
                 String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.FilePath) ||
-                (this.ItemToUpdate.ItemImage.Id != null && this.ItemToUpdate.ItemImage.Id != Guid.Empty))
+                (this.ItemToUpdate.ItemImage.Id != null && 
+                this.ItemToUpdate.ItemImage.Id != Guid.Empty))
             {
                 await UserDialogs.Instance.AlertAsync("No image has been captured for the item. Please capture an image before continuing.", "Incomplete Item").ConfigureAwait(false);
                 return false;
             }
-            if (await CanItemExpire((ItemTypeEnum)this.ItemToUpdate.ItemTypeId).ConfigureAwait(false) && DateTime.Compare(DateTime.Today.AddMonths(6), this.ItemToUpdate.ExpiryDate) >= 0)
+            if (await CanItemExpire((ItemTypeEnum)this.ItemToUpdate.ItemTypeId).ConfigureAwait(false) && 
+                DateTime.Compare(DateTime.Today.AddMonths(6), this.ItemToUpdate.ExpiryDate) >= 0)
             {
                 await UserDialogs.Instance.AlertAsync("You cannot add an item that expires within 6 months.", "Incomplete Item").ConfigureAwait(false);
                 return false;
@@ -351,6 +396,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         private List<ListDisplayModel> itemTypes;
 
         private ListDisplayModel selectedItemType;
+
+        private IServiceCommunication apiService;
 
         private IDataService dataService;
 

@@ -61,6 +61,9 @@ namespace BlueMile.Certification.Mobile.Models
         /// </summary>
         public ImageMobileModel TubbiesCertificateImage { get; set; }
 
+        /// <summary>
+        /// Gets or sets the flag indicating if this boat has been synchronized to the server.
+        /// </summary>
         public bool IsSynced { get; set; }
     }
 }

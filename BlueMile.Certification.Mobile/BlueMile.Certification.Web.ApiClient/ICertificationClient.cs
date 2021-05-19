@@ -12,7 +12,7 @@ namespace BlueMile.Certification.Web.ApiClient
 
         /// <summary>
         /// Registers a new user with the given <see cref="UserRegistrationModel"/>
-        /// and <see cref="OwnerMobileModel"/> data.
+        /// and <see cref="OwnerModel"/> data.
         /// </summary>
         /// <param name="userModel">
         ///     The user registration details to register the user with.
@@ -21,7 +21,7 @@ namespace BlueMile.Certification.Web.ApiClient
         ///     The owner details to use and link to the user that will be registered.
         /// </param>
         /// <returns></returns>
-        Task<bool> RegisterUser(UserRegistrationModel userModel, OwnerModel ownerModel);
+        Task<bool> RegisterUser(UserRegistrationModel userModel);
 
         /// <summary>
         /// Logs a user in with the given <see cref="UserLoginModel"/> details.
@@ -34,7 +34,7 @@ namespace BlueMile.Certification.Web.ApiClient
         /// </returns>
         Task<UserToken> LogUserIn(UserLoginModel userModel);
 
-#endregion
+        #endregion
 
         #region Owner Methods
 
@@ -42,9 +42,9 @@ namespace BlueMile.Certification.Web.ApiClient
 
         Task<OwnerModel> GetOwnerByUsername(string username);
 
-        Task<Guid> CreateOwner(CreateOwnerModel owner);
+        Task<Guid> CreateOwner(OwnerModel owner);
 
-        Task<Guid> UpdateOwner(UpdateOwnerModel owner);
+        Task<Guid> UpdateOwner(OwnerModel owner);
 
         #endregion
 

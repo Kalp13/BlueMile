@@ -40,6 +40,7 @@
                 <Label Text="{Binding CurrentOwner.PostalCode, StringFormat='Postal Code: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.VhfOperatorsLicense, StringFormat='VHF License Number: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.SkippersLicenseNumber, StringFormat='Skippers License Number: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.IsSynced, Converter={StaticResource boolConverter}, StringFormat='Synced: {0}'}"/>
                 <CarouselView ItemsSource="{Binding OwnerImages}" 
                               HorizontalScrollBarVisibility="Default"
                               IsScrollAnimated="True">
@@ -64,6 +65,10 @@
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
                 </CarouselView>
+                <Button Text="Sync"
+                    Command="{Binding SyncCommand}"
+                    HorizontalOptions="Center"
+                    VerticalOptions="End"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

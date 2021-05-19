@@ -34,6 +34,7 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
+                SystemId = boat.SystemId,
                 RegisteredNumber = boat.RegisteredNumber,
                 TubbiesCertificateImage = boat.TubbiesCertificateImage,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber

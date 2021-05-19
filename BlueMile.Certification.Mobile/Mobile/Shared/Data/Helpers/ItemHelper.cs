@@ -20,7 +20,8 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 ItemImageId = item.ItemImage?.Id,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId
+                SystemId = item.SystemId,
+                IsSynced = item.IsSynced,
             };
 
             return itemEntity;
@@ -37,7 +38,8 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Id = item.Id,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId
+                SystemId = item.SystemId,
+                IsSynced = item.IsSynced
             };
 
             return itemModel;
