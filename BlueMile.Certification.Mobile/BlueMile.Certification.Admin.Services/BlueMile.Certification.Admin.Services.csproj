@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BlueMile.Certification.Web.ApiClient\BlueMile.Certification.Web.ApiClient.csproj" />
     <ProjectReference Include="..\BlueMile.Certification.WebApi\BlueMile.Certification.WebApi.csproj" />
     <ProjectReference Include="..\Web.ApiModels\BlueMile.Certification.Web.ApiModels.csproj" />
   </ItemGroup>

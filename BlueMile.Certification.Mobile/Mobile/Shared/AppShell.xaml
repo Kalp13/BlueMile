@@ -100,15 +100,14 @@
                 FlyoutDisplayOptions="AsMultipleItems"
                 FlyoutIcon="User.png">
         <!--// This header appears at the top of the Flyout.-->
+        <ShellContent Title="Home"
+                      Icon="home.png">
+            <views:MainMenuPage/>
+        </ShellContent>
+        
         <ShellContent Title="Owner"
                       Icon="fisherman.png">
             <views:OwnerPage/>
-        </ShellContent>
-
-        <!--// ItemTemplate is for ShellItems as displayed in a Flyout-->
-        <ShellContent Title="Boats"
-                      Icon="boat.png">
-            <views:BoatsPage/>
         </ShellContent>
     </FlyoutItem>
 

@@ -38,6 +38,8 @@ namespace BlueMile.Certification.Web.ApiClient
 
         #region Owner Methods
 
+        Task<PagedResponseModel<OwnerModel>> FindOwners(FindOwnerModel model);
+
         Task<OwnerModel> GetOwnerBySystemId(Guid ownerId);
 
         Task<OwnerModel> GetOwnerByUsername(string username);

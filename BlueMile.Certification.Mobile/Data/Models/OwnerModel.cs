@@ -36,6 +36,16 @@ namespace BlueMile.Certification.Data.Models
         public string PostalCode { get; set; }
 
         /// <summary>
+        /// Gets or sets the <c>VHFOperatorsLicense</c> of this Owner.
+        /// </summary>
+        public string VhfOperatorsLicense { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <c>SkippersLicenseNumber</c> of this Owner.
+        /// </summary>
+        public string SkippersLicenseNumber { get; set; }
+
+        /// <summary>
         /// Gets or sets the collection of <see cref="BoatModel"/>s
         /// associated to the current <see cref="OwnerModel"/>.
         /// </summary>		

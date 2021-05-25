@@ -51,5 +51,15 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         Task<List<ItemMobileModel>> FindItemsByBoatIdAsync(Guid boatId);
 
         #endregion
+
+        #region Image Methods
+
+        Task<Guid> CreateNewImageAsync(ImageMobileModel image);
+
+        Task<bool> UpdateImageAsync(ImageMobileModel image);
+
+        Task<ImageMobileModel> FindImageByIdAsync(Guid imageId);
+
+        #endregion
     }
 }

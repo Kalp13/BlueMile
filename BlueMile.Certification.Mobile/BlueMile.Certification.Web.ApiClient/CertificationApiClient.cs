@@ -106,6 +106,49 @@ namespace BlueMile.Certification.Web.ApiClient
 
         #region Owner Methods
 
+        public async Task<PagedResponseModel<OwnerModel>> FindOwners(FindOwnerModel filterModel)
+        {
+            try
+            {
+                if (filterModel == null)
+                {
+                    throw new ArgumentNullException(nameof(filterModel));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+
+                var addressBuilder = new UriBuilder($"{this.baseAddress}/Certification/owner");
+                var query = HttpUtility.ParseQueryString(addressBuilder.Query);
+                query[nameof(filterModel.OwnerId)] = filterModel.OwnerId.ToString();
+                query[nameof(filterModel.SearchTerm)] = filterModel.SearchTerm;
+
+                addressBuilder.Query = query.ToString();
+
+                var authHeader = new AuthenticationHeaderValue("bearer", this.userToken);
+                this.client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var request = new HttpRequestMessage(HttpMethod.Get, addressBuilder.ToString());
+                request.Headers.Authorization = authHeader;
+
+                var response = await this.client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    var owner = JsonConvert.DeserializeObject<PagedResponseModel<OwnerModel>>(content);
+                    return owner;
+                }
+
+                return null;
+            }
+            catch (Exception exc)
+            {
+                throw;
+            }
+        }
+
         /// <inheritdoc/>
         public async Task<OwnerModel> GetOwnerBySystemId(Guid ownerId)
         {

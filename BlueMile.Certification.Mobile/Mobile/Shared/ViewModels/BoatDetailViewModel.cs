@@ -112,6 +112,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand RequestCertificateCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -172,10 +178,21 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.SystemId}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
+
             this.SyncCommand = new Command(async () =>
             {
                 await this.UploadItemToServer().ConfigureAwait(false);
             });
+
+            this.RequestCertificateCommand = new Command(async () =>
+            {
+                await this.RequestNewBoatCOF();
+            });
+        }
+
+        private Task RequestNewBoatCOF()
+        {
+            throw new NotImplementedException();
         }
 
         private async Task UploadItemToServer()

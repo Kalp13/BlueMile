@@ -20,7 +20,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Serv
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\bin\Debug\net5.0\BlueMile.Certification.WebApi.xml
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Web.ApiModels.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Data.pdb
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.csprojAssemblyReference.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.GeneratedMSBuildEditorConfig.editorconfig
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.AssemblyInfoInputs.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.AssemblyInfo.cs
@@ -30,3 +29,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Serv
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\ref\BlueMile.Certification.Admin.Services.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.genruntimeconfig.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Web.ApiClient.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Web.ApiClient.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.csproj.AssemblyReference.cache

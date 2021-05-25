@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace BlueMile.Certification.Admin.Services.Models
+namespace BlueMile.Certification.Web.ApiModels
 {
     public class PagedResponseModel<T>
     {

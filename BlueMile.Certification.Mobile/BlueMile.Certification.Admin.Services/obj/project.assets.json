@@ -2426,6 +2426,20 @@
           "bin/placeholder/BlueMile.Certification.Data.dll": {}
         }
       },
+      "BlueMile.Certification.Web.ApiClient/1.0.0": {
+        "type": "project",
+        "framework": ".NETStandard,Version=v2.1",
+        "dependencies": {
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "compile": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/BlueMile.Certification.Web.ApiClient.dll": {}
+        }
+      },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
         "type": "project",
         "framework": ".NETStandard,Version=v2.1",
@@ -8044,6 +8058,11 @@
       "path": "../Data/BlueMile.Certification.Data.csproj",
       "msbuildProject": "../Data/BlueMile.Certification.Data.csproj"
     },
+    "BlueMile.Certification.Web.ApiClient/1.0.0": {
+      "type": "project",
+      "path": "../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj",
+      "msbuildProject": "../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj"
+    },
     "BlueMile.Certification.Web.ApiModels/1.0.0": {
       "type": "project",
       "path": "../Web.ApiModels/BlueMile.Certification.Web.ApiModels.csproj",
@@ -8057,6 +8076,7 @@
   },
   "projectFileDependencyGroups": {
     "net5.0": [
+      "BlueMile.Certification.Web.ApiClient >= 1.0.0",
       "BlueMile.Certification.Web.ApiModels >= 1.0.0",
       "BlueMile.Certification.WebApi >= 1.0.0",
       "EntityFramework >= 6.4.4"
@@ -8099,6 +8119,9 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
+            "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.Web.ApiClient\\BlueMile.Certification.Web.ApiClient.csproj": {
+              "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.Web.ApiClient\\BlueMile.Certification.Web.ApiClient.csproj"
+            },
             "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.WebApi\\BlueMile.Certification.WebApi.csproj": {
               "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\BlueMile.Certification.WebApi\\BlueMile.Certification.WebApi.csproj"
             },
@@ -8138,7 +8161,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

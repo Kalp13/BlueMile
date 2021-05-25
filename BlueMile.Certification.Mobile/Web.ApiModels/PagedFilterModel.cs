@@ -1,4 +1,8 @@
-﻿namespace BlueMile.Certification.Admin.Services.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace BlueMile.Certification.Web.ApiModels
 {
     public class PagedFilterModel
     {

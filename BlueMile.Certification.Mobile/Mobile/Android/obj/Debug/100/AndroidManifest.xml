@@ -51,12 +51,5 @@
     <receiver android:enabled="true" android:exported="false" android:name="crc643f46942d9dd1fff9.PowerSaveModeBroadcastReceiver" />
     <activity android:configChanges="keyboardHidden|orientation|screenLayout" android:label="Scanner" android:name="crc6480997b3ef81bf9b2.ZxingActivity" />
     <provider android:name="mono.MonoRuntimeProvider" android:exported="false" android:initOrder="1999999999" android:authorities="com.bluemile.certification.mobile.mono.MonoRuntimeProvider.__mono_init__" />
-    <!--suppress ExportedReceiver-->
-    <receiver android:name="mono.android.Seppuku">
-      <intent-filter>
-        <action android:name="mono.android.intent.action.SEPPUKU" />
-        <category android:name="mono.android.intent.category.SEPPUKU.com.bluemile.certification.mobile" />
-      </intent-filter>
-    </receiver>
   </application>
 </manifest>

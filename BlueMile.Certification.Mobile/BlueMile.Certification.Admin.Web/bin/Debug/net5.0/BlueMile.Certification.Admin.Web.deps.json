@@ -2251,6 +2251,7 @@
       },
       "BlueMile.Certification.Admin.Services/1.0.0": {
         "dependencies": {
+          "BlueMile.Certification.Web.ApiClient": "1.0.0",
           "BlueMile.Certification.Web.ApiModels": "1.0.0",
           "BlueMile.Certification.WebApi": "1.0.0",
           "EntityFramework": "6.4.4"
@@ -2274,6 +2275,18 @@
         },
         "compile": {
           "BlueMile.Certification.Data.dll": {}
+        }
+      },
+      "BlueMile.Certification.Web.ApiClient/1.0.0": {
+        "dependencies": {
+          "BlueMile.Certification.Web.ApiModels": "1.0.0",
+          "Newtonsoft.Json": "13.0.1"
+        },
+        "runtime": {
+          "BlueMile.Certification.Web.ApiClient.dll": {}
+        },
+        "compile": {
+          "BlueMile.Certification.Web.ApiClient.dll": {}
         }
       },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
@@ -5200,6 +5213,11 @@
       "sha512": ""
     },
     "BlueMile.Certification.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BlueMile.Certification.Web.ApiClient/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

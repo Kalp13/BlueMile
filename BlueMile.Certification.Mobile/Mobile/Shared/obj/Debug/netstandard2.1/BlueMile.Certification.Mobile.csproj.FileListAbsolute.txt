@@ -4,7 +4,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Mobile.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.pdb
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.csprojAssemblyReference.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\App.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\AppShell.xaml.g.cs
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\AboutPage.xaml.g.cs
@@ -32,3 +31,4 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.csproj.AssemblyReference.cache

@@ -13,6 +13,8 @@ namespace BlueMile.Certification.Web.ApiModels
         public string UniqueImageName { get; set; }
 
         public string FilePath { get; set; }
+
+        public byte[] FileContent { get; set; }
     }
 
     public class CreateImageModel
@@ -22,6 +24,8 @@ namespace BlueMile.Certification.Web.ApiModels
         public string UniqueImageName { get; set; }
 
         public string FilePath { get; set; }
+
+        public byte[] FileContent { get; set; }
     }
 
     public class UpdateImageModel
@@ -33,5 +37,7 @@ namespace BlueMile.Certification.Web.ApiModels
         public string UniqueImageName { get; set; }
 
         public string FilePath { get; set; }
+
+        public byte[] FileContent { get; set; }
     }
 }

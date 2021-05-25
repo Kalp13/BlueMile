@@ -81,7 +81,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\bin
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\bin\Debug\net5.0\BlueMile.Certification.Web.ApiModels.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\bin\Debug\net5.0\BlueMile.Certification.Data.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\bin\Debug\net5.0\BlueMile.Certification.Web.ApiModels.pdb
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.csprojAssemblyReference.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.GeneratedMSBuildEditorConfig.editorconfig
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.AssemblyInfoInputs.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.AssemblyInfo.cs
@@ -130,3 +129,4 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\ref\BlueMile.Certification.WebApi.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.genruntimeconfig.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.csproj.AssemblyReference.cache

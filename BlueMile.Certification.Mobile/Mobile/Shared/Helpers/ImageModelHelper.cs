@@ -1,8 +1,5 @@
 ﻿using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Web.ApiModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BlueMile.Certification.Mobile.Helpers
 {
@@ -15,7 +12,8 @@ namespace BlueMile.Certification.Mobile.Helpers
                 FilePath = image.FilePath,
                 ImageName = image.ImageName,
                 Id = image.SystemId,
-                UniqueImageName = image.UniqueImageName
+                UniqueImageName = image.UniqueImageName,
+                FileContent = image.FileContent
             };
 
             return imageModel;
@@ -28,7 +26,8 @@ namespace BlueMile.Certification.Mobile.Helpers
                 FilePath = image.FilePath,
                 ImageName = image.ImageName,
                 SystemId = image.Id,
-                UniqueImageName = image.UniqueImageName
+                UniqueImageName = image.UniqueImageName,
+                FileContent = image.FileContent
             };
 
             return imageModel;

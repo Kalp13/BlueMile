@@ -84,7 +84,7 @@
                            Keyboard="Plain"
                            Placeholder="Boyancy Certificate Number"
                            TabIndex="4"/>
-                    <ImageButton Source="{Binding CurrentBoat.BoyancyCertificateImage.FileImage, TargetNullValue='image.png'}"
+                    <ImageButton Source="{Binding CurrentBoat.BoyancyCertificateImage.FilePath, TargetNullValue='image.png'}"
                                  Command="{Binding CaptureBoayancyCertPhotoCommand}"
                                  Aspect="AspectFit"
                                  BackgroundColor="#00000000"
@@ -102,7 +102,7 @@
                                Keyboard="Plain"
                                Placeholder="Tubbies Boyancy Certificate Number"
                                TabIndex="5"/>
-                        <ImageButton Source="{Binding CurrentBoat.TubbiesCertificateImage.FileImage, TargetNullValue='image.png'}"
+                        <ImageButton Source="{Binding CurrentBoat.TubbiesCertificateImage.FilePath, TargetNullValue='image.png'}"
                                      Command="{Binding CaptureTubbiesCertPhotoCommand}"
                                      Aspect="AspectFit"
                                      BackgroundColor="#00000000"
@@ -134,5 +134,9 @@
         <ToolbarItem Text="View Requirements"
                      Command="{Binding ViewRequirementsCommand}"
                      Order="Secondary"/>
+        <ToolbarItem Text="Request Certification"
+                     Command="{Binding}"
+                     Order="Secondary"
+                     Priority="1"/>
     </ContentPage.ToolbarItems>
 </ContentPage>

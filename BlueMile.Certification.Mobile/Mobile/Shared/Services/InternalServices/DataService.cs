@@ -1,5 +1,6 @@
 ﻿using BlueMile.Certification.Mobile.Data.Helpers;
 using BlueMile.Certification.Mobile.Data.Models;
+using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using SQLite;
 using System;
@@ -64,7 +65,14 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
                 var ownerEntity = OwnerHelper.ToOwnerDataEntity(owner);
+                var idDocEntity = ImageHelper.ToImageDataEntity(owner.IdentificationDocument);
+                var skippersDocument = ImageHelper.ToImageDataEntity(owner.SkippersLicenseImage);
+                var icasaPopPhoto = ImageHelper.ToImageDataEntity(owner.IcasaPopPhoto);
+
                 var response = await this.dataConnection.InsertAsync(ownerEntity, typeof(OwnerMobileEntity)).ConfigureAwait(false);
+                var idResponse = await this.dataConnection.InsertAsync(idDocEntity, typeof(ImageMobileEntity)).ConfigureAwait(false);
+                var skippersResponse = await this.dataConnection.InsertAsync(skippersDocument, typeof(ImageMobileEntity)).ConfigureAwait(false);
+                var icasaResponse = await this.dataConnection.InsertAsync(icasaPopPhoto, typeof(ImageMobileEntity)).ConfigureAwait(false);
 
                 return ownerEntity.Id;
             }
@@ -93,7 +101,23 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
                 if (owner != null)
                 {
-                    return OwnerHelper.ToOwnerModel(owner);
+                    var result = OwnerHelper.ToOwnerModel(owner);
+                    if (owner.IdentificationDocumentId.HasValue)
+                    {
+                        result.IdentificationDocument = await this.FindImageByIdAsync(owner.IdentificationDocumentId.Value);
+                    }
+                    
+                    if (owner.SkippersLicenseImageId.HasValue)
+                    {
+                        result.SkippersLicenseImage = await this.FindImageByIdAsync(owner.SkippersLicenseImageId.Value);
+                    }
+                    
+                    if (owner.IcasaPopImageId.HasValue)
+                    {
+                        result.IcasaPopPhoto = await this.FindImageByIdAsync(owner.IcasaPopImageId.Value);
+                    }
+
+                    return result;
                 }
                 else
                 {
@@ -154,7 +178,14 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 }
 
                 var ownerEntity = OwnerHelper.ToOwnerDataEntity(owner);
+                var idDocEntity = ImageHelper.ToImageDataEntity(owner.IdentificationDocument);
+                var skippersDocument = ImageHelper.ToImageDataEntity(owner.SkippersLicenseImage);
+                var icasaPopPhoto = ImageHelper.ToImageDataEntity(owner.IcasaPopPhoto);
+
                 var response = await this.dataConnection.UpdateAsync(ownerEntity, typeof(OwnerMobileEntity));
+                var idResponse = await this.dataConnection.InsertOrReplaceAsync(idDocEntity, typeof(ImageMobileEntity)).ConfigureAwait(false);
+                var skippersResponse = await this.dataConnection.InsertOrReplaceAsync(skippersDocument, typeof(ImageMobileEntity)).ConfigureAwait(false);
+                var icasaResponse = await this.dataConnection.InsertOrReplaceAsync(icasaPopPhoto, typeof(ImageMobileEntity)).ConfigureAwait(false);
 
                 return response > 0;
             }
@@ -460,6 +491,83 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 var response = await this.dataConnection.UpdateAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
 
                 return response > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
+        #region Image Methods
+
+        public async Task<Guid> CreateNewImageAsync(ImageMobileModel image)
+        {
+            try
+            {
+                if (image == null)
+                {
+                    throw new ArgumentNullException(nameof(image));
+                }
+
+                if (this.dataConnection == null)
+                {
+                    this.dataConnection = this.InitializeDBConnection();
+                }
+
+                var imageEntity = ImageHelper.ToImageDataEntity(image);
+                var response = await this.dataConnection.InsertAsync(imageEntity, typeof(ImageMobileEntity));
+
+                return imageEntity.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<bool> UpdateImageAsync(ImageMobileModel image)
+        {
+            try
+            {
+                if (image == null)
+                {
+                    throw new ArgumentNullException(nameof(image));
+                }
+
+                if (this.dataConnection == null)
+                {
+                    this.dataConnection = this.InitializeDBConnection();
+                }
+
+                var imageEntity = ImageHelper.ToImageDataEntity(image);
+                var response = await this.dataConnection.UpdateAsync(imageEntity, typeof(ImageMobileEntity)).ConfigureAwait(false);
+
+                return response > 0;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public async Task<ImageMobileModel> FindImageByIdAsync(Guid imageId)
+        {
+            try
+            {
+                if (imageId == null || imageId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(imageId));
+                }
+
+                if (this.dataConnection == null)
+                {
+                    this.dataConnection = this.InitializeDBConnection();
+                }
+
+                var response = await this.dataConnection.Table<ImageMobileEntity>().FirstOrDefaultAsync(x => x.Id == imageId).ConfigureAwait(false);
+                return ImageHelper.ToImageModel(response);
             }
             catch (Exception)
             {

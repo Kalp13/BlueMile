@@ -116,7 +116,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\bin\Debug\net5.0\BlueMile.Certification.Web.ApiModels.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\bin\Debug\net5.0\BlueMile.Certification.WebApi.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\bin\Debug\net5.0\BlueMile.Certification.WebApi.xml
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\BlueMile.Certification.Admin.Web.csprojAssemblyReference.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\BlueMile.Certification.Admin.Web.GeneratedMSBuildEditorConfig.editorconfig
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\BlueMile.Certification.Admin.Web.AssemblyInfoInputs.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\BlueMile.Certification.Admin.Web.AssemblyInfo.cs
@@ -173,3 +172,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\ref\BlueMile.Certification.Admin.Web.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\BlueMile.Certification.Admin.Web.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\BlueMile.Certification.Admin.Web.genruntimeconfig.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\bin\Debug\net5.0\BlueMile.Certification.Web.ApiClient.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\bin\Debug\net5.0\BlueMile.Certification.Web.ApiClient.pdb
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\BlueMile.Certification.Admin.Web.csproj.AssemblyReference.cache
