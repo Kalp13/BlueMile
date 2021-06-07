@@ -1,4 +1,5 @@
 ﻿using BlueMile.Certification.Data;
+using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Data;
 using BlueMile.Certification.WebApi.Helpers;
@@ -33,9 +34,28 @@ namespace BlueMile.Certification.WebApi.Services
         public async Task<Guid> CreateOwner(CreateOwnerModel entity)
         {
             var owner = OwnerHelper.ToCreateOwnerModel(entity);
-            await this.applicationDb.Owners.AddAsync(owner);
+            await this.applicationDb.IndividualsOwners.AddAsync(owner);
+            
+            if (entity.IdentificationDocument != null)
+            {
+                var idDoc = DocumentHelper.ToCreateDocumentModel(entity.IdentificationDocument);
+                await this.applicationDb.LegalEntityDocuments.AddAsync(idDoc);
+            }
+            if (entity.SkippersLicenseImage != null)
+            {
+                var skipDoc = DocumentHelper.ToCreateDocumentModel(entity.SkippersLicenseImage);
+                await this.applicationDb.LegalEntityDocuments.AddAsync(skipDoc);
+            }
+            if (entity.IcasaPopPhoto != null)
+            {
+                var icasaDoc = DocumentHelper.ToCreateDocumentModel(entity.IcasaPopPhoto);
+                await this.applicationDb.LegalEntityDocuments.AddAsync(icasaDoc);
+            }
 
             await this.applicationDb.SaveChangesAsync();
+
+            await this.CreateAddress(OwnerHelper.ToCreateAddressModel(entity), owner.Id);
+            await this.CreateContactDetails(entity, owner.Id);
 
             return owner.Id;
         }
@@ -46,7 +66,7 @@ namespace BlueMile.Certification.WebApi.Services
             if (await this.DoesOwnerExist(ownerId))
             {
                 var owner = await this.FindOwnerById(ownerId);
-                this.applicationDb.Owners.Remove(OwnerHelper.ToOwnerDataModel(owner));
+                this.applicationDb.IndividualsOwners.Remove(OwnerHelper.ToOwnerDataModel(owner));
 
                 return (await this.applicationDb.SaveChangesAsync()) > 0;
             }
@@ -59,7 +79,7 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<bool> DoesOwnerExist(Guid ownerId)
         {
-            var owner = await this.applicationDb.Owners.FindAsync(ownerId);
+            var owner = await this.applicationDb.IndividualsOwners.FindAsync(ownerId);
 
             return owner != null;
         }
@@ -72,12 +92,12 @@ namespace BlueMile.Certification.WebApi.Services
                 throw new ArgumentNullException(nameof(findOwnerModel));
             }
 
-            var owners = this.applicationDb.Owners.Where(x => x.IsActive);
+            var owners = this.applicationDb.IndividualsOwners.Where(x => x.IsActive);
 
             if (!String.IsNullOrWhiteSpace(findOwnerModel.SearchTerm))
             {
-                owners.Where(x => x.Name.Contains(findOwnerModel.SearchTerm) ||
-                                  x.Surname.Contains(findOwnerModel.SearchTerm) ||
+                owners.Where(x => x.FirstName.Contains(findOwnerModel.SearchTerm) ||
+                                  x.LastName.Contains(findOwnerModel.SearchTerm) ||
                                   x.Identification.Contains(findOwnerModel.SearchTerm));
             }
 
@@ -92,7 +112,7 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<OwnerModel> FindOwnerByUsername(string username)
         {
-            var owners = this.applicationDb.Owners.Where(x => x.IsActive || x.Email == username);
+            var owners = this.applicationDb.IndividualsOwners.Where(x => x.IsActive);
 
             return await owners.Select(y => OwnerHelper.ToApiOwnerModel(y)).FirstOrDefaultAsync();
         }
@@ -100,7 +120,7 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<OwnerModel> FindOwnerById(Guid ownerId)
         {
-            var owner = await this.applicationDb.Owners.FindAsync(ownerId);
+            var owner = await this.applicationDb.IndividualsOwners.FindAsync(ownerId);
 
             return OwnerHelper.ToApiOwnerModel(owner);
         }
@@ -109,9 +129,28 @@ namespace BlueMile.Certification.WebApi.Services
         public async Task<Guid> UpdateOwner(UpdateOwnerModel entity)
         {
             var owner = OwnerHelper.ToUpdateOwnerModel(entity);
-            this.applicationDb.Owners.Update(owner);
+            this.applicationDb.IndividualsOwners.Update(owner);
+
+            if (entity.IdentificationDocument != null)
+            {
+                var idDoc = DocumentHelper.ToCreateDocumentModel(entity.IdentificationDocument);
+                await this.applicationDb.LegalEntityDocuments.AddAsync(idDoc);
+            }
+            if (entity.SkippersLicenseImage != null)
+            {
+                var skipDoc = DocumentHelper.ToCreateDocumentModel(entity.SkippersLicenseImage);
+                await this.applicationDb.LegalEntityDocuments.AddAsync(skipDoc);
+            }
+            if (entity.IcasaPopPhoto != null)
+            {
+                var icasaDoc = DocumentHelper.ToCreateDocumentModel(entity.IcasaPopPhoto);
+                await this.applicationDb.LegalEntityDocuments.AddAsync(icasaDoc);
+            }
 
             var result = await this.applicationDb.SaveChangesAsync();
+
+            await this.CreateAddress(OwnerHelper.ToUpdateAddressModel(entity), owner.Id);
+            await this.UpdateContactDetails(entity, owner.Id);
 
             if (result > 0)
             {
@@ -286,6 +325,94 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         #endregion
+
+        #endregion
+
+        #region Class Methods
+
+        private async Task CreateContactDetails(CreateOwnerModel entity, Guid id)
+        {
+            if (!String.IsNullOrWhiteSpace(entity.ContactNumber))
+            {
+                var phoneContact = await this.applicationDb.ContactDetailTypes.FirstOrDefaultAsync(x => x.Id == (int)ContactDetailTypeEnum.MobileNumber);
+                await this.applicationDb.LegalEntityContactDetails.AddAsync(new LegalEntityContactDetail()
+                {
+                    ContactDetailTypeId = phoneContact.Id,
+                    LegalEntityId = id,
+                    Id = Guid.NewGuid(),
+                    IsActive = true,
+                    CreatedBy = entity.ContactNumber,
+                    CreatedOn = DateTime.Now,
+                    Value = entity.ContactNumber,
+                });
+            }
+
+            if (!String.IsNullOrWhiteSpace(entity.Email))
+            {
+                var emailContact = await this.applicationDb.ContactDetailTypes.FirstOrDefaultAsync(x => x.Id == (int)ContactDetailTypeEnum.EmailAddress);
+                await this.applicationDb.LegalEntityContactDetails.AddAsync(new LegalEntityContactDetail()
+                {
+                    ContactDetailTypeId = emailContact.Id,
+                    LegalEntityId = id,
+                    Id = Guid.NewGuid(),
+                    IsActive = true,
+                    CreatedBy = entity.Email,
+                    CreatedOn = DateTime.Now,
+                    Value = entity.ContactNumber,
+                });
+            }
+
+            await this.applicationDb.SaveChangesAsync();
+        }
+
+        private async Task UpdateContactDetails(UpdateOwnerModel entity, Guid id)
+        {
+            if (!String.IsNullOrWhiteSpace(entity.ContactNumber))
+            {
+                var phoneContact = await this.applicationDb.ContactDetailTypes.FirstOrDefaultAsync(x => x.Id == (int)ContactDetailTypeEnum.MobileNumber);
+                await this.applicationDb.LegalEntityContactDetails.AddAsync(new LegalEntityContactDetail()
+                {
+                    ContactDetailTypeId = phoneContact.Id,
+                    LegalEntityId = id,
+                    Id = Guid.NewGuid(),
+                    IsActive = true,
+                    CreatedBy = entity.Email,
+                    CreatedOn = DateTime.Now,
+                    Value = entity.ContactNumber,
+                });
+            }
+
+            if (!String.IsNullOrWhiteSpace(entity.Email))
+            {
+                var emailContact = await this.applicationDb.ContactDetailTypes.FirstOrDefaultAsync(x => x.Id == (int)ContactDetailTypeEnum.EmailAddress);
+                await this.applicationDb.LegalEntityContactDetails.AddAsync(new LegalEntityContactDetail()
+                {
+                    ContactDetailTypeId = emailContact.Id,
+                    LegalEntityId = id,
+                    Id = Guid.NewGuid(),
+                    IsActive = true,
+                    CreatedBy = entity.Email,
+                    CreatedOn = DateTime.Now,
+                    Value = entity.ContactNumber,
+                });
+            }
+
+            await this.applicationDb.SaveChangesAsync();
+        }
+
+        private async Task CreateAddress(LegalEntityAddress address, Guid id)
+        {
+            if (!String.IsNullOrWhiteSpace(address.StreetNumber) &&
+                !String.IsNullOrWhiteSpace(address.StreetName) &&
+                !String.IsNullOrWhiteSpace(address.Town) &&
+                !String.IsNullOrWhiteSpace(address.Province))
+            {
+                address.LegalEntityId = id;
+                await this.applicationDb.LegalEntityAddress.AddAsync(address);
+            }
+
+            await this.applicationDb.SaveChangesAsync();
+        }
 
         #endregion
 

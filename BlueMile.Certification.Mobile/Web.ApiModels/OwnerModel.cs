@@ -6,35 +6,20 @@ namespace BlueMile.Certification.Web.ApiModels
     {
         public Guid SystemId { get; set; }
 
-        public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the first name of the owner.
+        /// </summary>
+        public string FirstName { get; set; }
 
-        public string Surname { get; set; }
+        /// <summary>
+        /// Gets or sets the last name of the owner.
+        /// </summary>
+        public string LastName { get; set; }
 
-        public string Email { get; set; }
-
-        public string ContactNumber { get; set; }
-
+        /// <summary>
+        /// Gets or sets the identification number.
+        /// </summary>
         public string Identification { get; set; }
-
-        public string AddressLine1 { get; set; }
-
-        public string AddressLine2 { get; set; }
-
-        public string AddressLine3 { get; set; }
-
-        public string AddressLine4 { get; set; }
-
-        public string Suburb { get; set; }
-
-        public string Town { get; set; }
-
-        public string Province { get; set; }
-
-        public string Country { get; set; }
-
-        public string PostalCode { get; set; }
-
-        public bool IsSynced { get; set; }
 
         /// <summary>
         /// Gets or sets the <c>VHFOperatorsLicense</c> of this Owner.
@@ -46,42 +31,89 @@ namespace BlueMile.Certification.Web.ApiModels
         /// </summary>
         public string SkippersLicenseNumber { get; set; }
 
-        public ImageModel IcasaPopPhoto { get; set; }
+        /// <summary>
+        /// Gets or sets the email of the owner.
+        /// </summary>
+        public string Email { get; set; }
 
-        public ImageModel IdentificationDocument { get; set; }
+        /// <summary>
+        /// Gets or sets the contact number of the owner.
+        /// </summary>
+        public string ContactNumber { get; set; }
 
-        public ImageModel SkippersLicenseImage { get; set; }
+        /// <summary>
+        /// Gets or sets the unit number of the complex or estate.
+        /// </summary>
+        public string UnitNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the complex or estate.
+        /// </summary>
+        public string ComplexName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the street number of the address.
+        /// </summary>
+        public string StreetNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the street.
+        /// </summary>
+        public string StreetName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the suburb.
+        /// </summary>
+        public string Suburb { get; set; }
+
+        /// <summary>
+        /// Gets or sets the town.
+        /// </summary>
+        public string Town { get; set; }
+
+        /// <summary>
+        /// Gets or sets the province.
+        /// </summary>
+        public string Province { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country.
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postal code.
+        /// </summary>
+        public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Gets or sets the flag indicating if this owner has been synchronized to the server.
+        /// </summary>
+        public bool IsSynced { get; set; }
+
+        public DocumentModel IcasaPopPhoto { get; set; }
+
+        public DocumentModel IdentificationDocument { get; set; }
+
+        public DocumentModel SkippersLicenseImage { get; set; }
     }
 
     public class CreateOwnerModel
     {
-        public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the first name of the owner.
+        /// </summary>
+        public string FirstName { get; set; }
 
-        public string Surname { get; set; }
+        /// <summary>
+        /// Gets or sets the last name of the owner.
+        /// </summary>
+        public string LastName { get; set; }
 
-        public string Email { get; set; }
-
-        public string ContactNumber { get; set; }
-
+        /// <summary>
+        /// Gets or sets the identification number.
+        /// </summary>
         public string Identification { get; set; }
-
-        public string AddressLine1 { get; set; }
-
-        public string AddressLine2 { get; set; }
-
-        public string AddressLine3 { get; set; }
-
-        public string AddressLine4 { get; set; }
-
-        public string Suburb { get; set; }
-
-        public string Town { get; set; }
-
-        public string Province { get; set; }
-
-        public string Country { get; set; }
-
-        public string PostalCode { get; set; }
 
         /// <summary>
         /// Gets or sets the <c>VHFOperatorsLicense</c> of this Owner.
@@ -93,46 +125,86 @@ namespace BlueMile.Certification.Web.ApiModels
         /// </summary>
         public string SkippersLicenseNumber { get; set; }
 
-        public ImageModel IcasaPopPhoto { get; set; }
+        /// <summary>
+        /// Gets or sets the contact email of the owner.
+        /// </summary>
+        public string Email { get; set; }
 
-        public ImageModel IdentificationDocument { get; set; }
+        /// <summary>
+        /// Gets or sets the contact number of the owner.
+        /// </summary>
+        public string ContactNumber { get; set; }
 
-        public ImageModel SkippersLicenseImage { get; set; }
+        /// <summary>
+        /// Gets or sets the unit number of the complex or estate.
+        /// </summary>
+        public string UnitNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the complex or estate.
+        /// </summary>
+        public string ComplexName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the street number of the address.
+        /// </summary>
+        public string StreetNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the street.
+        /// </summary>
+        public string StreetName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the suburb.
+        /// </summary>
+        public string Suburb { get; set; }
+
+        /// <summary>
+        /// Gets or sets the town.
+        /// </summary>
+        public string Town { get; set; }
+
+        /// <summary>
+        /// Gets or sets the province.
+        /// </summary>
+        public string Province { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country.
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postal code.
+        /// </summary>
+        public string PostalCode { get; set; }
+
+        public DocumentModel IcasaPopPhoto { get; set; }
+
+        public DocumentModel IdentificationDocument { get; set; }
+
+        public DocumentModel SkippersLicenseImage { get; set; }
     }
 
     public class UpdateOwnerModel
     {
         public Guid SystemId { get; set; }
 
-        public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the first name of the owner.
+        /// </summary>
+        public string FirstName { get; set; }
 
-        public string Surname { get; set; }
+        /// <summary>
+        /// Gets or sets the last name of the owner.
+        /// </summary>
+        public string LastName { get; set; }
 
-        public string Email { get; set; }
-
-        public string ContactNumber { get; set; }
-
+        /// <summary>
+        /// Gets or sets the identification number.
+        /// </summary>
         public string Identification { get; set; }
-
-        public string AddressLine1 { get; set; }
-
-        public string AddressLine2 { get; set; }
-
-        public string AddressLine3 { get; set; }
-
-        public string AddressLine4 { get; set; }
-
-        public string Suburb { get; set; }
-
-        public string Town { get; set; }
-
-        public string Province { get; set; }
-
-        public string Country { get; set; }
-
-        public string PostalCode { get; set; }
-
-        public bool IsSynced { get; set; }
 
         /// <summary>
         /// Gets or sets the <c>VHFOperatorsLicense</c> of this Owner.
@@ -144,10 +216,65 @@ namespace BlueMile.Certification.Web.ApiModels
         /// </summary>
         public string SkippersLicenseNumber { get; set; }
 
-        public ImageModel IcasaPopPhoto { get; set; }
+        /// <summary>
+        /// Gets or sets the contact email of the owner.
+        /// </summary>
+        public string Email { get; set; }
 
-        public ImageModel IdentificationDocument { get; set; }
+        /// <summary>
+        /// Gets or sets the contact number of the owner.
+        /// </summary>
+        public string ContactNumber { get; set; }
 
-        public ImageModel SkippersLicenseImage { get; set; }
+        /// <summary>
+        /// Gets or sets the unit number of the complex or estate.
+        /// </summary>
+        public string UnitNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the complex or estate.
+        /// </summary>
+        public string ComplexName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the street number of the address.
+        /// </summary>
+        public string StreetNumber { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the street.
+        /// </summary>
+        public string StreetName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the suburb.
+        /// </summary>
+        public string Suburb { get; set; }
+
+        /// <summary>
+        /// Gets or sets the town.
+        /// </summary>
+        public string Town { get; set; }
+
+        /// <summary>
+        /// Gets or sets the province.
+        /// </summary>
+        public string Province { get; set; }
+
+        /// <summary>
+        /// Gets or sets the country.
+        /// </summary>
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Gets or sets the postal code.
+        /// </summary>
+        public string PostalCode { get; set; }
+
+        public DocumentModel IcasaPopPhoto { get; set; }
+
+        public DocumentModel IdentificationDocument { get; set; }
+
+        public DocumentModel SkippersLicenseImage { get; set; }
     }
 }

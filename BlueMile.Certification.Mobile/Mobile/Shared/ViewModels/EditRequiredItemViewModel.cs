@@ -260,7 +260,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 return false;
             }
 
-            if (String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.ImageName) ||
+            if (String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.FileName) ||
                 String.IsNullOrWhiteSpace(this.ItemToUpdate.ItemImage.FilePath) ||
                 (this.ItemToUpdate.ItemImage.Id != null && 
                 this.ItemToUpdate.ItemImage.Id != Guid.Empty))

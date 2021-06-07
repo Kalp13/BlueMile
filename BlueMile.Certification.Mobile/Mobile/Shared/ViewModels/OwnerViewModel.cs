@@ -1,17 +1,13 @@
 ﻿using Acr.UserDialogs;
-using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
-using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Mobile.Views;
-using BlueMile.Certification.Web.ApiModels.Helper;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -35,7 +31,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public List<ImageMobileModel> OwnerImages
+        public List<DocumentMobileModel> OwnerImages
         {
             get { return this.ownerImages; }
             set
@@ -197,12 +193,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     if (this.CurrentOwner != null)
                     {
                         SettingsService.OwnerId = this.CurrentOwner.SystemId.ToString();
-                        this.OwnerImages = new List<ImageMobileModel>();
+                        this.OwnerImages = new List<DocumentMobileModel>();
                         this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
                         this.OwnerImages.Add(this.CurrentOwner.IdentificationDocument);
                         this.OwnerImages.Add(this.CurrentOwner.SkippersLicenseImage);
 
-                        this.Title = String.Format(CultureInfo.InvariantCulture, "{0}'s Details", this.CurrentOwner.Name);
+                        this.Title = String.Format(CultureInfo.InvariantCulture, "{0}'s Details", this.CurrentOwner.FirstName);
                         this.MenuImage = ImageSource.FromFile("edit.png");
                     }
                     else
@@ -261,12 +257,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 if (this.CurrentOwner != null)
                 {
                     SettingsService.OwnerId = this.CurrentOwner.SystemId.ToString();
-                    this.OwnerImages = new List<ImageMobileModel>();
+                    this.OwnerImages = new List<DocumentMobileModel>();
                     this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
                     this.OwnerImages.Add(this.CurrentOwner.IdentificationDocument);
                     this.OwnerImages.Add(this.CurrentOwner.SkippersLicenseImage);
 
-                    this.Title = String.Format(CultureInfo.InvariantCulture, "{0}'s Details", this.CurrentOwner.Name);
+                    this.Title = String.Format(CultureInfo.InvariantCulture, "{0}'s Details", this.CurrentOwner.FirstName);
                     this.MenuImage = ImageSource.FromFile("edit.png");
                 }
                 else
@@ -292,7 +288,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                                 this.CurrentOwner.Id = await this.dataService.CreateNewOwnerAsync(onlineOwner);
                             }
 
-                            this.Title = $"{this.CurrentOwner.Name}'s Details";
+                            this.Title = $"{this.CurrentOwner.FirstName}'s Details";
                             this.MenuImage = ImageSource.FromFile("edit.png");
                         }
                         else
@@ -323,7 +319,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private OwnerMobileModel currentOwner;
 
-        private List<ImageMobileModel> ownerImages;
+        private List<DocumentMobileModel> ownerImages;
 
         private ImageSource menuImage;
 

@@ -9,13 +9,14 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
 {
     public static class ImageHelper
     {
-        public static ImageMobileEntity ToImageDataEntity(ImageMobileModel model)
+        public static DocumentMobileEntity ToImageDataEntity(DocumentMobileModel model)
         {
-            var image = new ImageMobileEntity()
+            var image = new DocumentMobileEntity()
             {
                 FilePath = model.FilePath,
                 Id = model.Id != null && model.Id != Guid.Empty ? model.Id : Guid.NewGuid(),
-                ImageName = model.ImageName,
+                FileName = model.FileName,
+                FileType = model.FileType,
                 SystemId = model.SystemId,
                 UniqueImageName = model.UniqueImageName
             };
@@ -23,13 +24,14 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
             return image;
         }
 
-        public static ImageMobileModel ToImageModel(ImageMobileEntity model)
+        public static DocumentMobileModel ToImageModel(DocumentMobileEntity model)
         {
-            var image = new ImageMobileModel()
+            var image = new DocumentMobileModel()
             {
                 FilePath = model.FilePath,
                 Id = model.Id != null && model.Id != Guid.Empty ? model.Id : Guid.NewGuid(),
-                ImageName = model.ImageName,
+                FileName = model.FileName,
+                FileType = model.FileType,
                 SystemId = model.SystemId,
                 UniqueImageName = model.UniqueImageName,
                 FileContent = File.ReadAllBytes(model.FilePath)

@@ -212,8 +212,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     ContactNumber = this.ContactNumber,
                     Email = this.EmailAddress,
                     Identification = this.Identification,
-                    Name = this.FirstName,
-                    Surname = this.LastName,
+                    FirstName = this.FirstName,
+                    LastName = this.LastName,
                 };
 
                 if (this.apiService == null)

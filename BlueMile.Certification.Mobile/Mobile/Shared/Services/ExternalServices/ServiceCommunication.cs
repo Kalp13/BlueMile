@@ -600,10 +600,10 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
         {
             try
             {
-                if (String.IsNullOrWhiteSpace(SettingsService.UserToken))
-                {
-                    throw new ArgumentNullException(nameof(SettingsService.UserToken), "You have not been authenticated. Please log and back in again.");
-                }
+                //if (String.IsNullOrWhiteSpace(SettingsService.UserToken))
+                //{
+                //    throw new ArgumentNullException(nameof(SettingsService.UserToken), "You have not been authenticated. Please log and back in again.");
+                //}
 
                 if (String.IsNullOrWhiteSpace(SettingsService.ServiceAddress))
                 {

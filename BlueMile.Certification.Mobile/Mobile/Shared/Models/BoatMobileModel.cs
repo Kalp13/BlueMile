@@ -44,7 +44,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageMobileModel BoyancyCertificateImage { get; set; }
+        public DocumentMobileModel BoyancyCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
@@ -59,7 +59,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageMobileModel TubbiesCertificateImage { get; set; }
+        public DocumentMobileModel TubbiesCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag indicating if this boat has been synchronized to the server.

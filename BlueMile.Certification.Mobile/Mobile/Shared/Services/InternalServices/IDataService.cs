@@ -54,11 +54,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 
         #region Image Methods
 
-        Task<Guid> CreateNewImageAsync(ImageMobileModel image);
+        Task<Guid> CreateNewImageAsync(DocumentMobileModel image);
 
-        Task<bool> UpdateImageAsync(ImageMobileModel image);
+        Task<bool> UpdateImageAsync(DocumentMobileModel image);
 
-        Task<ImageMobileModel> FindImageByIdAsync(Guid imageId);
+        Task<DocumentMobileModel> FindImageByIdAsync(Guid imageId);
 
         #endregion
     }

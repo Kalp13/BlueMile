@@ -44,7 +44,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public ObservableCollection<ImageMobileModel> BoatImages
+        public ObservableCollection<DocumentMobileModel> BoatImages
         {
             get { return this.boatImages; }
             set
@@ -153,7 +153,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.SubmitForCertificationCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Submitting...");
-                await this.BuildEmailContent().ConfigureAwait(false);
+                UserDialogs.Instance.HideLoading();
             });
 
             this.SaveCommand = new Command(async () =>
@@ -282,109 +282,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        private async Task BuildEmailContent()
-        {
-            try
-            {
-                if (this.dataService == null)
-                {
-                    this.dataService = new DataService();
-                }
-
-                var owner = await this.dataService.FindOwnerBySystemIdAsync(this.CurrentBoat.OwnerId).ConfigureAwait(false);
-                var equipment = await this.dataService.FindItemsByBoatIdAsync(this.CurrentBoat.SystemId).ConfigureAwait(false);
-                var images = new List<ImageMobileModel>();
-
-                //Add Owner Details
-                var details = $"Owner Details\n" +
-                $"Name & Surname: {owner.Name} + {owner.Surname}\n" +
-                $"Cell Number: {owner.ContactNumber}\n" +
-                $"Email: {owner.Email}\n" +
-                $"ID/Passport: {owner.Identification}\n" +
-                $"Skippers License: {owner.SkippersLicenseNumber}\n" +
-                $"VHF License: {owner.VhfOperatorsLicense}\n" +
-                $"Address: {owner.AddressLine1}\n\n"; ;
-                images.Add(owner.IdentificationDocument);
-                images.Add(owner.SkippersLicenseImage);
-                images.Add(owner.IcasaPopPhoto);
-
-                ///Add Boat Details
-                details += $"Boat Detail\n" +
-                $"Boat Name: {this.CurrentBoat.Name}\n" +
-                $"Category: {CategoryDescriptionConverter.GetDescription((BoatCategoryEnum)this.CurrentBoat.BoatCategoryId)}" +
-                $"Registered Number: {this.CurrentBoat.RegisteredNumber}\n" +
-                $"Boyancy Cert: {this.CurrentBoat.BoyancyCertificateNumber}\n";
-                images.Add(this.CurrentBoat.BoyancyCertificateImage);
-
-                if (this.CurrentBoat.IsJetski)
-                {
-                    details += $"Tubbies Boyancy Cert: {this.CurrentBoat.TubbiesCertificateNumber}\n";
-                    images.Add(this.CurrentBoat.TubbiesCertificateImage);
-                }
-
-                //Add Equipment Details
-                foreach (var item in equipment)
-                {
-                    details += $"{ItemTypeDescriptionConverter.GetDescription((ItemTypeEnum)item.ItemTypeId)}: {item.Description} - " +
-                    $"Serial: {item.SerialNumber}" +
-                    $"Captured: {item.CapturedDate.ToString("00:dd/MMM/yyyy")} - " +
-                    $"Expires: {item.ExpiryDate.ToString("00:dd/MMM/yyyy")}";
-                    images.Add(item.ItemImage);
-                }
-
-                this.BuildEmail(details, images);
-            }
-            catch (Exception exc)
-            {
-                Crashes.TrackError(exc);
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Create Email Error");
-            }
-        }
-
-        private async void BuildEmail(string details, List<ImageMobileModel> images)
-        {
-            try
-            {
-                EmailMessage email = new EmailMessage()
-                {
-                    To = new List<string>() { "rfkalp@live.co.za" },
-                    Body = "Dear Stephan,\n\n" +
-                       "Please find attached and below everything required for my boats C.O.C.\n\n" + details,
-                    BodyFormat = EmailBodyFormat.Html,
-                    Subject = this.CurrentBoat.RegisteredNumber + " C.O.C"
-                };
-                List<EmailAttachment> attachments = new List<EmailAttachment>();
-                foreach (var pic in images)
-                {
-                    attachments.Add(new EmailAttachment(pic.FilePath)
-                    {
-                        ContentType = "image/png"
-                    });
-                }
-                email.Attachments = attachments;
-
-                await Email.ComposeAsync(email).ConfigureAwait(false);
-            }
-            catch (FeatureNotSupportedException)
-            {
-                await UserDialogs.Instance.AlertAsync(new AlertConfig
-                {
-                    Message = "Your device does not support sending emails.",
-                    OkText = "Close",
-                    Title = "Not Supported"
-                }).ConfigureAwait(false);
-            }
-            catch (FeatureNotEnabledException)
-            {
-                await UserDialogs.Instance.AlertAsync(new AlertConfig
-                {
-                    Message = "You have not enabled allowed this feature yet.",
-                    OkText = "Close",
-                    Title = "Not Supported"
-                }).ConfigureAwait(false);
-            }
-        }
-
         private async Task GetBoat()
         {
             try
@@ -397,7 +294,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
 
                     this.CurrentBoat = await this.dataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
-                    this.BoatImages = new ObservableCollection<ImageMobileModel>();
+                    this.BoatImages = new ObservableCollection<DocumentMobileModel>();
 
                     if (this.CurrentBoat != null)
                     {
@@ -427,7 +324,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private string currentBoatId;
 
-        private ObservableCollection<ImageMobileModel> boatImages;
+        private ObservableCollection<DocumentMobileModel> boatImages;
 
         private bool editBoat;
 

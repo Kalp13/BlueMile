@@ -8,9 +8,9 @@ namespace BlueMile.Certification.WebApi.Helpers
 {
     public static class BoatHelper
     {
-        public static BoatModel ToCreateBoatData(Web.ApiModels.CreateBoatModel boatModel)
+        public static Boat ToCreateBoatData(Web.ApiModels.CreateBoatModel boatModel)
         {
-            var boat = new BoatModel()
+            var boat = new Boat()
             {
                 CategoryId = boatModel.BoatCategoryId,
                 BoyancyCertificateNumber = boatModel.BoyancyCertificateNumber,
@@ -28,9 +28,9 @@ namespace BlueMile.Certification.WebApi.Helpers
             return boat;
         }
 
-        public static BoatModel ToUpdateBoatData(Web.ApiModels.UpdateBoatModel boatModel)
+        public static Boat ToUpdateBoatData(Web.ApiModels.UpdateBoatModel boatModel)
         {
-            var boat = new BoatModel()
+            var boat = new Boat()
             {
                 CategoryId = boatModel.BoatCategoryId,
                 BoyancyCertificateNumber = boatModel.BoyancyCertificateNumber,
@@ -45,9 +45,9 @@ namespace BlueMile.Certification.WebApi.Helpers
             return boat;
         }
 
-        public static BoatModel ToBoatDataModel(Web.ApiModels.BoatModel boatModel)
+        public static Boat ToBoatDataModel(Web.ApiModels.BoatModel boatModel)
         {
-            var boat = new BoatModel()
+            var boat = new Boat()
             {
                 CategoryId = boatModel.BoatCategoryId,
                 BoyancyCertificateNumber = boatModel.BoyancyCertificateNumber,
@@ -62,7 +62,7 @@ namespace BlueMile.Certification.WebApi.Helpers
             return boat;
         }
 
-        public static Web.ApiModels.BoatModel ToApiBoatModel(BoatModel boatEntity)
+        public static Web.ApiModels.BoatModel ToApiBoatModel(Boat boatEntity)
         {
             var boat = new Web.ApiModels.BoatModel()
             {

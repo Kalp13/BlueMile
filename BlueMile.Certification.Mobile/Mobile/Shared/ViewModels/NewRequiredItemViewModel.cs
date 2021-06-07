@@ -242,7 +242,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
 
                 if (this.NewItem.ItemImage == null ||
-                    String.IsNullOrWhiteSpace(this.NewItem.ItemImage.ImageName) ||
+                    String.IsNullOrWhiteSpace(this.NewItem.ItemImage.FileName) ||
                     String.IsNullOrWhiteSpace(this.NewItem.ItemImage.FilePath) ||
                     this.NewItem.ItemImage.Id == null ||
                     this.NewItem.ItemImage.Id == Guid.Empty)

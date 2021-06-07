@@ -1,33 +1,47 @@
 ﻿using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Web.ApiModels;
+using System;
 
 namespace BlueMile.Certification.Mobile.Helpers
 {
     public class ImageModelHelper
     {
-        public static ImageMobileModel ToImageMobileModel(ImageModel image)
+        public static DocumentMobileModel ToImageMobileModel(DocumentModel document)
         {
-            var imageModel = new ImageMobileModel()
+            if (document is null)
             {
-                FilePath = image.FilePath,
-                ImageName = image.ImageName,
-                Id = image.SystemId,
-                UniqueImageName = image.UniqueImageName,
-                FileContent = image.FileContent
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            var imageModel = new DocumentMobileModel()
+            {
+                FilePath = document.FilePath,
+                FileName = document.FileName,
+                FileType = document.DocumentType,
+                SystemId = document.SystemId,
+                Id = document.SystemId,
+                UniqueImageName = document.UniqueImageName,
+                FileContent = document.FileContent
             };
 
             return imageModel;
         }
 
-        public static ImageModel ToImageModel(ImageMobileModel image)
+        public static DocumentModel ToImageModel(DocumentMobileModel document)
         {
-            var imageModel = new ImageModel()
+            if (document is null)
             {
-                FilePath = image.FilePath,
-                ImageName = image.ImageName,
-                SystemId = image.Id,
-                UniqueImageName = image.UniqueImageName,
-                FileContent = image.FileContent
+                throw new ArgumentNullException(nameof(document));
+            }
+
+            var imageModel = new DocumentModel()
+            {
+                FilePath = document.FilePath,
+                FileName = document.FileName,
+                DocumentType = document.FileType,
+                SystemId = document.Id,
+                UniqueImageName = document.UniqueImageName,
+                FileContent = document.FileContent
             };
 
             return imageModel;

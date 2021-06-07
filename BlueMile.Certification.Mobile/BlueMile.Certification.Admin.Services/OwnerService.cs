@@ -36,7 +36,7 @@ namespace BlueMile.Certification.Admin.Services
 
                 var dbContext = this.dbFactory.CreateDbContext();
 
-                var query = dbContext.Owners.AsQueryable();
+                var query = dbContext.IndividualsOwners.AsQueryable();
 
                 if (request.OwnerId.HasValue)
                 {
@@ -46,10 +46,8 @@ namespace BlueMile.Certification.Admin.Services
                 if (!String.IsNullOrWhiteSpace(request.SearchTerm))
                 {
                     query = query.Where(x => x.Identification.ToLower().Contains(request.SearchTerm.ToLower()) ||
-                                             x.Name.ToLower().Contains(request.SearchTerm.ToLower()) ||
-                                             x.Surname.ToLower().Contains(request.SearchTerm.ToLower()) ||
-                                             x.Email.ToLower().Contains(request.SearchTerm.ToLower()) ||
-                                             x.ContactNumber.ToLower().Contains(request.SearchTerm.ToLower()));
+                                             x.FirstName.ToLower().Contains(request.SearchTerm.ToLower()) ||
+                                             x.LastName.ToLower().Contains(request.SearchTerm.ToLower()));
                 }
 
                 var total = await query.Where(x => x.IsActive).CountAsync();
@@ -57,22 +55,11 @@ namespace BlueMile.Certification.Admin.Services
                 var owners = await query.Where(x => x.IsActive).Skip((request.Page - 1) * request.PageSize).Take(request.PageSize).ToArrayAsync();
                 var results = owners.Select(c => new OwnerWebModel()
                 {
-                    AddressLine1 = c.AddressLine1,
-                    AddressLine2 = c.AddressLine2,
-                    AddressLine3 = c.AddressLine3,
-                    AddressLine4 = c.AddressLine4,
-                    ContactNumber = c.ContactNumber,
-                    Country = c.Country,
-                    Email = c.Email,
                     Identification = c.Identification,
-                    Name = c.Name,
-                    PostalCode = c.PostalCode,
-                    Province = c.Province,
+                    FirstName = c.FirstName,
+                    LastName = c.LastName,
                     SkippersLicenseNumber = c.SkippersLicenseNumber,
-                    Suburb = c.Suburb,
-                    Surname = c.Surname,
                     SystemId = c.Id,
-                    Town = c.Town,
                     VhfOperatorsLicense = c.VhfOperatorsLicense
                 }).ToArray();
 

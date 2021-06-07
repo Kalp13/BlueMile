@@ -9,7 +9,7 @@ namespace BlueMile.Certification.Mobile
     {
         public AppShell()
         {
-            InitializeComponent();
+            this.InitializeComponent();
             //Owner Pages
             Routing.RegisterRoute(Constants.ownersRoute, typeof(OwnersPage));
             Routing.RegisterRoute(Constants.ownerDetailRoute, typeof(OwnerPage));

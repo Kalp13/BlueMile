@@ -7,7 +7,7 @@ namespace BlueMile.Certification.Data.Models
 	{
 		public Guid? OwnerId { get; set; }
 
-		public OwnerModel Owner { get; set; }
+		public LegalEntity Owner { get; set; }
 
 		public DateTime? LastLogin { get; set; }
 	}

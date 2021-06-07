@@ -87,7 +87,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
                 if (owner != null)
                 {
-                    this.logger.LogInformation($"Successfully found owner with username {username} - {owner.Name} {owner.Surname}");
+                    this.logger.LogInformation($"Successfully found owner with username {username} - {owner.FirstName} {owner.LastName}");
 
                     return this.Ok(owner);
                 }
@@ -132,7 +132,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
                 if (owner != null)
                 {
-                    this.logger.LogInformation($"Successfully found owner with unique identifier {id} - {owner.Name} {owner.Surname}");
+                    this.logger.LogInformation($"Successfully found owner with unique identifier {id} - {owner.FirstName} {owner.LastName}");
 
                     return this.Ok(owner);
                 }
@@ -183,13 +183,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
                 if (ownerId != Guid.Empty)
                 {
-                    this.logger.LogInformation($"Successfully updates owner {ownerEntity.Name} {ownerEntity.Surname}");
+                    this.logger.LogInformation($"Successfully updates owner {ownerEntity.FirstName} {ownerEntity.LastName}");
 
                     return this.Ok(ownerId);
                 }
                 else
                 {
-                    this.logger.LogInformation($"Could not update owner {ownerEntity.Name} {ownerEntity.Surname}");
+                    this.logger.LogInformation($"Could not update owner {ownerEntity.FirstName} {ownerEntity.LastName}");
 
                     return this.NotFound("No owner found with the given details.");
                 }
@@ -227,12 +227,12 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
                 if (ownerId != Guid.Empty)
                 {
-                    this.logger.LogInformation($"Successfully created new owner {ownerEntity.Name} {ownerEntity.Surname} with unique system identifier {ownerId}");
+                    this.logger.LogInformation($"Successfully created new owner {ownerEntity.FirstName} {ownerEntity.LastName} with unique system identifier {ownerId}");
                     return this.Ok(ownerId);
                 }
                 else
                 {
-                    this.logger.LogInformation($"Could not create new owner {ownerEntity.Name} {ownerEntity.Surname}.");
+                    this.logger.LogInformation($"Could not create new owner {ownerEntity.FirstName} {ownerEntity.LastName}.");
                     return this.BadRequest($"Could not create new owner with given details.");
                 }
             }

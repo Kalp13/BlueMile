@@ -26,12 +26,12 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the name of the owner.
         /// </summary>
-        public string Name { get; set; }
+        public string FirstName { get; set; }
 
         /// <summary>
         /// Gets or sets the surname of the owner.
         /// </summary>
-        public string Surname { get; set; }
+        public string LastName { get; set; }
 
         /// <summary>
         /// Gets or sets the email of the owner.
@@ -49,47 +49,47 @@ namespace BlueMile.Certification.Mobile.Models
         public string Identification { get; set; }
 
         /// <summary>
-        /// Gets or sets the first line of the owner's address.
+        /// Gets or sets the unit number of the complex or estate.
         /// </summary>
-        public string AddressLine1 { get; set; }
+        public string UnitNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the second line of the owner's address.
+        /// Gets or sets the name of the complex or estate.
         /// </summary>
-        public string AddressLine2 { get; set; }
+        public string ComplexName { get; set; }
 
         /// <summary>
-        /// Gets or sets the third line of the owner's address.
+        /// Gets or sets the street number of the address.
         /// </summary>
-        public string AddressLine3 { get; set; }
+        public string StreetNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the fourth line of the owner's address.
+        /// Gets or sets the name of the street.
         /// </summary>
-        public string AddressLine4 { get; set; }
+        public string StreetName { get; set; }
 
         /// <summary>
-        /// Gets or sets the suburb of the owner.
+        /// Gets or sets the suburb.
         /// </summary>
         public string Suburb { get; set; }
 
         /// <summary>
-        /// Gets or sets the town of the owner.
+        /// Gets or sets the town.
         /// </summary>
         public string Town { get; set; }
 
         /// <summary>
-        /// Gets or sets the province of the owner.
+        /// Gets or sets the province.
         /// </summary>
         public string Province { get; set; }
 
         /// <summary>
-        /// Gets or sets the country of the owner.
+        /// Gets or sets the country.
         /// </summary>
         public string Country { get; set; }
 
         /// <summary>
-        /// Gets or sets the postal code of the owner.
+        /// Gets or sets the postal code.
         /// </summary>
         public string PostalCode { get; set; }
 
@@ -108,11 +108,11 @@ namespace BlueMile.Certification.Mobile.Models
         /// </summary>
         public string SkippersLicenseNumber { get; set; }
 
-        public ImageMobileModel IcasaPopPhoto { get; set; }
+        public DocumentMobileModel IcasaPopPhoto { get; set; }
 
-        public ImageMobileModel IdentificationDocument { get; set; }
+        public DocumentMobileModel IdentificationDocument { get; set; }
 
-        public ImageMobileModel SkippersLicenseImage { get; set; }
+        public DocumentMobileModel SkippersLicenseImage { get; set; }
 
         #endregion
 
@@ -132,7 +132,7 @@ namespace BlueMile.Certification.Mobile.Models
 
         public override string ToString()
         {
-            var message = $"{this.Name} {this.Surname}\n" +
+            var message = $"{this.FirstName} {this.LastName}\n" +
                           $"{this.Identification}\n" +
                           $"{this.Email}\n" +
                           $"{this.ContactNumber}\n" +

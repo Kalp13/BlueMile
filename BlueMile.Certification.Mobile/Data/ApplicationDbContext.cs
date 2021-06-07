@@ -14,13 +14,29 @@ namespace BlueMile.Certification.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, IDataProtectionKeyContext
     {
-        public DbSet<OwnerModel> Owners { get; set; }
+        public virtual DbSet<IndividualOwner> IndividualsOwners { get; set; }
 
-        public DbSet<BoatModel> Boats { get; set; }
+		public virtual DbSet<LegalEntityDocument> LegalEntityDocuments { get; set; }
 
-        public DbSet<ItemModel> Items { get; set; }
+		public virtual DbSet<LegalEntityAddress> LegalEntityAddress { get; set; }
 
-        public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
+		public virtual DbSet<ContactDetailType> ContactDetailTypes { get; set; }
+
+		public virtual DbSet<LegalEntityContactDetail> LegalEntityContactDetails { get; set; }
+
+		public virtual DbSet<DocumentType> DocumentTypes { get; set; }
+
+		public virtual DbSet<Boat> Boats { get; set; }
+
+		public virtual DbSet<BoatDocument> BoatDocuments { get; set; }
+
+		public virtual DbSet<BoatCategory> BoatCategories { get; set; }
+
+		public virtual DbSet<Item> Items { get; set; }
+
+		public virtual DbSet<ItemDocument> ItemDocuments { get; set; }
+
+		public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
 
 		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IAuditUserProvider auditUserProvider)
 			: base(options)
@@ -50,7 +66,7 @@ namespace BlueMile.Certification.Data
 		{
 			builder.ApplyConfiguration(new ApplicationUserMap());
 
-			builder.ApplyConfiguration(new OwnersMap());
+			builder.ApplyConfiguration(new IndividualOwnerMap());
 			builder.ApplyConfiguration(new BoatsMap());
 			builder.ApplyConfiguration(new ItemsMap());
 

@@ -6,24 +6,24 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
 {
     public static class ImageHelper
     {
-        public static CreateImageModel ToCreateImageModel(ImageModel image)
+        public static CreateImageModel ToCreateImageModel(DocumentModel image)
         {
             var imageModel = new CreateImageModel()
             {
                 FilePath = image.FilePath,
-                ImageName = image.ImageName,
+                ImageName = image.FileName,
                 UniqueImageName = image.UniqueImageName
             };
 
             return imageModel; 
         }
 
-        public static UpdateImageModel ToUpdateImageModel(ImageModel image)
+        public static UpdateImageModel ToUpdateImageModel(DocumentModel image)
         {
             var imageModel = new UpdateImageModel()
             {
                 FilePath = image.FilePath,
-                ImageName = image.ImageName,
+                ImageName = image.FileName,
                 UniqueImageName = image.UniqueImageName
             };
 

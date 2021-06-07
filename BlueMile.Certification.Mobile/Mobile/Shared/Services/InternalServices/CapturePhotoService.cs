@@ -12,7 +12,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
 {
     public class CapturePhotoService
     {
-        public static async Task<ImageMobileModel> CapturePhotoAsync(string photoName)
+        public static async Task<DocumentMobileModel> CapturePhotoAsync(string photoName)
         {
             try
             {
@@ -33,10 +33,10 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                         Title = "Capture " + photoName
                     };
                     var image = await Xamarin.Essentials.MediaPicker.CapturePhotoAsync(options).ConfigureAwait(false);
-                    return new ImageMobileModel
+                    return new DocumentMobileModel
                     {
                         FilePath = image.FullPath,
-                        ImageName = photoName + ".jpg"
+                        FileName = photoName + ".jpg"
                     };
                 }
                 else

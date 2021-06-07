@@ -44,7 +44,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public ImageModel ItemImage { get; set; }
+        public DocumentModel ItemImage { get; set; }
 
         public bool IsSynced { get; set; }
     }
@@ -84,7 +84,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public ImageModel ItemImage { get; set; }
+        public DocumentModel ItemImage { get; set; }
     }
 
     public class UpdateItemModel
@@ -127,6 +127,6 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public ImageModel ItemImage { get; set; }
+        public DocumentModel ItemImage { get; set; }
     }
 }

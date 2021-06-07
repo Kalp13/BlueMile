@@ -125,55 +125,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 this.OwnerDetails.SkippersLicenseImage = await CapturePhotoService.CapturePhotoAsync("SkippersPhoto").ConfigureAwait(false);
                 this.OnPropertyChanged(nameof(this.OwnerDetails));
             });
-            this.GetAddressCommand = new Command(async () =>
-            {
-                UserDialogs.Instance.ShowLoading("Retrieving Address");
-                await this.GetLocationAndAddress().ConfigureAwait(false);
-                UserDialogs.Instance.HideLoading();
-            });
-        }
-
-        private async Task GetLocationAndAddress()
-        {
-            try
-            {
-                var request = new GeolocationRequest(GeolocationAccuracy.High);
-                var location = await Geolocation.GetLocationAsync(request).ConfigureAwait(false);
-
-                if (location != null)
-                {
-                    Console.WriteLine($"Latitude: {location.Latitude}, Longitude: {location.Longitude}, Altitude: {location.Altitude}");
-
-                    this.OwnerDetails.AddressLine1 = String.Format(CultureInfo.InvariantCulture,
-                                                    "Lat:{0}; Long:{1}",
-                                                    location.Latitude,
-                                                    location.Longitude);
-                    this.OnPropertyChanged(nameof(OwnerDetails));
-                    //var placeMarks = await Geocoding.GetPlacemarksAsync(location).ConfigureAwait(false);
-                    //var placeMark = placeMarks?.FirstOrDefault();
-
-                    //if (placeMark != null)
-                    //{
-                    //    this.NewOwner.Address = placeMark.ToString();
-                    //}
-                }
-            }
-            catch (FeatureNotSupportedException fnsExc)
-            {
-                await UserDialogs.Instance.AlertAsync(fnsExc.Message + " - " + fnsExc.InnerException?.Message, "Create Owner Error").ConfigureAwait(false);
-            }
-            catch (FeatureNotEnabledException fneExc)
-            {
-                await UserDialogs.Instance.AlertAsync(fneExc.Message + " - " + fneExc.InnerException?.Message, "Create Owner Error").ConfigureAwait(false);
-            }
-            catch (PermissionException pExc)
-            {
-                await UserDialogs.Instance.AlertAsync(pExc.Message + " - " + pExc.InnerException?.Message, "Create Owner Error").ConfigureAwait(false);
-            }
-            catch (Exception exc)
-            {
-                await UserDialogs.Instance.AlertAsync(exc.Message + " - " + exc.InnerException?.Message, "Create Owner Error").ConfigureAwait(false);
-            }
         }
 
         private async Task GetOwnerDetails()
@@ -192,7 +143,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (this.OwnerDetails != null)
                     {
-                        this.Title = "Edit " + this.OwnerDetails.Name;
+                        this.Title = "Edit " + this.OwnerDetails.FirstName;
                     }
                 }
             }
@@ -250,7 +201,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                                 this.apiService = new ServiceCommunication();
                             }
 
-                            UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.Name);
+                            UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.FirstName);
 
                             var ownerId = await this.apiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
                             if (ownerId != null && ownerId != Guid.Empty)
@@ -285,7 +236,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                                 this.apiService = new ServiceCommunication();
                             }
 
-                            UserDialogs.Instance.Toast("Successfully updated Owner: " + this.OwnerDetails.Name);
+                            UserDialogs.Instance.Toast("Successfully updated Owner: " + this.OwnerDetails.FirstName);
                             var ownerId = await this.apiService.UpdateOwner(this.OwnerDetails).ConfigureAwait(false);
                             if (ownerId != null && ownerId != Guid.Empty)
                             {

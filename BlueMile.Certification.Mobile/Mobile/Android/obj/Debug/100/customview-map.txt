@@ -29,8 +29,6 @@ com.google.android.material.tabs.TabLayout;C:\VSTS\BlueMile\BlueMile.Certificati
 com.google.android.material.tabs.TabLayout;obj\Debug\100\res\layout\tabbar.xml
 corners;C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\lp\1\jl\res\drawable\roundedbg.xml
 corners;C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\lp\1\jl\res\drawable\roundedbgdark.xml
-crc643f46942d9dd1fff9.ShellFlyoutLayout;C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\lp\56\jl\res\layout\flyoutcontent.xml
-crc64720bb2db43a66fe9.FormsViewPager;C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\lp\56\jl\res\layout\rootlayout.xml
 declare-styleable;C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\lp\1\jl\res\values\attrs.xml
 declare-styleable;C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\lp\56\jl\res\values\attrs.xml
 domain;obj\Debug\100\res\xml\network_security_config.xml

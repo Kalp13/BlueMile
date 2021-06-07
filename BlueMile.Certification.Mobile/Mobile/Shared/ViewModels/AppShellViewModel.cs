@@ -14,9 +14,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
     public class AppShellViewModel : BaseViewModel
     {
 
-        private ImageMobileModel profileImage;
+        private DocumentMobileModel profileImage;
 
-        public ImageMobileModel ProfileImage
+        public DocumentMobileModel ProfileImage
         {
             get { return this.profileImage; }
             set

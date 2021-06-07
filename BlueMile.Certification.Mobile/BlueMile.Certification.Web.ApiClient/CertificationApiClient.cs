@@ -106,6 +106,7 @@ namespace BlueMile.Certification.Web.ApiClient
 
         #region Owner Methods
 
+        /// <inheritdoc/>
         public async Task<PagedResponseModel<OwnerModel>> FindOwners(FindOwnerModel filterModel)
         {
             try

@@ -39,7 +39,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageModel BoyancyCertificateImage { get; set; }
+        public DocumentModel BoyancyCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
@@ -54,7 +54,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageModel TubbiesCertificateImage { get; set; }
+        public DocumentModel TubbiesCertificateImage { get; set; }
 
         public bool IsSynced { get; set; }
     }
@@ -89,7 +89,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageModel BoyancyCertificateImage { get; set; }
+        public DocumentModel BoyancyCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
@@ -104,7 +104,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageModel TubbiesCertificateImage { get; set; }
+        public DocumentModel TubbiesCertificateImage { get; set; }
     }
 
     public class UpdateBoatModel
@@ -142,7 +142,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageModel BoyancyCertificateImage { get; set; }
+        public DocumentModel BoyancyCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
@@ -157,6 +157,6 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public ImageModel TubbiesCertificateImage { get; set; }
+        public DocumentModel TubbiesCertificateImage { get; set; }
     }
 }

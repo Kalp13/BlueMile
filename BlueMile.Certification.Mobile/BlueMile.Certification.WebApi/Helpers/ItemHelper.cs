@@ -8,9 +8,9 @@ namespace BlueMile.Certification.WebApi.Helpers
 {
     public static class ItemHelper
     {
-        public static ItemModel ToCreateItemModel(Web.ApiModels.CreateItemModel createItem)
+        public static Item ToCreateItemModel(Web.ApiModels.CreateItemModel createItem)
         {
-            var item = new ItemModel()
+            var item = new Item()
             {
                 BoatId = createItem.BoatId,
                 CapturedDate = createItem.CapturedDate,
@@ -19,16 +19,16 @@ namespace BlueMile.Certification.WebApi.Helpers
                 ExpiryDate = createItem.ExpiryDate,
                 Id = Guid.NewGuid(),
                 IsActive = true,
-                ItemType = createItem.ItemTypeId,
+                ItemTypeId = createItem.ItemTypeId,
                 ModifiedOn = DateTime.Now,
                 SerialNumber = createItem.SerialNumber,
             };
             return item;
         }
 
-        public static ItemModel ToUpdateItemModel(Web.ApiModels.UpdateItemModel updateItem)
+        public static Item ToUpdateItemModel(Web.ApiModels.UpdateItemModel updateItem)
         {
-            var item = new ItemModel()
+            var item = new Item()
             {
                 BoatId = updateItem.BoatId,
                 CapturedDate = updateItem.CapturedDate,
@@ -36,31 +36,30 @@ namespace BlueMile.Certification.WebApi.Helpers
                 ExpiryDate = updateItem.ExpiryDate,
                 Id = updateItem.SystemId,
                 IsActive = true,
-                ItemType = updateItem.ItemTypeId,
+                ItemTypeId = updateItem.ItemTypeId,
                 ModifiedOn = DateTime.Now,
                 SerialNumber = updateItem.SerialNumber
             };
             return item;
         }
 
-        public static ItemModel ToItemDataModel(Web.ApiModels.ItemModel itemModel)
+        public static Item ToItemDataModel(Web.ApiModels.ItemModel itemModel)
         {
-            var item = new ItemModel()
+            var item = new Item()
             {
                 BoatId = itemModel.BoatId,
                 CapturedDate = itemModel.CapturedDate,
                 Description = itemModel.Description,
                 ExpiryDate = itemModel.ExpiryDate,
                 Id = itemModel.SystemId,
-                ItemImageId = itemModel.ItemImage.SystemId,
-                ItemType = itemModel.ItemTypeId,
+                ItemTypeId = itemModel.ItemTypeId,
                 ModifiedOn = DateTime.Now,
                 SerialNumber = itemModel.SerialNumber
             };
             return item;
         }
 
-        public static Web.ApiModels.ItemModel ToItemApiModel(ItemModel itemModel)
+        public static Web.ApiModels.ItemModel ToItemApiModel(Item itemModel)
         {
             var item = new Web.ApiModels.ItemModel()
             {
@@ -69,7 +68,7 @@ namespace BlueMile.Certification.WebApi.Helpers
                 Description = itemModel.Description,
                 ExpiryDate = itemModel.ExpiryDate,
                 SystemId = itemModel.Id,
-                ItemTypeId = itemModel.ItemType,
+                ItemTypeId = itemModel.ItemTypeId,
                 SerialNumber = itemModel.SerialNumber
             };
             return item;

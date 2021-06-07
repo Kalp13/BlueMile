@@ -191,7 +191,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     if (this.BoatDetails.TubbiesCertificateImage != null)
                     {
                         this.BoatDetails.TubbiesCertificateImage.FilePath = String.Empty;
-                        this.BoatDetails.TubbiesCertificateImage.ImageName = String.Empty;
+                        this.BoatDetails.TubbiesCertificateImage.FileName = String.Empty;
                         this.BoatDetails.TubbiesCertificateImage.UniqueImageName = String.Empty;
                     }
                 }
