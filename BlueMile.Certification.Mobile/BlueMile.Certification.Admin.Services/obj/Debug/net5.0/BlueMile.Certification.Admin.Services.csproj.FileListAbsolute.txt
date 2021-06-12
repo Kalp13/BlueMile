@@ -1,0 +1,5 @@
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.csproj.AssemblyReference.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.AssemblyInfoInputs.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.AssemblyInfo.cs
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.csproj.CoreCompileInputs.cache

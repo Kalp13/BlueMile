@@ -11,11 +11,6 @@ namespace BlueMile.Certification.Mobile.Models
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the primary unique identifier for a <see cref="RequiredItemEntity"/>.
-        /// </summary>
-        public Guid SystemId { get; set; }
-
-        /// <summary>
         /// Gets or sets the unique indexed foreign key to the <see cref="BoatEntity"/> for this <see cref="RequiredItemEntity"/>.
         /// </summary>
         public Guid BoatId { get; set; }
@@ -48,11 +43,46 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public DocumentMobileModel ItemImage { get; set; }
+        public ItemDocumentMobileModel ItemImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag indicating if this item has been synchronized to the server.
         /// </summary>
         public bool IsSynced { get; set; }
+    }
+
+    public class ItemDocumentMobileModel
+    {
+        /// <summary>
+        /// Gets or sets the unique identifier of the document.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique identifier of the boat associated with this document.
+        /// </summary>
+        public Guid ItemId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mime type identifying the type of data contained in the file.
+        /// </summary>
+        public string MimeType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the original name of the file.
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique file name for the current <see cref="OwnerDocumentMobileModel"/> 
+        /// used to uniquely identify the document in the back end document storage.
+        /// </summary>
+        public string UniqueFileName { get; set; }
+
+        /// <summary>
+        /// Gets or set the unique identifier for the <see cref="DocumentType"/> of 
+        /// the current <see cref="OwnerDocumentMobileModel"/>.
+        /// </summary>
+        public int DocumentTypeId { get; set; }
     }
 }

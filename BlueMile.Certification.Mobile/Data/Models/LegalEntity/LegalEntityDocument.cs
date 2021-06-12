@@ -14,6 +14,11 @@ namespace BlueMile.Certification.Data.Models
         public Guid Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the unique identifier of the legal entity associated with this document.
+        /// </summary>
+        public Guid LegalEntityId { get; set; }
+
+        /// <summary>
         /// Gets or sets the <see cref="LegalEntity"/> for the 
         /// current <see cref="LegalEntityDocument"/>.
         /// </summary>
@@ -40,11 +45,6 @@ namespace BlueMile.Certification.Data.Models
         /// the current <see cref="LegalEntityDocument"/>.
         /// </summary>
         public int DocumentTypeId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique identifier of the legal entity associated with this document.
-        /// </summary>
-        public Guid LegalEntityId { get; set; }
 
         /// <summary>
         /// Gets or set the type of the current <see cref="LegalEntityDocument"/>.

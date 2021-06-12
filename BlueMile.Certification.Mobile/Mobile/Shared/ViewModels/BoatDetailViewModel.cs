@@ -44,7 +44,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public ObservableCollection<DocumentMobileModel> BoatImages
+        public ObservableCollection<BoatDocumentMobileModel> BoatImages
         {
             get { return this.boatImages; }
             set
@@ -143,12 +143,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.EquipmentListCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
-                await Shell.Current.GoToAsync($"{Constants.itemsRoute}?boatId={this.CurrentBoat.SystemId}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemsRoute}?boatId={this.CurrentBoat.Id}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
             this.ViewRequirementsCommand = new Command(async () =>
             {
-                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(this.CurrentBoat.SystemId).ConfigureAwait(false)).ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(this.CurrentBoat.Id).ConfigureAwait(false)).ConfigureAwait(false);
             });
             this.SubmitForCertificationCommand = new Command(async () =>
             {
@@ -175,7 +175,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 UserDialogs.Instance.ShowLoading("Loading...");
                 var destinationRoute = "boats/update";
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.SystemId}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.Id}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
 
@@ -204,12 +204,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                if (this.CurrentBoat.SystemId == null || this.CurrentBoat.SystemId == Guid.Empty)
+                if (this.CurrentBoat.Id == null || this.CurrentBoat.Id == Guid.Empty)
                 {
                     var boatId = await this.apiService.CreateBoat(this.CurrentBoat).ConfigureAwait(false);
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        this.CurrentBoat.SystemId = boatId;
+                        this.CurrentBoat.Id = boatId;
                         this.CurrentBoat.IsSynced = true;
                     }
                     else
@@ -223,7 +223,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        this.CurrentBoat.SystemId = boatId;
+                        this.CurrentBoat.Id = boatId;
                         this.CurrentBoat.IsSynced = true;
                     }
                     else
@@ -294,7 +294,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
 
                     this.CurrentBoat = await this.dataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
-                    this.BoatImages = new ObservableCollection<DocumentMobileModel>();
+                    this.BoatImages = new ObservableCollection<BoatDocumentMobileModel>();
 
                     if (this.CurrentBoat != null)
                     {
@@ -324,7 +324,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private string currentBoatId;
 
-        private ObservableCollection<DocumentMobileModel> boatImages;
+        private ObservableCollection<BoatDocumentMobileModel> boatImages;
 
         private bool editBoat;
 

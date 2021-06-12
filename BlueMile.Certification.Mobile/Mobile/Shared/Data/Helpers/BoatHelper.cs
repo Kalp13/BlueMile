@@ -20,7 +20,6 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
-                SystemId = boat.SystemId,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
                 BoyancyCertificateImageId = boat.BoyancyCertificateImage?.Id,
                 TubbiesCertificateImageId = boat.TubbiesCertificateImage?.Id
@@ -40,12 +39,39 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
-                SystemId = boat.SystemId,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
                 IsSynced = boat.IsSynced
             };
 
             return boatModel;
+        }
+
+        public static BoatDocumentMobileEntity ToBoatDocumentEntity(BoatDocumentMobileModel boatDoc)
+        {
+            var doc = new BoatDocumentMobileEntity()
+            {
+                DocumentTypeId = boatDoc.DocumentTypeId,
+                FileName = boatDoc.FileName,
+                Id = boatDoc.Id,
+                MimeType = boatDoc.MimeType,
+                BoatId = boatDoc.BoatId,
+                UniqueFileName = boatDoc.UniqueFileName,
+            };
+            return doc;
+        }
+
+        public static BoatDocumentMobileModel ToBoatDocumentModel(BoatDocumentMobileEntity boatDoc)
+        {
+            var doc = new BoatDocumentMobileModel()
+            {
+                DocumentTypeId = boatDoc.DocumentTypeId,
+                Id = boatDoc.Id,
+                FileName = boatDoc.FileName,
+                MimeType = boatDoc.MimeType,
+                BoatId = boatDoc.BoatId,
+                UniqueFileName = boatDoc.UniqueFileName,
+            };
+            return doc;
         }
     }
 }

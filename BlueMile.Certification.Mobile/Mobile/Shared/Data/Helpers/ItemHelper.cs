@@ -20,7 +20,6 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 ItemImageId = item.ItemImage?.Id,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId,
                 IsSynced = item.IsSynced,
             };
 
@@ -38,11 +37,38 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Id = item.Id,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId,
                 IsSynced = item.IsSynced
             };
 
             return itemModel;
+        }
+
+        public static ItemDocumentMobileEntity ToItemDocumentEntity(ItemDocumentMobileModel itemDoc)
+        {
+            var doc = new ItemDocumentMobileEntity()
+            {
+                DocumentTypeId = itemDoc.DocumentTypeId,
+                FileName = itemDoc.FileName,
+                Id = itemDoc.Id,
+                MimeType = itemDoc.MimeType,
+                ItemId = itemDoc.ItemId,
+                UniqueFileName = itemDoc.UniqueFileName,
+            };
+            return doc;
+        }
+
+        public static ItemDocumentMobileModel ToItemDocumentModel(ItemDocumentMobileEntity itemDoc)
+        {
+            var doc = new ItemDocumentMobileModel()
+            {
+                DocumentTypeId = itemDoc.DocumentTypeId,
+                Id = itemDoc.Id,
+                FileName = itemDoc.FileName,
+                MimeType = itemDoc.MimeType,
+                ItemId = itemDoc.ItemId,
+                UniqueFileName = itemDoc.UniqueFileName,
+            };
+            return doc;
         }
     }
 }

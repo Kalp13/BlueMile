@@ -34,11 +34,41 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
                 SkippersLicenseImage = owner.SkippersLicenseImage,
                 SkippersLicenseNumber = owner.SkippersLicenseNumber,
                 LastName = owner.LastName,
-                SystemId = owner.SystemId,
+                Id = owner.Id,
                 VhfOperatorsLicense = owner.VhfOperatorsLicense
             };
 
             return ownerModel;
+        }
+
+        public static CreateOwnerDocumentModel ToCreateDocumentModel(OwnerDocumentModel ownerDoc)
+        {
+            var doc = new CreateOwnerDocumentModel()
+            {
+                Id = ownerDoc.Id,
+                DocumentTypeId = ownerDoc.DocumentTypeId,
+                FileContent = ownerDoc.FileContent,
+                FileName = ownerDoc.FileName,
+                LegalEntityId = ownerDoc.LegalEntityId,
+                MimeType = ownerDoc.MimeType,
+                UniqueFileName = ownerDoc.UniqueFileName
+            };
+            return doc;
+        }
+
+        public static UpdateOwnerDocumentModel ToUpdateDocumentModel(OwnerDocumentModel ownerDoc)
+        {
+            var doc = new UpdateOwnerDocumentModel()
+            {
+                Id = ownerDoc.Id,
+                DocumentTypeId = ownerDoc.DocumentTypeId,
+                FileContent = ownerDoc.FileContent,
+                FileName = ownerDoc.FileName,
+                LegalEntityId = ownerDoc.LegalEntityId,
+                MimeType = ownerDoc.MimeType,
+                UniqueFileName = ownerDoc.UniqueFileName
+            };
+            return doc;
         }
     }
 }

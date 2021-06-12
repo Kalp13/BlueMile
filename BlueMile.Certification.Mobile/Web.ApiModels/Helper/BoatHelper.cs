@@ -34,13 +34,43 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
-                SystemId = boat.SystemId,
+                Id = boat.Id,
                 RegisteredNumber = boat.RegisteredNumber,
                 TubbiesCertificateImage = boat.TubbiesCertificateImage,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber
             };
 
             return updateModel;
+        }
+
+        public static CreateBoatDocumentModel ToCreateDocumentModel(BoatDocumentModel boatDoc)
+        {
+            var doc = new CreateBoatDocumentModel()
+            {
+                Id = boatDoc.Id,
+                DocumentTypeId = boatDoc.DocumentTypeId,
+                FileContent = boatDoc.FileContent,
+                FileName = boatDoc.FileName,
+                BoatId = boatDoc.BoatId,
+                MimeType = boatDoc.MimeType,
+                UniqueFileName = boatDoc.UniqueFileName
+            };
+            return doc;
+        }
+
+        public static UpdateBoatDocumentModel ToUpdateDocumentModel(BoatDocumentModel boatDoc)
+        {
+            var doc = new UpdateBoatDocumentModel()
+            {
+                Id = boatDoc.Id,
+                DocumentTypeId = boatDoc.DocumentTypeId,
+                FileContent = boatDoc.FileContent,
+                FileName = boatDoc.FileName,
+                BoatId = boatDoc.BoatId,
+                MimeType = boatDoc.MimeType,
+                UniqueFileName = boatDoc.UniqueFileName
+            };
+            return doc;
         }
     }
 }

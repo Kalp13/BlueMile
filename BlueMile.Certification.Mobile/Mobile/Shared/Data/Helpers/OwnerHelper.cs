@@ -28,13 +28,8 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Province = owner.Province,
                 Suburb = owner.Suburb,
                 Surname = owner.LastName,
-                SystemId = owner.SystemId,
                 Town = owner.Town,
                 IsSynced = owner.IsSynced,
-
-                IcasaPopImageId = owner.IcasaPopPhoto?.Id,
-                IdentificationDocumentId = owner.IdentificationDocument?.Id,
-                SkippersLicenseImageId = owner.SkippersLicenseImage?.Id
             };
             return OwnerMobileEntity;
         }
@@ -56,7 +51,6 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Province = owner.Province,
                 Suburb = owner.Suburb,
                 LastName = owner.Surname,
-                SystemId = owner.SystemId,
                 Town = owner.Town,
                 VhfOperatorsLicense = owner.VhfOperatorsLicense,
                 SkippersLicenseNumber = owner.SkippersLicenseNumber,
@@ -64,6 +58,34 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 IsSynced = owner.IsSynced,
             };
             return ownerModel;
+        }
+
+        public static OwnerDocumentMobileEntity ToOwnerDocumentEntity(OwnerDocumentMobileModel ownerDoc)
+        {
+            var doc = new OwnerDocumentMobileEntity()
+            {
+                DocumentTypeId = ownerDoc.DocumentTypeId,
+                FileName = ownerDoc.FileName,
+                Id = ownerDoc.Id,
+                MimeType = ownerDoc.MimeType,
+                OwnerId = ownerDoc.OwnerId,
+                UniqueFileName = ownerDoc.UniqueFileName,
+            };
+            return doc;
+        }
+
+        public static OwnerDocumentMobileModel ToOwnerDocumentModel(OwnerDocumentMobileEntity ownerDoc)
+        {
+            var doc = new OwnerDocumentMobileModel()
+            {
+                DocumentTypeId = ownerDoc.DocumentTypeId,
+                Id = ownerDoc.Id,
+                FileName = ownerDoc.FileName,
+                MimeType = ownerDoc.MimeType,
+                OwnerId = ownerDoc.OwnerId,
+                UniqueFileName = ownerDoc.UniqueFileName,
+            };
+            return doc;
         }
     }
 }

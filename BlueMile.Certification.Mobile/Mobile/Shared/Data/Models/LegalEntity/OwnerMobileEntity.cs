@@ -16,11 +16,6 @@ namespace BlueMile.Certification.Mobile.Data.Models
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique identifier of this owner on the server.
-        /// </summary>
-        public Guid SystemId { get; set; }
-
-        /// <summary>
         /// Gets or sets the name of the owner.
         /// </summary>
         public string Name { get; set; }
@@ -89,21 +84,6 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// Gets or sets the postal code of the owner.
         /// </summary>
         public string PostalCode { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique identifier of the Identity Document <see cref="DocumentMobileEntity"/>.
-        /// </summary>
-        public Guid? IdentificationDocumentId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique identifier of the Skippers License <see cref="DocumentMobileEntity"/>.
-        /// </summary>
-        public Guid? SkippersLicenseImageId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the unique identifier of the Icasa POP <see cref="DocumentMobileEntity"/>.
-        /// </summary>
-        public Guid? IcasaPopImageId { get; set; }
 
         /// <summary>
         /// Gets or sets the boolean flad indicating if this <see cref="OwnerMobileEntity"/>

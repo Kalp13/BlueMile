@@ -18,8 +18,10 @@ namespace BlueMile.Certification.WebApi.Helpers
                 FirstName = model.FirstName,
                 SkippersLicenseNumber = model.SkippersLicenseNumber,
                 VhfOperatorsLicense = model.VhfOperatorsLicense,
-                Id = Guid.NewGuid(),
+                Id = model.Id,
+                CreatedBy = "test",
                 CreatedOn = DateTime.Now,
+                ModifiedBy = "test",
                 ModifiedOn = DateTime.Now,
                 IsActive = true,
             };
@@ -35,7 +37,10 @@ namespace BlueMile.Certification.WebApi.Helpers
                 LastName = model.LastName,
                 FirstName = model.FirstName,
                 SkippersLicenseNumber = model.SkippersLicenseNumber,
-                VhfOperatorsLicense = model.VhfOperatorsLicense
+                VhfOperatorsLicense = model.VhfOperatorsLicense,
+                Id = model.Id,
+                ModifiedBy = "test",
+                ModifiedOn = DateTime.Now
             };
 
             return owner;
@@ -54,7 +59,9 @@ namespace BlueMile.Certification.WebApi.Helpers
                 Province = model.Province,
                 Country = model.Country,
                 PostalCode = model.PostalCode,
-
+                ModifiedBy = model.Email,
+                ModifiedOn = DateTime.Now,
+                LegalEntityId = model.Id,
                 Id = Guid.NewGuid(),
                 CreatedBy = model.Email,
                 CreatedOn = DateTime.Now,
@@ -77,27 +84,12 @@ namespace BlueMile.Certification.WebApi.Helpers
                 Country = model.Country,
                 PostalCode = model.PostalCode,
 
-                Id = Guid.NewGuid(),
-                CreatedBy = model.Email,
-                CreatedOn = DateTime.Now,
-                IsActive = true,
+                Id = model.Id,
+                LegalEntityId = model.Id,
+                ModifiedOn = DateTime.Now,
+                ModifiedBy = model.Email,
             };
             return address;
-        }
-
-        public static IndividualOwner ToOwnerDataModel(OwnerModel model)
-        {
-            var owner = new IndividualOwner()
-            {
-                Identification = model.Identification,
-                LastName = model.LastName,
-                FirstName = model.FirstName,
-                SkippersLicenseNumber = model.SkippersLicenseNumber,
-                VhfOperatorsLicense = model.VhfOperatorsLicense,
-                Id = model.SystemId,
-            };
-
-            return owner;
         }
 
         public static OwnerModel ToApiOwnerModel(IndividualOwner ownerEntity)
@@ -109,10 +101,48 @@ namespace BlueMile.Certification.WebApi.Helpers
                 LastName = ownerEntity.LastName,
                 SkippersLicenseNumber = ownerEntity.SkippersLicenseNumber,
                 VhfOperatorsLicense = ownerEntity.VhfOperatorsLicense,
-                SystemId = ownerEntity.Id,
+                
+                Id = ownerEntity.Id,
             };
 
             return owner;
+        }
+
+        public static LegalEntityDocument ToCreateDocumentModel(OwnerDocumentModel model)
+        {
+            var doc = new LegalEntityDocument()
+            {
+                CreatedBy = "test",
+                CreatedOn = DateTime.Now,
+                FileName = model.FileName,
+                UniqueFileName = model.UniqueFileName,
+                DocumentTypeId = model.DocumentTypeId,
+                Id = model.Id,
+                LegalEntityId = model.LegalEntityId,
+                IsActive = true,
+                MimeType = model.MimeType,
+                ModifiedBy = "test",
+                ModifiedOn = DateTime.Now
+            };
+
+            return doc;
+        }
+
+        public static LegalEntityDocument ToUpdateDocumentModel(OwnerDocumentModel model)
+        {
+            var doc = new LegalEntityDocument()
+            {
+                FileName = model.FileName,
+                UniqueFileName = model.UniqueFileName,
+                DocumentTypeId = model.DocumentTypeId,
+                Id = model.Id,
+                LegalEntityId = model.LegalEntityId,
+                MimeType = model.MimeType,
+                ModifiedBy = "test",
+                ModifiedOn = DateTime.Now
+            };
+
+            return doc;
         }
     }
 }

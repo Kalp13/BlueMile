@@ -32,9 +32,13 @@ namespace BlueMile.Certification.Data.Models
 
 		[Display(Name = "Passport", Order = 7)]
 		Passport = 7,
+
+		[Display(Name = "Boat Boyancy Certificate", Order = 8)]
+		BoatBoyancyCertificate = 8,
+
+		[Display(Name = "Tubbies Boyancy Certificate", Order = 9)]
+		TubbiesBoyancyCertificate = 9,
 	}
-
-
 
 	/// <summary>
 	/// <c>DocumentType</c> defines the available types of documents.
@@ -47,7 +51,19 @@ namespace BlueMile.Certification.Data.Models
 		/// Gets or sets the collection of <see cref="LegalEntityDocument"/>s associated 
 		/// with the current <see cref="DocumentType"/>.
 		/// </summary>
-		public ICollection<Document> Documents { get; set; }
+		public ICollection<LegalEntityDocument> OwnerDocuments { get; set; }
+
+		/// <summary>
+		/// Gets or sets the collection of <see cref="BoatDocument"/>s associated 
+		/// with the current <see cref="DocumentType"/>.
+		/// </summary>
+		public ICollection<BoatDocument> BoatDocuments { get; set; }
+
+		/// <summary>
+		/// Gets or sets the collection of <see cref="ItemDocument"/>s associated 
+		/// with the current <see cref="DocumentType"/>.
+		/// </summary>
+		public ICollection<ItemDocument> ItemDocuments { get; set; }
 
 
 		#endregion

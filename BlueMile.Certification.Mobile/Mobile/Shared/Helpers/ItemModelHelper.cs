@@ -16,10 +16,10 @@ namespace BlueMile.Certification.Mobile.Helpers
                 CapturedDate = item.CapturedDate,
                 Description = item.Description,
                 ExpiryDate = item.ExpiryDate,
-                ItemImage = item.ItemImage != null ? ImageModelHelper.ToImageMobileModel(item.ItemImage) : null,
+                ItemImage = item.ItemImage != null ? ToOwnerDocumentMobileModel(item.ItemImage) : null,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId,
+                Id = item.Id,
                 IsSynced = item.IsSynced
             };
 
@@ -34,14 +34,42 @@ namespace BlueMile.Certification.Mobile.Helpers
                 CapturedDate = item.CapturedDate,
                 Description = item.Description,
                 ExpiryDate = item.ExpiryDate,
-                ItemImage = item.ItemImage != null ? ImageModelHelper.ToImageModel(item.ItemImage) : null,
+                ItemImage = item.ItemImage != null ? ToOwnerDocumentModel(item.ItemImage) : null,
                 ItemTypeId = item.ItemTypeId,
                 SerialNumber = item.SerialNumber,
-                SystemId = item.SystemId,
+                Id = item.Id,
                 IsSynced = item.IsSynced
             };
 
             return itemModel;
+        }
+
+        public static ItemDocumentMobileModel ToOwnerDocumentMobileModel(ItemDocumentModel itemDoc)
+        {
+            var doc = new ItemDocumentMobileModel()
+            {
+                DocumentTypeId = itemDoc.DocumentTypeId,
+                FileName = itemDoc.FileName,
+                Id = itemDoc.Id,
+                ItemId = itemDoc.ItemId,
+                MimeType = itemDoc.MimeType,
+                UniqueFileName = itemDoc.UniqueFileName
+            };
+            return doc;
+        }
+
+        public static ItemDocumentModel ToOwnerDocumentModel(ItemDocumentMobileModel itemDoc)
+        {
+            var doc = new ItemDocumentModel()
+            {
+                DocumentTypeId = itemDoc.DocumentTypeId,
+                FileName = itemDoc.FileName,
+                Id = itemDoc.Id,
+                ItemId = itemDoc.ItemId,
+                MimeType = itemDoc.MimeType,
+                UniqueFileName = itemDoc.UniqueFileName
+            };
+            return doc;
         }
     }
 }

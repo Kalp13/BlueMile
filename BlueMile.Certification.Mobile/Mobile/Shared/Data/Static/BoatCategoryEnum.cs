@@ -9,10 +9,13 @@ namespace BlueMile.Certification.Mobile.Data.Static
     {
         [Description("Category C")]
         C = 1,
+
         [Description("Category D")]
         D,
+
         [Description("Category E")]
         E,
+
         [Description("Category Z")]
         Z
     }

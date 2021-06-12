@@ -38,17 +38,17 @@ namespace BlueMile.Certification.WebApi.Services
             
             if (entity.IdentificationDocument != null)
             {
-                var idDoc = DocumentHelper.ToCreateDocumentModel(entity.IdentificationDocument);
+                var idDoc = OwnerHelper.ToCreateDocumentModel(entity.IdentificationDocument);
                 await this.applicationDb.LegalEntityDocuments.AddAsync(idDoc);
             }
             if (entity.SkippersLicenseImage != null)
             {
-                var skipDoc = DocumentHelper.ToCreateDocumentModel(entity.SkippersLicenseImage);
+                var skipDoc = OwnerHelper.ToCreateDocumentModel(entity.SkippersLicenseImage);
                 await this.applicationDb.LegalEntityDocuments.AddAsync(skipDoc);
             }
             if (entity.IcasaPopPhoto != null)
             {
-                var icasaDoc = DocumentHelper.ToCreateDocumentModel(entity.IcasaPopPhoto);
+                var icasaDoc = OwnerHelper.ToCreateDocumentModel(entity.IcasaPopPhoto);
                 await this.applicationDb.LegalEntityDocuments.AddAsync(icasaDoc);
             }
 
@@ -65,8 +65,8 @@ namespace BlueMile.Certification.WebApi.Services
         {
             if (await this.DoesOwnerExist(ownerId))
             {
-                var owner = await this.FindOwnerById(ownerId);
-                this.applicationDb.IndividualsOwners.Remove(OwnerHelper.ToOwnerDataModel(owner));
+                var owner = await this.applicationDb.IndividualsOwners.FirstOrDefaultAsync();
+                this.applicationDb.IndividualsOwners.Remove(owner);
 
                 return (await this.applicationDb.SaveChangesAsync()) > 0;
             }
@@ -129,21 +129,35 @@ namespace BlueMile.Certification.WebApi.Services
         public async Task<Guid> UpdateOwner(UpdateOwnerModel entity)
         {
             var owner = OwnerHelper.ToUpdateOwnerModel(entity);
-            this.applicationDb.IndividualsOwners.Update(owner);
+            var existingOwner = await this.applicationDb.IndividualsOwners.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            this.applicationDb.IndividualsOwners.Update(new IndividualOwner()
+            {
+                Id = owner.Id,
+                CreatedBy = existingOwner.CreatedBy,
+                CreatedOn = existingOwner.CreatedOn,
+                FirstName = owner.FirstName,
+                Identification = owner.Identification,
+                IsActive = existingOwner.IsActive,
+                LastName = owner.LastName,
+                ModifiedBy = owner.ModifiedBy,
+                ModifiedOn = owner.ModifiedOn,
+                SkippersLicenseNumber = owner.SkippersLicenseNumber,
+                VhfOperatorsLicense = owner.VhfOperatorsLicense,
+            });
 
             if (entity.IdentificationDocument != null)
             {
-                var idDoc = DocumentHelper.ToCreateDocumentModel(entity.IdentificationDocument);
+                var idDoc = OwnerHelper.ToUpdateDocumentModel(entity.IdentificationDocument);
                 await this.applicationDb.LegalEntityDocuments.AddAsync(idDoc);
             }
             if (entity.SkippersLicenseImage != null)
             {
-                var skipDoc = DocumentHelper.ToCreateDocumentModel(entity.SkippersLicenseImage);
+                var skipDoc = OwnerHelper.ToUpdateDocumentModel(entity.SkippersLicenseImage);
                 await this.applicationDb.LegalEntityDocuments.AddAsync(skipDoc);
             }
             if (entity.IcasaPopPhoto != null)
             {
-                var icasaDoc = DocumentHelper.ToCreateDocumentModel(entity.IcasaPopPhoto);
+                var icasaDoc = OwnerHelper.ToUpdateDocumentModel(entity.IcasaPopPhoto);
                 await this.applicationDb.LegalEntityDocuments.AddAsync(icasaDoc);
             }
 
@@ -154,7 +168,7 @@ namespace BlueMile.Certification.WebApi.Services
 
             if (result > 0)
             {
-                return entity.SystemId;
+                return owner.Id;
             }
             else
             {
@@ -171,6 +185,18 @@ namespace BlueMile.Certification.WebApi.Services
         {
             var boat = BoatHelper.ToCreateBoatData(entity);
             await this.applicationDb.Boats.AddAsync(boat);
+
+            if (entity.BoyancyCertificateImage != null)
+            {
+                var boyancyImage = BoatHelper.ToCreateDocumentModel(entity.BoyancyCertificateImage);
+                await this.applicationDb.BoatDocuments.AddAsync(boyancyImage);
+            }
+
+            if (entity.TubbiesCertificateImage != null)
+            {
+                var tubbiesImage = BoatHelper.ToCreateDocumentModel(entity.TubbiesCertificateImage);
+                await this.applicationDb.BoatDocuments.AddAsync(tubbiesImage);
+            }
 
             await this.applicationDb.SaveChangesAsync();
 
@@ -228,14 +254,27 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<Guid> UpdateBoat(UpdateBoatModel entity)
         {
-            var boat = BoatHelper.ToUpdateBoatData(entity);
+            var existingBoat = await this.applicationDb.Boats.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            var boat = BoatHelper.ToUpdateBoatData(existingBoat, entity);
             this.applicationDb.Boats.Update(boat);
+
+            if (entity.BoyancyCertificateImage != null)
+            {
+                var boyancyImage = BoatHelper.ToCreateDocumentModel(entity.BoyancyCertificateImage);
+                await this.applicationDb.BoatDocuments.AddAsync(boyancyImage);
+            }
+
+            if (entity.TubbiesCertificateImage != null)
+            {
+                var tubbiesImage = BoatHelper.ToCreateDocumentModel(entity.TubbiesCertificateImage);
+                await this.applicationDb.BoatDocuments.AddAsync(tubbiesImage);
+            }
 
             var result = await this.applicationDb.SaveChangesAsync();
 
             if (result > 0)
             {
-                return entity.SystemId;
+                return entity.Id;
             }
             else
             {
@@ -309,14 +348,15 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<Guid> UpdateItem(UpdateItemModel entity)
         {
-            var item = ItemHelper.ToUpdateItemModel(entity);
-            this.applicationDb.Items.Update(item);
+            var existingItem = await this.applicationDb.Items.FirstOrDefaultAsync(x => x.Id == entity.Id);
+            var item = ItemHelper.ToUpdateItemModel(existingItem, entity);
+            await this.applicationDb.SaveChangesAsync();
 
             var result = await this.applicationDb.SaveChangesAsync();
 
             if (result > 0)
             {
-                return entity.SystemId;
+                return entity.Id;
             }
             else
             {

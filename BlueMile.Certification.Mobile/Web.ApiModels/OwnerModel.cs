@@ -4,7 +4,7 @@ namespace BlueMile.Certification.Web.ApiModels
 {
     public class OwnerModel
     {
-        public Guid SystemId { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the owner.
@@ -91,16 +91,21 @@ namespace BlueMile.Certification.Web.ApiModels
         /// </summary>
         public bool IsSynced { get; set; }
 
-        public DocumentModel IcasaPopPhoto { get; set; }
+        public OwnerDocumentModel IcasaPopPhoto { get; set; }
 
-        public DocumentModel IdentificationDocument { get; set; }
+        public OwnerDocumentModel IdentificationDocument { get; set; }
 
-        public DocumentModel SkippersLicenseImage { get; set; }
+        public OwnerDocumentModel SkippersLicenseImage { get; set; }
     }
 
     public class CreateOwnerModel
     {
         /// <summary>
+        /// Gets or sets the unique identifier of the Owner to create.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the first name of the owner.
         /// </summary>
         public string FirstName { get; set; }
@@ -180,16 +185,19 @@ namespace BlueMile.Certification.Web.ApiModels
         /// </summary>
         public string PostalCode { get; set; }
 
-        public DocumentModel IcasaPopPhoto { get; set; }
+        public OwnerDocumentModel IcasaPopPhoto { get; set; }
 
-        public DocumentModel IdentificationDocument { get; set; }
+        public OwnerDocumentModel IdentificationDocument { get; set; }
 
-        public DocumentModel SkippersLicenseImage { get; set; }
+        public OwnerDocumentModel SkippersLicenseImage { get; set; }
     }
 
     public class UpdateOwnerModel
     {
-        public Guid SystemId { get; set; }
+        /// <summary>
+        /// Gets or sets the unique identifier of the Owner to create.
+        /// </summary>
+        public Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the owner.
@@ -271,10 +279,10 @@ namespace BlueMile.Certification.Web.ApiModels
         /// </summary>
         public string PostalCode { get; set; }
 
-        public DocumentModel IcasaPopPhoto { get; set; }
+        public OwnerDocumentModel IcasaPopPhoto { get; set; }
 
-        public DocumentModel IdentificationDocument { get; set; }
+        public OwnerDocumentModel IdentificationDocument { get; set; }
 
-        public DocumentModel SkippersLicenseImage { get; set; }
+        public OwnerDocumentModel SkippersLicenseImage { get; set; }
     }
 }

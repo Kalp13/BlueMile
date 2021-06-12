@@ -19,11 +19,6 @@ namespace BlueMile.Certification.Mobile.Models
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique identifier of this owner on the server.
-        /// </summary>
-        public Guid SystemId { get; set; }
-
-        /// <summary>
         /// Gets or sets the name of the owner.
         /// </summary>
         public string FirstName { get; set; }
@@ -108,11 +103,11 @@ namespace BlueMile.Certification.Mobile.Models
         /// </summary>
         public string SkippersLicenseNumber { get; set; }
 
-        public DocumentMobileModel IcasaPopPhoto { get; set; }
+        public OwnerDocumentMobileModel IcasaPopPhoto { get; set; }
 
-        public DocumentMobileModel IdentificationDocument { get; set; }
+        public OwnerDocumentMobileModel IdentificationDocument { get; set; }
 
-        public DocumentMobileModel SkippersLicenseImage { get; set; }
+        public OwnerDocumentMobileModel SkippersLicenseImage { get; set; }
 
         #endregion
 
@@ -142,5 +137,40 @@ namespace BlueMile.Certification.Mobile.Models
         }
 
         #endregion
+    }
+
+    public class OwnerDocumentMobileModel
+    {
+        /// <summary>
+        /// Gets or sets the unique identifier of the document.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique identifier of the boat associated with this document.
+        /// </summary>
+        public Guid OwnerId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mime type identifying the type of data contained in the file.
+        /// </summary>
+        public string MimeType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the original name of the file.
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique file name for the current <see cref="OwnerDocumentMobileModel"/> 
+        /// used to uniquely identify the document in the back end document storage.
+        /// </summary>
+        public string UniqueFileName { get; set; }
+
+        /// <summary>
+        /// Gets or set the unique identifier for the <see cref="DocumentType"/> of 
+        /// the current <see cref="OwnerDocumentMobileModel"/>.
+        /// </summary>
+        public int DocumentTypeId { get; set; }
     }
 }

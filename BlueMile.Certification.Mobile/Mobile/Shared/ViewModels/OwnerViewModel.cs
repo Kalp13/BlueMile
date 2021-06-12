@@ -31,7 +31,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public List<DocumentMobileModel> OwnerImages
+        public List<OwnerDocumentMobileModel> OwnerImages
         {
             get { return this.ownerImages; }
             set
@@ -130,7 +130,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (this.CurrentOwner != null)
                 {
-                    if (!this.CurrentOwner.IsSynced && this.CurrentOwner.SystemId == Guid.Empty)
+                    if (!this.CurrentOwner.IsSynced && this.CurrentOwner.Id == Guid.Empty)
                     {
                         if (this.apiService == null)
                         {
@@ -192,8 +192,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (this.CurrentOwner != null)
                     {
-                        SettingsService.OwnerId = this.CurrentOwner.SystemId.ToString();
-                        this.OwnerImages = new List<DocumentMobileModel>();
+                        SettingsService.OwnerId = this.CurrentOwner.Id.ToString();
+                        this.OwnerImages = new List<OwnerDocumentMobileModel>();
                         this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
                         this.OwnerImages.Add(this.CurrentOwner.IdentificationDocument);
                         this.OwnerImages.Add(this.CurrentOwner.SkippersLicenseImage);
@@ -252,12 +252,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 var owner = await this.dataService.FindOwnersAsync().ConfigureAwait(false);
 
-                this.CurrentOwner = owner?.FirstOrDefault(x => x.SystemId == Guid.Parse(SettingsService.OwnerId));
+                this.CurrentOwner = owner?.FirstOrDefault(x => x.Id == Guid.Parse(SettingsService.OwnerId));
 
                 if (this.CurrentOwner != null)
                 {
-                    SettingsService.OwnerId = this.CurrentOwner.SystemId.ToString();
-                    this.OwnerImages = new List<DocumentMobileModel>();
+                    SettingsService.OwnerId = this.CurrentOwner.Id.ToString();
+                    this.OwnerImages = new List<OwnerDocumentMobileModel>();
                     this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);
                     this.OwnerImages.Add(this.CurrentOwner.IdentificationDocument);
                     this.OwnerImages.Add(this.CurrentOwner.SkippersLicenseImage);
@@ -278,7 +278,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         if (onlineOwner != null)
                         {
                             this.CurrentOwner = onlineOwner;
-                            var localOwner = await this.dataService.FindOwnerBySystemIdAsync(onlineOwner.SystemId);
+                            var localOwner = await this.dataService.FindOwnerBySystemIdAsync(onlineOwner.Id);
                             if (localOwner != null)
                             {
                                 await this.dataService.UpdateOwnerAsync(this.CurrentOwner);
@@ -319,7 +319,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
         private OwnerMobileModel currentOwner;
 
-        private List<DocumentMobileModel> ownerImages;
+        private List<OwnerDocumentMobileModel> ownerImages;
 
         private ImageSource menuImage;
 

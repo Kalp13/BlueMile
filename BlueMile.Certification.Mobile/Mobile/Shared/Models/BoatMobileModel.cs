@@ -12,11 +12,6 @@ namespace BlueMile.Certification.Mobile.Models
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the primary unique identifier of this <see cref="BoatMobileEntity"/>.
-        /// </summary>
-        public Guid SystemId { get; set; }
-
-        /// <summary>
         /// Gets or sets the foreign key to the owner of this <see cref="BoatMobileEntity"/>.
         /// </summary>
         public Guid OwnerId { get; set; }
@@ -44,7 +39,7 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public DocumentMobileModel BoyancyCertificateImage { get; set; }
+        public BoatDocumentMobileModel BoyancyCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
@@ -59,11 +54,46 @@ namespace BlueMile.Certification.Mobile.Models
         /// <summary>
         /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
-        public DocumentMobileModel TubbiesCertificateImage { get; set; }
+        public BoatDocumentMobileModel TubbiesCertificateImage { get; set; }
 
         /// <summary>
         /// Gets or sets the flag indicating if this boat has been synchronized to the server.
         /// </summary>
         public bool IsSynced { get; set; }
+    }
+
+    public class BoatDocumentMobileModel
+    {
+        /// <summary>
+        /// Gets or sets the unique identifier of the document.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique identifier of the boat associated with this document.
+        /// </summary>
+        public Guid BoatId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the mime type identifying the type of data contained in the file.
+        /// </summary>
+        public string MimeType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the original name of the file.
+        /// </summary>
+        public string FileName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique file name for the current <see cref="BoatDocumentMobileModel"/> 
+        /// used to uniquely identify the document in the back end document storage.
+        /// </summary>
+        public string UniqueFileName { get; set; }
+
+        /// <summary>
+        /// Gets or set the unique identifier for the <see cref="DocumentType"/> of 
+        /// the current <see cref="BoatDocumentMobileModel"/>.
+        /// </summary>
+        public int DocumentTypeId { get; set; }
     }
 }

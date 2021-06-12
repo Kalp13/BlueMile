@@ -293,7 +293,7 @@ namespace BlueMile.Certification.Web.ApiClient
                 {
                     HttpResponseMessage response = null;
 
-                    Uri uri = new Uri($@"{this.baseAddress}/Certification/owner/update/{owner.SystemId}");
+                    Uri uri = new Uri($@"{this.baseAddress}/Certification/owner/update/{owner.Id}");
 
                     response = await this.client.PutAsync(uri, content);
 
@@ -466,7 +466,7 @@ namespace BlueMile.Certification.Web.ApiClient
                 {
                     HttpResponseMessage response = null;
 
-                    Uri uri = new Uri($@"{this.baseAddress}/Certification/boat/update/{boat.SystemId}");
+                    Uri uri = new Uri($@"{this.baseAddress}/Certification/boat/update/{boat.Id}");
                     if (this.client.BaseAddress == null)
                     {
                         this.client.BaseAddress = new Uri(this.baseAddress);
@@ -599,7 +599,7 @@ namespace BlueMile.Certification.Web.ApiClient
                 {
                     HttpResponseMessage response = null;
 
-                    Uri uri = new Uri($"{this.baseAddress}/Certification/item/update/{item.SystemId}");
+                    Uri uri = new Uri($"{this.baseAddress}/Certification/item/update/{item.Id}");
                     if (this.client.BaseAddress == null)
                     {
                         this.client.BaseAddress = new Uri(this.baseAddress);

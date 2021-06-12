@@ -7,12 +7,12 @@ namespace BlueMile.Certification.Web.ApiModels
     public class ItemModel
     {
         /// <summary>
-        /// Gets or sets the primary unique identifier for a <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the primary unique identifier for a <see cref="ItemModel"/>.
         /// </summary>
-        public Guid SystemId { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique indexed foreign key to the <see cref="BoatEntity"/> for this <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the unique indexed foreign key to the <see cref="ItemModel"/> for this <see cref="ItemModel"/>.
         /// </summary>
         public Guid BoatId { get; set; }
 
@@ -44,7 +44,7 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public DocumentModel ItemImage { get; set; }
+        public ItemDocumentModel ItemImage { get; set; }
 
         public bool IsSynced { get; set; }
     }
@@ -52,7 +52,12 @@ namespace BlueMile.Certification.Web.ApiModels
     public class CreateItemModel
     {
         /// <summary>
-        /// Gets or sets the unique indexed foreign key to the <see cref="BoatEntity"/> for this <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the unique identifier of the item to create.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the unique indexed foreign key to the <see cref="ItemModel"/> for this <see cref="CreateItemModel"/>.
         /// </summary>
         public Guid BoatId { get; set; }
 
@@ -84,18 +89,18 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public DocumentModel ItemImage { get; set; }
+        public ItemDocumentModel ItemImage { get; set; }
     }
 
     public class UpdateItemModel
     {
         /// <summary>
-        /// Gets or sets the primary unique identifier for a <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the primary unique identifier for a <see cref="UpdateItemModel"/>.
         /// </summary>
-        public Guid SystemId { get; set; }
+        public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique indexed foreign key to the <see cref="BoatEntity"/> for this <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the unique indexed foreign key to the <see cref="ItemModel"/> for this <see cref="UpdateItemModel"/>.
         /// </summary>
         public Guid BoatId { get; set; }
 
@@ -127,6 +132,6 @@ namespace BlueMile.Certification.Web.ApiModels
         /// <summary>
         /// Gets or sets the path to the image for this item.
         /// </summary>
-        public DocumentModel ItemImage { get; set; }
+        public ItemDocumentModel ItemImage { get; set; }
     }
 }

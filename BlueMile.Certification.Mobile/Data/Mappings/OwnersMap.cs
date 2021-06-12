@@ -151,7 +151,9 @@ namespace BlueMile.Certification.Data.Mappings
 			builder.HasKey(x => x.Id);
 			builder.Property(x => x.Id).ValueGeneratedOnAdd();
 			builder.Property(x => x.Name).IsRequired();
-			builder.HasMany(x => x.Documents).WithOne(x => x.DocumentType).HasForeignKey(x => x.DocumentTypeId);
+			builder.HasMany(x => x.OwnerDocuments).WithOne(x => x.DocumentType).HasForeignKey(x => x.DocumentTypeId);
+			builder.HasMany(x => x.BoatDocuments).WithOne(x => x.DocumentType).HasForeignKey(x => x.DocumentTypeId);
+			builder.HasMany(x => x.ItemDocuments).WithOne(x => x.DocumentType).HasForeignKey(x => x.DocumentTypeId);
 
 			var enumData = Enum.GetValues(typeof(DocumentTypeEnum)).OfType<DocumentTypeEnum>().Select(i => new DocumentType() { Id = (int)i, Name = i.ToDisplayName(), Order = i.ToOrder(), IsActive = i.IsActive() });
 			builder.HasData(enumData);
