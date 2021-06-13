@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -77,6 +78,10 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 var token = await this.client.LogUserIn(userModel).ConfigureAwait(false);
 
                 return token;
+            }
+            catch (HttpRequestException)
+            {
+                return null;
             }
             catch (Exception)
             {

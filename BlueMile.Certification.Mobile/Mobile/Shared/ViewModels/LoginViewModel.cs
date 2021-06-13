@@ -244,6 +244,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         await UserDialogs.Instance.AlertAsync("Please re-establish connection and try to log in again.");
                     }
                 }
+                else
+                {
+                    await UserDialogs.Instance.AlertAsync("Unable to connect to the server to log you in.\nPlease check your connection and try again.", "Log In Failed");
+                }
             }
             catch (Exception exc)
             {

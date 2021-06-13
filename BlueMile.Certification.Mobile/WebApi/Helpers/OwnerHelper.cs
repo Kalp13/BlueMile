@@ -1,10 +1,8 @@
 ﻿using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.Web.ApiModels;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlueMile.Certification.WebApi.Helpers
 {
@@ -98,6 +96,11 @@ namespace BlueMile.Certification.WebApi.Helpers
             var phone = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.Phone);
             var mobile = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.MobileNumber);
             var email = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.EmailAddress);
+
+            var icasaDoc = documents?.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IcasaProofOfPayment);
+            var idDoc = documents?.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IdentificationDocument);
+            var skippersDoc = documents?.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.SkippersLicense);
+
             var owner = new OwnerModel()
             {
                 Identification = ownerEntity.Identification,
@@ -120,9 +123,9 @@ namespace BlueMile.Certification.WebApi.Helpers
                 ContactNumber = mobile?.Value,
                 Email = email?.Value,
 
-                IcasaPopPhoto = OwnerHelper.ToApiOwnerDocumentModel(documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IcasaProofOfPayment)),
-                IdentificationDocument = OwnerHelper.ToApiOwnerDocumentModel(documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IdentificationDocument)),
-                SkippersLicenseImage = OwnerHelper.ToApiOwnerDocumentModel(documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.SkippersLicense))
+                IcasaPopPhoto = icasaDoc != null ? OwnerHelper.ToApiOwnerDocumentModel(icasaDoc) : null,
+                IdentificationDocument = idDoc != null ? OwnerHelper.ToApiOwnerDocumentModel(idDoc) : null,
+                SkippersLicenseImage = skippersDoc != null ? OwnerHelper.ToApiOwnerDocumentModel(skippersDoc) : null
             };
 
             return owner;
