@@ -67,7 +67,7 @@
                            TabIndex="7"/>
                         <Entry Text="{Binding OwnerDetails.StreetNumber, Mode=TwoWay}"
                            Keyboard="Text"
-                           Placeholder="Street Number or Cross Street"
+                           Placeholder="Street Number"
                            TabIndex="8"/>
                         <Entry Text="{Binding OwnerDetails.StreetName, Mode=TwoWay}"
                            Keyboard="Text"
@@ -127,7 +127,6 @@
                 <ImageButton Source="{Binding OwnerDetails.IcasaPopPhoto.FilePath, TargetNullValue='image.png', Mode=TwoWay}"
                              Command="{Binding CaptureIcasaPopPhotoCommand}"
                              Aspect="AspectFit"
-                             BackgroundColor="#00000000"
                              HeightRequest="200"/>
             </StackLayout>
         </ScrollView>

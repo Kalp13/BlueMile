@@ -2,6 +2,7 @@
 using BlueMile.Certification.Web.ApiModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -70,7 +71,7 @@ namespace BlueMile.Certification.WebApi.Helpers
             return address;
         }
 
-        public static LegalEntityAddress ToUpdateAddressModel(UpdateOwnerModel model)
+        public static LegalEntityAddress ToUpdateAddressModel(UpdateOwnerModel model, Guid ownerId)
         {
             var address = new LegalEntityAddress()
             {
@@ -84,7 +85,7 @@ namespace BlueMile.Certification.WebApi.Helpers
                 Country = model.Country,
                 PostalCode = model.PostalCode,
 
-                Id = model.Id,
+                Id = ownerId,
                 LegalEntityId = model.Id,
                 ModifiedOn = DateTime.Now,
                 ModifiedBy = model.Email,
@@ -92,7 +93,7 @@ namespace BlueMile.Certification.WebApi.Helpers
             return address;
         }
 
-        public static OwnerModel ToApiOwnerModel(IndividualOwner ownerEntity, LegalEntityAddress address, LegalEntityContactDetail[] contactDetails)
+        public static OwnerModel ToApiOwnerModel(IndividualOwner ownerEntity, LegalEntityAddress address, LegalEntityContactDetail[] contactDetails, LegalEntityDocument[] documents)
         {
             var phone = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.Phone);
             var mobile = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.MobileNumber);
@@ -118,6 +119,10 @@ namespace BlueMile.Certification.WebApi.Helpers
 
                 ContactNumber = mobile?.Value,
                 Email = email?.Value,
+
+                IcasaPopPhoto = OwnerHelper.ToApiOwnerDocumentModel(documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IcasaProofOfPayment)),
+                IdentificationDocument = OwnerHelper.ToApiOwnerDocumentModel(documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IdentificationDocument)),
+                SkippersLicenseImage = OwnerHelper.ToApiOwnerDocumentModel(documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.SkippersLicense))
             };
 
             return owner;
@@ -137,7 +142,8 @@ namespace BlueMile.Certification.WebApi.Helpers
                 IsActive = true,
                 MimeType = model.MimeType,
                 ModifiedBy = "test",
-                ModifiedOn = DateTime.Now
+                ModifiedOn = DateTime.Now,
+                FilePath = model.FilePath,
             };
 
             return doc;
@@ -154,9 +160,26 @@ namespace BlueMile.Certification.WebApi.Helpers
                 LegalEntityId = model.LegalEntityId,
                 MimeType = model.MimeType,
                 ModifiedBy = "test",
-                ModifiedOn = DateTime.Now
+                ModifiedOn = DateTime.Now,
+                FilePath = model.FilePath,
             };
 
+            return doc;
+        }
+
+        public static OwnerDocumentModel ToApiOwnerDocumentModel(LegalEntityDocument model)
+        {
+            var doc = new OwnerDocumentModel()
+            {
+                DocumentTypeId = model.DocumentTypeId,
+                FileContent = File.ReadAllBytes(model.FilePath),
+                FileName = model.FileName,
+                FilePath = model.FilePath,
+                Id = model.Id,
+                LegalEntityId = model.LegalEntityId,
+                MimeType = model.MimeType,
+                UniqueFileName = model.UniqueFileName,
+            };
             return doc;
         }
     }

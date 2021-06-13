@@ -11,13 +11,11 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
             var createModel = new CreateBoatModel()
             {
                 BoatCategoryId = boat.BoatCategoryId,
-                BoyancyCertificateImage = boat.BoyancyCertificateImage,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
-                TubbiesCertificateImage = boat.TubbiesCertificateImage,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber
             };
 
@@ -29,14 +27,12 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
             var updateModel = new UpdateBoatModel()
             {
                 BoatCategoryId = boat.BoatCategoryId,
-                BoyancyCertificateImage = boat.BoyancyCertificateImage,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 Id = boat.Id,
                 RegisteredNumber = boat.RegisteredNumber,
-                TubbiesCertificateImage = boat.TubbiesCertificateImage,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber
             };
 

@@ -213,11 +213,12 @@
             Provides access to the underlying data store.
             </summary>
         </member>
-        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.#ctor(BlueMile.Certification.Data.ApplicationDbContext)">
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.#ctor(BlueMile.Certification.Data.ApplicationDbContext,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
             <summary>
             Creates a new instance of <see cref="T:BlueMile.Certification.WebApi.Services.CertificationRepository"/>.
             </summary>
             <param name="dbContext"></param>
+            <param name="hostEnvironment"></param>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.CreateOwner(BlueMile.Certification.Web.ApiModels.CreateOwnerModel)">
             <inheritdoc/>
@@ -281,6 +282,20 @@
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.UpdateItem(BlueMile.Certification.Web.ApiModels.UpdateItemModel)">
             <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DidAddressChange(BlueMile.Certification.Data.Models.LegalEntityAddress,BlueMile.Certification.Data.Models.LegalEntityAddress)">
+            <summary>
+            Validates whether or not the address changed in a significant manner at all.
+            </summary>
+            <param name="address">
+                The new address from the service.
+            </param>
+            <param name="existingAddress">
+                The existing address on the system.
+            </param>
+            <returns>
+                Returns a boolean flag indicating if the address changed.
+            </returns>
         </member>
     </members>
 </doc>

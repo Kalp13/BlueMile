@@ -10,15 +10,15 @@ namespace BlueMile.Certification.Mobile.Helpers
             var boatModel = new BoatMobileModel()
             {
                 BoatCategoryId = boat.BoatCategoryId,
-                BoyancyCertificateImage = boat.BoyancyCertificateImage != null ? ToOwnerDocumentMobileModel(boat.BoyancyCertificateImage) : null,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
+                BoyancyCertificateImage = ToBoatDocumentMobileModel(boat.BoyancyCertificateImage),
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 Id = boat.Id,
-                TubbiesCertificateImage = boat.TubbiesCertificateImage != null ? ToOwnerDocumentMobileModel(boat.TubbiesCertificateImage) : null,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
+                TubbiesCertificateImage = ToBoatDocumentMobileModel(boat.TubbiesCertificateImage),
                 IsSynced = boat.IsSynced
             };
 
@@ -30,21 +30,21 @@ namespace BlueMile.Certification.Mobile.Helpers
             var boatModel = new BoatModel()
             {
                 BoatCategoryId = boat.BoatCategoryId,
-                BoyancyCertificateImage = boat.BoyancyCertificateImage != null ? ToOwnerDocumentModel(boat.BoyancyCertificateImage) : null,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
+                BoyancyCertificateImage = ToBoatDocumentModel(boat.BoyancyCertificateImage),
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 Id = boat.Id,
-                TubbiesCertificateImage = boat.TubbiesCertificateImage != null ? ToOwnerDocumentModel(boat.TubbiesCertificateImage) : null,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
+                TubbiesCertificateImage = ToBoatDocumentModel(boat.TubbiesCertificateImage),
                 IsSynced = boat.IsSynced
             };
             return boatModel;
         }
 
-        public static BoatDocumentMobileModel ToOwnerDocumentMobileModel(BoatDocumentModel ownerDoc)
+        public static BoatDocumentMobileModel ToBoatDocumentMobileModel(BoatDocumentModel ownerDoc)
         {
             var doc = new BoatDocumentMobileModel()
             {
@@ -53,12 +53,13 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Id = ownerDoc.Id,
                 BoatId = ownerDoc.BoatId,
                 MimeType = ownerDoc.MimeType,
-                UniqueFileName = ownerDoc.UniqueFileName
+                UniqueFileName = ownerDoc.UniqueFileName,
+                FilePath = ownerDoc.FilePath
             };
             return doc;
         }
 
-        public static BoatDocumentModel ToOwnerDocumentModel(BoatDocumentMobileModel ownerDoc)
+        public static BoatDocumentModel ToBoatDocumentModel(BoatDocumentMobileModel ownerDoc)
         {
             var doc = new BoatDocumentModel()
             {
@@ -67,7 +68,8 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Id = ownerDoc.Id,
                 BoatId = ownerDoc.BoatId,
                 MimeType = ownerDoc.MimeType,
-                UniqueFileName = ownerDoc.UniqueFileName
+                UniqueFileName = ownerDoc.UniqueFileName,
+                FilePath = ownerDoc.FilePath
             };
             return doc;
         }

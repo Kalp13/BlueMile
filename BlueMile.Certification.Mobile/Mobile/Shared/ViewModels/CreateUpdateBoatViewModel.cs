@@ -253,8 +253,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
 
                     UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
+                    var doesExist = (await this.apiService.GetBoatById(this.BoatDetails.Id)) != null;
 
-                    if (this.BoatDetails.Id == null || (this.BoatDetails.Id == Guid.Empty))
+                    if (!doesExist)
                     {
                         var boatId = await this.apiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
 
@@ -300,6 +301,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             catch (Exception exc)
             {
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Boat Error").ConfigureAwait(false);
+                UserDialogs.Instance.HideLoading();
+            }
+            finally
+            {
                 UserDialogs.Instance.HideLoading();
             }
         }

@@ -250,12 +250,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.dataService = new DataService();
                 }
 
-                var owner = await this.dataService.FindOwnersAsync().ConfigureAwait(false);
+                var owner = await this.dataService.FindOwnerByIdAsync(Guid.Parse(SettingsService.OwnerId));
 
-                this.CurrentOwner = owner?.FirstOrDefault(x => x.Id == Guid.Parse(SettingsService.OwnerId));
-
-                if (this.CurrentOwner != null)
+                if (owner != null)
                 {
+                    this.CurrentOwner = owner;
                     SettingsService.OwnerId = this.CurrentOwner.Id.ToString();
                     this.OwnerImages = new List<OwnerDocumentMobileModel>();
                     this.OwnerImages.Add(this.CurrentOwner.IcasaPopPhoto);

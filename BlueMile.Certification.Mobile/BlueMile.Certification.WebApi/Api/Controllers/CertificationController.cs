@@ -1,4 +1,5 @@
-﻿using BlueMile.Certification.Data.Static;
+﻿using BlueMile.Certification.Data.Models;
+using BlueMile.Certification.Data.Static;
 using BlueMile.Certification.Web.ApiModels;
 using BlueMile.Certification.WebApi.Infrastructure.Extensions;
 using BlueMile.Certification.WebApi.Services;
@@ -6,9 +7,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -160,9 +164,15 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The owner details to update to.
         /// </param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("owner/update/{id}")]
-        public async Task<IActionResult> UpdateOwner(Guid id, [FromBody] UpdateOwnerModel ownerEntity)
+        [method:
+            DisableRequestSizeLimit,
+            HttpPut,
+            Route("owner/update/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> UpdateOwner(Guid id, [FromForm] UpdateOwnerModel ownerEntity)
         {
             try
             {
@@ -173,6 +183,34 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                 {
                     throw new ArgumentNullException(nameof(id));
                 }
+
+                var formReader = this.Request.Form;
+                List<OwnerDocumentModel> photos = new List<OwnerDocumentModel>();
+                foreach (var file in formReader.Files)
+                {
+                    var properties = file.ContentDisposition.Trim(';').Split(';');
+                    var nameProperty = properties.First(x => x.Contains("Name"));
+                    var typeProperty = properties.First(x => x.Contains("Type"));
+                    var idProperty = properties.First(x => x.Contains("Id"));
+                    MemoryStream stream = new MemoryStream();
+                    await file.CopyToAsync(stream);
+                    photos.Add(new OwnerDocumentModel()
+                    {
+                        FileContent = stream.ToArray(),
+                        FileName = file.FileName,
+                        UniqueFileName = idProperty.Substring(idProperty.IndexOf('=') + 1).Replace('_', ' ') + ".jpg",
+                        MimeType = file.ContentType,
+                        DocumentTypeId = Convert.ToInt32(typeProperty.Substring(typeProperty.IndexOf('=') + 1)),
+                        Id = Guid.Parse(idProperty.Substring(idProperty.IndexOf('=') + 1)),
+                        LegalEntityId = id
+                    });
+                }
+
+                formReader.TryGetValue("", out var values);
+                ownerEntity = JsonConvert.DeserializeObject<UpdateOwnerModel>(values);
+                ownerEntity.IdentificationDocument = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IdentificationDocument);
+                ownerEntity.SkippersLicenseImage = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.SkippersLicense);
+                ownerEntity.IcasaPopPhoto = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.IcasaProofOfPayment);
 
                 if (ownerEntity == null)
                 {
@@ -208,9 +246,15 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The <see cref="OwnerModel"/> to create.
         /// </param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("owner/create")]
-        [AllowAnonymous]
+        [method:
+            DisableRequestSizeLimit,
+            HttpPost,
+            AllowAnonymous,
+            Route("owner/create"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> CreateOwner([FromBody] CreateOwnerModel ownerEntity)
         {
             try
@@ -395,9 +439,44 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
                     throw new ArgumentNullException(nameof(id));
                 }
 
+                var formReader = this.Request.Form;
+                formReader.TryGetValue("", out var values);
+                boatEntity = JsonConvert.DeserializeObject<UpdateBoatModel>(values);
+
                 if (boatEntity == null)
                 {
                     throw new ArgumentNullException(nameof(boatEntity));
+                }
+
+                List<BoatDocumentModel> photos = new List<BoatDocumentModel>();
+                foreach (var file in formReader.Files)
+                {
+                    var properties = file.ContentDisposition.Trim(';').Split(';');
+                    var nameProperty = properties.First(x => x.Contains("Name"));
+                    var typeProperty = properties.First(x => x.Contains("Type"));
+                    var idProperty = properties.First(x => x.Contains("Id"));
+                    MemoryStream stream = new MemoryStream();
+                    await file.CopyToAsync(stream);
+                    photos.Add(new BoatDocumentModel()
+                    {
+                        FileContent = stream.ToArray(),
+                        FileName = file.FileName,
+                        UniqueFileName = idProperty.Substring(idProperty.IndexOf('=') + 1).Replace('_', ' ') + ".jpg",
+                        MimeType = file.ContentType,
+                        DocumentTypeId = Convert.ToInt32(typeProperty.Substring(typeProperty.IndexOf('=') + 1)),
+                        Id = Guid.Parse(idProperty.Substring(idProperty.IndexOf('=') + 1)),
+                    });
+                }
+                boatEntity.BoyancyCertificateImage = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.BoatBoyancyCertificate);
+                boatEntity.TubbiesCertificateImage = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.TubbiesBoyancyCertificate);
+
+                if (boatEntity.BoyancyCertificateImage != null)
+                {
+                    boatEntity.BoyancyCertificateImage.BoatId = boatEntity.Id;
+                }
+                if (boatEntity.TubbiesCertificateImage != null)
+                {
+                    boatEntity.TubbiesCertificateImage.BoatId = boatEntity.Id;
                 }
 
                 var boatId = await this.certificationRepository.UpdateBoat(boatEntity);
@@ -429,16 +508,51 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("boat/create")]
-        public async Task<IActionResult> CreateBoat([FromBody] CreateBoatModel boatEntity)
+        public async Task<IActionResult> CreateBoat([FromForm] CreateBoatModel boatEntity)
         {
             try
             {
                 this.logger.TraceRequest(boatEntity);
                 this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
+                var formReader = this.Request.Form;
+                formReader.TryGetValue("", out var values);
+                boatEntity = JsonConvert.DeserializeObject<CreateBoatModel>(values);
+
                 if (boatEntity == null)
                 {
                     throw new ArgumentNullException(nameof(boatEntity));
+                }
+
+                List<BoatDocumentModel> photos = new List<BoatDocumentModel>();
+                foreach (var file in formReader.Files)
+                {
+                    var properties = file.ContentDisposition.Trim(';').Split(';');
+                    var nameProperty = properties.First(x => x.Contains("Name"));
+                    var typeProperty = properties.First(x => x.Contains("Type"));
+                    var idProperty = properties.First(x => x.Contains("Id"));
+                    MemoryStream stream = new MemoryStream();
+                    await file.CopyToAsync(stream);
+                    photos.Add(new BoatDocumentModel()
+                    {
+                        FileContent = stream.ToArray(),
+                        FileName = file.FileName,
+                        UniqueFileName = idProperty.Substring(idProperty.IndexOf('=') + 1).Replace('_', ' ') + ".jpg",
+                        MimeType = file.ContentType,
+                        DocumentTypeId = Convert.ToInt32(typeProperty.Substring(typeProperty.IndexOf('=') + 1)),
+                        Id = Guid.Parse(idProperty.Substring(idProperty.IndexOf('=') + 1)),
+                    });
+                }
+                boatEntity.BoyancyCertificateImage = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.BoatBoyancyCertificate);
+                boatEntity.TubbiesCertificateImage = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.TubbiesBoyancyCertificate);
+
+                if (boatEntity.BoyancyCertificateImage != null)
+                {
+                    boatEntity.BoyancyCertificateImage.BoatId = boatEntity.Id;
+                }
+                if (boatEntity.TubbiesCertificateImage != null)
+                {
+                    boatEntity.TubbiesCertificateImage.BoatId = boatEntity.Id;
                 }
 
                 var boatId = await this.certificationRepository.CreateBoat(boatEntity);

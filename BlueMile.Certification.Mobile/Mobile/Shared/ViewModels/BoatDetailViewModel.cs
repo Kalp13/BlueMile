@@ -173,9 +173,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 this.EditBoat = true;
                 UserDialogs.Instance.ShowLoading("Loading...");
-                var destinationRoute = "boats/update";
-                ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{destinationRoute}?boatId={this.CurrentBoat.Id}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatEditRoute}?boatId={this.CurrentBoat.Id}", true).ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             });
 

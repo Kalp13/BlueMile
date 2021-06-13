@@ -50,6 +50,11 @@ namespace BlueMile.Certification.Data.Models
         /// </summary>
         public Boat Boat { get; set; }
 
+        /// <summary>
+        /// Gets or sets the location string to the document.
+        /// </summary>
+        public string FilePath { get; set; }
+
         #endregion
 
         #region Constructor

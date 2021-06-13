@@ -1,9 +1,0 @@
-﻿<StaticWebAssets Version="1.0">
-  <ContentRoot BasePath="/" Path="C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.Admin.Web\obj\Debug\net5.0\scopedcss\bundle\" />
-  <ContentRoot BasePath="/Identity" Path="C:\Users\Rudolph\.nuget\packages\microsoft.aspnetcore.identity.ui\5.0.7\staticwebassets\V4\" />
-  <ContentRoot BasePath="_content/Blazored.TextEditor" Path="C:\Users\Rudolph\.nuget\packages\blazored.texteditor\1.0.3\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/BlueMile.Certification.WebApi" Path="C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\obj\Debug\net5.0\scopedcss\projectbundle\" />
-  <ContentRoot BasePath="_content/BlueMile.Certification.WebApi" Path="C:\VSTS\BlueMile\BlueMile.Certification.Mobile\BlueMile.Certification.WebApi\wwwroot\" />
-  <ContentRoot BasePath="_content/BootstrapBlazor" Path="C:\Users\Rudolph\.nuget\packages\bootstrapblazor\5.0.34\build\..\staticwebassets\" />
-  <ContentRoot BasePath="_content/MatBlazor" Path="C:\Users\Rudolph\.nuget\packages\matblazor\2.8.0\build\..\staticwebassets\" />
-</StaticWebAssets>

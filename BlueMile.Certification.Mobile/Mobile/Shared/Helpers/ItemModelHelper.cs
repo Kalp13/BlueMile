@@ -53,7 +53,8 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Id = itemDoc.Id,
                 ItemId = itemDoc.ItemId,
                 MimeType = itemDoc.MimeType,
-                UniqueFileName = itemDoc.UniqueFileName
+                UniqueFileName = itemDoc.UniqueFileName,
+                FilePath = itemDoc.FilePath
             };
             return doc;
         }
@@ -67,7 +68,8 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Id = itemDoc.Id,
                 ItemId = itemDoc.ItemId,
                 MimeType = itemDoc.MimeType,
-                UniqueFileName = itemDoc.UniqueFileName
+                UniqueFileName = itemDoc.UniqueFileName,
+                FilePath = itemDoc.FilePath
             };
             return doc;
         }

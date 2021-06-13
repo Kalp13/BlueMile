@@ -77,7 +77,8 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Id = ownerDoc.Id,
                 OwnerId = ownerDoc.LegalEntityId,
                 MimeType = ownerDoc.MimeType,
-                UniqueFileName = ownerDoc.UniqueFileName
+                UniqueFileName = ownerDoc.UniqueFileName,
+                FilePath = ownerDoc.FilePath
             };
             return doc;
         }
@@ -91,7 +92,8 @@ namespace BlueMile.Certification.Mobile.Helpers
                 Id = ownerDoc.Id,
                 LegalEntityId = ownerDoc.OwnerId,
                 MimeType = ownerDoc.MimeType,
-                UniqueFileName = ownerDoc.UniqueFileName
+                UniqueFileName = ownerDoc.UniqueFileName,
+                FilePath = ownerDoc.FilePath
             };
             return doc;
         }

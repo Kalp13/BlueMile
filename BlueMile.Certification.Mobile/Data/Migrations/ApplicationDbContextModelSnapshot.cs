@@ -149,16 +149,16 @@ namespace BlueMile.Certification.Data.Migrations
                             Id = new Guid("8f0fa92c-6b34-4c88-8504-be6b6a4ec52f"),
                             AccessFailedCount = 0,
                             ConcurrencyStamp = "31f53ff4-a200-42d5-a103-a08f1ce9b6a8",
-                            Email = "Admin@pinaster.co.za",
+                            Email = "admin@bluemile.co.za",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@PINASTER.CO.ZA",
-                            NormalizedUserName = "ADMIN@PINASTER.CO.ZA",
+                            NormalizedEmail = "ADMIN@BLUEMILE.CO.ZA",
+                            NormalizedUserName = "ADMIN@BLUEMILE.CO.ZA",
                             PasswordHash = "AQAAAAEAACcQAAAAEMKUjLkruKeo4D1h/N75pZefSVjt1o5CaojVGuO3iT/H+wF0KyGKS8Vdi1k8yGkSvg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "4NQQFF7WPUI3TKAKKO3IONTXBLZYVJ4F",
                             TwoFactorEnabled = false,
-                            UserName = "Admin@pinaster.co.za"
+                            UserName = "admin@bluemile.co.za"
                         });
                 });
 
@@ -313,6 +313,9 @@ namespace BlueMile.Certification.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -633,6 +636,9 @@ namespace BlueMile.Certification.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")
@@ -1024,6 +1030,9 @@ namespace BlueMile.Certification.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("IsActive")

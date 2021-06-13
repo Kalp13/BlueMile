@@ -104,17 +104,24 @@
                       Icon="home.png">
             <views:MainMenuPage/>
         </ShellContent>
-        
+
         <ShellContent Title="Owner"
                       Icon="fisherman.png">
             <views:OwnerPage/>
+        </ShellContent>
+        <ShellContent Title="Boats"
+                      Icon="boat.png">
+            <views:BoatsPage/>
+        </ShellContent>
+
+        <ShellContent Title="Settings"
+                      Icon="settings.png">
+            <views:SettingsPage/>
         </ShellContent>
     </FlyoutItem>
 
     <!-- When the Flyout is visible this will be a menu item you can tie a click behavior to  -->
     <MenuItem Text="Logout" StyleClass="MenuItemLayoutStyle" Command="{Binding LogOutCommand}">
-    </MenuItem>
-    <MenuItem Text="Settings" StyleClass="MenuItemLayoutStyle" Command="{Binding SettingsCommand}">
     </MenuItem>
 
     <!--

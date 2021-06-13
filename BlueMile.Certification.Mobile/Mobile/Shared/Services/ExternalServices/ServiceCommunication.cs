@@ -265,7 +265,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                 }
 
                 var result = await this.client.GetBoatById(boatId).ConfigureAwait(false);
-                return BoatModelHelper.ToMobileModel(result);
+                return result != null ? BoatModelHelper.ToMobileModel(result) : null;
             }
             catch (Exception)
             {

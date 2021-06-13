@@ -10,6 +10,9 @@ namespace BlueMile.Certification.Mobile
         public AppShell()
         {
             this.InitializeComponent();
+
+            Shell.SetTabBarIsVisible(this, false);
+
             //Owner Pages
             Routing.RegisterRoute(Constants.ownersRoute, typeof(OwnersPage));
             Routing.RegisterRoute(Constants.ownerDetailRoute, typeof(OwnerPage));

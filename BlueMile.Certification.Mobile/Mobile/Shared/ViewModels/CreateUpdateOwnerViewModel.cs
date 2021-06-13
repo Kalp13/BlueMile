@@ -196,7 +196,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     {
                         if (this.OwnerDetails.IcasaPopPhoto?.Id == null || this.OwnerDetails.IcasaPopPhoto?.Id == Guid.Empty)
                         {
-                            this.OwnerDetails.IcasaPopPhoto.Id = Guid.NewGuid();
                             this.OwnerDetails.IcasaPopPhoto.UniqueFileName = this.OwnerDetails.IcasaPopPhoto.Id.ToString() + ".jpg";
                         }
                     }
@@ -205,7 +204,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     {
                         if (this.OwnerDetails.IdentificationDocument?.Id == null || this.OwnerDetails.IdentificationDocument?.Id == Guid.Empty)
                         {
-                            this.OwnerDetails.IdentificationDocument.Id = Guid.NewGuid();
                             this.OwnerDetails.IdentificationDocument.UniqueFileName = this.OwnerDetails.IdentificationDocument.Id.ToString() + ".jpg";
                         }
                     }
@@ -214,14 +212,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     {
                         if (this.OwnerDetails.SkippersLicenseImage?.Id == null || this.OwnerDetails.SkippersLicenseImage?.Id == Guid.Empty)
                         {
-                            this.OwnerDetails.SkippersLicenseImage.Id = Guid.NewGuid();
                             this.OwnerDetails.SkippersLicenseImage.UniqueFileName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
                         }
                     }
 
                     if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
                     {
-                        this.OwnerDetails.Id = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
+                        this.OwnerDetails.Id = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
                         if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
                         {
                             if (this.apiService == null)

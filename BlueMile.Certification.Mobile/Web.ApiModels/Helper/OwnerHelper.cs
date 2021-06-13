@@ -17,7 +17,21 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
                 IdentificationDocument = owner.IdentificationDocument,
                 SkippersLicenseImage = owner.SkippersLicenseImage,
                 SkippersLicenseNumber = owner.SkippersLicenseNumber,
-                VhfOperatorsLicense = owner.VhfOperatorsLicense
+                VhfOperatorsLicense = owner.VhfOperatorsLicense,
+
+                UnitNumber = owner.UnitNumber,
+                ComplexName = owner.ComplexName,
+                StreetNumber = owner.StreetNumber,
+                StreetName = owner.StreetName,
+                Suburb = owner.Suburb,
+                Town = owner.Town,
+                Province = owner.Province,
+                Country = owner.Country,
+                PostalCode = owner.PostalCode,
+
+                ContactNumber = owner.ContactNumber,
+                Id = owner.Id,
+                Email = owner.Email
             };
 
             return ownerModel;
@@ -27,15 +41,25 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
         {
             var ownerModel = new UpdateOwnerModel()
             {
-                IcasaPopPhoto = owner.IcasaPopPhoto,
                 Identification = owner.Identification,
-                IdentificationDocument = owner.IdentificationDocument,
                 FirstName = owner.FirstName,
-                SkippersLicenseImage = owner.SkippersLicenseImage,
                 SkippersLicenseNumber = owner.SkippersLicenseNumber,
                 LastName = owner.LastName,
                 Id = owner.Id,
-                VhfOperatorsLicense = owner.VhfOperatorsLicense
+                VhfOperatorsLicense = owner.VhfOperatorsLicense,
+                
+                UnitNumber = owner.UnitNumber,
+                ComplexName = owner.ComplexName,
+                StreetNumber = owner.StreetNumber,
+                StreetName = owner.StreetName,
+                Suburb = owner.Suburb,
+                Town = owner.Town,
+                Province = owner.Province,
+                Country = owner.Country,
+                PostalCode = owner.PostalCode,
+                
+                ContactNumber = owner.ContactNumber,
+                Email = owner.Email
             };
 
             return ownerModel;

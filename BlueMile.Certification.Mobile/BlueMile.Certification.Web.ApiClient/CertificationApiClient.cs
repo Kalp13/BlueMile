@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -245,25 +246,80 @@ namespace BlueMile.Certification.Web.ApiClient
                 {
                     this.client = CreateClient();
                 }
-                string json = JsonConvert.SerializeObject(owner);
-                using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                var idDoc = owner.IdentificationDocument;
+                var skippersDoc = owner.SkippersLicenseImage;
+                var icasaDoc = owner.IcasaPopPhoto;
+
+                string json = JsonConvert.SerializeObject(OwnerHelper.ToUpdateOwnerModel(owner));
+                using MultipartFormDataContent allContent = new MultipartFormDataContent();
+
+                using StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                allContent.Add(content);
+
+                if (idDoc != null && !String.IsNullOrWhiteSpace(idDoc.FilePath))
                 {
-                    HttpResponseMessage response = null;
-
-                    Uri uri = new Uri($@"{this.baseAddress}/Certification/owner/create");
-
-                    response = await this.client.PostAsync(uri, content);
-
-                    if (response.IsSuccessStatusCode)
+                    var idDocData = File.ReadAllBytes(idDoc.FilePath);
+                    var idDocContent = new StreamContent(new MemoryStream(idDocData));
+                    idDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        var result = await response.Content.ReadAsStringAsync();
-                        var ownerId = JsonConvert.DeserializeObject<Guid>(result);
-                        return ownerId;
-                    }
-                    else
+                        Name = "\"files\"",
+                        FileName = "\"" + idDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    idDocContent.Headers.ContentType = new MediaTypeHeaderValue(idDoc.MimeType);
+                    idDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", idDoc.Id.ToString()));
+                    idDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", idDoc.FileName.Replace(" ", "_")));
+                    idDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", idDoc.DocumentTypeId.ToString()));
+
+                    allContent.Add(idDocContent);
+                }
+
+                if (skippersDoc != null && !String.IsNullOrWhiteSpace(skippersDoc.FilePath))
+                {
+                    var skippersDocData = File.ReadAllBytes(skippersDoc.FilePath);
+                    var skippersDocContent = new StreamContent(new MemoryStream(skippersDocData));
+                    skippersDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        throw new ArgumentException(response.ReasonPhrase);
-                    }
+                        Name = "\"files\"",
+                        FileName = "\"" + skippersDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    skippersDocContent.Headers.ContentType = new MediaTypeHeaderValue(skippersDoc.MimeType);
+                    skippersDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", skippersDoc.Id.ToString()));
+                    skippersDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", skippersDoc.FileName.Replace(" ", "_")));
+                    skippersDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", skippersDoc.DocumentTypeId.ToString()));
+
+                    allContent.Add(skippersDocContent);
+                }
+
+                if (icasaDoc != null && !String.IsNullOrWhiteSpace(icasaDoc.FilePath))
+                {
+                    var icasaDocData = File.ReadAllBytes(icasaDoc.FilePath);
+                    var icasaDocContent = new StreamContent(new MemoryStream(icasaDocData));
+                    icasaDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "\"files\"",
+                        FileName = "\"" + icasaDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    icasaDocContent.Headers.ContentType = new MediaTypeHeaderValue(icasaDoc.MimeType);
+                    icasaDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", icasaDoc.Id.ToString()));
+                    icasaDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", icasaDoc.FileName.Replace(" ", "_")));
+                    icasaDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", icasaDoc.DocumentTypeId.ToString()));
+
+                    allContent.Add(icasaDocContent);
+                }
+
+                HttpResponseMessage response = null;
+                Uri uri = new Uri($@"{this.baseAddress}/Certification/owner/create");
+                response = await this.client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    var ownerId = JsonConvert.DeserializeObject<Guid>(result);
+                    return ownerId;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
                 }
             }
             catch (Exception)
@@ -287,25 +343,79 @@ namespace BlueMile.Certification.Web.ApiClient
                     this.client = CreateClient();
                 }
                 this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+                var idDoc = owner.IdentificationDocument;
+                var skippersDoc = owner.SkippersLicenseImage;
+                var icasaDoc = owner.IcasaPopPhoto;
 
-                string json = JsonConvert.SerializeObject(owner);
-                using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                string json = JsonConvert.SerializeObject(OwnerHelper.ToUpdateOwnerModel(owner));
+                using MultipartFormDataContent allContent = new MultipartFormDataContent();
+                
+                using StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                allContent.Add(content);
+
+                if (idDoc != null && !String.IsNullOrWhiteSpace(idDoc.FilePath))
                 {
-                    HttpResponseMessage response = null;
-
-                    Uri uri = new Uri($@"{this.baseAddress}/Certification/owner/update/{owner.Id}");
-
-                    response = await this.client.PutAsync(uri, content);
-
-                    if (response.IsSuccessStatusCode)
+                    var idDocData = File.ReadAllBytes(idDoc.FilePath);
+                    var idDocContent = new StreamContent(new MemoryStream(idDocData));
+                    idDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
-                        return result;
-                    }
-                    else
+                        Name = "\"files\"",
+                        FileName = "\"" + idDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    idDocContent.Headers.ContentType = new MediaTypeHeaderValue(idDoc.MimeType);
+                    idDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", idDoc.Id.ToString()));
+                    idDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", idDoc.FileName.Replace(" ", "_")));
+                    idDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", idDoc.DocumentTypeId.ToString()));
+
+                    allContent.Add(idDocContent);
+                }
+
+                if (skippersDoc != null && !String.IsNullOrWhiteSpace(skippersDoc.FilePath))
+                {
+                    var skippersDocData = File.ReadAllBytes(skippersDoc.FilePath);
+                    var skippersDocContent = new StreamContent(new MemoryStream(skippersDocData));
+                    skippersDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        throw new ArgumentException(response.ReasonPhrase);
-                    }
+                        Name = "\"files\"",
+                        FileName = "\"" + skippersDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    skippersDocContent.Headers.ContentType = new MediaTypeHeaderValue(skippersDoc.MimeType);
+                    skippersDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", skippersDoc.Id.ToString()));
+                    skippersDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", skippersDoc.FileName.Replace(" ", "_")));
+                    skippersDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", skippersDoc.DocumentTypeId.ToString()));
+
+                    allContent.Add(skippersDocContent);
+                }
+
+                if (icasaDoc != null && !String.IsNullOrWhiteSpace(icasaDoc.FilePath))
+                {
+                    var icasaDocData = File.ReadAllBytes(icasaDoc.FilePath);
+                    var icasaDocContent = new StreamContent(new MemoryStream(icasaDocData));
+                    icasaDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "\"files\"",
+                        FileName = "\"" + icasaDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    icasaDocContent.Headers.ContentType = new MediaTypeHeaderValue(icasaDoc.MimeType);
+                    icasaDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", icasaDoc.Id.ToString()));
+                    icasaDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", icasaDoc.FileName.Replace(" ", "_")));
+                    icasaDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", icasaDoc.DocumentTypeId.ToString()));
+
+                    allContent.Add(icasaDocContent);
+                }
+
+                HttpResponseMessage response = null;
+                Uri uri = new Uri($@"{this.baseAddress}/Certification/owner/update/{owner.Id}");
+                response = await this.client.PutAsync(uri, allContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
                 }
             }
             catch (Exception)
@@ -412,30 +522,61 @@ namespace BlueMile.Certification.Web.ApiClient
                     this.client = CreateClient();
                 }
                 this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+                var boyancyDoc = boat.BoyancyCertificateImage;
+                var tubbiesDoc = boat.TubbiesCertificateImage;
 
                 string json = JsonConvert.SerializeObject(BoatHelper.ToCreateBoatModel(boat));
+                using MultipartFormDataContent allContent = new MultipartFormDataContent();
 
-                using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                using StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                allContent.Add(content);
+
+                if (boyancyDoc != null && !String.IsNullOrWhiteSpace(boyancyDoc.FilePath))
                 {
-                    HttpResponseMessage response = null;
-
-                    Uri uri = new Uri($@"{this.baseAddress}/Certification/boat/create");
-                    if (this.client.BaseAddress == null)
+                    var boyancyDocData = File.ReadAllBytes(boyancyDoc.FilePath);
+                    var boyancyDocContent = new StreamContent(new MemoryStream(boyancyDocData));
+                    boyancyDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        this.client.BaseAddress = new Uri(this.baseAddress);
-                    }
+                        Name = "\"files\"",
+                        FileName = "\"" + boyancyDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    boyancyDocContent.Headers.ContentType = new MediaTypeHeaderValue(boyancyDoc.MimeType);
+                    boyancyDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", boyancyDoc.Id.ToString()));
+                    boyancyDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", boyancyDoc.FileName.Replace(" ", "_")));
+                    boyancyDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", boyancyDoc.DocumentTypeId.ToString()));
 
-                    response = await this.client.PostAsync(uri, content);
+                    allContent.Add(boyancyDocContent);
+                }
+                if (tubbiesDoc != null && !String.IsNullOrWhiteSpace(tubbiesDoc.FilePath))
+                {
+                    var tubbiesDocData = File.ReadAllBytes(boyancyDoc.FilePath);
+                    var tubbiesDocContent = new StreamContent(new MemoryStream(tubbiesDocData));
+                    tubbiesDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "\"files\"",
+                        FileName = "\"" + boyancyDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    tubbiesDocContent.Headers.ContentType = new MediaTypeHeaderValue(boyancyDoc.MimeType);
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", boyancyDoc.Id.ToString()));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", boyancyDoc.FileName.Replace(" ", "_")));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", boyancyDoc.DocumentTypeId.ToString()));
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
-                        return result;
-                    }
-                    else
-                    {
-                        throw new ArgumentException(response.ReasonPhrase);
-                    }
+                    allContent.Add(tubbiesDocContent);
+                }
+
+                HttpResponseMessage response = null;
+                Uri uri = new Uri($@"{this.baseAddress}/Certification/boat/create");
+
+                response = await this.client.PostAsync(uri, allContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
                 }
             }
             catch (Exception)
@@ -458,31 +599,62 @@ namespace BlueMile.Certification.Web.ApiClient
                 {
                     this.client = CreateClient();
                 }
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+                this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+                var boyancyDoc = boat.BoyancyCertificateImage;
+                var tubbiesDoc = boat.TubbiesCertificateImage;
 
                 string json = JsonConvert.SerializeObject(BoatHelper.ToUpdateBoatModel(boat));
+                using MultipartFormDataContent allContent = new MultipartFormDataContent();
 
-                using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                using StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                allContent.Add(content);
+
+                if (boyancyDoc != null && !String.IsNullOrWhiteSpace(boyancyDoc.FilePath))
                 {
-                    HttpResponseMessage response = null;
-
-                    Uri uri = new Uri($@"{this.baseAddress}/Certification/boat/update/{boat.Id}");
-                    if (this.client.BaseAddress == null)
+                    var boyancyDocData = File.ReadAllBytes(boyancyDoc.FilePath);
+                    var boyancyDocContent = new StreamContent(new MemoryStream(boyancyDocData));
+                    boyancyDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        this.client.BaseAddress = new Uri(this.baseAddress);
-                    }
+                        Name = "\"files\"",
+                        FileName = "\"" + boyancyDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    boyancyDocContent.Headers.ContentType = new MediaTypeHeaderValue(boyancyDoc.MimeType);
+                    boyancyDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", boyancyDoc.Id.ToString()));
+                    boyancyDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", boyancyDoc.FileName.Replace(" ", "_")));
+                    boyancyDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", boyancyDoc.DocumentTypeId.ToString()));
 
-                    response = await this.client.PutAsync(uri, content);
+                    allContent.Add(boyancyDocContent);
+                }
+                if (tubbiesDoc != null && !String.IsNullOrWhiteSpace(tubbiesDoc.FilePath))
+                {
+                    var tubbiesDocData = File.ReadAllBytes(boyancyDoc.FilePath);
+                    var tubbiesDocContent = new StreamContent(new MemoryStream(tubbiesDocData));
+                    tubbiesDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "\"files\"",
+                        FileName = "\"" + boyancyDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    tubbiesDocContent.Headers.ContentType = new MediaTypeHeaderValue(boyancyDoc.MimeType);
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", boyancyDoc.Id.ToString()));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", boyancyDoc.FileName.Replace(" ", "_")));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", boyancyDoc.DocumentTypeId.ToString()));
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
-                        return result;
-                    }
-                    else
-                    {
-                        throw new ArgumentException(response.ReasonPhrase);
-                    }
+                    allContent.Add(tubbiesDocContent);
+                }
+
+                HttpResponseMessage response = null;
+                Uri uri = new Uri($@"{this.baseAddress}/Certification/boat/update/{boat.Id}");
+
+                response = await this.client.PutAsync(uri, allContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
                 }
             }
             catch (Exception)

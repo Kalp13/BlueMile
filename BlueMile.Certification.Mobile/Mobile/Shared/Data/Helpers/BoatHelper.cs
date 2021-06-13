@@ -53,6 +53,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 Id = boatDoc.Id,
                 MimeType = boatDoc.MimeType,
                 BoatId = boatDoc.BoatId,
+                FilePath = boatDoc.FilePath,
                 UniqueFileName = boatDoc.UniqueFileName,
             };
             return doc;
@@ -68,6 +69,7 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 MimeType = boatDoc.MimeType,
                 BoatId = boatDoc.BoatId,
                 UniqueFileName = boatDoc.UniqueFileName,
+                FilePath = boatDoc.FilePath,
             };
             return doc;
         }

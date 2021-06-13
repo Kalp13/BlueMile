@@ -14,9 +14,9 @@
                    VerticalOptions="Center"
                    HorizontalOptions="Center"
                    Aspect="AspectFit"/>
-            <Button Text="My Profile"
+            <Button Text="My Boats"
                     Command="{Binding BoatsCommand}"/>
-            <Button Text="My Profile"
+            <Button Text="My COF Requests"
                     Command="{Binding}"/>
             <Button Text="My Profile"
                     Command="{Binding}"/>

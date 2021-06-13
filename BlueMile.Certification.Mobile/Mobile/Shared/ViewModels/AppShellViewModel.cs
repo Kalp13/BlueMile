@@ -47,6 +47,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand BoatsCommand
+        {
+            get;
+            private set;
+        }
+
         public AppShellViewModel()
         {
             this.InitCommands();
@@ -71,6 +77,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
                 await Shell.Current.GoToAsync($"{Constants.settingsRoute}", true).ConfigureAwait(false);
+            });
+            this.BoatsCommand = new Command(async () =>
+            {
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{Constants.boatsRoute}", true).ConfigureAwait(false);
             });
         }
     }
