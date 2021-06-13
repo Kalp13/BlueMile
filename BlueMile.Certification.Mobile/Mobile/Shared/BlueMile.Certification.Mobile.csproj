@@ -21,8 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BlueMile.Certification.Web.ApiClient\BlueMile.Certification.Web.ApiClient.csproj" />
-    <ProjectReference Include="..\..\Web.ApiModels\BlueMile.Certification.Web.ApiModels.csproj" />
+    <ProjectReference Include="..\..\ApiClient\BlueMile.Certification.Web.ApiClient.csproj" />
+    <ProjectReference Include="..\..\ApiModels\BlueMile.Certification.Web.ApiModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

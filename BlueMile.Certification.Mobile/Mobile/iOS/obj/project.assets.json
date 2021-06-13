@@ -2518,13 +2518,13 @@
     },
     "BlueMile.Certification.Web.ApiClient/1.0.0": {
       "type": "project",
-      "path": "../../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj",
-      "msbuildProject": "../../BlueMile.Certification.Web.ApiClient/BlueMile.Certification.Web.ApiClient.csproj"
+      "path": "../../ApiClient/BlueMile.Certification.Web.ApiClient.csproj",
+      "msbuildProject": "../../ApiClient/BlueMile.Certification.Web.ApiClient.csproj"
     },
     "BlueMile.Certification.Web.ApiModels/1.0.0": {
       "type": "project",
-      "path": "../../Web.ApiModels/BlueMile.Certification.Web.ApiModels.csproj",
-      "msbuildProject": "../../Web.ApiModels/BlueMile.Certification.Web.ApiModels.csproj"
+      "path": "../../ApiModels/BlueMile.Certification.Web.ApiModels.csproj",
+      "msbuildProject": "../../ApiModels/BlueMile.Certification.Web.ApiModels.csproj"
     }
   },
   "projectFileDependencyGroups": {

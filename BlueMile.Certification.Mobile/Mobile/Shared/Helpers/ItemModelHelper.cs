@@ -1,8 +1,5 @@
 ﻿using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Web.ApiModels;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BlueMile.Certification.Mobile.Helpers
 {

@@ -1,19 +1,13 @@
 ﻿using Acr.UserDialogs;
 using BlueMile.Certification.Mobile.Data.Static;
-using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
-using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
-using BlueMile.Certification.Web.ApiModels.Helper;
 using Microsoft.AppCenter.Crashes;
 using System;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace BlueMile.Certification.Mobile.ViewModels

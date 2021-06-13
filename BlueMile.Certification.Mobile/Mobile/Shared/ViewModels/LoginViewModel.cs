@@ -5,8 +5,6 @@ using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
 using Microsoft.AppCenter.Crashes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;

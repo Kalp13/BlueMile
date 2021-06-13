@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZcdK7aYurWQHaZgOxcARBl6rn2Ord0cKmTDXBaAWhg2quRxiHSmDjQTHd8cvg42NvN9eXYDzyh67/MDO3lXSww==",
+  "success": true,
+  "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Rudolph\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

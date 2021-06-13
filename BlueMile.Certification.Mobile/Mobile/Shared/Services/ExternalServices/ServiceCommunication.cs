@@ -4,18 +4,11 @@ using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using BlueMile.Certification.Web.ApiClient;
 using BlueMile.Certification.Web.ApiModels;
-using BlueMile.Certification.Web.ApiModels.Helper;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using Xamarin.Essentials;
 
 namespace BlueMile.Certification.Mobile.Services.ExternalServices
