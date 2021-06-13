@@ -23,7 +23,7 @@ namespace BlueMile.Certification.Data.Mappings
 
         public void Configure(EntityTypeBuilder<Boat> builder)
         {
-            builder.ToTable("Boat", "boat");
+            builder.ToTable("Boats", "boat");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.HasMany(x => x.Items).WithOne(x => x.Boat).HasForeignKey(x => x.BoatId);
@@ -47,7 +47,7 @@ namespace BlueMile.Certification.Data.Mappings
 
         public void Configure(EntityTypeBuilder<BoatCategory> builder)
         {
-            builder.ToTable("SellableStates", "sales");
+            builder.ToTable("BoatCategories", "boat");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.Property(x => x.Name).IsRequired();
@@ -73,7 +73,7 @@ namespace BlueMile.Certification.Data.Mappings
 
         public void Configure(EntityTypeBuilder<BoatDocument> builder)
         {
-            builder.ToTable("LegalEntityDocuments", "leg");
+            builder.ToTable("BoatDocuments", "boat");
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
             builder.HasOne(x => x.Boat).WithMany(x => x.Documents).HasForeignKey(x => x.BoatId).IsRequired();

@@ -194,7 +194,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.boatDetailRoute}?boatId={this.SelectedBoat.SystemId}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatDetailRoute}?boatId={this.SelectedBoat.Id}").ConfigureAwait(false);
                 Shell.Current.FlyoutIsPresented = false;
             }
             catch (Exception exc)
@@ -213,12 +213,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                if (boat.SystemId == null || boat.SystemId == Guid.Empty)
+                if (boat.Id == null || boat.Id == Guid.Empty)
                 {
                     var boatId = await this.apiService.CreateBoat(boat).ConfigureAwait(false);
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        boat.SystemId = boatId;
+                        boat.Id = boatId;
                         boat.IsSynced = true;
                     }
                     else
@@ -232,7 +232,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        boat.SystemId = boatId;
+                        boat.Id = boatId;
                         boat.IsSynced = true;
 
                         UserDialogs.Instance.Toast($"Successfully uploaded {boat.Name}");

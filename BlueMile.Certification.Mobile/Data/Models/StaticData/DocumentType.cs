@@ -38,6 +38,12 @@ namespace BlueMile.Certification.Data.Models
 
 		[Display(Name = "Tubbies Boyancy Certificate", Order = 9)]
 		TubbiesBoyancyCertificate = 9,
+
+		[Display(Name = "ICASA Proof of Payment", Order = 10)]
+		IcasaProofOfPayment = 10,
+
+		[Display(Name = "Skippers License", Order = 11)]
+		SkippersLicense = 11,
 	}
 
 	/// <summary>

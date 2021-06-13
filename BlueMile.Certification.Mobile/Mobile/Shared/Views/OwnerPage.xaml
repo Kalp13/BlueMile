@@ -23,16 +23,16 @@
                          Margin="5">
                 <Label Text="Name and Surname"/>
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="{Binding CurrentOwner.Name}"/>
-                    <Label Text="{Binding CurrentOwner.Surname}"/>
+                    <Label Text="{Binding CurrentOwner.FirstName}"/>
+                    <Label Text="{Binding CurrentOwner.LastName}"/>
                 </StackLayout>
                 <Label Text="{Binding CurrentOwner.Identification, StringFormat='ID/Passport Number: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.ContactNumber, StringFormat='Cell: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.Email, StringFormat='Email: {0}'}"/>
-                <Label Text="{Binding CurrentOwner.AddressLine1, StringFormat='Complex Name: {0}'}"/>
-                <Label Text="{Binding CurrentOwner.AddressLine2, StringFormat='Unit Number: {0}'}"/>
-                <Label Text="{Binding CurrentOwner.AddressLine3, StringFormat='Street Number: {0}'}"/>
-                <Label Text="{Binding CurrentOwner.AddressLine4, StringFormat='Street Name: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.UnitNumber, StringFormat='Complex Name: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.ComplexName, StringFormat='Unit Number: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.StreetNumber, StringFormat='Street Number: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.StreetName, StringFormat='Street Name: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.Suburb, StringFormat='Suburb: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.Town, StringFormat='Town: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.Province, StringFormat='Province: {0}'}"/>

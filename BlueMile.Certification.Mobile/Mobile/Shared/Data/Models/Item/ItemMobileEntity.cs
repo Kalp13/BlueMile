@@ -41,11 +41,6 @@ namespace BlueMile.Certification.Mobile.Data.Models
         public DateTime ExpiryDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the path to the image for this item.
-        /// </summary>
-        public Guid? ItemImageId { get; set; }
-
-        /// <summary>
         /// Gets or sets the boolean field indicating if this <see cref="ItemMobileEntity"/>
         /// has been synchronized to the server.
         /// </summary>

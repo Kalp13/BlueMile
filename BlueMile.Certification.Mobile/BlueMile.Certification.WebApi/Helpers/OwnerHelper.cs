@@ -92,17 +92,32 @@ namespace BlueMile.Certification.WebApi.Helpers
             return address;
         }
 
-        public static OwnerModel ToApiOwnerModel(IndividualOwner ownerEntity)
+        public static OwnerModel ToApiOwnerModel(IndividualOwner ownerEntity, LegalEntityAddress address, LegalEntityContactDetail[] contactDetails)
         {
-            var owner = new Web.ApiModels.OwnerModel()
+            var phone = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.Phone);
+            var mobile = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.MobileNumber);
+            var email = contactDetails?.FirstOrDefault(x => x.ContactDetailTypeId == (int)ContactDetailTypeEnum.EmailAddress);
+            var owner = new OwnerModel()
             {
                 Identification = ownerEntity.Identification,
                 FirstName = ownerEntity.FirstName,
                 LastName = ownerEntity.LastName,
                 SkippersLicenseNumber = ownerEntity.SkippersLicenseNumber,
                 VhfOperatorsLicense = ownerEntity.VhfOperatorsLicense,
-                
                 Id = ownerEntity.Id,
+
+                UnitNumber = address?.UnitNumber,
+                ComplexName = address?.ComplexName,
+                StreetNumber = address?.StreetNumber,
+                StreetName = address?.StreetName,
+                Suburb = address?.Suburb,
+                Town = address?.Town,
+                Province = address?.Province,
+                Country = address?.Country,
+                PostalCode = address?.PostalCode,
+
+                ContactNumber = mobile?.Value,
+                Email = email?.Value,
             };
 
             return owner;

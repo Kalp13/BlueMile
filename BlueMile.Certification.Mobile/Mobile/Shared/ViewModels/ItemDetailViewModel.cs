@@ -79,7 +79,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.EditItemCommand = new Command(async () =>
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.itemEditRoute}?itemId={this.SelectedItem.SystemId}", true).ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemEditRoute}?itemId={this.SelectedItem.Id}", true).ConfigureAwait(false);
             });
             this.SyncCommand = new Command(async () =>
             {
@@ -96,12 +96,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                if (this.SelectedItem.SystemId == null || this.SelectedItem.SystemId == Guid.Empty)
+                if (this.SelectedItem.Id == null || this.SelectedItem.Id == Guid.Empty)
                 {
                     var boatId = await this.apiService.CreateItem(this.SelectedItem).ConfigureAwait(false);
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        this.SelectedItem.SystemId = boatId;
+                        this.SelectedItem.Id = boatId;
                         this.SelectedItem.IsSynced = true;
                     }
                     else
@@ -115,7 +115,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        this.SelectedItem.SystemId = boatId;
+                        this.SelectedItem.Id = boatId;
                         this.SelectedItem.IsSynced = true;
                     }
                     else

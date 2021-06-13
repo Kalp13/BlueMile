@@ -15,7 +15,7 @@ else
             <table class="table table-responsive">
                 <tr>
                     <td>Name</td>
-                    <td>@(this.Model.Name + " " + this.Model.Surname)</td>
+                    <td>@(this.Model.FirstName + " " + this.Model.LastName)</td>
                     <td>Identification</td>
                     <td>@this.Model.Identification</td>
                 </tr>
@@ -30,10 +30,6 @@ else
                     <td>@this.Model.SkippersLicenseNumber</td>
                     <td>VHF License</td>
                     <td>@this.Model.VhfOperatorsLicense</td>
-                </tr>
-                <tr>
-                    <td>Address</td>
-                    <td>@($"{this.Model.AddressLine1} {this.Model.AddressLine2}<br/>{this.Model.AddressLine3} {this.Model.AddressLine4}<br/>{this.Model.Suburb}<br/>{this.Model.Town}<br/>{this.Model.Province}<br/>{this.Model.Country}<br/>{this.Model.PostalCode}<br/>")</td>
                 </tr>
                 <tr>
                     <td>VHF License</td>

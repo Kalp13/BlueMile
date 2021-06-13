@@ -1,7 +1,6 @@
 ﻿using BlueMile.Certification.Data;
 using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.Web.ApiModels;
-using BlueMile.Certification.WebApi.Data;
 using BlueMile.Certification.WebApi.Helpers;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -92,7 +91,11 @@ namespace BlueMile.Certification.WebApi.Services
                 throw new ArgumentNullException(nameof(findOwnerModel));
             }
 
-            var owners = this.applicationDb.IndividualsOwners.Where(x => x.IsActive);
+            var owners = this.applicationDb.IndividualsOwners
+                .Include("Addresses")
+                .Include("ContactDetails")
+                .Include("Documents")
+                .Where(x => x.IsActive);
 
             if (!String.IsNullOrWhiteSpace(findOwnerModel.SearchTerm))
             {
@@ -106,23 +109,32 @@ namespace BlueMile.Certification.WebApi.Services
                 owners = owners.Where(x => x.Id == findOwnerModel.OwnerId);
             }
 
-            return await owners.Select(y => OwnerHelper.ToApiOwnerModel(y)).ToListAsync();
+            return await owners.Select(y => OwnerHelper.ToApiOwnerModel(y, y.Addresses.FirstOrDefault(), y.ContactDetails.Where(z => z.LegalEntityId == y.Id).ToArray())).ToListAsync();
         }
 
         /// <inheritdoc/>
         public async Task<OwnerModel> FindOwnerByUsername(string username)
         {
-            var owners = this.applicationDb.IndividualsOwners.Where(x => x.IsActive);
+            var user = await this.applicationDb.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            var owner = await this.applicationDb.IndividualsOwners.FirstOrDefaultAsync(x => x.Id == user.OwnerId);
+            var contactDetails = await this.applicationDb.LegalEntityContactDetails.Where(x => x.LegalEntityId == owner.Id).OrderByDescending(x => x.CreatedOn).ToArrayAsync();
+            var address = await this.applicationDb.LegalEntityAddress.Where(x => x.LegalEntityId == owner.Id).OrderByDescending(y => y.CreatedOn).FirstOrDefaultAsync();
 
-            return await owners.Select(y => OwnerHelper.ToApiOwnerModel(y)).FirstOrDefaultAsync();
+            var mappedOwner = OwnerHelper.ToApiOwnerModel(owner, address, contactDetails);
+
+            return mappedOwner;
         }
 
         /// <inheritdoc/>
         public async Task<OwnerModel> FindOwnerById(Guid ownerId)
         {
             var owner = await this.applicationDb.IndividualsOwners.FindAsync(ownerId);
+            var contactDetails = await this.applicationDb.LegalEntityContactDetails.Where(x => x.LegalEntityId == ownerId).OrderByDescending(x => x.CreatedOn).ToArrayAsync();
+            var address = await this.applicationDb.LegalEntityAddress.Where(x => x.LegalEntityId == ownerId).OrderByDescending(y => y.CreatedOn).FirstOrDefaultAsync();
 
-            return OwnerHelper.ToApiOwnerModel(owner);
+            var mappedOwner = OwnerHelper.ToApiOwnerModel(owner, address, contactDetails);
+
+            return mappedOwner;
         }
 
         /// <inheritdoc/>
@@ -398,7 +410,7 @@ namespace BlueMile.Certification.WebApi.Services
                     IsActive = true,
                     CreatedBy = entity.Email,
                     CreatedOn = DateTime.Now,
-                    Value = entity.ContactNumber,
+                    Value = entity.Email,
                 });
             }
 

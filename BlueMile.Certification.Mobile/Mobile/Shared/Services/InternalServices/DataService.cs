@@ -66,14 +66,24 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
                 var ownerEntity = OwnerHelper.ToOwnerDataEntity(owner);
-                var idDocEntity = OwnerHelper.ToOwnerDocumentEntity(owner.IdentificationDocument);
-                var skippersDocument = OwnerHelper.ToOwnerDocumentEntity(owner.SkippersLicenseImage);
-                var icasaPopPhoto = OwnerHelper.ToOwnerDocumentEntity(owner.IcasaPopPhoto);
 
                 var response = await this.dataConnection.InsertAsync(ownerEntity, typeof(OwnerMobileEntity)).ConfigureAwait(false);
-                var idResponse = await this.dataConnection.InsertAsync(idDocEntity, typeof(OwnerDocumentMobileEntity)).ConfigureAwait(false);
-                var skippersResponse = await this.dataConnection.InsertAsync(skippersDocument, typeof(OwnerDocumentMobileEntity)).ConfigureAwait(false);
-                var icasaResponse = await this.dataConnection.InsertAsync(icasaPopPhoto, typeof(OwnerDocumentMobileEntity)).ConfigureAwait(false);
+
+                if (owner.IdentificationDocument != null && !String.IsNullOrWhiteSpace(owner.IdentificationDocument.FilePath))
+                {
+                    var idDocEntity = OwnerHelper.ToOwnerDocumentEntity(owner.IdentificationDocument);
+                    await this.dataConnection.InsertOrReplaceAsync(idDocEntity, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
+                if (owner.SkippersLicenseImage != null && !String.IsNullOrWhiteSpace(owner.SkippersLicenseImage.FilePath))
+                {
+                    var skippersDocument = OwnerHelper.ToOwnerDocumentEntity(owner.SkippersLicenseImage);
+                    await this.dataConnection.InsertOrReplaceAsync(skippersDocument, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
+                if (owner.IcasaPopPhoto != null && !String.IsNullOrWhiteSpace(owner.IcasaPopPhoto.FilePath))
+                {
+                    var icasaPopPhoto = OwnerHelper.ToOwnerDocumentEntity(owner.IcasaPopPhoto);
+                    await this.dataConnection.InsertOrReplaceAsync(icasaPopPhoto, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
 
                 return ownerEntity.Id;
             }
@@ -103,14 +113,23 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 if (owner != null)
                 {
                     var result = OwnerHelper.ToOwnerModel(owner);
-                    var idDoc = await this.dataConnection.Table<OwnerDocumentMobileEntity>().FirstOrDefaultAsync(x => x.OwnerId == result.Id);
-                    result.IdentificationDocument = OwnerHelper.ToOwnerDocumentModel(idDoc);
+                    var idDoc = await this.dataConnection.Table<OwnerDocumentMobileEntity>().FirstOrDefaultAsync(x => x.OwnerId == result.Id && x.DocumentTypeId == (int)DocumentTypeEnum.IdentificationDocument);
+                    if (idDoc != null)
+                    {
+                        result.IdentificationDocument = OwnerHelper.ToOwnerDocumentModel(idDoc);
+                    }
 
-                    var skipDoc = await this.dataConnection.Table<OwnerDocumentMobileEntity>().FirstOrDefaultAsync(x => x.OwnerId == result.Id);
-                    result.SkippersLicenseImage = OwnerHelper.ToOwnerDocumentModel(skipDoc);
+                    var skipDoc = await this.dataConnection.Table<OwnerDocumentMobileEntity>().FirstOrDefaultAsync(x => x.OwnerId == result.Id && x.DocumentTypeId == (int)DocumentTypeEnum.SkippersLicense);
+                    if (skipDoc != null)
+                    {
+                        result.SkippersLicenseImage = OwnerHelper.ToOwnerDocumentModel(skipDoc);
+                    }
 
-                    var icasaDoc = await this.dataConnection.Table<OwnerDocumentMobileEntity>().FirstOrDefaultAsync(x => x.OwnerId == result.Id);
-                    result.IcasaPopPhoto = OwnerHelper.ToOwnerDocumentModel(icasaDoc);
+                    var icasaDoc = await this.dataConnection.Table<OwnerDocumentMobileEntity>().FirstOrDefaultAsync(x => x.OwnerId == result.Id && x.DocumentTypeId == (int)DocumentTypeEnum.IcasaProofOfPayment);
+                    if (icasaDoc != null)
+                    {
+                        result.IcasaPopPhoto = OwnerHelper.ToOwnerDocumentModel(icasaDoc);
+                    }
 
                     return result;
                 }
@@ -173,14 +192,24 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 }
 
                 var ownerEntity = OwnerHelper.ToOwnerDataEntity(owner);
-                var idDocEntity = OwnerHelper.ToOwnerDocumentEntity(owner.IdentificationDocument);
-                var skippersDocument = OwnerHelper.ToOwnerDocumentEntity(owner.SkippersLicenseImage);
-                var icasaPopPhoto = OwnerHelper.ToOwnerDocumentEntity(owner.IcasaPopPhoto);
 
                 var response = await this.dataConnection.UpdateAsync(ownerEntity, typeof(OwnerMobileEntity));
-                var idResponse = await this.dataConnection.InsertOrReplaceAsync(idDocEntity, typeof(OwnerDocumentMobileEntity)).ConfigureAwait(false);
-                var skippersResponse = await this.dataConnection.InsertOrReplaceAsync(skippersDocument, typeof(OwnerDocumentMobileEntity)).ConfigureAwait(false);
-                var icasaResponse = await this.dataConnection.InsertOrReplaceAsync(icasaPopPhoto, typeof(OwnerDocumentMobileEntity)).ConfigureAwait(false);
+
+                if (owner.IdentificationDocument != null && !String.IsNullOrWhiteSpace(owner.IdentificationDocument.FilePath))
+                {
+                    var idDocEntity = OwnerHelper.ToOwnerDocumentEntity(owner.IdentificationDocument);
+                    await this.dataConnection.InsertOrReplaceAsync(idDocEntity, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
+                if (owner.SkippersLicenseImage != null && !String.IsNullOrWhiteSpace(owner.SkippersLicenseImage.FilePath))
+                {
+                    var skippersDocument = OwnerHelper.ToOwnerDocumentEntity(owner.SkippersLicenseImage);
+                    await this.dataConnection.InsertOrReplaceAsync(skippersDocument, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
+                if (owner.IcasaPopPhoto != null && !String.IsNullOrWhiteSpace(owner.IcasaPopPhoto.FilePath))
+                {
+                    var icasaPopPhoto = OwnerHelper.ToOwnerDocumentEntity(owner.IcasaPopPhoto);
+                    await this.dataConnection.InsertOrReplaceAsync(icasaPopPhoto, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
 
                 return response > 0;
             }
@@ -241,7 +270,17 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     this.dataConnection = this.InitializeDBConnection();
                 }
                 var boatEntity = BoatHelper.ToBoatEntity(boat);
-                 var result = await this.dataConnection.InsertAsync(boatEntity, typeof(BoatMobileEntity)).ConfigureAwait(false);
+                if (boat.BoyancyCertificateImage != null && !String.IsNullOrWhiteSpace(boat.BoyancyCertificateImage.FilePath))
+                {
+                    var boyancyDocEntity = BoatHelper.ToBoatDocumentEntity(boat.BoyancyCertificateImage);
+                    await this.dataConnection.InsertAsync(boyancyDocEntity, typeof(BoatDocumentMobileEntity)).ConfigureAwait(false);
+                }
+                if (boat.TubbiesCertificateImage != null && !String.IsNullOrWhiteSpace(boat.TubbiesCertificateImage.FilePath))
+                {
+                    var tubbiesDocEntity = BoatHelper.ToBoatDocumentEntity(boat.TubbiesCertificateImage);
+                    await this.dataConnection.InsertAsync(tubbiesDocEntity, typeof(BoatDocumentMobileEntity)).ConfigureAwait(false);
+                }
+                var result = await this.dataConnection.InsertAsync(boatEntity, typeof(BoatMobileEntity)).ConfigureAwait(false);
 
                 if (result > 0)
                 {
@@ -351,6 +390,16 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 }
 
                 var boatEntity = BoatHelper.ToBoatEntity(boat);
+                if (boat.BoyancyCertificateImage != null && !String.IsNullOrWhiteSpace(boat.BoyancyCertificateImage.FilePath))
+                {
+                    var boyancyDocEntity = BoatHelper.ToBoatDocumentEntity(boat.BoyancyCertificateImage);
+                    await this.dataConnection.InsertOrReplaceAsync(boyancyDocEntity, typeof(BoatDocumentMobileEntity)).ConfigureAwait(false);
+                }
+                if (boat.TubbiesCertificateImage != null && !String.IsNullOrWhiteSpace(boat.TubbiesCertificateImage.FilePath))
+                {
+                    var tubbiesDocEntity = BoatHelper.ToBoatDocumentEntity(boat.TubbiesCertificateImage);
+                    await this.dataConnection.InsertOrReplaceAsync(tubbiesDocEntity, typeof(BoatDocumentMobileEntity)).ConfigureAwait(false);
+                }
                 var response = await this.dataConnection.UpdateAsync(boatEntity, typeof(BoatMobileEntity)).ConfigureAwait(false);
 
                 return response > 0;
@@ -381,6 +430,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 }
 
                 var itemEntity = ItemHelper.ToItemEntity(item);
+                if (item.ItemImage != null && !String.IsNullOrWhiteSpace(item.ItemImage.FilePath))
+                {
+                    var itemDocEntity = ItemHelper.ToItemDocumentEntity(item.ItemImage);
+                    await this.dataConnection.InsertOrReplaceAsync(itemDocEntity, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
                 var response = await this.dataConnection.InsertAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
 
                 return itemEntity.Id;
@@ -496,6 +550,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 }
 
                 var itemEntity = ItemHelper.ToItemEntity(item);
+                if (item.ItemImage != null && !String.IsNullOrWhiteSpace(item.ItemImage.FilePath))
+                {
+                    var itemDocEntity = ItemHelper.ToItemDocumentEntity(item.ItemImage);
+                    await this.dataConnection.InsertOrReplaceAsync(itemDocEntity, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
+                }
                 var response = await this.dataConnection.UpdateAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
 
                 return response > 0;

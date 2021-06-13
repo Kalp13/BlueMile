@@ -11,9 +11,9 @@
 
   <ItemGroup>
     <PackageReference Include="blazor-dragdrop" Version="2.3.0" />
-    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.1.1" />
     <PackageReference Include="Blazored.TextEditor" Version="1.0.3" />
-    <PackageReference Include="BootstrapBlazor" Version="5.0.28" />
+    <PackageReference Include="BootstrapBlazor" Version="5.0.34" />
     <PackageReference Include="MatBlazor" Version="2.8.0" />
   </ItemGroup>
 

@@ -21,8 +21,6 @@ namespace BlueMile.Certification.Mobile.Data.Helpers
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
-                BoyancyCertificateImageId = boat.BoyancyCertificateImage?.Id,
-                TubbiesCertificateImageId = boat.TubbiesCertificateImage?.Id
             };
 
             return boatEntity;

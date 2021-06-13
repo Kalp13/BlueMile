@@ -73,9 +73,31 @@ namespace BlueMile.Certification.Data.Mappings
 
 		public void Configure(EntityTypeBuilder<IndividualOwner> builder)
 		{
-			builder.ToTable("IndividualOwner", "leg");
+			builder.ToTable("IndividualOwners", "leg");
 			builder.Property(x => x.FirstName).IsRequired();
 			builder.Property(x => x.LastName).IsRequired();
+		}
+
+		#endregion
+	}
+
+	internal sealed class LegalEntityAddressMap : IEntityTypeConfiguration<LegalEntityAddress>
+	{
+		#region Constructors
+
+		public LegalEntityAddressMap()
+		{
+		}
+
+		#endregion
+
+		#region IEntityTypeConfiguration Implementation
+
+		public void Configure(EntityTypeBuilder<LegalEntityAddress> builder)
+		{
+			builder.ToTable("LegalEntityAddress", "leg");
+			builder.HasKey(x => x.Id);
+			builder.HasOne(x => x.LegalEntity).WithMany(x => x.Addresses).HasForeignKey(x => x.LegalEntityId).IsRequired();
 		}
 
 		#endregion

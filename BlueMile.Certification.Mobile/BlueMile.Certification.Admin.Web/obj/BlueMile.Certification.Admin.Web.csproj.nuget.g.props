@@ -28,14 +28,13 @@
     </Content>
   </ItemGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\5.0.5\buildTransitive\Microsoft.AspNetCore.Identity.UI.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\5.0.5\buildTransitive\Microsoft.AspNetCore.Identity.UI.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\5.0.7\buildTransitive\Microsoft.AspNetCore.Identity.UI.props" Condition="Exists('$(NuGetPackageRoot)microsoft.aspnetcore.identity.ui\5.0.7\buildTransitive\Microsoft.AspNetCore.Identity.UI.props')" />
     <Import Project="$(NuGetPackageRoot)matblazor\2.8.0\buildTransitive\MatBlazor.props" Condition="Exists('$(NuGetPackageRoot)matblazor\2.8.0\buildTransitive\MatBlazor.props')" />
     <Import Project="$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props" Condition="Exists('$(NuGetPackageRoot)entityframework\6.4.4\buildTransitive\netcoreapp3.0\EntityFramework.props')" />
-    <Import Project="$(NuGetPackageRoot)bootstrapblazor\5.0.28\buildTransitive\BootstrapBlazor.props" Condition="Exists('$(NuGetPackageRoot)bootstrapblazor\5.0.28\buildTransitive\BootstrapBlazor.props')" />
+    <Import Project="$(NuGetPackageRoot)bootstrapblazor\5.0.34\buildTransitive\BootstrapBlazor.props" Condition="Exists('$(NuGetPackageRoot)bootstrapblazor\5.0.34\buildTransitive\BootstrapBlazor.props')" />
     <Import Project="$(NuGetPackageRoot)blazored.texteditor\1.0.3\buildTransitive\Blazored.TextEditor.props" Condition="Exists('$(NuGetPackageRoot)blazored.texteditor\1.0.3\buildTransitive\Blazored.TextEditor.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
-    <PkgMicrosoft_EntityFrameworkCore_Tools Condition=" '$(PkgMicrosoft_EntityFrameworkCore_Tools)' == '' ">C:\Users\Rudolph\.nuget\packages\microsoft.entityframeworkcore.tools\5.0.5</PkgMicrosoft_EntityFrameworkCore_Tools>
     <PkgEntityFramework Condition=" '$(PkgEntityFramework)' == '' ">C:\Users\Rudolph\.nuget\packages\entityframework\6.4.4</PkgEntityFramework>
   </PropertyGroup>
 </Project>

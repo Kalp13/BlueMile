@@ -66,9 +66,22 @@ namespace BlueMile.Certification.Data
 		{
 			builder.ApplyConfiguration(new ApplicationUserMap());
 
+			builder.ApplyConfiguration(new LegalEntityMap());
 			builder.ApplyConfiguration(new IndividualOwnerMap());
+			builder.ApplyConfiguration(new LegalEntityContactDetailsMap());
+			builder.ApplyConfiguration(new LegalEntityAddressMap());
+			builder.ApplyConfiguration(new ContactDetailTypeMap());
+			builder.ApplyConfiguration(new LegalEntityDocumentMap());
+
+			builder.ApplyConfiguration(new DocumentTypeMap());
+
 			builder.ApplyConfiguration(new BoatsMap());
+			builder.ApplyConfiguration(new BoatDocumentMap());
+			builder.ApplyConfiguration(new BoatCategoryMap());
+
 			builder.ApplyConfiguration(new ItemsMap());
+			builder.ApplyConfiguration(new ItemDocumentMap());
+			builder.ApplyConfiguration(new ItemTypeMap());
 
 			this.UseUtcDates(builder);
 
@@ -95,7 +108,7 @@ namespace BlueMile.Certification.Data
 		private void SeedUsers(ModelBuilder builder)
 		{
 			Guid adminId = Guid.Parse("8F0FA92C-6B34-4C88-8504-BE6B6A4EC52F");
-			string adminUserName = "Admin@pinaster.co.za";
+			string adminUserName = "admin@bluemile.co.za";
 
 			var hasher = new PasswordHasher<ApplicationUser>();
 			builder.Entity<ApplicationUser>().HasData(

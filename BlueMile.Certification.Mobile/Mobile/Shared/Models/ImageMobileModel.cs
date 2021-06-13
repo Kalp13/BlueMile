@@ -10,13 +10,11 @@ namespace BlueMile.Certification.Mobile.Models
 
         public string FileName { get; set; }
 
-        public string UniqueImageName { get; set; }
+        public string UniqueFileName { get; set; }
 
         public string FilePath { get; set; }
 
         public string FileType { get; set; }
-
-        public Guid SystemId { get; set; }
 
         public byte[] FileContent { get; set; }
     }

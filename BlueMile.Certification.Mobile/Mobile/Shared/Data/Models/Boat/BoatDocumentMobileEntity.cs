@@ -37,5 +37,10 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// the current <see cref="BoatDocumentMobileEntity"/>.
         /// </summary>
         public int DocumentTypeId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the location string to the document.
+        /// </summary>
+        public string FilePath { get; set; }
     }
 }

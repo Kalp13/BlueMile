@@ -476,7 +476,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
         //            ImageData = File.ReadAllBytes(image.FilePath),
         //            ImageName = image.FileName,
         //            ImagePath = image.FilePath,
-        //            UniqueImageName = image.UniqueImageName
+        //            UniqueFileName = image.UniqueFileName
         //        };
 
         //        string json = JsonConvert.SerializeObject(convertedImage);
@@ -531,7 +531,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
         //            ImageData = File.ReadAllBytes(image.FilePath),
         //            ImageName = image.FileName,
         //            ImagePath = image.FilePath,
-        //            UniqueImageName = image.UniqueImageName
+        //            UniqueFileName = image.UniqueFileName
         //        };
 
         //        string json = JsonConvert.SerializeObject(convertedImage);

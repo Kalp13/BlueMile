@@ -195,12 +195,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                if (item.SystemId == null || item.SystemId == Guid.Empty)
+                if (item.Id == null || item.Id == Guid.Empty)
                 {
                     var boatId = await this.apiService.CreateItem(item).ConfigureAwait(false);
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        item.SystemId = boatId;
+                        item.Id = boatId;
                         item.IsSynced = true;
                     }
                     else
@@ -214,7 +214,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (boatId != null && boatId != Guid.Empty)
                     {
-                        item.SystemId = boatId;
+                        item.Id = boatId;
                         item.IsSynced = true;
 
                         UserDialogs.Instance.Toast($"Successfully uploaded {item.Description}");

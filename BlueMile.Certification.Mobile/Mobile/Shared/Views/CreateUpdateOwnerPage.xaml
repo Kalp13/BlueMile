@@ -23,11 +23,11 @@
                 <StackLayout Orientation="Horizontal" 
                              HorizontalOptions="FillAndExpand" 
                              Spacing="3">
-                    <Entry Text="{Binding OwnerDetails.Name, Mode=TwoWay}" 
+                    <Entry Text="{Binding OwnerDetails.FirstName, Mode=TwoWay}" 
                            Keyboard="Text" 
                            Placeholder="Name"
                            TabIndex="1"/>
-                    <Entry Text="{Binding OwnerDetails.Surname, Mode=TwoWay}" 
+                    <Entry Text="{Binding OwnerDetails.LastName, Mode=TwoWay}" 
                            Keyboard="Text" 
                            Placeholder="Surname"
                            TabIndex="2"/>
@@ -57,19 +57,19 @@
                                  HorizontalOptions="FillAndExpand"
                                  VerticalOptions="CenterAndExpand">
                         <Label Text="Address"/>
-                        <Entry Text="{Binding OwnerDetails.AddressLine1, Mode=TwoWay}"
+                        <Entry Text="{Binding OwnerDetails.UnitNumber, Mode=TwoWay}"
                            Keyboard="Text"
                            Placeholder="Complex Name"
                            TabIndex="6"/>
-                        <Entry Text="{Binding OwnerDetails.AddressLine2, Mode=TwoWay}"
+                        <Entry Text="{Binding OwnerDetails.ComplexName, Mode=TwoWay}"
                            Keyboard="Text"
                            Placeholder="Unit Number"
                            TabIndex="7"/>
-                        <Entry Text="{Binding OwnerDetails.AddressLine3, Mode=TwoWay}"
+                        <Entry Text="{Binding OwnerDetails.StreetNumber, Mode=TwoWay}"
                            Keyboard="Text"
                            Placeholder="Street Number or Cross Street"
                            TabIndex="8"/>
-                        <Entry Text="{Binding OwnerDetails.AddressLine4, Mode=TwoWay}"
+                        <Entry Text="{Binding OwnerDetails.StreetName, Mode=TwoWay}"
                            Keyboard="Text"
                            Placeholder="Street Name"
                            TabIndex="9"/>

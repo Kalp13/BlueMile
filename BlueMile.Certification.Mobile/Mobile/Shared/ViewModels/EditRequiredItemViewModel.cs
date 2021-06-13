@@ -124,7 +124,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.CaptureItemPhoto = new Command(async () =>
             {
-                this.ItemToUpdate.ItemImage = await CapturePhotoService.CapturePhotoAsync(this.ItemToUpdate.ItemTypeId.ToString()).ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync(this.ItemToUpdate.ItemTypeId.ToString()).ConfigureAwait(false);
+                this.ItemToUpdate.ItemImage = new ItemDocumentMobileModel()
+                {
+                    DocumentTypeId = (int)DocumentTypeEnum.Photo,
+                    FileName = image.FileName,
+                    FilePath = image.FilePath,
+                    Id = image.Id,
+                    MimeType = image.FileType,
+                    UniqueFileName = image.Id.ToString() + ".jpg"
+                };
                 this.OnPropertyChanged(nameof(this.ItemToUpdate));
             });
             this.SaveCommand = new Command(async () =>
@@ -178,7 +187,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (this.ItemToUpdate.ItemImage.Id != null && this.ItemToUpdate.ItemImage.Id != Guid.Empty)
                 {
-                    this.ItemToUpdate.ItemImage.UniqueImageName = this.ItemToUpdate.ItemImage.Id.ToString() + ".jpg";
+                    this.ItemToUpdate.ItemImage.UniqueFileName = this.ItemToUpdate.ItemImage.Id.ToString() + ".jpg";
                 }
 
                 if (await this.ValidateItemPropertiesAsync().ConfigureAwait(false))
@@ -195,14 +204,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             this.apiService = new ServiceCommunication();
                         }
 
-                        if (this.ItemToUpdate.SystemId == null || this.ItemToUpdate.SystemId == Guid.Empty)
+                        if (this.ItemToUpdate.Id == null || this.ItemToUpdate.Id == Guid.Empty)
                         {
                             var itemId = await this.apiService.CreateItem(this.ItemToUpdate).ConfigureAwait(false);
 
                             if (itemId != null && itemId != Guid.Empty)
                             {
                                 this.ItemToUpdate.IsSynced = true;
-                                this.ItemToUpdate.SystemId = itemId;
+                                this.ItemToUpdate.Id = itemId;
                                 UserDialogs.Instance.Toast("Successfully uploaded " + this.ItemToUpdate.Description);
                             }
                             else
@@ -217,7 +226,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             if (itemId != null && itemId != Guid.Empty)
                             {
                                 this.ItemToUpdate.IsSynced = true;
-                                this.ItemToUpdate.SystemId = itemId;
+                                this.ItemToUpdate.Id = itemId;
                                 UserDialogs.Instance.Toast("Successfully updated " + this.ItemToUpdate.Description);
                             }
                             else

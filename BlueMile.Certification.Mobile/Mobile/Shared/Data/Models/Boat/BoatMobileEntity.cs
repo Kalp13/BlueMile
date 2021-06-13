@@ -40,11 +40,6 @@ namespace BlueMile.Certification.Mobile.Data.Models
         public string BoyancyCertificateNumber { get; set; }
 
         /// <summary>
-        /// Gets or sets the <c>BoyancyCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
-        /// </summary>
-        public Guid? BoyancyCertificateImageId { get; set; }
-
-        /// <summary>
         /// Gets or sets the flag to state if this a Jetski or not.
         /// </summary>
         public bool IsJetski { get; set; }
@@ -53,11 +48,6 @@ namespace BlueMile.Certification.Mobile.Data.Models
         /// Gets or sets the <c>TubbiesCertificateNumber</c> of this <see cref="BoatMobileEntity"/>.
         /// </summary>
         public string TubbiesCertificateNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the <c>TubbiesCertificateImagePath</c> of this <see cref="BoatMobileEntity"/>.
-        /// </summary>
-        public Guid? TubbiesCertificateImageId { get; set; }
 
         /// <summary>
         /// Gets or sets the boolean field indicating if this <see cref="BoatMobileEntity"/>

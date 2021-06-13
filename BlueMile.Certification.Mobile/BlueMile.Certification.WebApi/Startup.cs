@@ -110,12 +110,6 @@ namespace BlueMile.Certification.WebApi
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env)
         {
-            using (var servicescope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
-            {
-                var context = servicescope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                context.Database.EnsureCreated();
-            }
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -148,6 +142,12 @@ namespace BlueMile.Certification.WebApi
             {
                 endpoints.MapControllers();
             });
+
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                context.Database.Migrate();
+            }
         }
     }
 }

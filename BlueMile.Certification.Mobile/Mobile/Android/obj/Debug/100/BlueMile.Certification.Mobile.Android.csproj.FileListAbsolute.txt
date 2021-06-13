@@ -288,7 +288,10 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\andr
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\android\assets\ZXing.Net.Mobile.Forms.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\android\assets\zxing.portable.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\android\assets\ZXingNetMobile.dll
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\jl\12330ea1-2d63-49eb-b5ed-30c7019eaf99.jar
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_AndroidXJetifyJavaLibraryRules.stamp
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\05324a65-80d7-4c2b-b5ba-dd022511793a.cfg
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\08d36b20-846d-4568-8743-bc6a87ae011b.txt
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_AndroidXJetifyProguardRules.stamp
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\_AndroidXJetifyProguardRules.jetify
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_AndroidXCecilfy.stamp
@@ -685,6 +688,3 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stam
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_GenerateJavaStubs.stamp
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_GeneratePackageManagerJava.stamp
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\stamp\_ResolveLibraryProjectImports.stamp
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\jl\4894d28d-4085-4e18-b090-d7bf08b0bf39.jar
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\2a9b3b81-5c8b-46b5-a523-b7ba296c5a0f.txt
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Android\obj\Debug\100\androidx\proguard\6d210336-0fee-47f0-9365-637763507960.cfg

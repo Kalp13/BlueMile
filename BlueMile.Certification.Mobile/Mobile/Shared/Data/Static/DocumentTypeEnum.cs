@@ -37,5 +37,11 @@ namespace BlueMile.Certification.Mobile.Data.Static
 
 		[Description("Tubbies Boyancy Certificate")]
 		TubbiesBoyancyCertificate = 9,
+
+		[Description("ICASA Proof of Payment")]
+		IcasaProofOfPayment = 10,
+
+		[Description("Skippers License")]
+		SkippersLicense = 11,
 	}
 }

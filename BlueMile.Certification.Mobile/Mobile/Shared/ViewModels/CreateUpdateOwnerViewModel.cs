@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Helpers;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
@@ -112,17 +113,44 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.CaptureIcasaPopPhotoCommand = new Command(async () =>
             {
-                this.OwnerDetails.IcasaPopPhoto = await CapturePhotoService.CapturePhotoAsync("IcasaPopPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("IcasaPopPhoto").ConfigureAwait(false);
+                this.OwnerDetails.IcasaPopPhoto = new OwnerDocumentMobileModel()
+                {
+                    DocumentTypeId = (int)DocumentTypeEnum.IcasaProofOfPayment,
+                    FileName = image.FileName,
+                    FilePath = image.FilePath,
+                    Id = image.Id,
+                    MimeType = image.FileType,
+                    UniqueFileName = image.Id.ToString() + ".jpg"
+                };
                 this.OnPropertyChanged(nameof(this.OwnerDetails));
             });
             this.CaptureIDPhotoCommand = new Command(async () =>
             {
-                this.OwnerDetails.IdentificationDocument = await CapturePhotoService.CapturePhotoAsync("IDPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("IDPhoto").ConfigureAwait(false);
+                this.OwnerDetails.IdentificationDocument = new OwnerDocumentMobileModel()
+                {
+                    DocumentTypeId = (int)DocumentTypeEnum.IdentificationDocument,
+                    FileName = image.FileName,
+                    FilePath = image.FilePath,
+                    Id = image.Id,
+                    MimeType = image.FileType,
+                    UniqueFileName = image.Id.ToString() + ".jpg"
+                };
                 this.OnPropertyChanged(nameof(this.OwnerDetails));
             });
             this.CaptureSkippersPhotoCommand = new Command(async () =>
             {
-                this.OwnerDetails.SkippersLicenseImage = await CapturePhotoService.CapturePhotoAsync("SkippersPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("SkippersPhoto").ConfigureAwait(false);
+                this.OwnerDetails.SkippersLicenseImage = new OwnerDocumentMobileModel()
+                {
+                    DocumentTypeId = (int)DocumentTypeEnum.SkippersLicense,
+                    FileName = image.FileName,
+                    FilePath = image.FilePath,
+                    Id = image.Id,
+                    MimeType = image.FileType,
+                    UniqueFileName = image.Id.ToString() + ".jpg"
+                };
                 this.OnPropertyChanged(nameof(this.OwnerDetails));
             });
         }
@@ -169,7 +197,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         if (this.OwnerDetails.IcasaPopPhoto?.Id == null || this.OwnerDetails.IcasaPopPhoto?.Id == Guid.Empty)
                         {
                             this.OwnerDetails.IcasaPopPhoto.Id = Guid.NewGuid();
-                            this.OwnerDetails.IcasaPopPhoto.UniqueImageName = this.OwnerDetails.IcasaPopPhoto.Id.ToString() + ".jpg";
+                            this.OwnerDetails.IcasaPopPhoto.UniqueFileName = this.OwnerDetails.IcasaPopPhoto.Id.ToString() + ".jpg";
                         }
                     }
 
@@ -178,7 +206,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         if (this.OwnerDetails.IdentificationDocument?.Id == null || this.OwnerDetails.IdentificationDocument?.Id == Guid.Empty)
                         {
                             this.OwnerDetails.IdentificationDocument.Id = Guid.NewGuid();
-                            this.OwnerDetails.IdentificationDocument.UniqueImageName = this.OwnerDetails.IdentificationDocument.Id.ToString() + ".jpg";
+                            this.OwnerDetails.IdentificationDocument.UniqueFileName = this.OwnerDetails.IdentificationDocument.Id.ToString() + ".jpg";
                         }
                     }
 
@@ -187,14 +215,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         if (this.OwnerDetails.SkippersLicenseImage?.Id == null || this.OwnerDetails.SkippersLicenseImage?.Id == Guid.Empty)
                         {
                             this.OwnerDetails.SkippersLicenseImage.Id = Guid.NewGuid();
-                            this.OwnerDetails.SkippersLicenseImage.UniqueImageName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
+                            this.OwnerDetails.SkippersLicenseImage.UniqueFileName = this.OwnerDetails.SkippersLicenseImage.Id.ToString() + ".jpg";
                         }
                     }
 
                     if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
                     {
                         this.OwnerDetails.Id = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false); 
-                        if (this.OwnerDetails.SystemId == null || this.OwnerDetails.SystemId == Guid.Empty)
+                        if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
                         {
                             if (this.apiService == null)
                             {

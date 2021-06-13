@@ -148,12 +148,32 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.CaptureBoayancyCertPhotoCommand = new Command(async () =>
             {
-                this.BoatDetails.BoyancyCertificateImage = await CapturePhotoService.CapturePhotoAsync("BoyancyCertPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("BoyancyCertPhoto").ConfigureAwait(false);
+                this.BoatDetails.BoyancyCertificateImage = new BoatDocumentMobileModel()
+                {
+                    DocumentTypeId = (int)DocumentTypeEnum.BoatBoyancyCertificate,
+                    FileName = image.FileName,
+                    FilePath = image.FilePath,
+                    Id = image.Id,
+                    BoatId = this.BoatDetails.Id,
+                    MimeType = image.FileType,
+                    UniqueFileName = image.Id.ToString() + ".jpg"
+                };
                 this.OnPropertyChanged(nameof(this.BoatDetails));
             });
             this.CaptureTubbiesCertPhotoCommand = new Command(async () =>
             {
-                this.BoatDetails.TubbiesCertificateImage = await CapturePhotoService.CapturePhotoAsync("TubbiesCertPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("TubbiesCertPhoto").ConfigureAwait(false);
+                this.BoatDetails.TubbiesCertificateImage = new BoatDocumentMobileModel()
+                {
+                    DocumentTypeId = (int)DocumentTypeEnum.TubbiesBoyancyCertificate,
+                    FileName = image.FileName,
+                    FilePath = image.FilePath,
+                    Id = image.Id,
+                    BoatId = this.BoatDetails.Id,
+                    MimeType = image.FileType,
+                    UniqueFileName = image.Id.ToString() + ".jpg"
+                };
                 this.OnPropertyChanged(nameof(this.BoatDetails));
             });
             this.SaveCommand = new Command(async () =>
@@ -184,7 +204,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 this.BoatDetails.OwnerId = Guid.Parse(SettingsService.OwnerId);
 
-                if (this.BoatDetails.IsJetski)
+                if (!this.BoatDetails.IsJetski)
                 {
                     this.BoatDetails.TubbiesCertificateNumber = String.Empty;
 
@@ -192,7 +212,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     {
                         this.BoatDetails.TubbiesCertificateImage.FilePath = String.Empty;
                         this.BoatDetails.TubbiesCertificateImage.FileName = String.Empty;
-                        this.BoatDetails.TubbiesCertificateImage.UniqueImageName = String.Empty;
+                        this.BoatDetails.TubbiesCertificateImage.UniqueFileName = String.Empty;
                     }
                 }
 
@@ -200,8 +220,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     if (this.BoatDetails.BoyancyCertificateImage.Id == null || this.BoatDetails.BoyancyCertificateImage.Id == Guid.Empty)
                     {
-                        this.BoatDetails.BoyancyCertificateImage.Id = Guid.NewGuid();
-                        this.BoatDetails.BoyancyCertificateImage.UniqueImageName = this.BoatDetails.BoyancyCertificateImage.Id.ToString() + ".jpg";
+                        this.BoatDetails.BoyancyCertificateImage.UniqueFileName = this.BoatDetails.BoyancyCertificateImage.Id.ToString() + ".jpg";
                     }
                 }
 
@@ -209,8 +228,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     if (this.BoatDetails.TubbiesCertificateImage.Id == null || this.BoatDetails.TubbiesCertificateImage.Id == Guid.Empty)
                     {
-                        this.BoatDetails.TubbiesCertificateImage.Id = Guid.NewGuid();
-                        this.BoatDetails.TubbiesCertificateImage.UniqueImageName = this.BoatDetails.TubbiesCertificateImage.Id.ToString() + ".jpg";
+                        this.BoatDetails.TubbiesCertificateImage.UniqueFileName = this.BoatDetails.TubbiesCertificateImage.Id.ToString() + ".jpg";
                     }
                 }
 
@@ -236,14 +254,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
 
-                    if (this.BoatDetails.SystemId == null || (this.BoatDetails.SystemId == Guid.Empty))
+                    if (this.BoatDetails.Id == null || (this.BoatDetails.Id == Guid.Empty))
                     {
                         var boatId = await this.apiService.CreateBoat(this.BoatDetails).ConfigureAwait(false);
 
                         if (boatId != null && boatId != Guid.Empty)
                         {
                             this.BoatDetails.IsSynced = true;
-                            this.BoatDetails.SystemId = boatId;
+                            this.BoatDetails.Id = boatId;
                         }
                         else
                         {
@@ -257,7 +275,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         if (boatId != null && boatId != Guid.Empty)
                         {
                             this.BoatDetails.IsSynced = true;
-                            this.BoatDetails.SystemId = boatId;
+                            this.BoatDetails.Id = boatId;
                         }
                         else
                         {

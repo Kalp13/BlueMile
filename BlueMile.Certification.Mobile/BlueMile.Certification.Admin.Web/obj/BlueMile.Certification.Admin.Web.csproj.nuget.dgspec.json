@@ -126,7 +126,7 @@
           "dependencies": {
             "Blazored.LocalStorage": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[4.1.1, )"
             },
             "Blazored.TextEditor": {
               "target": "Package",
@@ -134,7 +134,7 @@
             },
             "BootstrapBlazor": {
               "target": "Package",
-              "version": "[5.0.28, )"
+              "version": "[5.0.34, )"
             },
             "MatBlazor": {
               "target": "Package",
@@ -294,31 +294,33 @@
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "NLog.Extensions.Logging": {
               "target": "Package",
@@ -410,7 +412,7 @@
           "dependencies": {
             "Microsoft.AspNetCore.DataProtection.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
             },
             "Microsoft.AspNetCore.Identity": {
               "target": "Package",
@@ -418,7 +420,11 @@
             },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[5.0.5, )"
+              "version": "[5.0.7, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[5.0.7, )"
             },
             "Newtonsoft.Json": {
               "target": "Package",
