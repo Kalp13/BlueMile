@@ -50,20 +50,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        public bool IsJetSki
-        {
-            get { return this.isJetSki; }
-            set
-            {
-                if (this.isJetSki != value)
-                {
-                    this.isJetSki = value;
-                    this.OnPropertyChanged(nameof(this.IsJetSki));
-                    BoatDetails.IsJetski = this.isJetSki;
-                }
-            }
-        }
-
         public List<ListDisplayModel> BoatCategories
         {
             get { return this.boatCategories; }
@@ -321,6 +307,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     ItemName = GetCategoryDescription(category)
                 });
             }
+
+            if (this.BoatDetails.BoatCategoryId > 0)
+            {
+                this.SelectedCategory = this.BoatCategories.FirstOrDefault(x => x.ItemId == this.BoatDetails.BoatCategoryId);
+            }
         }
 
         public static string GetCategoryDescription(BoatCategoryEnum enumId)
@@ -359,6 +350,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         if (this.BoatDetails != null)
                         {
                             this.Title = $"Edit {this.BoatDetails.Name}";
+                            
+                            if (this.BoatCategories != null && this.BoatCategories.Count > 0)
+                            {
+                                this.SelectedCategory = this.BoatCategories.FirstOrDefault(x => x.ItemId == this.BoatDetails.BoatCategoryId);
+                            }
                         }
                     }
                     else

@@ -51,11 +51,11 @@
                              HeightRequest="200"/>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Is A Jetski: "/>
-                    <Switch IsToggled="{Binding IsJetSki, Mode=TwoWay}"/>
+                    <Switch IsToggled="{Binding BoatDetails.IsJetski, Mode=TwoWay}"/>
                 </StackLayout>
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="StartAndExpand"
-                             IsVisible="{Binding IsJetSki}">
+                             IsVisible="{Binding BoatDetails.IsJetski}">
                     <Label Text="Tubbies Certificate Number"/>
                     <Entry Text="{Binding BoatDetails.TubbiesCertificateNumber, Mode=TwoWay}"
                            Keyboard="Plain"
@@ -64,7 +64,6 @@
                     <ImageButton Source="{Binding BoatDetails.TubbiesCertificateImage.FilePath, TargetNullValue='image.png', Mode=TwoWay}"
                                  Command="{Binding CaptureTubbiesCertPhotoCommand}"
                                  Aspect="AspectFit"
-                                 BackgroundColor="#00000000"
                                  HeightRequest="200"/>
                 </StackLayout>
             </StackLayout>
