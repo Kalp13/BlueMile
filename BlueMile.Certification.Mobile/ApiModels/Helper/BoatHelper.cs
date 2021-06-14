@@ -14,6 +14,7 @@ namespace BlueMile.Certification.Web.ApiModels.Helper
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
+                Id = boat.Id,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber

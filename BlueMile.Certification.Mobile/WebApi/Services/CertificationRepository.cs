@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 
 namespace BlueMile.Certification.WebApi.Services
 {
+    /// <summary>
+    /// Contains the implementation off all the <see cref="ICertificationRepository"/> 
+    /// CRUD methods for <c>Owners</c>, <c>Boats</c> and <c>Items</c>.
+    /// </summary>
     public class CertificationRepository : ICertificationRepository
     {
         #region Constructor
@@ -202,6 +206,8 @@ namespace BlueMile.Certification.WebApi.Services
             var boat = BoatHelper.ToCreateBoatData(entity);
             await this.applicationDb.Boats.AddAsync(boat);
 
+            await this.applicationDb.SaveChangesAsync();
+
             if (entity.BoyancyCertificateImage != null)
             {
                 await this.UploadBoatDocumentAsync(entity.BoyancyCertificateImage);
@@ -211,8 +217,6 @@ namespace BlueMile.Certification.WebApi.Services
             {
                 await this.UploadBoatDocumentAsync(entity.TubbiesCertificateImage);
             }
-
-            await this.applicationDb.SaveChangesAsync();
 
             return boat.Id;
         }
@@ -242,7 +246,7 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         /// <inheritdoc/>
-        public async Task<List<BoatModel>> FindAllBoats()
+        public async Task<List<BoatModel>> FindAllBoats(FindBoatsModel model)
         {
             var boats = this.applicationDb.Boats.Where(x => x.IsActive);
 
@@ -339,7 +343,7 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         /// <inheritdoc/>
-        public async Task<List<ItemModel>> FindAllItems()
+        public async Task<List<ItemModel>> FindAllItems(FindItemsModel model)
         {
             var items = await this.applicationDb.Items.Where(x => x.IsActive).ToListAsync();
 
@@ -347,11 +351,18 @@ namespace BlueMile.Certification.WebApi.Services
         }
 
         /// <inheritdoc/>
-        public async Task<ItemModel> FindItemById(Guid id)
+        public async Task<ItemModel> FindItemById(Guid itemId)
         {
-            var item = await this.applicationDb.Items.FindAsync(id);
+            var item = await this.applicationDb.Items.FirstOrDefaultAsync(x => x.Id == itemId);
 
-            return ItemHelper.ToItemApiModel(item);
+            if (item != null)
+            {
+                return ItemHelper.ToItemApiModel(item);
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /// <inheritdoc/>
@@ -366,24 +377,21 @@ namespace BlueMile.Certification.WebApi.Services
         public async Task<Guid> UpdateItem(UpdateItemModel entity)
         {
             var existingItem = await this.applicationDb.Items.FirstOrDefaultAsync(x => x.Id == entity.Id);
-            var item = ItemHelper.ToUpdateItemModel(existingItem, entity);
-            await this.applicationDb.SaveChangesAsync();
+            var item = ItemHelper.ToUpdateItemModel(entity);
 
-            var result = await this.applicationDb.SaveChangesAsync();
+            existingItem.SerialNumber = item.SerialNumber;
+            existingItem.CapturedDate = item.CapturedDate;
+            existingItem.Description = item.Description;
+            existingItem.ExpiryDate = item.ExpiryDate;
+
+            await this.applicationDb.SaveChangesAsync();
 
             if (entity.ItemImage != null)
             {
                 await this.UploadItemDocumentAsync(entity.ItemImage);
             }
 
-            if (result > 0)
-            {
-                return entity.Id;
-            }
-            else
-            {
-                throw new ArgumentException(nameof(entity));
-            }
+            return entity.Id;
         }
 
         #endregion

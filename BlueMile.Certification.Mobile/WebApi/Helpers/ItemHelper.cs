@@ -1,9 +1,6 @@
 ﻿using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.Web.ApiModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace BlueMile.Certification.WebApi.Helpers
 {
@@ -29,22 +26,19 @@ namespace BlueMile.Certification.WebApi.Helpers
             return item;
         }
 
-        public static Item ToUpdateItemModel(Item existingItem, UpdateItemModel updateItem)
+        public static Item ToUpdateItemModel(UpdateItemModel updateItem)
         {
-            existingItem = new Item()
+            var item = new Item()
             {
                 BoatId = updateItem.BoatId,
                 CapturedDate = updateItem.CapturedDate,
                 Description = updateItem.Description,
                 ExpiryDate = updateItem.ExpiryDate,
-                Id = updateItem.Id,
                 IsActive = true,
                 ItemTypeId = updateItem.ItemTypeId,
-                ModifiedOn = DateTime.Now,
-                ModifiedBy = "test",
                 SerialNumber = updateItem.SerialNumber
             };
-            return existingItem;
+            return item;
         }
 
         public static Item ToItemDataModel(ItemModel itemModel)
@@ -64,7 +58,7 @@ namespace BlueMile.Certification.WebApi.Helpers
 
         public static ItemModel ToItemApiModel(Item itemModel)
         {
-            var item = new Web.ApiModels.ItemModel()
+            var item = new ItemModel()
             {
                 BoatId = itemModel.BoatId,
                 CapturedDate = itemModel.CapturedDate,

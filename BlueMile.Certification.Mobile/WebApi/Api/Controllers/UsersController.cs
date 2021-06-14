@@ -33,6 +33,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// Instantiates a new default instance of the <see cref="UsersController"/>
         /// </summary>
         /// <param name="signIn"></param>
+        /// <param name="dbFactory"></param>
         /// <param name="manager"></param>
         /// <param name="logger"></param>
         /// <param name="config"></param>
@@ -57,7 +58,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// Registers a new user with the given properties.
         /// </summary>
         /// <param name="createUser">
-        ///     The <see cref="UserDTO"/> object with the user details to register.
+        ///     The <see cref="UserRegistrationModel"/> object with the user details to register.
         /// </param>
         /// <returns></returns>
         [Route("register")]
@@ -201,9 +202,9 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
                 return new JwtSecurityTokenHandler().WriteToken(token);
             }
-            catch (Exception exc)
+            catch (Exception)
             {
-                throw exc;
+                throw;
             }
         }
 

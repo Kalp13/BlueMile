@@ -179,6 +179,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
             this.SyncCommand = new Command(async () =>
             {
+                UserDialogs.Instance.ShowLoading("Loading...");
                 await this.UploadItemToServer().ConfigureAwait(false);
             });
 
@@ -202,7 +203,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                if (this.CurrentBoat.Id == null || this.CurrentBoat.Id == Guid.Empty)
+                var doesExist = (await this.apiService.GetBoatById(this.CurrentBoat.Id)) != null;
+
+                if (!doesExist)
                 {
                     var boatId = await this.apiService.CreateBoat(this.CurrentBoat).ConfigureAwait(false);
                     if (boatId != null && boatId != Guid.Empty)
@@ -242,6 +245,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 Crashes.TrackError(exc);
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Sync Error");
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
             }
         }
 

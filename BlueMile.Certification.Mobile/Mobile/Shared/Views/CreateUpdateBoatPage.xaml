@@ -51,11 +51,11 @@
                              HeightRequest="200"/>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="Is A Jetski: "/>
-                    <Switch IsToggled="{Binding BoatDetails.IsJetski, Mode=TwoWay}"/>
+                    <Switch IsToggled="{Binding IsJetSki, Mode=TwoWay}"/>
                 </StackLayout>
                 <StackLayout Orientation="Vertical"
                              VerticalOptions="StartAndExpand"
-                             IsVisible="{Binding BoatDetails.IsJetski}">
+                             IsVisible="{Binding IsJetSki}">
                     <Label Text="Tubbies Certificate Number"/>
                     <Entry Text="{Binding BoatDetails.TubbiesCertificateNumber, Mode=TwoWay}"
                            Keyboard="Plain"

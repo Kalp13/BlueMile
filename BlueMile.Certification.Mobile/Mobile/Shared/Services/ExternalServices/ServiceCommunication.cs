@@ -361,8 +361,6 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
             {
                 throw;
             }
-
-            return items;
         }
 
         /// <inheritdoc/>
@@ -416,6 +414,42 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
                 var result = await this.client.UpdateItem(ItemModelHelper.ToItemModel(item));
                 return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<ItemMobileModel> GetItemById(Guid itemId)
+        {
+            try
+            {
+                if (itemId == null || itemId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(itemId));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+
+                if (!await this.HasInternetConnectionAsync())
+                {
+                    throw new WebException("No Internet Connection");
+                }
+
+                var result = await this.client.GetItemById(itemId);
+                if (result != null)
+                {
+                    return ItemModelHelper.ToItemMobileModel(result);
+                }
+                else
+                {
+                    return null;
+                }
             }
             catch (Exception)
             {

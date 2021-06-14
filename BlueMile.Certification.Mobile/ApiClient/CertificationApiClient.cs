@@ -144,7 +144,7 @@ namespace BlueMile.Certification.Web.ApiClient
 
                 return null;
             }
-            catch (Exception exc)
+            catch (Exception)
             {
                 throw;
             }
@@ -548,17 +548,17 @@ namespace BlueMile.Certification.Web.ApiClient
                 }
                 if (tubbiesDoc != null && !String.IsNullOrWhiteSpace(tubbiesDoc.FilePath))
                 {
-                    var tubbiesDocData = File.ReadAllBytes(boyancyDoc.FilePath);
+                    var tubbiesDocData = File.ReadAllBytes(tubbiesDoc.FilePath);
                     var tubbiesDocContent = new StreamContent(new MemoryStream(tubbiesDocData));
                     tubbiesDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
                         Name = "\"files\"",
-                        FileName = "\"" + boyancyDoc.FileName + "\"",
+                        FileName = "\"" + tubbiesDoc.FileName + "\"",
                     }; // the extra quotes are key here
-                    tubbiesDocContent.Headers.ContentType = new MediaTypeHeaderValue(boyancyDoc.MimeType);
-                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", boyancyDoc.Id.ToString()));
-                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", boyancyDoc.FileName.Replace(" ", "_")));
-                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", boyancyDoc.DocumentTypeId.ToString()));
+                    tubbiesDocContent.Headers.ContentType = new MediaTypeHeaderValue(tubbiesDoc.MimeType);
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", tubbiesDoc.Id.ToString()));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", tubbiesDoc.FileName.Replace(" ", "_")));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", tubbiesDoc.DocumentTypeId.ToString()));
 
                     allContent.Add(tubbiesDocContent);
                 }
@@ -626,17 +626,17 @@ namespace BlueMile.Certification.Web.ApiClient
                 }
                 if (tubbiesDoc != null && !String.IsNullOrWhiteSpace(tubbiesDoc.FilePath))
                 {
-                    var tubbiesDocData = File.ReadAllBytes(boyancyDoc.FilePath);
+                    var tubbiesDocData = File.ReadAllBytes(tubbiesDoc.FilePath);
                     var tubbiesDocContent = new StreamContent(new MemoryStream(tubbiesDocData));
                     tubbiesDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
                         Name = "\"files\"",
-                        FileName = "\"" + boyancyDoc.FileName + "\"",
+                        FileName = "\"" + tubbiesDoc.FileName + "\"",
                     }; // the extra quotes are key here
-                    tubbiesDocContent.Headers.ContentType = new MediaTypeHeaderValue(boyancyDoc.MimeType);
-                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", boyancyDoc.Id.ToString()));
-                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", boyancyDoc.FileName.Replace(" ", "_")));
-                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", boyancyDoc.DocumentTypeId.ToString()));
+                    tubbiesDocContent.Headers.ContentType = new MediaTypeHeaderValue(tubbiesDoc.MimeType);
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", tubbiesDoc.Id.ToString()));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", tubbiesDoc.FileName.Replace(" ", "_")));
+                    tubbiesDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", tubbiesDoc.DocumentTypeId.ToString()));
 
                     allContent.Add(tubbiesDocContent);
                 }
@@ -702,6 +702,41 @@ namespace BlueMile.Certification.Web.ApiClient
         }
 
         /// <inheritdoc/>
+        public async Task<ItemModel> GetItemById(Guid itemId)
+        {
+            try
+            {
+                if (itemId == null || itemId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(itemId));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+                this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+
+                Uri uri = new Uri($"{this.baseAddress}/Certification/item/get/{itemId}");
+                HttpResponseMessage response = await this.client.GetAsync(uri);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    var items = JsonConvert.DeserializeObject<ItemModel>(content);
+                    return items;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
         public async Task<Guid> CreateItem(ItemModel item)
         {
             try
@@ -716,30 +751,49 @@ namespace BlueMile.Certification.Web.ApiClient
                     this.client = CreateClient();
                 }
                 this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+                var itemDoc = item.ItemImage;
 
                 string json = JsonConvert.SerializeObject(ItemHelper.ToCreateItemModel(item));
+                using MultipartFormDataContent allContent = new MultipartFormDataContent();
 
-                using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                using StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                allContent.Add(content);
+
+                if (itemDoc != null && !String.IsNullOrWhiteSpace(itemDoc.FilePath))
                 {
-                    HttpResponseMessage response = null;
-
-                    Uri uri = new Uri($"{this.baseAddress}/Certification/item/create");
-                    if (this.client.BaseAddress == null)
+                    var itemDocData = File.ReadAllBytes(itemDoc.FilePath);
+                    var itemDocContent = new StreamContent(new MemoryStream(itemDocData));
+                    itemDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        this.client.BaseAddress = new Uri(this.baseAddress);
-                    }
+                        Name = "\"files\"",
+                        FileName = "\"" + itemDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    itemDocContent.Headers.ContentType = new MediaTypeHeaderValue(itemDoc.MimeType);
+                    itemDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", itemDoc.Id.ToString()));
+                    itemDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", itemDoc.FileName.Replace(" ", "_")));
+                    itemDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", itemDoc.DocumentTypeId.ToString()));
 
-                    response = await client.PostAsync(uri, content);
+                    allContent.Add(itemDocContent);
+                }
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
-                        return result;
-                    }
-                    else
-                    {
-                        throw new ArgumentException(response.ReasonPhrase);
-                    }
+                HttpResponseMessage response = null;
+
+                Uri uri = new Uri($"{this.baseAddress}/Certification/item/create");
+                if (this.client.BaseAddress == null)
+                {
+                    this.client.BaseAddress = new Uri(this.baseAddress);
+                }
+
+                response = await client.PostAsync(uri, allContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
                 }
             }
             catch (Exception)
@@ -763,30 +817,49 @@ namespace BlueMile.Certification.Web.ApiClient
                     this.client = CreateClient();
                 }
                 this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+                var itemDoc = item.ItemImage;
 
                 string json = JsonConvert.SerializeObject(ItemHelper.ToUpdateItemModel(item));
+                using MultipartFormDataContent allContent = new MultipartFormDataContent();
 
-                using (StringContent content = new StringContent(json, Encoding.UTF8, "application/json"))
+                using StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+                allContent.Add(content);
+
+                if (itemDoc != null && !String.IsNullOrWhiteSpace(itemDoc.FilePath))
                 {
-                    HttpResponseMessage response = null;
-
-                    Uri uri = new Uri($"{this.baseAddress}/Certification/item/update/{item.Id}");
-                    if (this.client.BaseAddress == null)
+                    var itemDocData = File.ReadAllBytes(itemDoc.FilePath);
+                    var itemDocContent = new StreamContent(new MemoryStream(itemDocData));
+                    itemDocContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
                     {
-                        this.client.BaseAddress = new Uri(this.baseAddress);
-                    }
+                        Name = "\"files\"",
+                        FileName = "\"" + itemDoc.FileName + "\"",
+                    }; // the extra quotes are key here
+                    itemDocContent.Headers.ContentType = new MediaTypeHeaderValue(itemDoc.MimeType);
+                    itemDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Id", itemDoc.Id.ToString()));
+                    itemDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Name", itemDoc.FileName.Replace(" ", "_")));
+                    itemDocContent.Headers.ContentDisposition.Parameters.Add(new NameValueHeaderValue("Type", itemDoc.DocumentTypeId.ToString()));
 
-                    response = await this.client.PutAsync(uri, content);
+                    allContent.Add(itemDocContent);
+                }
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
-                        return result;
-                    }
-                    else
-                    {
-                        throw new ArgumentException(response.ReasonPhrase);
-                    }
+                HttpResponseMessage response = null;
+
+                Uri uri = new Uri($"{this.baseAddress}/Certification/item/update/{item.Id}");
+                if (this.client.BaseAddress == null)
+                {
+                    this.client.BaseAddress = new Uri(this.baseAddress);
+                }
+
+                response = await this.client.PutAsync(uri, allContent);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
                 }
             }
             catch (Exception)

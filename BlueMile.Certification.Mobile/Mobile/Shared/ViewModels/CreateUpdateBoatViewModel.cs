@@ -37,6 +37,20 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
+        public bool IsJetSki
+        {
+            get { return this.isJetSki; }
+            set
+            {
+                if (this.isJetSki != value)
+                {
+                    this.isJetSki = value;
+                    this.BoatDetails.IsJetski = value;
+                    this.OnPropertyChanged(nameof(this.IsJetSki));
+                }
+            }
+        }
+
         public BoatMobileModel BoatDetails
         {
             get { return this.boatDetails; }
@@ -345,12 +359,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (id != Guid.Empty)
                     {
-                        this.BoatDetails = await this.dataService.FindBoatBySystemIdAsync(id).ConfigureAwait(false);
+                        this.BoatDetails = await this.dataService.FindBoatBySystemIdAsync(id);
 
                         if (this.BoatDetails != null)
                         {
                             this.Title = $"Edit {this.BoatDetails.Name}";
-                            
+                            this.IsJetSki = this.BoatDetails.IsJetski;
+
                             if (this.BoatCategories != null && this.BoatCategories.Count > 0)
                             {
                                 this.SelectedCategory = this.BoatCategories.FirstOrDefault(x => x.ItemId == this.BoatDetails.BoatCategoryId);

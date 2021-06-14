@@ -168,6 +168,17 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
         /// </returns>
         Task<Guid> UpdateItem(ItemMobileModel item);
 
+        /// <summary>
+        /// Retrieves an item with the given unique identifier.
+        /// </summary>
+        /// <param name="itemId">
+        ///     The unique identifier of the item.
+        /// </param>
+        /// <returns>
+        ///     Returns an <see cref="ItemMobileModel"/> with the item details.
+        /// </returns>
+        Task<ItemMobileModel> GetItemById(Guid itemId);
+
         #endregion
     }
 }

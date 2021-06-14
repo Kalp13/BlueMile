@@ -427,7 +427,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("boat/update/{id}")]
-        public async Task<IActionResult> UpdateBoat(Guid id, [FromBody] UpdateBoatModel boatEntity)
+        public async Task<IActionResult> UpdateBoat(Guid id, [FromForm] UpdateBoatModel boatEntity)
         {
             try
             {
@@ -663,34 +663,34 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <summary>
         /// Gets a specific item with the given unique identifier specified.
         /// </summary>
-        /// <param name="id">
+        /// <param name="itemId">
         ///     The unique identifier of the item.
         /// </param>
         /// <returns></returns>
         [HttpGet]
-        [Route("item/{id}")]
-        public async Task<IActionResult> GetItem(Guid id)
+        [Route("item/get/{itemId}")]
+        public async Task<IActionResult> GetItem(Guid itemId)
         {
             try
             {
-                this.logger.TraceRequest(id);
+                this.logger.TraceRequest(itemId);
                 this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-                if (id == Guid.Empty)
+                if (itemId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(id));
+                    throw new ArgumentNullException(nameof(itemId));
                 }
 
-                var item = await this.certificationRepository.FindItemById(id);
+                var item = await this.certificationRepository.FindItemById(itemId);
 
                 if (item != null)
                 {
-                    this.logger.LogInformation($"Successfully retrieved item {item} with unique system identifier {id}");
+                    this.logger.LogInformation($"Successfully retrieved item {item} with unique system identifier {itemId}");
                     return this.Ok(item);
                 }
                 else
                 {
-                    this.logger.LogInformation($"No item found with unique system identifier {id}");
+                    this.logger.LogInformation($"No item found with unique system identifier {itemId}");
                     return this.NotFound();
                 }
             }
@@ -704,7 +704,7 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <summary>
         /// Updates an existing boat with the corresponsing unique identifier with the given details.
         /// </summary>
-        /// <param name="id">
+        /// <param name="itemId">
         ///     The unique identifier of the boat.
         /// </param>
         /// <param name="itemEntity">
@@ -712,30 +712,60 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// </param>
         /// <returns></returns>
         [HttpPut]
-        [Route("item/update/{id}")]
-        public async Task<IActionResult> UpdateItem(Guid id, [FromBody] UpdateItemModel itemEntity)
+        [Route("item/update/{itemId}")]
+        public async Task<IActionResult> UpdateItem(Guid itemId, [FromForm] UpdateItemModel itemEntity)
         {
             try
             {
-                this.logger.TraceRequest(id);
+                this.logger.TraceRequest(itemId);
                 this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-                if (id == Guid.Empty)
+                if (itemId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(id));
+                    throw new ArgumentNullException(nameof(itemId));
                 }
+
+                var formReader = this.Request.Form;
+                formReader.TryGetValue("", out var values);
+                itemEntity = JsonConvert.DeserializeObject<UpdateItemModel>(values);
 
                 if (itemEntity == null)
                 {
                     throw new ArgumentNullException(nameof(itemEntity));
                 }
 
-                var itemId = await this.certificationRepository.UpdateItem(itemEntity);
-
-                if (itemId != Guid.Empty)
+                List<ItemDocumentModel> photos = new List<ItemDocumentModel>();
+                foreach (var file in formReader.Files)
                 {
-                    this.logger.LogInformation($"Successfully updated {itemEntity.Description} with unique system identifier {itemId}");
-                    return this.Ok(itemId);
+                    var properties = file.ContentDisposition.Trim(';').Split(';');
+                    var nameProperty = properties.First(x => x.Contains("Name"));
+                    var typeProperty = properties.First(x => x.Contains("Type"));
+                    var idProperty = properties.First(x => x.Contains("Id"));
+                    MemoryStream stream = new MemoryStream();
+                    await file.CopyToAsync(stream);
+                    photos.Add(new ItemDocumentModel()
+                    {
+                        FileContent = stream.ToArray(),
+                        FileName = file.FileName,
+                        UniqueFileName = idProperty.Substring(idProperty.IndexOf('=') + 1).Replace('_', ' ') + ".jpg",
+                        MimeType = file.ContentType,
+                        DocumentTypeId = Convert.ToInt32(typeProperty.Substring(typeProperty.IndexOf('=') + 1)),
+                        Id = Guid.Parse(idProperty.Substring(idProperty.IndexOf('=') + 1)),
+                    });
+                }
+                itemEntity.ItemImage = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.Photo);
+
+                if (itemEntity.ItemImage != null)
+                {
+                    itemEntity.ItemImage.ItemId = itemEntity.Id;
+                }
+
+                var id = await this.certificationRepository.UpdateItem(itemEntity);
+
+                if (id != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully updated {itemEntity.Description} with unique system identifier {id}");
+                    return this.Ok(id);
                 }
                 else
                 {
@@ -759,16 +789,46 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("item/create")]
-        public async Task<IActionResult> CreateItem([FromBody] CreateItemModel itemEntity)
+        public async Task<IActionResult> CreateItem([FromForm] CreateItemModel itemEntity)
         {
             try
             {
                 this.logger.TraceRequest(itemEntity);
                 this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
+                var formReader = this.Request.Form;
+                formReader.TryGetValue("", out var values);
+                itemEntity = JsonConvert.DeserializeObject<CreateItemModel>(values);
+
                 if (itemEntity == null)
                 {
                     throw new ArgumentNullException(nameof(itemEntity));
+                }
+
+                List<ItemDocumentModel> photos = new List<ItemDocumentModel>();
+                foreach (var file in formReader.Files)
+                {
+                    var properties = file.ContentDisposition.Trim(';').Split(';');
+                    var nameProperty = properties.First(x => x.Contains("Name"));
+                    var typeProperty = properties.First(x => x.Contains("Type"));
+                    var idProperty = properties.First(x => x.Contains("Id"));
+                    MemoryStream stream = new MemoryStream();
+                    await file.CopyToAsync(stream);
+                    photos.Add(new ItemDocumentModel()
+                    {
+                        FileContent = stream.ToArray(),
+                        FileName = file.FileName,
+                        UniqueFileName = idProperty.Substring(idProperty.IndexOf('=') + 1).Replace('_', ' ') + ".jpg",
+                        MimeType = file.ContentType,
+                        DocumentTypeId = Convert.ToInt32(typeProperty.Substring(typeProperty.IndexOf('=') + 1)),
+                        Id = Guid.Parse(idProperty.Substring(idProperty.IndexOf('=') + 1)),
+                    });
+                }
+                itemEntity.ItemImage = photos.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.Photo);
+
+                if (itemEntity.ItemImage != null)
+                {
+                    itemEntity.ItemImage.ItemId = itemEntity.Id;
                 }
 
                 var itemId = await this.certificationRepository.CreateItem(itemEntity);
@@ -794,34 +854,34 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <summary>
         /// Deletes an item with the given unique identifier.
         /// </summary>
-        /// <param name="id">
+        /// <param name="itemId">
         ///     The unique identifier of the item.
         /// </param>
         /// <returns></returns>
         [HttpDelete]
-        [Route("item/delete/{id}")]
-        public async Task<IActionResult> DeleteItem(Guid id)
+        [Route("item/delete/{itemId}")]
+        public async Task<IActionResult> DeleteItem(Guid itemId)
         {
             try
             {
-                this.logger.TraceRequest(id);
+                this.logger.TraceRequest(itemId);
                 this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
 
-                if (id == Guid.Empty)
+                if (itemId == Guid.Empty)
                 {
-                    throw new ArgumentNullException(nameof(id));
+                    throw new ArgumentNullException(nameof(itemId));
                 }
 
-                var result = await this.certificationRepository.DeleteItem(id);
+                var result = await this.certificationRepository.DeleteItem(itemId);
 
                 if (result)
                 {
-                    this.logger.LogInformation($"Successfully deleted item with unique identifier {id}");
+                    this.logger.LogInformation($"Successfully deleted item with unique identifier {itemId}");
                     return this.Ok(result);
                 }
                 else
                 {
-                    this.logger.LogInformation($"Could not delete item with unique system idenfitier {id}");
+                    this.logger.LogInformation($"Could not delete item with unique system idenfitier {itemId}");
                     return this.NotFound();
                 }
             }

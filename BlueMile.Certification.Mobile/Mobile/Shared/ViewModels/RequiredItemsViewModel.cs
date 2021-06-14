@@ -130,7 +130,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.SyncItemsCommand = new Command(async () =>
             {
-                await this.SyncBoatsToServer();
+                await this.SyncItemsToServer();
             });
         }
 
@@ -164,7 +164,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             Shell.Current.FlyoutIsPresented = false;
         }
 
-        private async Task SyncBoatsToServer()
+        private async Task SyncItemsToServer()
         {
             try
             {
@@ -176,13 +176,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
 
                 await this.GetBoatItems();
-
-                UserDialogs.Instance.HideLoading();
             }
             catch (Exception exc)
             {
                 Crashes.TrackError(exc);
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Sync Error");
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -195,12 +197,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                if (item.Id == null || item.Id == Guid.Empty)
+                var doesExist = (await this.apiService.GetItemById(item.Id)) != null;
+
+                if (!doesExist)
                 {
-                    var boatId = await this.apiService.CreateItem(item).ConfigureAwait(false);
-                    if (boatId != null && boatId != Guid.Empty)
+                    var itemId = await this.apiService.CreateItem(item).ConfigureAwait(false);
+                    if (itemId != null && itemId != Guid.Empty)
                     {
-                        item.Id = boatId;
+                        item.Id = itemId;
                         item.IsSynced = true;
                     }
                     else
@@ -210,11 +214,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else
                 {
-                    var boatId = await this.apiService.UpdateItem(item).ConfigureAwait(false);
+                    var itemId = await this.apiService.UpdateItem(item).ConfigureAwait(false);
 
-                    if (boatId != null && boatId != Guid.Empty)
+                    if (itemId != null && itemId != Guid.Empty)
                     {
-                        item.Id = boatId;
+                        item.Id = itemId;
                         item.IsSynced = true;
 
                         UserDialogs.Instance.Toast($"Successfully uploaded {item.Description}");

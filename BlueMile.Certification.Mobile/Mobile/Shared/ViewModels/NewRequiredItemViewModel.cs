@@ -184,7 +184,9 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         this.apiService = new ServiceCommunication();
                     }
 
-                    if (this.NewItem.Id == null || this.NewItem.Id == Guid.Empty)
+                    var doesExist = (await this.apiService.GetItemById(this.NewItem.Id)) != null;
+
+                    if (!doesExist)
                     {
                         var itemId = await this.apiService.CreateItem(this.NewItem).ConfigureAwait(false);
                         
