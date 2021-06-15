@@ -60,6 +60,27 @@ namespace BlueMile.Certification.Mobile.Models
         /// Gets or sets the flag indicating if this boat has been synchronized to the server.
         /// </summary>
         public bool IsSynced { get; set; }
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates a new default instance of <see cref="BoatMobileModel"/>.
+        /// </summary>
+        public BoatMobileModel()
+        {
+
+        }
+
+        #endregion
+
+        #region Class Methods
+
+        public override string ToString()
+        {
+            return $"{this.Name}\n{this.RegisteredNumber}\n{this.BoyancyCertificateNumber}\n" + (this.IsJetski ? this.TubbiesCertificateNumber : "");
+        }
+
+        #endregion
     }
 
     public class BoatDocumentMobileModel

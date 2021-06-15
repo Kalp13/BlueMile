@@ -49,6 +49,27 @@ namespace BlueMile.Certification.Mobile.Models
         /// Gets or sets the flag indicating if this item has been synchronized to the server.
         /// </summary>
         public bool IsSynced { get; set; }
+
+        #region Constructor
+
+        /// <summary>
+        /// Creates a new default instance of <see cref="ItemMobileModel"/>.
+        /// </summary>
+        public ItemMobileModel()
+        {
+
+        }
+
+        #endregion
+
+        #region Class Methods
+
+        public override string ToString()
+        {
+            return $"{this.Description}\n{this.SerialNumber}\n{this.CapturedDate}\n{this.ExpiryDate}";
+        }
+
+        #endregion
     }
 
     public class ItemDocumentMobileModel

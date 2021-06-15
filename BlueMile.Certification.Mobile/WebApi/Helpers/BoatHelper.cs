@@ -31,14 +31,9 @@ namespace BlueMile.Certification.WebApi.Helpers
             return boat;
         }
 
-        public static Boat ToUpdateBoatData(Boat existingBoat, UpdateBoatModel boatModel)
+        public static Boat ToUpdateBoatData(UpdateBoatModel boatModel)
         {
-            if (existingBoat is null)
-            {
-                throw new ArgumentNullException(nameof(existingBoat));
-            }
-
-            existingBoat = new Boat()
+            var boat = new Boat()
             {
                 ModifiedBy = "test",
                 ModifiedOn = DateTime.Now,
@@ -52,7 +47,7 @@ namespace BlueMile.Certification.WebApi.Helpers
                 TubbiesCertificateNumber = boatModel.TubbiesCertificateNumber
             };
 
-            return existingBoat;
+            return boat;
         }
 
         public static Boat ToBoatDataModel(BoatModel boatModel)

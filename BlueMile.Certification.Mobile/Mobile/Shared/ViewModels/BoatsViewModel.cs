@@ -114,11 +114,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.SyncBoatsCommand = new Command(async () =>
             {
-                await this.SyncBoatsToServer();
+                await this.SyncBoatsWithServer();
             });
         }
 
-        private async Task SyncBoatsToServer()
+        private async Task SyncBoatsWithServer()
         {
             try
             {
@@ -126,17 +126,70 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 foreach(var boat in this.OwnersBoats)
                 {
-                    await this.SaveBoatDetails(boat);
+                    await this.SaveBoatDetailsToServer(boat);
                 }
 
-                await this.GetBoats();
+                await this.GetBoatsFromServer();
 
-                UserDialogs.Instance.HideLoading();
+                await this.GetBoats();
             }
             catch (Exception exc)
             {
                 Crashes.TrackError(exc);
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Sync Error");
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
+        }
+
+        private async Task GetBoatsFromServer()
+        {
+            try
+            {
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                var boats = await this.apiService.GetBoatsByOwnerId(Guid.Parse(SettingsService.OwnerId));
+                
+                foreach (var boat in boats)
+                {
+                    await this.SaveBoatDetailsLocally(boat);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private async Task SaveBoatDetailsLocally(BoatMobileModel boat)
+        {
+            try
+            {
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                var exists = await this.dataService.FindBoatByIdAsync(boat.Id);
+                boat.IsSynced = true;
+
+                if (exists == null)
+                {
+                    boat.Id = await this.dataService.CreateNewBoatAsync(boat);
+                }
+                else if (await UserDialogs.Instance.ConfirmAsync($"Would you like to replace {exists.ToString()} with \n{boat.ToString()}"))
+                {
+                    await this.dataService.UpdateBoatAsync(boat);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -204,7 +257,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        private async Task SaveBoatDetails(BoatMobileModel boat)
+        private async Task SaveBoatDetailsToServer(BoatMobileModel boat)
         {
             try
             {
@@ -212,10 +265,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.apiService = new ServiceCommunication();
                 }
+                var doesExist = (await this.apiService.GetBoatById(boat.Id)) != null;
 
-                if (boat.Id == null || boat.Id == Guid.Empty)
+                if (!doesExist)
                 {
-                    var boatId = await this.apiService.CreateBoat(boat).ConfigureAwait(false);
+                    var boatId = await this.apiService.CreateBoat(boat);
                     if (boatId != null && boatId != Guid.Empty)
                     {
                         boat.Id = boatId;
@@ -228,7 +282,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else
                 {
-                    var boatId = await this.apiService.UpdateBoat(boat).ConfigureAwait(false);
+                    var boatId = await this.apiService.UpdateBoat(boat);
 
                     if (boatId != null && boatId != Guid.Empty)
                     {

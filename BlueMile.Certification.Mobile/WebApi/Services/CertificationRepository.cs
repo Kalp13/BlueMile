@@ -256,7 +256,7 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<List<BoatModel>> FindAllBoatsByOwnerId(Guid ownerId)
         {
-            var boats = this.applicationDb.Boats.Where(x => x.IsActive && x.Id == ownerId);
+            var boats = this.applicationDb.Boats.Where(x => x.IsActive && x.OwnerId == ownerId);
 
             return await boats.Select(y => BoatHelper.ToApiBoatModel(y)).ToListAsync();
         }
@@ -273,10 +273,15 @@ namespace BlueMile.Certification.WebApi.Services
         public async Task<Guid> UpdateBoat(UpdateBoatModel entity)
         {
             var existingBoat = await this.applicationDb.Boats.FirstOrDefaultAsync(x => x.Id == entity.Id);
-            var boat = BoatHelper.ToUpdateBoatData(existingBoat, entity);
-            this.applicationDb.Boats.Update(boat);
+            var boat = BoatHelper.ToUpdateBoatData(entity);
+            existingBoat.BoyancyCertificateNumber = boat.BoyancyCertificateNumber;
+            existingBoat.CategoryId = boat.CategoryId;
+            existingBoat.IsJetski = boat.IsJetski;
+            existingBoat.Name = boat.Name;
+            existingBoat.RegisteredNumber = boat.RegisteredNumber;
+            existingBoat.TubbiesCertificateNumber = boat.TubbiesCertificateNumber;
 
-            var result = await this.applicationDb.SaveChangesAsync();
+            await this.applicationDb.SaveChangesAsync();
 
             if (entity.BoyancyCertificateImage != null)
             {
@@ -288,14 +293,7 @@ namespace BlueMile.Certification.WebApi.Services
                 await this.UploadBoatDocumentAsync(entity.TubbiesCertificateImage);
             }
 
-            if (result > 0)
-            {
-                return entity.Id;
-            }
-            else
-            {
-                throw new ArgumentException(nameof(entity));
-            }
+            return entity.Id;
         }
 
         #endregion

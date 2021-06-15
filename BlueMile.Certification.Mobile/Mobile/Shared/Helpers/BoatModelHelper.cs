@@ -11,14 +11,14 @@ namespace BlueMile.Certification.Mobile.Helpers
             {
                 BoatCategoryId = boat.BoatCategoryId,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
-                BoyancyCertificateImage = ToBoatDocumentMobileModel(boat.BoyancyCertificateImage),
+                BoyancyCertificateImage = boat.BoyancyCertificateImage != null ? ToBoatDocumentMobileModel(boat.BoyancyCertificateImage) : null,
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 Id = boat.Id,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
-                TubbiesCertificateImage = ToBoatDocumentMobileModel(boat.TubbiesCertificateImage),
+                TubbiesCertificateImage = boat.TubbiesCertificateImage != null ? ToBoatDocumentMobileModel(boat.TubbiesCertificateImage) : null,
                 IsSynced = boat.IsSynced
             };
 
@@ -31,14 +31,14 @@ namespace BlueMile.Certification.Mobile.Helpers
             {
                 BoatCategoryId = boat.BoatCategoryId,
                 BoyancyCertificateNumber = boat.BoyancyCertificateNumber,
-                BoyancyCertificateImage = ToBoatDocumentModel(boat.BoyancyCertificateImage),
+                BoyancyCertificateImage = boat.BoyancyCertificateImage != null ? ToBoatDocumentModel(boat.BoyancyCertificateImage) : null,
                 IsJetski = boat.IsJetski,
                 Name = boat.Name,
                 OwnerId = boat.OwnerId,
                 RegisteredNumber = boat.RegisteredNumber,
                 Id = boat.Id,
                 TubbiesCertificateNumber = boat.TubbiesCertificateNumber,
-                TubbiesCertificateImage = ToBoatDocumentModel(boat.TubbiesCertificateImage),
+                TubbiesCertificateImage = boat.TubbiesCertificateImage != null ? ToBoatDocumentModel(boat.TubbiesCertificateImage) : null,
                 IsSynced = boat.IsSynced
             };
             return boatModel;

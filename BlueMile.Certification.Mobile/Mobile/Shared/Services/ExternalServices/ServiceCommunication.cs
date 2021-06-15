@@ -320,7 +320,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     return Guid.Empty;
                 }
 
-                var result = await this.client.UpdateBoat(BoatModelHelper.ToModel(boat)).ConfigureAwait(false);
+                var result = await this.client.UpdateBoat(BoatModelHelper.ToModel(boat));
                 return result;
             }
             catch (Exception)

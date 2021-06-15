@@ -130,7 +130,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.SyncItemsCommand = new Command(async () =>
             {
-                await this.SyncItemsToServer();
+                await this.SyncItemsWithServer();
             });
         }
 
@@ -164,7 +164,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             Shell.Current.FlyoutIsPresented = false;
         }
 
-        private async Task SyncItemsToServer()
+        private async Task SyncItemsWithServer()
         {
             try
             {
@@ -174,6 +174,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     await this.SaveItemDetails(item);
                 }
+
+                await this.GetItemsFromServer();
 
                 await this.GetBoatItems();
             }
@@ -185,6 +187,55 @@ namespace BlueMile.Certification.Mobile.ViewModels
             finally
             {
                 UserDialogs.Instance.HideLoading();
+            }
+        }
+
+        private async Task GetItemsFromServer()
+        {
+            try
+            {
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                var items = await this.apiService.GetBoatRequiredItems(Guid.Parse(this.CurrentBoatId));
+
+                foreach (var item in items)
+                {
+                    await this.SaveItemDetailsLocally(item);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        private async Task SaveItemDetailsLocally(ItemMobileModel item)
+        {
+            try
+            {
+                if (this.dataService == null)
+                {
+                    this.dataService = new DataService();
+                }
+
+                var exists = await this.dataService.FindItemByIdAsync(item.Id);
+                item.IsSynced = true;
+
+                if (exists == null)
+                {
+                    item.Id = await this.dataService.CreateNewItemAsync(item);
+                }
+                else if (await UserDialogs.Instance.ConfirmAsync($"Would you like to replace\n{exists.ToString()}with\n{item.ToString()}"))
+                {
+                    await this.dataService.UpdateItemAsync(item);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

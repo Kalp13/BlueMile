@@ -13,14 +13,15 @@
         <viewmodels:OwnerViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Resources>
-        <converters:ObjectToBooleanConverter x:Key="boolConverter"/>
+        <converters:BoolToTextConverter x:Key="boolConverter"/>
     </ContentPage.Resources>
     
     <ContentPage.Content>
         <ScrollView VerticalOptions="StartAndExpand"
-                    Orientation="Vertical">
+                    Orientation="Vertical"
+                    VerticalScrollBarVisibility="Always">
             <StackLayout IsVisible="{Binding CurrentOwner, Converter={StaticResource boolConverter}}"
-                         Margin="5">
+                         Margin="0,5">
                 <Label Text="Name and Surname"/>
                 <StackLayout Orientation="Horizontal">
                     <Label Text="{Binding CurrentOwner.FirstName}"/>
@@ -44,14 +45,19 @@
                 <CarouselView ItemsSource="{Binding OwnerImages}"
                               IsSwipeEnabled="True"
                               PeekAreaInsets="50"
-                              HorizontalScrollBarVisibility="Default"
-                              IsScrollAnimated="True">
+                              Margin="0"
+                              FlowDirection="LeftToRight"
+                              Loop="True"
+                              Position="0"
+                              HorizontalScrollBarVisibility="Always"
+                              IsScrollAnimated="True"
+                              HeightRequest="220">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout>
                                 <Frame HasShadow="True"
                                        HorizontalOptions="Center"
-                                       VerticalOptions="CenterAndExpand">
+                                       VerticalOptions="Center">
                                     <StackLayout>
                                         <Label Text="{Binding FileName}"
                                                FontAttributes="Bold"
@@ -67,10 +73,6 @@
                         </DataTemplate>
                     </CarouselView.ItemTemplate>
                 </CarouselView>
-                <Button Text="Sync"
-                    Command="{Binding SyncCommand}"
-                    HorizontalOptions="Center"
-                    VerticalOptions="End"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
@@ -81,6 +83,7 @@
                      Order="Primary"/>
         <ToolbarItem Text="Sync"
                      Command="{Binding SyncCommand}"
-                     Order="Secondary"/>
+                     Order="Primary"
+                     IconImageSource="sync.png"/>
     </ContentPage.ToolbarItems>
 </ContentPage>
