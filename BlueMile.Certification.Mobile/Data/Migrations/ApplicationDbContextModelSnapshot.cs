@@ -342,6 +342,54 @@ namespace BlueMile.Certification.Data.Migrations
                     b.ToTable("BoatDocuments", "boat");
                 });
 
+            modelBuilder.Entity("BlueMile.Certification.Data.Models.CertificationRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("ApprovedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("BoatId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime?>("CompletedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("RejectedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RequestStateId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RequestedOn")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BoatId");
+
+                    b.HasIndex("RequestStateId");
+
+                    b.ToTable("CertificationRequests", "boat");
+                });
+
             modelBuilder.Entity("BlueMile.Certification.Data.Models.ContactDetailType", b =>
                 {
                     b.Property<int>("Id")
@@ -1062,6 +1110,96 @@ namespace BlueMile.Certification.Data.Migrations
                     b.ToTable("LegalEntityDocuments", "leg");
                 });
 
+            modelBuilder.Entity("BlueMile.Certification.Data.Models.StaticData.RequestState", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedOn")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RequestStates", "boat");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ModifiedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Requested",
+                            Order = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ModifiedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "In Progress",
+                            Order = 2
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ModifiedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Rejected",
+                            Order = 3
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ModifiedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Approved",
+                            Order = 4
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ModifiedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Requested",
+                            Order = 5
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CreatedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            IsActive = true,
+                            ModifiedOn = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc),
+                            Name = "Requested",
+                            Order = 6
+                        });
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.DataProtection.EntityFrameworkCore.DataProtectionKey", b =>
                 {
                     b.Property<int>("Id")
@@ -1283,6 +1421,25 @@ namespace BlueMile.Certification.Data.Migrations
                     b.Navigation("DocumentType");
                 });
 
+            modelBuilder.Entity("BlueMile.Certification.Data.Models.CertificationRequest", b =>
+                {
+                    b.HasOne("BlueMile.Certification.Data.Models.Boat", "Boat")
+                        .WithMany("CertificationRequests")
+                        .HasForeignKey("BoatId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BlueMile.Certification.Data.Models.StaticData.RequestState", "RequestState")
+                        .WithMany("Requests")
+                        .HasForeignKey("RequestStateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Boat");
+
+                    b.Navigation("RequestState");
+                });
+
             modelBuilder.Entity("BlueMile.Certification.Data.Models.Item", b =>
                 {
                     b.HasOne("BlueMile.Certification.Data.Models.Boat", "Boat")
@@ -1436,6 +1593,8 @@ namespace BlueMile.Certification.Data.Migrations
 
             modelBuilder.Entity("BlueMile.Certification.Data.Models.Boat", b =>
                 {
+                    b.Navigation("CertificationRequests");
+
                     b.Navigation("Documents");
 
                     b.Navigation("Items");
@@ -1479,6 +1638,11 @@ namespace BlueMile.Certification.Data.Migrations
                     b.Navigation("Documents");
 
                     b.Navigation("Owner");
+                });
+
+            modelBuilder.Entity("BlueMile.Certification.Data.Models.StaticData.RequestState", b =>
+                {
+                    b.Navigation("Requests");
                 });
 
             modelBuilder.Entity("BlueMile.Certification.Data.Models.IndividualOwner", b =>

@@ -6,4 +6,3 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\Blu
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.csproj.CoreCompileInputs.cache
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.pdb
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\obj\Debug\netstandard2.1\BlueMile.Certification.Data.csproj.AssemblyReference.cache

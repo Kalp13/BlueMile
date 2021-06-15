@@ -57,7 +57,15 @@ namespace BlueMile.Certification.Data.Models
         /// </summary>
         public ICollection<BoatDocument> Documents { get; set; }
 
+        /// <summary>
+        /// Gets or sets the collection of <see cref="Item"/>s associated with this <see cref="Boat"/>.
+        /// </summary>
         public ICollection<Item> Items { get; set; }
+
+        /// <summary>
+        /// Gets or sets the collection of <see cref="CertificationRequest"/>s associated with this <see cref="Boat"/>.
+        /// </summary>
+        public ICollection<CertificationRequest> CertificationRequests { get; set; }
 
         #region IBaseDbEntity Implementation
 

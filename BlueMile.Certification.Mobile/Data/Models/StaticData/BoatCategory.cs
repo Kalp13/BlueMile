@@ -12,16 +12,16 @@ namespace BlueMile.Certification.Data.Models
         C = 1,
 
         [Display(Name = "Category D", Order = 2)]
-        D,
+        D = 2,
 
         [Display(Name = "Category E", Order = 3)]
-        E,
+        E = 3,
 
         [Display(Name = "Category Z", Order = 4)]
-        Z,
+        Z = 4,
 
         [Display(Name = "Category R", Order = 5)]
-        R
+        R = 5
     }
 
     /// <summary>

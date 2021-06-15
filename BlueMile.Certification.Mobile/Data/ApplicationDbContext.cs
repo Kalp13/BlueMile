@@ -32,6 +32,8 @@ namespace BlueMile.Certification.Data
 
 		public virtual DbSet<BoatCategory> BoatCategories { get; set; }
 
+		public virtual DbSet<CertificationRequest> CertificationRequests { get; set; }
+
 		public virtual DbSet<Item> Items { get; set; }
 
 		public virtual DbSet<ItemDocument> ItemDocuments { get; set; }
@@ -78,6 +80,8 @@ namespace BlueMile.Certification.Data
 			builder.ApplyConfiguration(new BoatsMap());
 			builder.ApplyConfiguration(new BoatDocumentMap());
 			builder.ApplyConfiguration(new BoatCategoryMap());
+			builder.ApplyConfiguration(new CertificationRequestMap());
+			builder.ApplyConfiguration(new CertificationRequestStateMap());
 
 			builder.ApplyConfiguration(new ItemsMap());
 			builder.ApplyConfiguration(new ItemDocumentMap());
