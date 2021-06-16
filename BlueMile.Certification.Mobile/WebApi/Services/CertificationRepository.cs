@@ -248,25 +248,28 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<List<BoatModel>> FindAllBoats(FindBoatsModel model)
         {
-            var boats = this.applicationDb.Boats.Where(x => x.IsActive);
+            var boats = this.applicationDb.Boats.Include("Documents").Where(x => x.IsActive);
 
-            return await boats.Select(y => BoatHelper.ToApiBoatModel(y)).ToListAsync();
+            var mappedBoats = await boats.Select(y => BoatHelper.ToApiBoatModel(y, y.Documents.ToArray())).ToListAsync();
+            return mappedBoats;
         }
 
         /// <inheritdoc/>
         public async Task<List<BoatModel>> FindAllBoatsByOwnerId(Guid ownerId)
         {
-            var boats = this.applicationDb.Boats.Where(x => x.IsActive && x.OwnerId == ownerId);
+            var boats = this.applicationDb.Boats.Include("Documents").Where(x => x.IsActive && x.OwnerId == ownerId);
 
-            return await boats.Select(y => BoatHelper.ToApiBoatModel(y)).ToListAsync();
+            var mappedBoats = await boats.Select(y => BoatHelper.ToApiBoatModel(y, y.Documents.ToArray())).ToListAsync();
+            return mappedBoats;
         }
 
         /// <inheritdoc/>
         public async Task<BoatModel> FindBoatById(Guid boatId)
         {
-            var boats = this.applicationDb.Boats.Where(x => x.IsActive && x.Id == boatId);
+            var boat = await this.applicationDb.Boats.Include("Documents").FirstOrDefaultAsync(x => x.IsActive && x.Id == boatId);
 
-            return await boats.Select(y => BoatHelper.ToApiBoatModel(y)).FirstOrDefaultAsync();
+            var mappedBoat = BoatHelper.ToApiBoatModel(boat, boat.Documents.ToArray());
+            return mappedBoat;
         }
 
         /// <inheritdoc/>
@@ -343,19 +346,21 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<List<ItemModel>> FindAllItems(FindItemsModel model)
         {
-            var items = await this.applicationDb.Items.Where(x => x.IsActive).ToListAsync();
+            var items = this.applicationDb.Items.Include("Documents").Where(x => x.IsActive);
 
-            return items.Select(x => ItemHelper.ToItemApiModel(x)).ToList();
+            var mappedItems = await items.Select(x => ItemHelper.ToItemApiModel(x, x.Documents.ToArray())).ToListAsync();
+
+            return mappedItems;
         }
 
         /// <inheritdoc/>
         public async Task<ItemModel> FindItemById(Guid itemId)
         {
-            var item = await this.applicationDb.Items.FirstOrDefaultAsync(x => x.Id == itemId);
+            var item = await this.applicationDb.Items.Include("Documents").FirstOrDefaultAsync(x => x.Id == itemId);
 
             if (item != null)
             {
-                return ItemHelper.ToItemApiModel(item);
+                return ItemHelper.ToItemApiModel(item, item.Documents.ToArray());
             }
             else
             {
@@ -366,9 +371,9 @@ namespace BlueMile.Certification.WebApi.Services
         /// <inheritdoc/>
         public async Task<List<ItemModel>> FindItemsByBoatId(Guid boatId)
         {
-            var items = await this.applicationDb.Items.Where(x => x.IsActive && x.BoatId == boatId).ToListAsync();
+            var items = await this.applicationDb.Items.Include("Documents").Where(x => x.IsActive && x.BoatId == boatId).ToListAsync();
 
-            return items.Select(x => ItemHelper.ToItemApiModel(x)).ToList();
+            return items.Select(x => ItemHelper.ToItemApiModel(x, x.Documents.ToArray())).ToList();
         }
 
         /// <inheritdoc/>
@@ -572,7 +577,7 @@ namespace BlueMile.Certification.WebApi.Services
         {
             string uploadsFolder = $@"{this.baseImagePath}\boats\{model.BoatId}";
             model.FilePath = Path.Combine(uploadsFolder, model.UniqueFileName);
-            var boatDoc = BoatHelper.ToUpdateDocumentModel(model);
+            var boatDoc = BoatHelper.ToBoatDocument(model);
 
             if (!Directory.Exists(uploadsFolder))
             {
@@ -603,7 +608,7 @@ namespace BlueMile.Certification.WebApi.Services
         {
             string uploadsFolder = $@"{this.baseImagePath}\items\{model.ItemId}";
             model.FilePath = Path.Combine(uploadsFolder, model.UniqueFileName);
-            var itemDoc = ItemHelper.ToUpdateDocumentModel(model);
+            var itemDoc = ItemHelper.ToItemDocument(model);
 
             if (!Directory.Exists(uploadsFolder))
             {

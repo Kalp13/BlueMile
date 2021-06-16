@@ -56,7 +56,6 @@
                 <ImageButton Source="{Binding NewItem.ItemImage.FilePath, TargetNullValue='image.png'}"
                              Command="{Binding CaptureItemPhoto}"
                              Aspect="AspectFit"
-                             BackgroundColor="#00000000"
                              HeightRequest="200"/>
             </StackLayout>
         </ScrollView>

@@ -15,6 +15,7 @@
     <ContentPage.Resources>
         <converters:DateToColourConverter x:Key="dateToColourConverter"/>
         <converters:BoolToInverseConverter x:Key="boolInverseConvert"/>
+        <converters:ItemToColourConverter x:Key="itemColourConverter"/>
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout>
@@ -31,7 +32,7 @@
                                          HorizontalOptions="FillAndExpand"
                                          Padding="5"
                                          VerticalOptions="StartAndExpand"
-                                         BackgroundColor="{Binding ExpiryDate, Converter={StaticResource dateToColourConverter}}">
+                                         BackgroundColor="{Binding ., Converter={StaticResource itemColourConverter}}">
                                 <Image Aspect="AspectFit"
                                        Source="{Binding ItemImage.FilePath}"/>
                                 <StackLayout Orientation="Vertical"

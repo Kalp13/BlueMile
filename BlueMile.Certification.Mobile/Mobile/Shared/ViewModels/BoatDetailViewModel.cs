@@ -203,7 +203,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                var doesExist = (await this.apiService.GetBoatById(this.CurrentBoat.Id)) != null;
+                var doesExist = await this.apiService.DoesBoatExist(this.CurrentBoat.Id);
 
                 if (!doesExist)
                 {

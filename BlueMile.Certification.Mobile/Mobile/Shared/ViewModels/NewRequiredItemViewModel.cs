@@ -102,7 +102,8 @@ namespace BlueMile.Certification.Mobile.ViewModels
         public NewRequiredItemViewModel()
         {
             this.NewItem = new ItemMobileModel();
-            this.Title = "New Item For ";
+            this.NewItem.ExpiryDate = DateTime.Now;
+            this.Title = "New Item";
             this.ItemTypes = new List<ListDisplayModel>();
             this.SelectedItemType = new ListDisplayModel();
             this.BuildItemTypeList();
@@ -184,7 +185,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         this.apiService = new ServiceCommunication();
                     }
 
-                    var doesExist = (await this.apiService.GetItemById(this.NewItem.Id)) != null;
+                    var doesExist = await this.apiService.DoesItemExist(this.NewItem.Id);
 
                     if (!doesExist)
                     {
@@ -262,11 +263,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     return false;
                 }
 
-                if (await CanItemExpire((ItemTypeEnum)this.NewItem.ItemTypeId).ConfigureAwait(false) && 
+                if (await this.CanItemExpire((ItemTypeEnum)this.NewItem.ItemTypeId).ConfigureAwait(false) && 
                     DateTime.Compare(DateTime.Today.AddMonths(6), this.NewItem.ExpiryDate) >= 0)
                 {
                     await UserDialogs.Instance.AlertAsync("You cannot add an item that expires within 6 months.", "Incomplete Item").ConfigureAwait(false);
                     return false;
+                }
+                else
+                {
+                    this.NewItem.ExpiryDate = DateTime.Parse("9999-12-31");
                 }
 
                 return true;
@@ -277,7 +282,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
-        private static Task<bool> CanItemExpire(ItemTypeEnum itemType)
+        private Task<bool> CanItemExpire(ItemTypeEnum itemType)
         {
             try
             {

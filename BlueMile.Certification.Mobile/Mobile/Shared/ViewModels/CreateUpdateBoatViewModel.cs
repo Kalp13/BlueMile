@@ -253,7 +253,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
 
                     UserDialogs.Instance.Toast($"Successfulle saved {this.BoatDetails.Name}");
-                    var doesExist = (await this.apiService.GetBoatById(this.BoatDetails.Id)) != null;
+                    var doesExist = await this.apiService.DoesBoatExist(this.BoatDetails.Id);
 
                     if (!doesExist)
                     {

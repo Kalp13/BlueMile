@@ -18,19 +18,9 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
             {
                 if (CrossMedia.IsSupported)
                 {
-                    //StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions
-                    //{
-                    //    DefaultCamera = CameraDevice.Rear,
-                    //    SaveToAlbum = true,
-                    //    PhotoSize = PhotoSize.Full,
-                    //    Directory = "Auto360",
-                    //    Name = photoName + ".jpg",
-                    //    AllowCropping = false,
-                    //    CompressionQuality = 100,
-                    //};
                     var options = new MediaPickerOptions()
                     {
-                        Title = "Capture " + photoName
+                        Title = "Capture " + photoName,
                     };
                     var image = await MediaPicker.CapturePhotoAsync(options).ConfigureAwait(false);
                     return new DocumentMobileModel
@@ -46,6 +36,16 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     await UserDialogs.Instance.AlertAsync("Photo capturing not suppoerted.").ConfigureAwait(false);
                     return null;
                 }
+            }
+            catch (FeatureNotSupportedException fnsEx)
+            {
+                await UserDialogs.Instance.AlertAsync($"You device does not support taking images: {fnsEx.Message}");
+                return null;
+            }
+            catch (PermissionException pEx)
+            {
+                await UserDialogs.Instance.AlertAsync($"You have not granter the necessary permission for taking images: {pEx.Message}");
+                return null;
             }
             catch (Exception exc)
             {

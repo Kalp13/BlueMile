@@ -221,8 +221,17 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             }
 
                             UserDialogs.Instance.Toast("Successfully created Owner: " + this.OwnerDetails.FirstName);
+                            Guid ownerId;
 
-                            var ownerId = await this.apiService.CreateOwner(this.OwnerDetails).ConfigureAwait(false);
+                            try
+                            {
+                                ownerId = await this.apiService.CreateOwner(this.OwnerDetails);
+                            }
+                            catch (WebException)
+                            {
+                                ownerId = Guid.Empty;
+                            }
+
                             if (ownerId != null && ownerId != Guid.Empty)
                             {
                                 SettingsService.OwnerId = ownerId.ToString();
@@ -232,16 +241,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             else
                             {
                                 this.OwnerDetails.IsSynced = false;
-                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.").ConfigureAwait(false);
+                                await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.");
                             }
 
-                            var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                            var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails);
 
                             MessagingCenter.Instance.Send<OwnerMobileModel, string>(this.OwnerDetails, "Owner", "");
 
                             Device.BeginInvokeOnMainThread(async () =>
                             {
-                                await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                                await Shell.Current.Navigation.PopAsync();
                             });
                         }
                     }
@@ -256,7 +265,17 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             }
 
                             UserDialogs.Instance.Toast("Successfully updated Owner: " + this.OwnerDetails.FirstName);
-                            var ownerId = await this.apiService.UpdateOwner(this.OwnerDetails).ConfigureAwait(false);
+                            Guid ownerId;
+
+                            try
+                            {
+                                ownerId = await this.apiService.UpdateOwner(this.OwnerDetails).ConfigureAwait(false);
+                            }
+                            catch (WebException)
+                            {
+                                ownerId = Guid.Empty;
+                            }
+
                             if (ownerId != null && ownerId != Guid.Empty)
                             {
                                 SettingsService.OwnerId = ownerId.ToString();

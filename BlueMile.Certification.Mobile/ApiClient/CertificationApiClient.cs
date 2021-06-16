@@ -5,9 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -95,6 +97,36 @@ namespace BlueMile.Certification.Web.ApiClient
                 this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token.Token);
 
                 return token;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<bool> IsServiceActive()
+        {
+            try
+            {
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+                this.client.Timeout = TimeSpan.FromSeconds(10);
+
+                Uri uri = new Uri($@"{this.baseAddress}/Certification/ping");
+                HttpResponseMessage response = await this.client.GetAsync(uri);
+                
+                return response.IsSuccessStatusCode;
+            }
+            catch (TaskCanceledException)
+            {
+                return false;
+            }
+            catch (HttpRequestException)
+            {
+                return false;
             }
             catch (Exception)
             {
@@ -662,6 +694,52 @@ namespace BlueMile.Certification.Web.ApiClient
             }
         }
 
+        /// <inheritdoc/>
+        public async Task<bool> DoesBoatExist(Guid boatId)
+        {
+            try
+            {
+                if (boatId == null || boatId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(boatId));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+                this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+
+                HttpResponseMessage response = null;
+
+                Uri uri = new Uri($@"{this.baseAddress}/Certification/boat/exists/{boatId}");
+                if (this.client.BaseAddress == null)
+                {
+                    this.client.BaseAddress = new Uri(this.baseAddress);
+                }
+
+                response = await this.client.GetAsync(uri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<bool>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         #endregion
 
         #region Item Methods
@@ -868,6 +946,52 @@ namespace BlueMile.Certification.Web.ApiClient
             }
         }
 
+        /// <inheritdoc/>
+        public async Task<bool> DoesItemExist(Guid itemId)
+        {
+            try
+            {
+                if (itemId == null || itemId == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(itemId));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+                this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+
+                HttpResponseMessage response = null;
+
+                Uri uri = new Uri($@"{this.baseAddress}/Certification/item/exists/{itemId}");
+                if (this.client.BaseAddress == null)
+                {
+                    this.client.BaseAddress = new Uri(this.baseAddress);
+                }
+
+                response = await this.client.GetAsync(uri);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<bool>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return false;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         #endregion
 
         #endregion
@@ -879,12 +1003,11 @@ namespace BlueMile.Certification.Web.ApiClient
             var httpClientHandler = new HttpClientHandler
             {
                 ServerCertificateCustomValidationCallback = (message, cert, chain, errors) => { return true; },
-
             };
             //ServicePointManager.SecurityProtocol = SecurityProtocolType.Ssl3 | SecurityProtocolType.Tls | SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11;
             HttpClient client = new HttpClient(httpClientHandler, false);
             client.BaseAddress = new Uri($"{this.baseAddress}");
-            client.Timeout = TimeSpan.FromMinutes(30);
+            client.Timeout = TimeSpan.FromMinutes(5);
             return client;
         }
 
@@ -895,5 +1018,43 @@ namespace BlueMile.Certification.Web.ApiClient
         private string baseAddress;
 
         private string userToken;
+    }
+
+    public static class HttpRequestExtensions
+    {
+        private static string TimeoutPropertyKey = "RequestTimeout";
+
+        public static void SetTimeout(
+            this HttpRequestMessage request,
+            TimeSpan? timeout)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            request.Properties[TimeoutPropertyKey] = timeout;
+        }
+
+        public static TimeSpan? GetTimeout(this HttpRequestMessage request)
+        {
+            if (request == null)
+                throw new ArgumentNullException(nameof(request));
+
+            if (request.Properties.TryGetValue(
+                    TimeoutPropertyKey,
+                    out var value)
+                && value is TimeSpan timeout)
+                return timeout;
+            return null;
+        }
+    }
+
+    class TimeoutHandler : DelegatingHandler
+    {
+        protected async override Task<HttpResponseMessage> SendAsync(
+            HttpRequestMessage request,
+            CancellationToken cancellationToken)
+        {
+            return await base.SendAsync(request, cancellationToken);
+        }
     }
 }

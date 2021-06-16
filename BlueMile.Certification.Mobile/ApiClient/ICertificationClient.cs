@@ -37,6 +37,12 @@ namespace BlueMile.Certification.Web.ApiClient
         /// </returns>
         Task<UserToken> LogUserIn(UserLoginModel userModel);
 
+        /// <summary>
+        /// Determines whehter or not the service is active.
+        /// </summary>
+        /// <returns></returns>
+        Task<bool> IsServiceActive();
+
         #endregion
 
         #region Owner Methods
@@ -144,6 +150,17 @@ namespace BlueMile.Certification.Web.ApiClient
         /// </returns>
         Task<Guid> UpdateBoat(BoatModel boat);
 
+        /// <summary>
+        /// Determines whether or not a certain boat exists with the given unique identifier.
+        /// </summary>
+        /// <param name="boatId">
+        ///     The unique identifier of the boat to validate.
+        /// </param>
+        /// <returns>
+        ///     Returns a boolean flag indicating if the boat exists or not.
+        /// </returns>
+        Task<bool> DoesBoatExist(Guid boatId);
+
         #endregion
 
         #region Item Methods
@@ -191,6 +208,17 @@ namespace BlueMile.Certification.Web.ApiClient
         ///     The unique identifier of the updated item.
         /// </returns>
         Task<Guid> UpdateItem(ItemModel item);
+
+        /// <summary>
+        /// Determines whether or not a certain item exists with the given unique identifier.
+        /// </summary>
+        /// <param name="itemId">
+        ///     The unique identifier of the item to validate.
+        /// </param>
+        /// <returns>
+        ///     Returns a boolean flag indicating if the item exists or not.
+        /// </returns>
+        Task<bool> DoesItemExist(Guid itemId);
 
         #endregion
     }

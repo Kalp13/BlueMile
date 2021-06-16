@@ -6,8 +6,11 @@ using BlueMile.Certification.Mobile.Services.InternalServices;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace BlueMile.Certification.Mobile.ViewModels
@@ -170,7 +173,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Syncing...");
 
-                foreach (var item in this.RequiredItems)
+                foreach (var item in this.RequiredItems.Where(x => !x.IsSynced))
                 {
                     await this.SaveItemDetails(item);
                 }
@@ -226,10 +229,20 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (exists == null)
                 {
+                    if (item.ItemImage != null)
+                    {
+                        item.ItemImage.FilePath = Path.Combine(FileSystem.CacheDirectory, item.ItemImage.UniqueFileName);
+                        await File.WriteAllBytesAsync(item.ItemImage.FilePath, item.ItemImage.FileContent);
+                    }
                     item.Id = await this.dataService.CreateNewItemAsync(item);
                 }
                 else if (await UserDialogs.Instance.ConfirmAsync($"Would you like to replace\n{exists.ToString()}with\n{item.ToString()}"))
                 {
+                    if (item.ItemImage != null)
+                    {
+                        item.ItemImage.FilePath = Path.Combine(FileSystem.CacheDirectory, item.ItemImage.UniqueFileName);
+                        await File.WriteAllBytesAsync(item.ItemImage.FilePath, item.ItemImage.FileContent);
+                    }
                     await this.dataService.UpdateItemAsync(item);
                 }
             }
@@ -248,7 +261,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                var doesExist = (await this.apiService.GetItemById(item.Id)) != null;
+                var doesExist = await this.apiService.DoesItemExist(item.Id);
 
                 if (!doesExist)
                 {
@@ -287,7 +300,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (item.Id == null || item.Id == Guid.Empty)
                 {
-                    item.Id = await this.dataService.CreateNewItemAsync(item).ConfigureAwait(false);
+                    item.Id = await this.dataService.CreateNewItemAsync(item);
                 }
                 else
                 {

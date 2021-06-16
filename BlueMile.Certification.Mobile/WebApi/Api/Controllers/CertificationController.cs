@@ -38,14 +38,39 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
         #endregion
 
+        /// <summary>
+        /// Validates that connection to the service can be established.
+        /// </summary>
+        /// <returns></returns>
+        [method:
+            HttpGet,
+            Route("ping"),
+            AllowAnonymous,
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> PingService()
+        {
+            this.logger.TraceRequest(nameof(PingService));
+            this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+            return this.Ok();
+        }
+
         #region Owner Methods
 
         /// <summary>
         /// Gets all the active owners in the system.
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
-        [Route("owner")]
+        [method:
+            HttpGet,
+            Route("owner"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<IEnumerable<OwnerModel>>> GetOwners([FromQuery]FindOwnerModel findOwnerModel)
         {
             try
@@ -73,8 +98,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The username of the owner to find.
         /// </param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("owner/get/{username}")]
+        [method:
+            HttpGet,
+            Route("owner/get/{username}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<ActionResult<OwnerModel>> GetOwnerByUsername(string username)
         {
             try
@@ -118,8 +148,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns>
         ///     Returns a <see cref="OwnerModel"/> with the given owner identifier.
         /// </returns>
-        [HttpGet]
-        [Route("owner/{id}")]
+        [method:
+            HttpGet,
+            Route("owner/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetOwner(string id)
         {
             try
@@ -294,8 +329,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the owner.
         /// </param>
         /// <returns></returns>
-        [HttpDelete]
-        [Route("owner/delete/{id}")]
+        [method:
+            HttpDelete,
+            Route("owner/delete/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> DeleteOwner(Guid? id)
         {
             try
@@ -339,8 +379,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the owner.
         /// </param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("boat/{ownerId}")]
+        [method:
+            HttpGet,
+            Route("boat/{ownerId}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetBoatsByOwnerId(Guid ownerId)
         {
             try
@@ -381,8 +426,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         /// <returns>
         ///     Returns a <see cref="BoatModel"/> with the given unique identifier.
         /// </returns>
-        [HttpGet]
-        [Route("boat/get/{id}")]
+        [method:
+            HttpGet,
+            Route("boat/get/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetBoat(Guid id)
         {
             try
@@ -416,6 +466,45 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         }
 
         /// <summary>
+        /// Determines whether or not a boat with the given unique identifier exists on the server.
+        /// </summary>
+        /// <param name="id">
+        ///     The unique identifier of the boat to validate.
+        /// </param>
+        /// <returns>
+        ///     Returns a boolean flag indicating if a boat exists with the given unique identifier.
+        /// </returns>
+        [method:
+            HttpGet,
+            Route("boat/exists/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> DoesBoatExist(Guid id)
+        {
+            try
+            {
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
+
+                var boat = await this.certificationRepository.DoesBoatExist(id);
+
+                return this.Ok(boat);
+            }
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
+        }
+
+        /// <summary>
         /// Updates an existing boat with the corresponsing unique identifier with the given details.
         /// </summary>
         /// <param name="id">
@@ -425,8 +514,14 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The details to update the boat with.
         /// </param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("boat/update/{id}")]
+        [method:
+            DisableRequestSizeLimit,
+            HttpPut,
+            Route("boat/update/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> UpdateBoat(Guid id, [FromForm] UpdateBoatModel boatEntity)
         {
             try
@@ -506,8 +601,14 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The new boat properties to create with.
         /// </param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("boat/create")]
+        [method:
+            DisableRequestSizeLimit,
+            HttpPost,
+            Route("boat/create"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> CreateBoat([FromForm] CreateBoatModel boatEntity)
         {
             try
@@ -582,8 +683,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the boat.
         /// </param>
         /// <returns></returns>
-        [HttpDelete]
-        [Route("boat/delete/{id}")]
+        [method:
+            HttpDelete,
+            Route("boat/delete/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> DeleteBoat(Guid id)
         {
             try
@@ -627,8 +733,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the boat.
         /// </param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("item/{boatId}")]
+        [method:
+            HttpPost,
+            Route("item/{boatId}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetItemsByBoatId(Guid boatId)
         {
             try
@@ -667,8 +778,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the item.
         /// </param>
         /// <returns></returns>
-        [HttpGet]
-        [Route("item/get/{itemId}")]
+        [method:
+            HttpGet,
+            Route("item/get/{itemId}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> GetItem(Guid itemId)
         {
             try
@@ -702,6 +818,45 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         }
 
         /// <summary>
+        /// Determines whether or not an item with the given unique identifier exists on the server.
+        /// </summary>
+        /// <param name="id">
+        ///     The unique identifier of the item to validate.
+        /// </param>
+        /// <returns>
+        ///     Returns a boolean flag indicating if an item exists with the given unique identifier.
+        /// </returns>
+        [method:
+            HttpGet,
+            Route("item/exists/{id}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> DoesItemExist(Guid id)
+        {
+            try
+            {
+                this.logger.TraceRequest(id);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                if (id == Guid.Empty)
+                {
+                    throw new ArgumentNullException(nameof(id));
+                }
+
+                var boat = await this.certificationRepository.DoesItemExist(id);
+
+                return this.Ok(boat);
+            }
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
+        }
+
+        /// <summary>
         /// Updates an existing boat with the corresponsing unique identifier with the given details.
         /// </summary>
         /// <param name="itemId">
@@ -711,8 +866,14 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The details to update the boat with.
         /// </param>
         /// <returns></returns>
-        [HttpPut]
-        [Route("item/update/{itemId}")]
+        [method:
+            DisableRequestSizeLimit,
+            HttpPut,
+            Route("item/update/{itemId}"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> UpdateItem(Guid itemId, [FromForm] UpdateItemModel itemEntity)
         {
             try
@@ -787,8 +948,14 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The new boat properties to create with.
         /// </param>
         /// <returns></returns>
-        [HttpPost]
-        [Route("item/create")]
+        [method:
+            DisableRequestSizeLimit,
+            HttpPost,
+            Route("item/create"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> CreateItem([FromForm] CreateItemModel itemEntity)
         {
             try
@@ -858,8 +1025,13 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
         ///     The unique identifier of the item.
         /// </param>
         /// <returns></returns>
-        [HttpDelete]
-        [Route("item/delete/{itemId}")]
+        [method:
+            HttpDelete,
+            Route("boat/create"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         public async Task<IActionResult> DeleteItem(Guid itemId)
         {
             try

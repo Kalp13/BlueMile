@@ -123,9 +123,9 @@ namespace BlueMile.Certification.WebApi.Helpers
                 ContactNumber = mobile?.Value,
                 Email = email?.Value,
 
-                IcasaPopPhoto = icasaDoc != null ? OwnerHelper.ToApiOwnerDocumentModel(icasaDoc) : null,
-                IdentificationDocument = idDoc != null ? OwnerHelper.ToApiOwnerDocumentModel(idDoc) : null,
-                SkippersLicenseImage = skippersDoc != null ? OwnerHelper.ToApiOwnerDocumentModel(skippersDoc) : null
+                IcasaPopPhoto = icasaDoc != null ? ToApiOwnerDocumentModel(icasaDoc) : null,
+                IdentificationDocument = idDoc != null ? ToApiOwnerDocumentModel(idDoc) : null,
+                SkippersLicenseImage = skippersDoc != null ? ToApiOwnerDocumentModel(skippersDoc) : null
             };
 
             return owner;

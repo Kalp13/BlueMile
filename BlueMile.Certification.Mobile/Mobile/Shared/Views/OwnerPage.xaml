@@ -13,14 +13,15 @@
         <viewmodels:OwnerViewModel/>
     </ContentPage.BindingContext>
     <ContentPage.Resources>
-        <converters:BoolToTextConverter x:Key="boolConverter"/>
+        <converters:BoolToTextConverter x:Key="boolToTextConverter"/>
+        <converters:ObjectToBooleanConverter x:Key="objectToBoolConverter"/>
     </ContentPage.Resources>
     
     <ContentPage.Content>
         <ScrollView VerticalOptions="StartAndExpand"
                     Orientation="Vertical"
                     VerticalScrollBarVisibility="Always">
-            <StackLayout IsVisible="{Binding CurrentOwner, Converter={StaticResource boolConverter}}"
+            <StackLayout IsVisible="{Binding CurrentOwner, Converter={StaticResource objectToBoolConverter}}"
                          Margin="0,5">
                 <Label Text="Name and Surname"/>
                 <StackLayout Orientation="Horizontal">
@@ -41,7 +42,7 @@
                 <Label Text="{Binding CurrentOwner.PostalCode, StringFormat='Postal Code: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.VhfOperatorsLicense, StringFormat='VHF License Number: {0}'}"/>
                 <Label Text="{Binding CurrentOwner.SkippersLicenseNumber, StringFormat='Skippers License Number: {0}'}"/>
-                <Label Text="{Binding CurrentOwner.IsSynced, Converter={StaticResource boolConverter}, StringFormat='Synced: {0}'}"/>
+                <Label Text="{Binding CurrentOwner.IsSynced, Converter={StaticResource boolToTextConverter}, StringFormat='Synced: {0}'}"/>
                 <CarouselView ItemsSource="{Binding OwnerImages}"
                               IsSwipeEnabled="True"
                               PeekAreaInsets="50"

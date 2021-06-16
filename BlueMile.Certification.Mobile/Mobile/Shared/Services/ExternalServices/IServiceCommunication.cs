@@ -130,6 +130,17 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
         /// </returns>
         Task<Guid> UpdateBoat(BoatMobileModel boat);
 
+        /// <summary>
+        /// Determines whether or not a certain boat exists with the given unique identifier.
+        /// </summary>
+        /// <param name="boatId">
+        ///     The unique identifier of the boat to validate.
+        /// </param>
+        /// <returns>
+        ///     Returns a boolean flag indicating if the boat exists or not.
+        /// </returns>
+        Task<bool> DoesBoatExist(Guid boatId);
+
         #endregion
 
         #region Item Methods
@@ -178,6 +189,17 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
         ///     Returns an <see cref="ItemMobileModel"/> with the item details.
         /// </returns>
         Task<ItemMobileModel> GetItemById(Guid itemId);
+
+        /// <summary>
+        /// Determines whether or not a certain item exists with the given unique identifier.
+        /// </summary>
+        /// <param name="itemId">
+        ///     The unique identifier of the item to validate.
+        /// </param>
+        /// <returns>
+        ///     Returns a boolean flag indicating if the item exists or not.
+        /// </returns>
+        Task<bool> DoesItemExist(Guid itemId);
 
         #endregion
     }

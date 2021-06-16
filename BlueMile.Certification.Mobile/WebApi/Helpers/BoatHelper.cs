@@ -2,6 +2,7 @@
 using BlueMile.Certification.Web.ApiModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,6 +10,15 @@ namespace BlueMile.Certification.WebApi.Helpers
 {
     public static class BoatHelper
     {
+        /// <summary>
+        /// Converts all a <see cref="CreateBoatModel"/> into a <see cref="Boat"/> entity.
+        /// </summary>
+        /// <param name="boatModel">
+        ///     The <see cref="CreateBoatModel"/> to convert.
+        /// </param>
+        /// <returns>
+        ///     Returns a new <see cref="Boat"/> object converted from the given input.
+        /// </returns>
         public static Boat ToCreateBoatData(CreateBoatModel boatModel)
         {
             var boat = new Boat()
@@ -67,9 +77,11 @@ namespace BlueMile.Certification.WebApi.Helpers
             return boat;
         }
 
-        public static BoatModel ToApiBoatModel(Boat boatEntity)
+        public static BoatModel ToApiBoatModel(Boat boatEntity, BoatDocument[] documents)
         {
-            var boat = new Web.ApiModels.BoatModel()
+            var boyancyDoc = documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.BoatBoyancyCertificate);
+            var tubbiesDoc = documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.TubbiesBoyancyCertificate);
+            var boat = new BoatModel()
             {
                 BoatCategoryId = boatEntity.CategoryId,
                 BoyancyCertificateNumber = boatEntity.BoyancyCertificateNumber,
@@ -78,12 +90,15 @@ namespace BlueMile.Certification.WebApi.Helpers
                 OwnerId = boatEntity.OwnerId,
                 RegisteredNumber = boatEntity.RegisteredNumber,
                 Id = boatEntity.Id,
-                TubbiesCertificateNumber = boatEntity.TubbiesCertificateNumber
+                TubbiesCertificateNumber = boatEntity.TubbiesCertificateNumber,
+
+                BoyancyCertificateImage = boyancyDoc != null ? ToApiBoatDocumentModel(boyancyDoc) : null,
+                TubbiesCertificateImage = tubbiesDoc != null ? ToApiBoatDocumentModel(tubbiesDoc) : null
             };
             return boat;
         }
 
-        public static BoatDocument ToCreateDocumentModel(BoatDocumentModel model)
+        public static BoatDocument ToBoatDocument(BoatDocumentModel model)
         {
             var doc = new BoatDocument()
             {
@@ -103,21 +118,19 @@ namespace BlueMile.Certification.WebApi.Helpers
             return doc;
         }
 
-        public static BoatDocument ToUpdateDocumentModel(BoatDocumentModel model)
+        public static BoatDocumentModel ToApiBoatDocumentModel(BoatDocument model)
         {
-            var doc = new BoatDocument()
+            var document = new BoatDocumentModel()
             {
-                FileName = model.FileName,
-                UniqueFileName = model.UniqueFileName,
-                DocumentTypeId = model.DocumentTypeId,
-                Id = model.Id,
                 BoatId = model.BoatId,
+                DocumentTypeId = model.DocumentTypeId,
+                FileContent = File.ReadAllBytes(model.FilePath),
+                Id = model.Id,
+                FileName = model.FileName,
                 MimeType = model.MimeType,
-                ModifiedBy = "test",
-                ModifiedOn = DateTime.Now
+                UniqueFileName = model.UniqueFileName
             };
-
-            return doc;
+            return document;
         }
     }
 }

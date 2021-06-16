@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -137,7 +138,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             this.apiService = new ServiceCommunication();
                         }
 
-                        var ownerId = await this.apiService.CreateOwner(this.CurrentOwner).ConfigureAwait(false);
+                        Guid ownerId;
+                        try
+                        {
+                            ownerId = await this.apiService.CreateOwner(this.CurrentOwner).ConfigureAwait(false);
+                        }
+                        catch (WebException)
+                        {
+                            ownerId = Guid.Empty;
+                        }
+
                         if (ownerId != null && ownerId != Guid.Empty)
                         {
                             this.CurrentOwner.IsSynced = true;
@@ -162,8 +172,17 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             this.apiService = new ServiceCommunication();
                         }
 
-                        var owner = await this.apiService.UpdateOwner(this.CurrentOwner).ConfigureAwait(false);
-                        if (owner != null && owner != Guid.Empty)
+                        Guid ownerId;
+                        try
+                        {
+                            ownerId = await this.apiService.UpdateOwner(this.CurrentOwner).ConfigureAwait(false);
+                        }
+                        catch (WebException)
+                        {
+                            ownerId = Guid.Empty;
+                        }
+
+                        if (ownerId != null && ownerId != Guid.Empty)
                         {
                             this.CurrentOwner.IsSynced = true;
                             UserDialogs.Instance.Toast("Successfully updaed owner details on server.");
@@ -210,7 +229,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                                 this.apiService = new ServiceCommunication();
                             }
 
-                            var onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
+                            OwnerMobileModel onlineOwner;
+                            try
+                            {
+                                onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
+                            }
+                            catch (WebException)
+                            {
+                                onlineOwner = null;
+                            }
+                            
                             if (onlineOwner != null)
                             {
                                 this.CurrentOwner = onlineOwner;
@@ -273,7 +301,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             this.apiService = new ServiceCommunication();
                         }
 
-                        var onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
+                        OwnerMobileModel onlineOwner;
+                        try
+                        {
+                            onlineOwner = await this.apiService.GetOwnerBySystemId(Guid.Parse(SettingsService.OwnerId));
+                        }
+                        catch (WebException)
+                        {
+                            onlineOwner = null;
+                        }
+
                         if (onlineOwner != null)
                         {
                             this.CurrentOwner = onlineOwner;

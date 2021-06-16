@@ -7,8 +7,12 @@ using BlueMile.Certification.Mobile.Views;
 using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace BlueMile.Certification.Mobile.ViewModels
@@ -124,7 +128,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Syncing...");
 
-                foreach(var boat in this.OwnersBoats)
+                foreach(var boat in this.OwnersBoats.Where(x => !x.IsSynced))
                 {
                     await this.SaveBoatDetailsToServer(boat);
                 }
@@ -160,6 +164,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     await this.SaveBoatDetailsLocally(boat);
                 }
             }
+            catch (WebException webExc)
+            {
+                await UserDialogs.Instance.AlertAsync($"Could not retrieve boats from server: {webExc.Message}").ConfigureAwait(false);
+            }
             catch (Exception)
             {
                 throw;
@@ -180,10 +188,32 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (exists == null)
                 {
+                    if (boat.BoyancyCertificateImage != null)
+                    {
+                        boat.BoyancyCertificateImage.FilePath = Path.Combine(FileSystem.CacheDirectory, boat.BoyancyCertificateImage.UniqueFileName);
+                        await File.WriteAllBytesAsync(boat.BoyancyCertificateImage.FilePath, boat.BoyancyCertificateImage.FileContent);
+                    }
+                    if (boat.TubbiesCertificateImage != null)
+                    {
+                        boat.TubbiesCertificateImage.FilePath = Path.Combine(FileSystem.CacheDirectory, boat.TubbiesCertificateImage.UniqueFileName);
+                        await File.WriteAllBytesAsync(boat.TubbiesCertificateImage.FilePath, boat.TubbiesCertificateImage.FileContent);
+                    }
+
                     boat.Id = await this.dataService.CreateNewBoatAsync(boat);
                 }
                 else if (await UserDialogs.Instance.ConfirmAsync($"Would you like to replace {exists.ToString()} with \n{boat.ToString()}"))
                 {
+                    if (boat.BoyancyCertificateImage != null)
+                    {
+                        boat.BoyancyCertificateImage.FilePath = Path.Combine(FileSystem.CacheDirectory, boat.BoyancyCertificateImage.UniqueFileName);
+                        await File.WriteAllBytesAsync(boat.BoyancyCertificateImage.FilePath, boat.BoyancyCertificateImage.FileContent);
+                    }
+                    if (boat.TubbiesCertificateImage != null)
+                    {
+                        boat.TubbiesCertificateImage.FilePath = Path.Combine(FileSystem.CacheDirectory, boat.TubbiesCertificateImage.UniqueFileName);
+                        await File.WriteAllBytesAsync(boat.TubbiesCertificateImage.FilePath, boat.TubbiesCertificateImage.FileContent);
+                    }
+
                     await this.dataService.UpdateBoatAsync(boat);
                 }
             }
@@ -265,11 +295,19 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.apiService = new ServiceCommunication();
                 }
-                var doesExist = (await this.apiService.GetBoatById(boat.Id)) != null;
+                var doesExist = await this.apiService.DoesBoatExist(boat.Id);
 
                 if (!doesExist)
                 {
-                    var boatId = await this.apiService.CreateBoat(boat);
+                    Guid boatId;
+                    try
+                    {
+                        boatId = await this.apiService.CreateBoat(boat);
+                    }
+                    catch (WebException)
+                    {
+                        boatId = Guid.Empty;
+                    }
                     if (boatId != null && boatId != Guid.Empty)
                     {
                         boat.Id = boatId;
@@ -282,7 +320,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else
                 {
-                    var boatId = await this.apiService.UpdateBoat(boat);
+                    Guid boatId;
+                    try
+                    {
+                        boatId = await this.apiService.UpdateBoat(boat);
+                    }
+                    catch (WebException)
+                    {
+                        boatId = Guid.Empty;
+                    }
 
                     if (boatId != null && boatId != Guid.Empty)
                     {
@@ -311,10 +357,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     await this.dataService.UpdateBoatAsync(boat).ConfigureAwait(false);
                 }
             }
+            catch (WebException webExc)
+            {
+                await UserDialogs.Instance.AlertAsync($"Could not upload boat to server: {webExc.Message}").ConfigureAwait(false);
+            }
             catch (Exception exc)
             {
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Boat Error").ConfigureAwait(false);
-                UserDialogs.Instance.HideLoading();
             }
         }
 

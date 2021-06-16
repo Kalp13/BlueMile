@@ -177,5 +177,10 @@ namespace BlueMile.Certification.Mobile.Models
         /// Gets or sets the location string to the document.
         /// </summary>
         public string FilePath { get; set; }
+
+        /// <summary>
+        /// Gets or sets the byte array containing the content of the image.
+        /// </summary>
+        public byte[] FileContent { get; set; }
     }
 }

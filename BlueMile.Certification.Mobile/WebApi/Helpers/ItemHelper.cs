@@ -1,6 +1,8 @@
 ﻿using BlueMile.Certification.Data.Models;
 using BlueMile.Certification.Web.ApiModels;
 using System;
+using System.IO;
+using System.Linq;
 
 namespace BlueMile.Certification.WebApi.Helpers
 {
@@ -56,8 +58,9 @@ namespace BlueMile.Certification.WebApi.Helpers
             return item;
         }
 
-        public static ItemModel ToItemApiModel(Item itemModel)
+        public static ItemModel ToItemApiModel(Item itemModel, ItemDocument[]? documents)
         {
+            var itemDoc = documents.FirstOrDefault(x => x.DocumentTypeId == (int)DocumentTypeEnum.Photo);
             var item = new ItemModel()
             {
                 BoatId = itemModel.BoatId,
@@ -66,12 +69,14 @@ namespace BlueMile.Certification.WebApi.Helpers
                 ExpiryDate = itemModel.ExpiryDate,
                 Id = itemModel.Id,
                 ItemTypeId = itemModel.ItemTypeId,
-                SerialNumber = itemModel.SerialNumber
+                SerialNumber = itemModel.SerialNumber,
+
+                ItemImage = itemDoc != null ? ToApiItemDocumentModel(itemDoc) : null
             };
             return item;
         }
 
-        public static ItemDocument ToCreateDocumentModel(ItemDocumentModel model)
+        public static ItemDocument ToItemDocument(ItemDocumentModel model)
         {
             var doc = new ItemDocument()
             {
@@ -91,21 +96,19 @@ namespace BlueMile.Certification.WebApi.Helpers
             return doc;
         }
 
-        public static ItemDocument ToUpdateDocumentModel(ItemDocumentModel model)
+        public static ItemDocumentModel ToApiItemDocumentModel(ItemDocument model)
         {
-            var doc = new ItemDocument()
+            var document = new ItemDocumentModel()
             {
-                FileName = model.FileName,
-                UniqueFileName = model.UniqueFileName,
                 DocumentTypeId = model.DocumentTypeId,
+                FileContent = File.ReadAllBytes(model.FilePath),
+                FileName = model.FileName,
                 Id = model.Id,
                 ItemId = model.ItemId,
                 MimeType = model.MimeType,
-                ModifiedBy = "test",
-                ModifiedOn = DateTime.Now
+                UniqueFileName = model.UniqueFileName
             };
-
-            return doc;
+            return document;
         }
     }
 }

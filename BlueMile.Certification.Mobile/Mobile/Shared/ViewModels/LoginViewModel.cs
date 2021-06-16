@@ -43,6 +43,19 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
         }
 
+        public bool HidePassword
+        {
+            get { return this.hidePassword; }
+            set
+            {
+                if (this.hidePassword != value)
+                {
+                    this.hidePassword = value;
+                    this.OnPropertyChanged(nameof(this.HidePassword));
+                }
+            }
+        }
+
         public ICommand LoginCommand
         {
             get;
@@ -65,19 +78,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             get;
             private set;
-        }
-
-        public bool HidePassword
-        {
-            get { return this.hidePassword; }
-            set
-            {
-                if (this.hidePassword != value)
-                {
-                    this.hidePassword = value;
-                    this.OnPropertyChanged(nameof(this.HidePassword));
-                }
-            }
         }
 
         public ICommand ClearCommand
@@ -222,12 +222,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                          !String.IsNullOrWhiteSpace(SettingsService.Password))
                 {
                     if (await UserDialogs.Instance.ConfirmAsync("Could not log you into the server.\n Would you like to try and log in locally?",
-                                                                "", "Yes", "No").ConfigureAwait(false))
+                                                                "Log In Locally", "Yes", "No"))
                     {
                         if ((this.Username == SettingsService.Username) && (this.Password == SettingsService.Password))
                         {
                             await UserDialogs.Instance.AlertAsync("You been successfully logged in locally.\n" +
-                                "Please log out and re-establish connection to the internet when possible.").ConfigureAwait(false);
+                                "Please log out and re-establish connection to the internet when possible.");
 
                             Device.BeginInvokeOnMainThread(() =>
                             {
@@ -236,7 +236,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         }
                         else
                         {
-                            await UserDialogs.Instance.AlertAsync("User details don't match the locally stored details.").ConfigureAwait(false);
+                            await UserDialogs.Instance.AlertAsync("User details don't match the locally stored details.");
                         }
                     }
                     else

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace BlueMile.Certification.Mobile.Services.InternalServices
 {
@@ -473,7 +474,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     var itemDocEntity = ItemHelper.ToItemDocumentEntity(item.ItemImage);
                     await this.dataConnection.InsertOrReplaceAsync(itemDocEntity, typeof(ItemDocumentMobileEntity)).ConfigureAwait(false);
                 }
-                var response = await this.dataConnection.InsertAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
+                await this.dataConnection.InsertAsync(itemEntity, typeof(ItemMobileEntity)).ConfigureAwait(false);
 
                 return itemEntity.Id;
             }
