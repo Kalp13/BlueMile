@@ -1,17 +1,14 @@
 ﻿using Acr.UserDialogs;
-using BlueMile.Certification.Mobile.Converters;
-using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using Microsoft.AppCenter.Crashes;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace BlueMile.Certification.Mobile.ViewModels
@@ -143,12 +140,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.EquipmentListCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
-                await Shell.Current.GoToAsync($"{Constants.itemsRoute}?boatId={this.CurrentBoat.Id}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemsRoute}?boatId={this.CurrentBoat.Id}");
                 Shell.Current.FlyoutIsPresented = false;
             });
             this.ViewRequirementsCommand = new Command(async () =>
             {
-                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(this.CurrentBoat.Id).ConfigureAwait(false)).ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(this.CurrentBoat.Id));
             });
             this.SubmitForCertificationCommand = new Command(async () =>
             {
@@ -162,10 +159,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.CancelCommand = new Command(async () =>
             {
-                if (await UserDialogs.Instance.ConfirmAsync("Are you sure you want to cancel capturing this boat?", "Cancel Boat?", "Yes", "No").ConfigureAwait(false))
+                if (await UserDialogs.Instance.ConfirmAsync("Are you sure you want to cancel capturing this boat?", "Cancel Boat?", "Yes", "No"))
                 {
                     this.EditBoat = false;
-                    await this.GetBoat().ConfigureAwait(false);
+                    await this.GetBoat();
                 }
             });
 
@@ -173,14 +170,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 this.EditBoat = true;
                 UserDialogs.Instance.ShowLoading("Loading...");
-                await Shell.Current.GoToAsync($"{Constants.boatEditRoute}?boatId={this.CurrentBoat.Id}", true).ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatEditRoute}?boatId={this.CurrentBoat.Id}", true);
                 Shell.Current.FlyoutIsPresented = false;
             });
 
             this.SyncCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
-                await this.UploadItemToServer().ConfigureAwait(false);
+                await this.UploadItemToServer();
             });
 
             this.RequestCertificateCommand = new Command(async () =>
@@ -203,34 +200,41 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                var doesExist = await this.apiService.DoesBoatExist(this.CurrentBoat.Id);
-
-                if (!doesExist)
+                try
                 {
-                    var boatId = await this.apiService.CreateBoat(this.CurrentBoat).ConfigureAwait(false);
-                    if (boatId != null && boatId != Guid.Empty)
+                    var doesExist = await this.apiService.DoesBoatExist(this.CurrentBoat.Id);
+
+                    if (!doesExist)
                     {
-                        this.CurrentBoat.Id = boatId;
-                        this.CurrentBoat.IsSynced = true;
+                        Guid boatId = await this.apiService.CreateBoat(this.CurrentBoat);
+                        if (boatId != null && boatId != Guid.Empty)
+                        {
+                            this.CurrentBoat.Id = boatId;
+                            this.CurrentBoat.IsSynced = true;
+                        }
+                        else
+                        {
+                            this.CurrentBoat.IsSynced = false;
+                        }
                     }
                     else
                     {
-                        this.CurrentBoat.IsSynced = false;
+                        Guid boatId = await this.apiService.UpdateBoat(this.CurrentBoat);
+                        if (boatId != null && boatId != Guid.Empty)
+                        {
+                            this.CurrentBoat.Id = boatId;
+                            this.CurrentBoat.IsSynced = true;
+                        }
+                        else
+                        {
+                            this.CurrentBoat.IsSynced = false;
+                        }
                     }
                 }
-                else
+                catch (WebException webExc)
                 {
-                    var boatId = await this.apiService.UpdateBoat(this.CurrentBoat).ConfigureAwait(false);
-
-                    if (boatId != null && boatId != Guid.Empty)
-                    {
-                        this.CurrentBoat.Id = boatId;
-                        this.CurrentBoat.IsSynced = true;
-                    }
-                    else
-                    {
-                        this.CurrentBoat.IsSynced = false;
-                    }
+                    await UserDialogs.Instance.AlertAsync("Could not upload data to server: " + webExc.Message);
+                    this.CurrentBoat.IsSynced = false;
                 }
 
                 if (this.dataService == null)
@@ -238,7 +242,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.dataService = new DataService();
                 }
 
-                var syncResult = await this.dataService.UpdateBoatAsync(this.CurrentBoat).ConfigureAwait(false);
+                var syncResult = await this.dataService.UpdateBoatAsync(this.CurrentBoat);
                 UserDialogs.Instance.Toast($"Successfully uploaded {this.CurrentBoat.Name}");
             }
             catch (Exception exc)
@@ -266,18 +270,18 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (this.CurrentBoat.BoatCategoryId <= 0)
                 {
-                    await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat").ConfigureAwait(false);
+                    await UserDialogs.Instance.AlertAsync("Please select the category of the boat.", "Incomplete Boat");
                 }
-                else if (await this.dataService.UpdateBoatAsync(this.CurrentBoat).ConfigureAwait(false))
+                else if (await this.dataService.UpdateBoatAsync(this.CurrentBoat))
                 {
                     UserDialogs.Instance.Toast("Successfully updated " + this.CurrentBoat.Name);
                     this.EditBoat = false;
-                    await this.GetBoat().ConfigureAwait(false);
+                    await this.GetBoat();
                     UserDialogs.Instance.HideLoading();
                 }
                 else
                 {
-                    await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok").ConfigureAwait(false);
+                    await UserDialogs.Instance.AlertAsync("Could not successfully save this boat. Please try again.", "Unsuccessfully Saved", "Ok");
                 }
             }
             catch (Exception exc)
@@ -298,7 +302,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         this.dataService = new DataService();
                     }
 
-                    this.CurrentBoat = await this.dataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false);
+                    this.CurrentBoat = await this.dataService.FindBoatBySystemIdAsync(Guid.Parse(this.CurrentBoatId));
                     this.BoatImages = new ObservableCollection<BoatDocumentMobileModel>();
 
                     if (this.CurrentBoat != null)
@@ -317,7 +321,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Get Boat Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Get Boat Error");
             }
         }
 

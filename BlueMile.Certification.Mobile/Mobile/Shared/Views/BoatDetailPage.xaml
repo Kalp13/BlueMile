@@ -33,10 +33,15 @@
                            IsVisible="{Binding CurrentBoat.IsJetski}"/>
                     <Label Text="{Binding CurrentBoat.IsSynced, Converter={StaticResource boolConverter}, StringFormat='Synced: {0}'}"/>
                     <CarouselView ItemsSource="{Binding BoatImages}" 
-                                  HorizontalScrollBarVisibility="Default"
                                   IsSwipeEnabled="True"
                                   PeekAreaInsets="50"
-                                  IsScrollAnimated="True">
+                                  Margin="0"
+                                  FlowDirection="LeftToRight"
+                                  Loop="True"
+                                  Position="0"
+                                  HorizontalScrollBarVisibility="Always"
+                                  IsScrollAnimated="True"
+                                  HeightRequest="220">
                         <CarouselView.ItemTemplate>
                             <DataTemplate>
                                 <StackLayout>
@@ -59,69 +64,7 @@
                             </DataTemplate>
                         </CarouselView.ItemTemplate>
                     </CarouselView>
-                    <Button Text="Submit For C.O.C" Command="{Binding SubmitForCocCommand}"/>
                 </StackLayout>
-
-                <StackLayout Orientation="Vertical"
-                             Spacing="1"
-                             IsVisible="{Binding EditBoat, Mode=TwoWay}">
-                    <Label Text="Boat Name"/>
-                    <Entry Text="{Binding CurrentBoat.Name}"
-                           Placeholder="Boat Name"
-                           Keyboard="Text"
-                           TabIndex="1"/>
-                    <Label Text="Registered Number"/>
-                    <Entry Text="{Binding CurrentBoat.RegisteredNumber}"
-                           Placeholder="Register Number"
-                           Keyboard="Text"
-                           TabIndex="2"/>
-                    <Label Text="Category"/>
-                    <Picker ItemsSource="{Binding BoatCategories}"
-                            ItemDisplayBinding="{Binding ItemName}"
-                            SelectedItem="{Binding SelectedCategory, Mode=TwoWay}"
-                            Title="Select Category"
-                            TabIndex="3"/>
-                    <Label Text="Boyancy Certificate"/>
-                    <Entry Text="{Binding CurrentBoat.BoyancyCertificateNumber}"
-                           Keyboard="Plain"
-                           Placeholder="Boyancy Certificate Number"
-                           TabIndex="4"/>
-                    <ImageButton Source="{Binding CurrentBoat.BoyancyCertificateImage.FilePath, TargetNullValue='image.png'}"
-                                 Command="{Binding CaptureBoayancyCertPhotoCommand}"
-                                 Aspect="AspectFit"
-                                 BackgroundColor="#00000000"
-                                 HeightRequest="200"/>
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Is A Jetski: "/>
-                        <Switch IsToggled="{Binding CurrentBoat.IsJetski, Mode=TwoWay}"
-                                IsEnabled="False"/>
-                    </StackLayout>
-                    <StackLayout Orientation="Vertical"
-                                 VerticalOptions="StartAndExpand"
-                                 IsVisible="{Binding IsJetSki}">
-                        <Label Text="Tubbies Certificate Number"/>
-                        <Entry Text="{Binding CurrentBoat.TubbiesCertificateNumber}"
-                               Keyboard="Plain"
-                               Placeholder="Tubbies Boyancy Certificate Number"
-                               TabIndex="5"/>
-                        <ImageButton Source="{Binding CurrentBoat.TubbiesCertificateImage.FilePath, TargetNullValue='image.png'}"
-                                     Command="{Binding CaptureTubbiesCertPhotoCommand}"
-                                     Aspect="AspectFit"
-                                     BackgroundColor="#00000000"
-                                     HeightRequest="200"/>
-                    </StackLayout>
-
-                    <StackLayout Orientation="Horizontal">
-                        <Button Text="Save"
-                                Command="{Binding SaveCommand}"/>
-                        <Button Text="Cancel"
-                                Command="{Binding CancelCommand}"/>
-                    </StackLayout>
-                </StackLayout>
-                <Button Text="Sync"
-                    Command="{Binding SyncCommand}"
-                    HorizontalOptions="Center"
-                    VerticalOptions="End"/>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>
@@ -130,14 +73,18 @@
                      Command="{Binding EditBoatCommand}"
                      Order="Primary"
                      IconImageSource="edit.png"/>
+        <ToolbarItem Text="Sync"
+                     Command="{Binding SyncCommand}"
+                     Order="Primary"
+                     IconImageSource="sync.png"/>
         <ToolbarItem Text="Equipment" 
                      Command="{Binding EquipmentListCommand}"
-                     Order="Primary"/>
+                     Order="Secondary"/>
         <ToolbarItem Text="View Requirements"
                      Command="{Binding ViewRequirementsCommand}"
                      Order="Secondary"/>
         <ToolbarItem Text="Request Certification"
-                     Command="{Binding}"
+                     Command="{Binding SubmitForCocCommand}"
                      Order="Secondary"
                      Priority="1"/>
     </ContentPage.ToolbarItems>

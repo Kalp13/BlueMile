@@ -53,10 +53,10 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var ownerId = await this.client.CreateOwner(OwnerModelHelper.ToOwnerModel(ownerModel)).ConfigureAwait(false);
+                var ownerId = await this.client.CreateOwner(OwnerModelHelper.ToOwnerModel(ownerModel));
                 userModel.OwnerId = ownerId;
 
-                var result = await this.client.RegisterUser(userModel).ConfigureAwait(false);
+                var result = await this.client.RegisterUser(userModel);
                 return result;
             }
             catch (Exception)
@@ -85,7 +85,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var token = await this.client.LogUserIn(userModel).ConfigureAwait(false);
+                var token = await this.client.LogUserIn(userModel);
 
                 return token;
             }
@@ -166,7 +166,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.GetOwnerByUsername(username).ConfigureAwait(false);
+                var result = await this.client.GetOwnerByUsername(username);
                 return OwnerModelHelper.ToOwnerMobileModel(result);
             }
             catch (Exception)
@@ -200,7 +200,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.CreateOwner(OwnerModelHelper.ToOwnerModel(owner)).ConfigureAwait(false);
+                var result = await this.client.CreateOwner(OwnerModelHelper.ToOwnerModel(owner));
                 return result;
             }
             catch (Exception)
@@ -234,7 +234,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.UpdateOwner(OwnerModelHelper.ToOwnerModel(owner)).ConfigureAwait(false);
+                var result = await this.client.UpdateOwner(OwnerModelHelper.ToOwnerModel(owner));
                 return result;
             }
             catch (Exception)
@@ -272,7 +272,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.GetBoatsByOwnerId(ownerId).ConfigureAwait(false);
+                var result = await this.client.GetBoatsByOwnerId(ownerId);
                 return result.Select(x => BoatModelHelper.ToMobileModel(x)).ToList();
             }
             catch (Exception)
@@ -306,7 +306,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.GetBoatById(boatId).ConfigureAwait(false);
+                var result = await this.client.GetBoatById(boatId);
                 return result != null ? BoatModelHelper.ToMobileModel(result) : null;
             }
             catch (Exception)
@@ -408,7 +408,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.DoesBoatExist(boatId).ConfigureAwait(false);
+                var result = await this.client.DoesBoatExist(boatId);
                 return result;
             }
             catch (Exception)
@@ -447,7 +447,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.GetBoatRequiredItems(boatId).ConfigureAwait(false);
+                var result = await this.client.GetBoatRequiredItems(boatId);
                 return result.Select(x => ItemModelHelper.ToItemMobileModel(x)).ToList();
             }
             catch (Exception)
@@ -590,7 +590,7 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
                     throw new WebException("Services cannot be contacted.");
                 }
 
-                var result = await this.client.DoesItemExist(itemId).ConfigureAwait(false);
+                var result = await this.client.DoesItemExist(itemId);
                 return result;
             }
             catch (Exception)

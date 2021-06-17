@@ -8,6 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -66,7 +67,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.selectedItem = value;
                     this.OnPropertyChanged(nameof(this.SelectedItem));
 
-                    this.OpenItemDetail();
+                    this.OpenItemDetail().ConfigureAwait(false);
                 }
             }
         }
@@ -119,16 +120,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.AddItemCommand = new Command(async () =>
             {
-                await CreateNewItem().ConfigureAwait(false);
+                await CreateNewItem();
             });
             this.ViewRequiredItemsCommand = new Command(async () =>
             {
-                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false)).ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(Guid.Parse(this.CurrentBoatId)));
             });
             this.RefreshCommand = new Command(async () =>
             {
                 this.IsRefreshing = true;
-                await this.GetBoatItems().ConfigureAwait(false);
+                await this.GetBoatItems();
                 this.IsRefreshing = false;
             });
             this.SyncItemsCommand = new Command(async () =>
@@ -142,11 +143,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
             try
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.itemNewRoute}?boatId={this.CurrentBoatId}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemNewRoute}?boatId={this.CurrentBoatId}");
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "New Item Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "New Item Error");
             }
         }
 
@@ -157,14 +158,26 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 this.dataService = new DataService();
             }
 
-            this.RequiredItems = new ObservableCollection<ItemMobileModel>(await this.dataService.FindItemsByBoatIdAsync(Guid.Parse(this.CurrentBoatId)).ConfigureAwait(false));
+            this.RequiredItems = new ObservableCollection<ItemMobileModel>(await this.dataService.FindItemsByBoatIdAsync(Guid.Parse(this.CurrentBoatId)));
         }
 
-        private async void OpenItemDetail()
+        private async Task OpenItemDetail()
         {
-            UserDialogs.Instance.ShowLoading("Loading...");
-            await Shell.Current.GoToAsync($"{Constants.itemDetailRoute}?itemId={this.SelectedItem.Id}").ConfigureAwait(false);
-            Shell.Current.FlyoutIsPresented = false;
+            try
+            {
+                UserDialogs.Instance.ShowLoading("Loading...");
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{Constants.itemDetailRoute}?itemId={this.SelectedItem.Id}");
+                Shell.Current.FlyoutIsPresented = false;
+            }
+            catch (Exception exc)
+            {
+                await UserDialogs.Instance.AlertAsync("Failed opening item details: " + exc.Message);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
         }
 
         private async Task SyncItemsWithServer()
@@ -261,36 +274,44 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                var doesExist = await this.apiService.DoesItemExist(item.Id);
-
-                if (!doesExist)
+                try
                 {
-                    var itemId = await this.apiService.CreateItem(item).ConfigureAwait(false);
-                    if (itemId != null && itemId != Guid.Empty)
+                    var doesExist = await this.apiService.DoesItemExist(item.Id);
+
+                    if (!doesExist)
                     {
-                        item.Id = itemId;
-                        item.IsSynced = true;
+                        var itemId = await this.apiService.CreateItem(item);
+                        if (itemId != null && itemId != Guid.Empty)
+                        {
+                            item.Id = itemId;
+                            item.IsSynced = true;
+                        }
+                        else
+                        {
+                            item.IsSynced = false;
+                        }
                     }
                     else
                     {
-                        item.IsSynced = false;
+                        var itemId = await this.apiService.UpdateItem(item);
+
+                        if (itemId != null && itemId != Guid.Empty)
+                        {
+                            item.Id = itemId;
+                            item.IsSynced = true;
+
+                            UserDialogs.Instance.Toast($"Successfully uploaded {item.Description}");
+                        }
+                        else
+                        {
+                            item.IsSynced = false;
+                        }
                     }
                 }
-                else
+                catch (WebException webExc)
                 {
-                    var itemId = await this.apiService.UpdateItem(item).ConfigureAwait(false);
-
-                    if (itemId != null && itemId != Guid.Empty)
-                    {
-                        item.Id = itemId;
-                        item.IsSynced = true;
-
-                        UserDialogs.Instance.Toast($"Successfully uploaded {item.Description}");
-                    }
-                    else
-                    {
-                        item.IsSynced = false;
-                    }
+                    await UserDialogs.Instance.AlertAsync("Could not upload to server: " + webExc.Message);
+                    item.IsSynced = false;
                 }
 
                 if (this.dataService == null)
@@ -304,13 +325,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else
                 {
-                    await this.dataService.UpdateItemAsync(item).ConfigureAwait(false);
+                    await this.dataService.UpdateItemAsync(item);
                 }
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Items Error").ConfigureAwait(false);
-                UserDialogs.Instance.HideLoading();
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Items Error");
             }
         }
 

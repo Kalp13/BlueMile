@@ -98,16 +98,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.SaveCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Saving...");
-                await this.SaveOwnerDetails().ConfigureAwait(false);
+                await this.SaveOwnerDetails();
                 UserDialogs.Instance.HideLoading();
             });
             this.CancelCommand = new Command(async () =>
             {
-                await Shell.Current.Navigation.PopAsync().ConfigureAwait(false);
+                await Shell.Current.Navigation.PopAsync();
             });
             this.CaptureIcasaPopPhotoCommand = new Command(async () =>
             {
-                var image = await CapturePhotoService.CapturePhotoAsync("IcasaPopPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("IcasaPopPhoto");
                 this.OwnerDetails.IcasaPopPhoto = new OwnerDocumentMobileModel()
                 {
                     DocumentTypeId = (int)DocumentTypeEnum.IcasaProofOfPayment,
@@ -121,7 +121,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.CaptureIDPhotoCommand = new Command(async () =>
             {
-                var image = await CapturePhotoService.CapturePhotoAsync("IDPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("IDPhoto");
                 this.OwnerDetails.IdentificationDocument = new OwnerDocumentMobileModel()
                 {
                     DocumentTypeId = (int)DocumentTypeEnum.IdentificationDocument,
@@ -135,7 +135,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.CaptureSkippersPhotoCommand = new Command(async () =>
             {
-                var image = await CapturePhotoService.CapturePhotoAsync("SkippersPhoto").ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync("SkippersPhoto");
                 this.OwnerDetails.SkippersLicenseImage = new OwnerDocumentMobileModel()
                 {
                     DocumentTypeId = (int)DocumentTypeEnum.SkippersLicense,
@@ -161,7 +161,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
 
                     var ownerId = Guid.Parse(SettingsService.OwnerId);
-                    this.OwnerDetails = await this.dataService.FindOwnerBySystemIdAsync(ownerId).ConfigureAwait(false);
+                    this.OwnerDetails = await this.dataService.FindOwnerBySystemIdAsync(ownerId);
 
                     if (this.OwnerDetails != null)
                     {
@@ -171,7 +171,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, " GetOwner Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, " GetOwner Error");
             }
         }
 
@@ -179,7 +179,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             try
             {
-                if (await UserDialogs.Instance.ConfirmAsync($"Are the following details correct:\n{this.OwnerDetails.ToString()}").ConfigureAwait(false))
+                if (await UserDialogs.Instance.ConfirmAsync($"Are the following details correct:\n{this.OwnerDetails.ToString()}"))
                 {
                     if (this.dataService == null)
                     {
@@ -212,7 +212,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
                     {
-                        this.OwnerDetails.Id = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                        this.OwnerDetails.Id = await this.dataService.CreateNewOwnerAsync(this.OwnerDetails);
                         if (this.OwnerDetails.Id == null || this.OwnerDetails.Id == Guid.Empty)
                         {
                             if (this.apiService == null)
@@ -256,7 +256,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
                     else
                     {
-                        var result = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                        var result = await this.dataService.UpdateOwnerAsync(this.OwnerDetails);
                         if (result)
                         {
                             if (this.apiService == null)
@@ -269,7 +269,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                             try
                             {
-                                ownerId = await this.apiService.UpdateOwner(this.OwnerDetails).ConfigureAwait(false);
+                                ownerId = await this.apiService.UpdateOwner(this.OwnerDetails);
                             }
                             catch (WebException)
                             {
@@ -285,15 +285,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
                             else
                             {
                                 this.OwnerDetails.IsSynced = false;
-                                await UserDialogs.Instance.AlertAsync("Could not update your details on the server. Please try again later.").ConfigureAwait(false);
+                                await UserDialogs.Instance.AlertAsync("Could not update your details on the server. Please try again later.");
                             }
 
-                            var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails).ConfigureAwait(false);
+                            var syncResult = await this.dataService.UpdateOwnerAsync(this.OwnerDetails);
 
                             MessagingCenter.Instance.Send<OwnerMobileModel, string>(this.OwnerDetails, "Owner", "");
                             Device.BeginInvokeOnMainThread(async () =>
                             {
-                                await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
+                                await Shell.Current.Navigation.PopAsync(true);
                             });
                         }
                     }
@@ -301,12 +301,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
             catch (WebException webExc)
             {
-                await UserDialogs.Instance.AlertAsync($"{webExc.Status} - {webExc.Message} - {webExc.Response}", "Save Owner Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync($"{webExc.Status} - {webExc.Message} - {webExc.Response}", "Save Owner Error");
                 Crashes.TrackError(webExc);
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message + " - " + exc.InnerException?.Message, "Save Owner Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message + " - " + exc.InnerException?.Message, "Save Owner Error");
                 Crashes.TrackError(exc);
             }
         }

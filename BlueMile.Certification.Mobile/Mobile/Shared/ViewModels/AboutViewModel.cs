@@ -10,7 +10,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         public AboutViewModel()
         {
             Title = "About";
-            OpenWebCommand = new Command(async () => await Browser.OpenAsync(new Uri("https://xamarin.com")).ConfigureAwait(false));
+            OpenWebCommand = new Command(async () => await Browser.OpenAsync(new Uri("https://xamarin.com")));
         }
 
         public ICommand OpenWebCommand { get; }

@@ -22,7 +22,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                     {
                         Title = "Capture " + photoName,
                     };
-                    var image = await MediaPicker.CapturePhotoAsync(options).ConfigureAwait(false);
+                    var image = await MediaPicker.CapturePhotoAsync(options);
                     return new DocumentMobileModel
                     {
                         FilePath = image.FullPath,
@@ -33,7 +33,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
                 }
                 else
                 {
-                    await UserDialogs.Instance.AlertAsync("Photo capturing not suppoerted.").ConfigureAwait(false);
+                    await UserDialogs.Instance.AlertAsync("Photo capturing not suppoerted.");
                     return null;
                 }
             }
@@ -49,7 +49,7 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.ToString(), exc.Message).ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.ToString(), exc.Message);
                 return null;
             }
         }

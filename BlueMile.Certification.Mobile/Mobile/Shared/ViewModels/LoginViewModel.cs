@@ -5,6 +5,7 @@ using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
 using Microsoft.AppCenter.Crashes;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -125,15 +126,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }, () => (!String.IsNullOrWhiteSpace(this.Username) && !String.IsNullOrWhiteSpace(this.Password)));
             this.LogoutCommand = new Command(async () =>
             {
-                await this.LogUserOut().ConfigureAwait(false);
+                await this.LogUserOut();
             });
             this.ClearDetailsCommand = new Command(async () =>
             {
-                await this.ClearUserDetails().ConfigureAwait(false);
+                await this.ClearUserDetails();
             });
             this.ForgotPasswordCommand = new Command(async () =>
             {
-                await this.ForgotPassword().ConfigureAwait(false);
+                await this.ForgotPassword();
             });
             this.RegisterCommand = new Command(() =>
             {
@@ -152,7 +153,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 this.Username = String.Empty;
                 this.Password = String.Empty;
                 
-                if (await UserDialogs.Instance.ConfirmAsync("Would you like to clear all the user details stored?", "Clear User Details", "Yes", "No").ConfigureAwait(false))
+                if (await UserDialogs.Instance.ConfirmAsync("Would you like to clear all the user details stored?", "Clear User Details", "Yes", "No"))
                 {
                     SettingsService.Username = String.Empty;
                     SettingsService.Password = String.Empty;
@@ -187,11 +188,19 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                var userLogin = await this.apiService.LogUserIn(new UserLoginModel()
+                UserToken userLogin;
+                try
                 {
-                    EmailAddress = this.Username,
-                    Password = this.Password
-                }).ConfigureAwait(false);
+                    userLogin = await this.apiService.LogUserIn(new UserLoginModel()
+                    {
+                        EmailAddress = this.Username,
+                        Password = this.Password
+                    });
+                }
+                catch (WebException)
+                {
+                    userLogin = null;
+                }
 
                 UserDialogs.Instance.ShowLoading("Loading...");
                 
@@ -251,7 +260,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Log In Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Log In Error");
             }
             finally
             {

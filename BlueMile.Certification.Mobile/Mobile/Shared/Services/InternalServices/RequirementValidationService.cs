@@ -15,11 +15,11 @@ namespace BlueMile.Certification.Mobile.Services.InternalServices
         public static async Task<string> GetRequiredItems(Guid boatId)
         {
             IDataService dataService = new DataService();
-            var boat = await dataService.FindBoatBySystemIdAsync(boatId).ConfigureAwait(false);
-            var requiredItems = await GetRequiredCategoryList((BoatCategoryEnum)boat.BoatCategoryId).ConfigureAwait(false);
-            var boatItems = await dataService.FindItemsByBoatIdAsync(boat.Id).ConfigureAwait(false);
+            var boat = await dataService.FindBoatBySystemIdAsync(boatId);
+            var requiredItems = await GetRequiredCategoryList((BoatCategoryEnum)boat.BoatCategoryId);
+            var boatItems = await dataService.FindItemsByBoatIdAsync(boat.Id);
 
-            return $"You need the following required items for {boat.Name}\n{await ValidateItems(requiredItems, boatItems).ConfigureAwait(false)}";
+            return $"You need the following required items for {boat.Name}\n{await ValidateItems(requiredItems, boatItems)}";
         }
 
         private static Task<string> ValidateItems(List<RequiredItemModel> requiredItems, List<ItemMobileModel> boatItems)

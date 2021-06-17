@@ -1,5 +1,4 @@
 ﻿using Acr.UserDialogs;
-using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using System;
 using Xamarin.Forms;

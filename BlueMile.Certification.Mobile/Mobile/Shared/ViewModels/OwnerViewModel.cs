@@ -92,7 +92,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.SyncCommand = new Command(async() =>
             {
                 UserDialogs.Instance.ShowLoading("Syncing Owner...");
-                await this.SyncOwnerDetails().ConfigureAwait(false);
+                await this.SyncOwnerDetails();
                 UserDialogs.Instance.HideLoading();
             });
             this.EditOwnerCommand = new Command(async () =>
@@ -114,7 +114,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         await this.GetOwner();
                     });
                 });
-                await Shell.Current.Navigation.PushAsync(new CreateUpdateOwnerPage()).ConfigureAwait(false);
+                await Shell.Current.Navigation.PushAsync(new CreateUpdateOwnerPage());
 
                 UserDialogs.Instance.HideLoading();
             }
@@ -141,7 +141,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         Guid ownerId;
                         try
                         {
-                            ownerId = await this.apiService.CreateOwner(this.CurrentOwner).ConfigureAwait(false);
+                            ownerId = await this.apiService.CreateOwner(this.CurrentOwner);
                         }
                         catch (WebException)
                         {
@@ -156,14 +156,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         else
                         {
                             this.CurrentOwner.IsSynced = false;
-                            await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                            await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error");
                         }
 
                         if (this.dataService == null)
                         {
                             this.dataService = new DataService();
                         }
-                        var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
+                        var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner);
                     }
                     else
                     {
@@ -175,7 +175,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         Guid ownerId;
                         try
                         {
-                            ownerId = await this.apiService.UpdateOwner(this.CurrentOwner).ConfigureAwait(false);
+                            ownerId = await this.apiService.UpdateOwner(this.CurrentOwner);
                         }
                         catch (WebException)
                         {
@@ -190,14 +190,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         else
                         {
                             this.CurrentOwner.IsSynced = false;
-                            await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error").ConfigureAwait(false);
+                            await UserDialogs.Instance.AlertAsync("Could not upload your details. Please try again later.", "Create Error");
                         }
 
                         if (this.dataService == null)
                         {
                             this.dataService = new DataService();
                         }
-                        var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner).ConfigureAwait(false);
+                        var syncResult = await this.dataService.UpdateOwnerAsync(this.CurrentOwner);
                     }
                 }
                 else
@@ -207,7 +207,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         this.dataService = new DataService();
                     }
 
-                    this.CurrentOwner = (await this.dataService.FindOwnersAsync().ConfigureAwait(false)).FirstOrDefault();
+                    this.CurrentOwner = (await this.dataService.FindOwnersAsync()).FirstOrDefault();
 
                     if (this.CurrentOwner != null)
                     {
@@ -260,7 +260,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.ToString(), "Sync Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.ToString(), "Sync Error");
                 Crashes.TrackError(exc);
             }
             finally

@@ -7,7 +7,7 @@ using BlueMile.Certification.Mobile.Services.ExternalServices;
 using BlueMile.Certification.Mobile.Services.InternalServices;
 using Microsoft.AppCenter.Crashes;
 using System;
-using System.Globalization;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -79,11 +79,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.EditItemCommand = new Command(async () =>
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.itemEditRoute}?itemId={this.SelectedItem.Id}", true).ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.itemEditRoute}?itemId={this.SelectedItem.Id}", true);
             });
             this.SyncCommand = new Command(async () =>
             {
-                await this.UploadItemToServer().ConfigureAwait(false);
+                await this.UploadItemToServer();
             });
         }
 
@@ -98,10 +98,19 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (this.SelectedItem.Id == null || this.SelectedItem.Id == Guid.Empty)
                 {
-                    var boatId = await this.apiService.CreateItem(this.SelectedItem).ConfigureAwait(false);
-                    if (boatId != null && boatId != Guid.Empty)
+                    Guid itemId;
+                    try
                     {
-                        this.SelectedItem.Id = boatId;
+                        itemId = await this.apiService.CreateItem(this.SelectedItem);
+                    }
+                    catch (WebException)
+                    {
+                        itemId = Guid.Empty;
+                    }
+
+                    if (itemId != null && itemId != Guid.Empty)
+                    {
+                        this.SelectedItem.Id = itemId;
                         this.SelectedItem.IsSynced = true;
                     }
                     else
@@ -111,11 +120,19 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
                 else
                 {
-                    var boatId = await this.apiService.UpdateItem(this.SelectedItem).ConfigureAwait(false);
-
-                    if (boatId != null && boatId != Guid.Empty)
+                    Guid itemId;
+                    try
                     {
-                        this.SelectedItem.Id = boatId;
+                        itemId = await this.apiService.UpdateItem(this.SelectedItem);
+                    }
+                    catch (WebException)
+                    {
+                        itemId = Guid.Empty;
+                    }
+
+                    if (itemId != null && itemId != Guid.Empty)
+                    {
+                        this.SelectedItem.Id = itemId;
                         this.SelectedItem.IsSynced = true;
                     }
                     else
@@ -129,7 +146,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.dataService = new DataService();
                 }
 
-                var syncResult = await this.dataService.UpdateItemAsync(this.SelectedItem).ConfigureAwait(false);
+                var syncResult = await this.dataService.UpdateItemAsync(this.SelectedItem);
                 UserDialogs.Instance.Toast($"Successfully uploaded {this.SelectedItem.Description}");
             }
             catch (Exception exc)
@@ -148,12 +165,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.dataService = new DataService();
                 }
 
-                this.SelectedItem = await this.dataService.FindItemBySystemIdAsync(Guid.Parse(this.CurrentItemId)).ConfigureAwait(false);
+                this.SelectedItem = await this.dataService.FindItemBySystemIdAsync(Guid.Parse(this.CurrentItemId));
                 this.Title = ItemTypeDescriptionConverter.GetDescription((ItemTypeEnum)this.SelectedItem.ItemTypeId);
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Get Item Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Get Item Error");
             }
         }
 

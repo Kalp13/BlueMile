@@ -23,15 +23,15 @@ namespace BlueMile.Certification.Mobile.Services
         public static string ownerEditRoute = "owner/edit";
 
         // Boat Routes
-        public static string boatsRoute = "boat/find";
-        public static string boatDetailRoute = "boat/detail";
-        public static string boatEditRoute = "boat/edit";
+        public static string boatsRoute = "/boat/find";
+        public static string boatDetailRoute = "/boat/detail";
+        public static string boatEditRoute = "/boat/edit";
 
         // Item Routes
-        public static string itemsRoute = "item/find";
-        public static string itemDetailRoute = "item/detail";
-        public static string itemEditRoute = "item/edit";
-        public static string itemNewRoute = "item/new";
+        public static string itemsRoute = "/item/find";
+        public static string itemDetailRoute = "./item/detail";
+        public static string itemEditRoute = "./item/edit";
+        public static string itemNewRoute = "./item/new";
 
         //Extra Routes
         public static string settingsRoute = "settings";

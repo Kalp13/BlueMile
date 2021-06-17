@@ -91,7 +91,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
             if (!String.IsNullOrWhiteSpace(SettingsService.OwnerId))
             {
-                this.GetBoats().ConfigureAwait(false);
+                this.GetBoats();
             }
             else
             {
@@ -108,12 +108,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.NewBoatCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
-                await AddNewBoat().ConfigureAwait(false);
+                await AddNewBoat();
             }, () => !String.IsNullOrWhiteSpace(SettingsService.OwnerId));
             this.RefreshCommand = new Command(async () =>
             {
                 this.IsRefreshing = true;
-                await this.GetBoats().ConfigureAwait(false);
+                await this.GetBoats();
                 this.IsRefreshing = false;
             });
             this.SyncBoatsCommand = new Command(async () =>
@@ -166,7 +166,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             }
             catch (WebException webExc)
             {
-                await UserDialogs.Instance.AlertAsync($"Could not retrieve boats from server: {webExc.Message}").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync($"Could not retrieve boats from server: {webExc.Message}");
             }
             catch (Exception)
             {
@@ -232,16 +232,16 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     Device.BeginInvokeOnMainThread(async () =>
                     {
                         this.IsRefreshing = true;
-                        await this.GetBoats().ConfigureAwait(false);
+                        await this.GetBoats();
                         this.IsRefreshing = false;
                     });
                 });
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.boatEditRoute}?boatId={Guid.Empty}", true).ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatEditRoute}?boatId={Guid.Empty}", true);
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Add Boat Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Add Boat Error");
             }
             finally
             {
@@ -259,11 +259,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 }
 
                 var ownerId = Guid.Parse(SettingsService.OwnerId);
-                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await this.dataService.FindBoatsByOwnerIdAsync(ownerId).ConfigureAwait(false));
+                this.OwnersBoats = new ObservableCollection<BoatMobileModel>(await this.dataService.FindBoatsByOwnerIdAsync(ownerId));
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Get Boats Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Get Boats Error");
             }
             finally
             {
@@ -277,13 +277,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.boatDetailRoute}?boatId={this.SelectedBoat.Id}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatDetailRoute}?boatId={this.SelectedBoat.Id}");
                 Shell.Current.FlyoutIsPresented = false;
             }
             catch (Exception exc)
             {
                 Crashes.TrackError(exc);
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Open Boat Error", "Ok").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Open Boat Error", "Ok");
             }
         }
 
@@ -295,52 +295,43 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 {
                     this.apiService = new ServiceCommunication();
                 }
-                var doesExist = await this.apiService.DoesBoatExist(boat.Id);
-
-                if (!doesExist)
+                try
                 {
-                    Guid boatId;
-                    try
+                    var doesExist = await this.apiService.DoesBoatExist(boat.Id);
+
+                    if (!doesExist)
                     {
-                        boatId = await this.apiService.CreateBoat(boat);
-                    }
-                    catch (WebException)
-                    {
-                        boatId = Guid.Empty;
-                    }
-                    if (boatId != null && boatId != Guid.Empty)
-                    {
-                        boat.Id = boatId;
-                        boat.IsSynced = true;
+                        Guid boatId = await this.apiService.CreateBoat(boat);
+                        if (boatId != null && boatId != Guid.Empty)
+                        {
+                            boat.Id = boatId;
+                            boat.IsSynced = true;
+                        }
+                        else
+                        {
+                            boat.IsSynced = false;
+                        }
                     }
                     else
                     {
-                        boat.IsSynced = false;
+                        Guid boatId = await this.apiService.UpdateBoat(boat);
+                        if (boatId != null && boatId != Guid.Empty)
+                        {
+                            boat.Id = boatId;
+                            boat.IsSynced = true;
+
+                            UserDialogs.Instance.Toast($"Successfully uploaded {boat.Name}");
+                        }
+                        else
+                        {
+                            boat.IsSynced = false;
+                        }
                     }
                 }
-                else
+                catch (WebException webExc)
                 {
-                    Guid boatId;
-                    try
-                    {
-                        boatId = await this.apiService.UpdateBoat(boat);
-                    }
-                    catch (WebException)
-                    {
-                        boatId = Guid.Empty;
-                    }
-
-                    if (boatId != null && boatId != Guid.Empty)
-                    {
-                        boat.Id = boatId;
-                        boat.IsSynced = true;
-
-                        UserDialogs.Instance.Toast($"Successfully uploaded {boat.Name}");
-                    }
-                    else
-                    {
-                        boat.IsSynced = false;
-                    }
+                    await UserDialogs.Instance.AlertAsync("Could not upload data to server: " + webExc.Message);
+                    boat.IsSynced = false;
                 }
 
                 if (this.dataService == null)
@@ -350,20 +341,20 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                 if (boat.Id == null || boat.Id == Guid.Empty)
                 {
-                    boat.Id = await this.dataService.CreateNewBoatAsync(boat).ConfigureAwait(false);
+                    boat.Id = await this.dataService.CreateNewBoatAsync(boat);
                 }
                 else
                 {
-                    await this.dataService.UpdateBoatAsync(boat).ConfigureAwait(false);
+                    await this.dataService.UpdateBoatAsync(boat);
                 }
             }
             catch (WebException webExc)
             {
-                await UserDialogs.Instance.AlertAsync($"Could not upload boat to server: {webExc.Message}").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync($"Could not upload boat to server: {webExc.Message}");
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Boat Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Boat Error");
             }
         }
 

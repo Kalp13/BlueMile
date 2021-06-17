@@ -5,6 +5,7 @@ using BlueMile.Certification.Mobile.Views;
 using BlueMile.Certification.Web.ApiModels;
 using Microsoft.AppCenter.Crashes;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -178,7 +179,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             });
             this.RegisterCommand = new Command(async () =>
             {
-                await this.RegisterUser().ConfigureAwait(false);
+                await this.RegisterUser();
             }, () => (!String.IsNullOrWhiteSpace(this.FirstName) &&
                       !String.IsNullOrWhiteSpace(this.LastName) &&
                       !String.IsNullOrWhiteSpace(this.EmailAddress) &&
@@ -221,7 +222,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.apiService = new ServiceCommunication();
                 }
 
-                var register = await this.apiService.RegisterUser(registration, owner).ConfigureAwait(false);
+                bool register = false;
+                try
+                {
+                    register = await this.apiService.RegisterUser(registration, owner);
+                }
+                catch (WebException webExc)
+                {
+                    await UserDialogs.Instance.AlertAsync("Could not register user: " + webExc.Message);
+                }
 
                 if (register)
                 {

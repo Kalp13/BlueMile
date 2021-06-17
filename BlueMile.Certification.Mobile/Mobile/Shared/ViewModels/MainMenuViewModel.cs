@@ -2,8 +2,6 @@
 using BlueMile.Certification.Mobile.Services;
 using Microsoft.AppCenter.Crashes;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -47,13 +45,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.boatsRoute}").ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatsRoute}");
                 Shell.Current.FlyoutIsPresented = false;
             }
             catch (Exception exc)
             {
                 Crashes.TrackError(exc);
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Open Boat Error", "Ok").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Open Boat Error", "Ok");
             }
         }
 

@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-using Xamarin.Forms;
-
-using BlueMile.Certification.Mobile.Models;
-using BlueMile.Certification.Mobile.Services;
-
 namespace BlueMile.Certification.Mobile.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged

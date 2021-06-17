@@ -9,6 +9,12 @@
             Creates a new default instance of <see cref="T:BlueMile.Certification.WebApi.Api.Controllers.CertificationController"/>.
             </summary>
         </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.PingService">
+            <summary>
+            Validates that connection to the service can be established.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetOwners(BlueMile.Certification.Web.ApiModels.FindOwnerModel)">
             <summary>
             Gets all the active owners in the system.
@@ -85,6 +91,17 @@
                 Returns a <see cref="T:BlueMile.Certification.Web.ApiModels.BoatModel"/> with the given unique identifier.
             </returns>
         </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.DoesBoatExist(System.Guid)">
+            <summary>
+            Determines whether or not a boat with the given unique identifier exists on the server.
+            </summary>
+            <param name="id">
+                The unique identifier of the boat to validate.
+            </param>
+            <returns>
+                Returns a boolean flag indicating if a boat exists with the given unique identifier.
+            </returns>
+        </member>
         <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.UpdateBoat(System.Guid,BlueMile.Certification.Web.ApiModels.UpdateBoatModel)">
             <summary>
             Updates an existing boat with the corresponsing unique identifier with the given details.
@@ -132,6 +149,17 @@
                 The unique identifier of the item.
             </param>
             <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.DoesItemExist(System.Guid)">
+            <summary>
+            Determines whether or not an item with the given unique identifier exists on the server.
+            </summary>
+            <param name="id">
+                The unique identifier of the item to validate.
+            </param>
+            <returns>
+                Returns a boolean flag indicating if an item exists with the given unique identifier.
+            </returns>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.UpdateItem(System.Guid,BlueMile.Certification.Web.ApiModels.UpdateItemModel)">
             <summary>
@@ -213,6 +241,17 @@
             <summary>
             Provides access to the underlying data store.
             </summary>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Helpers.BoatHelper.ToCreateBoatData(BlueMile.Certification.Web.ApiModels.CreateBoatModel)">
+            <summary>
+            Converts all a <see cref="T:BlueMile.Certification.Web.ApiModels.CreateBoatModel"/> into a <see cref="T:BlueMile.Certification.Data.Models.Boat"/> entity.
+            </summary>
+            <param name="boatModel">
+                The <see cref="T:BlueMile.Certification.Web.ApiModels.CreateBoatModel"/> to convert.
+            </param>
+            <returns>
+                Returns a new <see cref="T:BlueMile.Certification.Data.Models.Boat"/> object converted from the given input.
+            </returns>
         </member>
         <member name="T:BlueMile.Certification.WebApi.Services.CertificationRepository">
             <summary>

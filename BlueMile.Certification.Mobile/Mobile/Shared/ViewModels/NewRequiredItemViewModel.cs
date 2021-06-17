@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -118,7 +119,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.CaptureItemPhoto = new Command(async () =>
             {
-                var image = await CapturePhotoService.CapturePhotoAsync(this.NewItem.ItemTypeId.ToString()).ConfigureAwait(false);
+                var image = await CapturePhotoService.CapturePhotoAsync(this.NewItem.ItemTypeId.ToString());
                 this.NewItem.ItemImage = new ItemDocumentMobileModel()
                 {
                     DocumentTypeId = (int)DocumentTypeEnum.Photo,
@@ -133,15 +134,15 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.SaveCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Saving...");
-                await this.SaveItemDetails().ConfigureAwait(false);
+                await this.SaveItemDetails();
             });
             this.CancelCommand = new Command(async () =>
             {
-                if (await UserDialogs.Instance.ConfirmAsync("Are you sure you want to cancel creating this item?", "Cancel Item", "Yes", "No").ConfigureAwait(false))
+                if (await UserDialogs.Instance.ConfirmAsync("Are you sure you want to cancel creating this item?", "Cancel Item", "Yes", "No"))
                 {
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
+                        await Shell.Current.Navigation.PopAsync(true);
                         UserDialogs.Instance.HideLoading();
                     });
                 }
@@ -164,7 +165,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     }
                 }
 
-                if (await this.ValidateItemPropertiesAsync().ConfigureAwait(false))
+                if (await this.ValidateItemPropertiesAsync())
                 {
                     if (this.dataService == null)
                     {
@@ -173,11 +174,11 @@ namespace BlueMile.Certification.Mobile.ViewModels
 
                     if (this.NewItem.Id == null || this.NewItem.Id == Guid.Empty)
                     {
-                        this.NewItem.Id = await this.dataService.CreateNewItemAsync(this.NewItem).ConfigureAwait(false);
+                        this.NewItem.Id = await this.dataService.CreateNewItemAsync(this.NewItem);
                     }
                     else
                     {
-                        await this.dataService.UpdateItemAsync(this.NewItem).ConfigureAwait(false);
+                        await this.dataService.UpdateItemAsync(this.NewItem);
                     }
 
                     if (this.apiService == null)
@@ -185,51 +186,58 @@ namespace BlueMile.Certification.Mobile.ViewModels
                         this.apiService = new ServiceCommunication();
                     }
 
-                    var doesExist = await this.apiService.DoesItemExist(this.NewItem.Id);
-
-                    if (!doesExist)
+                    try
                     {
-                        var itemId = await this.apiService.CreateItem(this.NewItem).ConfigureAwait(false);
-                        
-                        if (itemId != null && itemId != Guid.Empty)
+                        var doesExist = await this.apiService.DoesItemExist(this.NewItem.Id);
+
+                        if (!doesExist)
                         {
-                            this.NewItem.IsSynced = true;
-                            this.NewItem.Id = itemId;
-                            UserDialogs.Instance.Toast("Successfully uploaded " + this.NewItem.Description);
+                            var itemId = await this.apiService.CreateItem(this.NewItem);
+                            if (itemId != null && itemId != Guid.Empty)
+                            {
+                                this.NewItem.IsSynced = true;
+                                this.NewItem.Id = itemId;
+                                UserDialogs.Instance.Toast("Successfully uploaded " + this.NewItem.Description);
+                            }
+                            else
+                            {
+                                this.NewItem.IsSynced = false;
+                            }
                         }
                         else
                         {
-                            this.NewItem.IsSynced = false;
+                            var itemId = await this.apiService.UpdateItem(this.NewItem);
+
+                            if (itemId != null && itemId != Guid.Empty)
+                            {
+                                this.NewItem.IsSynced = true;
+                                this.NewItem.Id = itemId;
+                                UserDialogs.Instance.Toast("Successfully updated " + this.NewItem.Description);
+                            }
+                            else
+                            {
+                                this.NewItem.IsSynced = false;
+                            }
                         }
+
+                        var syncResult = await this.dataService.UpdateItemAsync(this.NewItem);
                     }
-                    else
+                    catch (WebException webExc)
                     {
-                        var itemId = await this.apiService.UpdateItem(this.NewItem).ConfigureAwait(false);
-
-                        if (itemId != null && itemId != Guid.Empty)
-                        {
-                            this.NewItem.IsSynced = true;
-                            this.NewItem.Id = itemId;
-                            UserDialogs.Instance.Toast("Successfully updated " + this.NewItem.Description);
-                        }
-                        else
-                        {
-                            this.NewItem.IsSynced = false;
-                        }
+                        await UserDialogs.Instance.AlertAsync("Could not save to server: " + webExc.Message);
+                        this.NewItem.IsSynced = false;
                     }
-
-                    var syncResult = await this.dataService.UpdateItemAsync(this.NewItem).ConfigureAwait(false);
 
                     Device.BeginInvokeOnMainThread(async () =>
                     {
-                        await Shell.Current.Navigation.PopAsync(true).ConfigureAwait(false);
+                        await Shell.Current.Navigation.PopAsync(true);
                         UserDialogs.Instance.HideLoading();
                     });
                 }
             }
             catch (Exception exc)
             {
-                await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Item Error").ConfigureAwait(false);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Saving Item Error");
             }
             finally
             {
@@ -243,13 +251,13 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 if (this.NewItem.ItemTypeId <= 0)
                 {
-                    await UserDialogs.Instance.AlertAsync("Please select the type of item.", "Incomplete Item").ConfigureAwait(false);
+                    await UserDialogs.Instance.AlertAsync("Please select the type of item.", "Incomplete Item");
                     return false;
                 }
 
                 if (this.NewItem.BoatId == Guid.Empty || this.NewItem.BoatId == null)
                 {
-                    await UserDialogs.Instance.AlertAsync("Invalid boat linked. Please ensure that you are adding this item to valid boat.", "Incomplete Item").ConfigureAwait(false);
+                    await UserDialogs.Instance.AlertAsync("Invalid boat linked. Please ensure that you are adding this item to valid boat.", "Incomplete Item");
                     return false;
                 }
 
@@ -259,14 +267,14 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     this.NewItem.ItemImage.Id == null ||
                     this.NewItem.ItemImage.Id == Guid.Empty)
                 {
-                    await UserDialogs.Instance.AlertAsync("No image has been captured for the item. Please capture an image before continuing.", "Incomplete Item").ConfigureAwait(false);
+                    await UserDialogs.Instance.AlertAsync("No image has been captured for the item. Please capture an image before continuing.", "Incomplete Item");
                     return false;
                 }
 
-                if (await this.CanItemExpire((ItemTypeEnum)this.NewItem.ItemTypeId).ConfigureAwait(false) && 
+                if (await this.CanItemExpire((ItemTypeEnum)this.NewItem.ItemTypeId) && 
                     DateTime.Compare(DateTime.Today.AddMonths(6), this.NewItem.ExpiryDate) >= 0)
                 {
-                    await UserDialogs.Instance.AlertAsync("You cannot add an item that expires within 6 months.", "Incomplete Item").ConfigureAwait(false);
+                    await UserDialogs.Instance.AlertAsync("You cannot add an item that expires within 6 months.", "Incomplete Item");
                     return false;
                 }
                 else

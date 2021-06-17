@@ -62,7 +62,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
         {
             this.ChangePhotoCommand = new Command(async () =>
             {
-                this.ProfileImage = await CapturePhotoService.CapturePhotoAsync("OwnerPhoto").ConfigureAwait(false);
+                this.ProfileImage = await CapturePhotoService.CapturePhotoAsync("OwnerPhoto");
             });
             this.LogOutCommand = new Command(() =>
             {
@@ -76,12 +76,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             this.SettingsCommand = new Command(async () =>
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.settingsRoute}", true).ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.settingsRoute}", true);
             });
             this.BoatsCommand = new Command(async () =>
             {
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.boatsRoute}", true).ConfigureAwait(false);
+                await Shell.Current.GoToAsync($"{Constants.boatsRoute}", true);
             });
         }
     }
