@@ -191,6 +191,21 @@
             </param>
             <returns></returns>
         </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.CreateCertificationRequest(BlueMile.Certification.Web.ApiModels.CreateCertificationRequestModel)">
+            <summary>
+            Creates a new <c>CertificationRequest</c> with the given details.
+            </summary>
+            <param name="model">
+                The <see cref="T:BlueMile.Certification.Web.ApiModels.CreateCertificationRequestModel"/> containing the properties of the new request to create.
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetCertificationRequests(BlueMile.Certification.Web.ApiModels.FindCertificationRequestsModel)">
+            <summary>
+            Gets all the active certification requests in the system.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:BlueMile.Certification.WebApi.Api.Controllers.CertificationController.GetControllerActionNames">
             <summary>
             Gets the name of the action where an error occurs.
@@ -296,7 +311,7 @@
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DoesBoatExist(System.Guid)">
             <inheritdoc/>
         </member>
-        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllBoats(BlueMile.Certification.Web.ApiModels.FindBoatsModel)">
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllBoats(BlueMile.Certification.WebApi.Services.FindBoatsModel)">
             <inheritdoc/>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindAllBoatsByOwnerId(System.Guid)">
@@ -327,6 +342,12 @@
             <inheritdoc/>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.UpdateItem(BlueMile.Certification.Web.ApiModels.UpdateItemModel)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.CreateCertificationRequest(BlueMile.Certification.Web.ApiModels.CreateCertificationRequestModel)">
+            <inheritdoc/>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.FindCertificationRequests(BlueMile.Certification.Web.ApiModels.FindCertificationRequestsModel)">
             <inheritdoc/>
         </member>
         <member name="M:BlueMile.Certification.WebApi.Services.CertificationRepository.DidAddressChange(BlueMile.Certification.Data.Models.LegalEntityAddress,BlueMile.Certification.Data.Models.LegalEntityAddress)">
@@ -426,7 +447,7 @@
                 Returns a boolean flag indicating if the owner was successfully removed.
             </returns>
         </member>
-        <member name="M:BlueMile.Certification.WebApi.Services.ICertificationRepository.FindAllBoats(BlueMile.Certification.Web.ApiModels.FindBoatsModel)">
+        <member name="M:BlueMile.Certification.WebApi.Services.ICertificationRepository.FindAllBoats(BlueMile.Certification.WebApi.Services.FindBoatsModel)">
             <summary>
             Finds all of the boats with the given filtering parameters.
             </summary>
@@ -578,6 +599,28 @@
             </param>
             <returns>
                 Returns a boolean flag indicating if the item was successfully removed.
+            </returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.ICertificationRepository.CreateCertificationRequest(BlueMile.Certification.Web.ApiModels.CreateCertificationRequestModel)">
+            <summary>
+            Creates a new <see cref="T:BlueMile.Certification.Data.Models.CertificationRequest"/> from the given <see cref="T:BlueMile.Certification.Web.ApiModels.CreateCertificationRequestModel"/>.
+            </summary>
+            <param name="model">
+                The <see cref="T:BlueMile.Certification.Web.ApiModels.CreateCertificationRequestModel"/> containing all the properties for the new request.
+            </param>
+            <returns>
+                Returns a unique identifier of the request created.
+            </returns>
+        </member>
+        <member name="M:BlueMile.Certification.WebApi.Services.ICertificationRepository.FindCertificationRequests(BlueMile.Certification.Web.ApiModels.FindCertificationRequestsModel)">
+            <summary>
+            Finds a list of certification requests matching the filtering parameters given.
+            </summary>
+            <param name="model">
+                The filtering criteria to find the <see cref="T:BlueMile.Certification.Data.Models.CertificationRequest"/>s with.
+            </param>
+            <returns>
+                Returns the collection of <see cref="T:BlueMile.Certification.Web.ApiModels.CertificationRequestModel"/> found.
             </returns>
         </member>
     </members>

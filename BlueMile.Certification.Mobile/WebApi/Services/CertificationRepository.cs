@@ -399,6 +399,79 @@ namespace BlueMile.Certification.WebApi.Services
 
         #endregion
 
+        #region Certification Requests
+
+        /// <inheritdoc/>
+        public async Task<Guid> CreateCertificationRequest(CreateCertificationRequestModel model)
+        {
+            try
+            {
+                var request = BoatHelper.ToCertificationDataModel(model);
+                await this.applicationDb.CertificationRequests.AddAsync(request);
+
+                await this.applicationDb.SaveChangesAsync();
+
+                return request.Id;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<CertificationRequestModel[]> FindCertificationRequests(FindCertificationRequestsModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
+
+                var query = this.applicationDb.CertificationRequests.Include("Boat").Where(x => x.IsActive).AsQueryable();
+
+                if (model.BoatId.HasValue)
+                {
+                    query = query.Where(x => x.BoatId == model.BoatId);
+                }
+
+                if (model.CertificationRequestId.HasValue)
+                {
+                    query = query.Where(x => x.Id == model.CertificationRequestId);
+                }
+
+                if (!String.IsNullOrWhiteSpace(model.SearchTerm))
+                {
+                    query = query.Where(x => x.Boat.Name.Contains(model.SearchTerm) ||
+                                             x.Boat.RegisteredNumber.Contains(model.SearchTerm) ||
+                                             x.Boat.BoyancyCertificateNumber.Contains(model.SearchTerm));
+                }
+
+                var total = await query.CountAsync();
+                var pagedData = await query.OrderByDescending(x => x.Id).ToArrayAsync();
+
+                var results = pagedData.Select(x => new CertificationRequestModel()
+                {
+                    Id = x.Id,
+                    ApprovedOn = x.ApprovedOn,
+                    BoatId = x.BoatId,
+                    CompletedOn = x.CompletedOn,
+                    RejectedOn = x.RejectedOn,
+                    RequestedOn = x.RequestedOn,
+                    RequestStateId = x.RequestStateId
+                }).ToArray();
+
+                return results;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Class Methods

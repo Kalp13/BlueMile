@@ -8,6 +8,8 @@ namespace BlueMile.Certification.Web.ApiModels
 
         public Guid? BoatId { get; set; }
 
+        public Guid? OwnerId { get; set; }
+
         #region Constructor
 
         /// <summary>

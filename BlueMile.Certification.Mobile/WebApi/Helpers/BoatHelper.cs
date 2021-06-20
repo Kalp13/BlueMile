@@ -132,5 +132,17 @@ namespace BlueMile.Certification.WebApi.Helpers
             };
             return document;
         }
+
+        public static CertificationRequest ToCertificationDataModel(CreateCertificationRequestModel model)
+        {
+            var request = new CertificationRequest()
+            {
+                Id = model.Id,
+                BoatId = model.BoatId,
+                RequestStateId = model.RequestStateId,
+                RequestedOn = DateTime.Now,
+            };
+            return request;
+        }
     }
 }

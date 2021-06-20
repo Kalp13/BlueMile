@@ -1,4 +1,5 @@
-﻿using BlueMile.Certification.Web.ApiModels;
+﻿using BlueMile.Certification.Data.Models;
+using BlueMile.Certification.Web.ApiModels;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -251,6 +252,32 @@ namespace BlueMile.Certification.WebApi.Services
         ///     Returns a boolean flag indicating if the item was successfully removed.
         /// </returns>
         Task<bool> DeleteItem(Guid itemId);
+
+        #endregion
+
+        #region Certification Methods
+
+        /// <summary>
+        /// Creates a new <see cref="CertificationRequest"/> from the given <see cref="CreateCertificationRequestModel"/>.
+        /// </summary>
+        /// <param name="model">
+        ///     The <see cref="CreateCertificationRequestModel"/> containing all the properties for the new request.
+        /// </param>
+        /// <returns>
+        ///     Returns a unique identifier of the request created.
+        /// </returns>
+        Task<Guid> CreateCertificationRequest(CreateCertificationRequestModel model);
+
+        /// <summary>
+        /// Finds a list of certification requests matching the filtering parameters given.
+        /// </summary>
+        /// <param name="model">
+        ///     The filtering criteria to find the <see cref="CertificationRequest"/>s with.
+        /// </param>
+        /// <returns>
+        ///     Returns the collection of <see cref="CertificationRequestModel"/> found.
+        /// </returns>
+        Task<CertificationRequestModel[]> FindCertificationRequests(FindCertificationRequestsModel model);
 
         #endregion
     }

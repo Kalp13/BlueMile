@@ -994,6 +994,99 @@ namespace BlueMile.Certification.Web.ApiClient
 
         #endregion
 
+        #region Instance Methods
+
+        /// <inheritdoc/>
+        public async Task<Guid> CreateCertificationRequest(CertificationRequestModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+                this.client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", this.userToken);
+                string json = JsonConvert.SerializeObject(CertificationHelper.ToCreateCertificationRequestModel(model));
+                using StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = null;
+
+                Uri uri = new Uri($"{this.baseAddress}/Certification/certification/create");
+                if (this.client.BaseAddress == null)
+                {
+                    this.client.BaseAddress = new Uri(this.baseAddress);
+                }
+
+                response = await client.PostAsync(uri, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = JsonConvert.DeserializeObject<Guid>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+                else
+                {
+                    throw new ArgumentException(response.ReasonPhrase);
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<CertificationRequestModel[]> FindCertificationRequests(FindCertificationRequestsModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+
+                var addressBuilder = new UriBuilder($"{this.baseAddress}/Certification/certification");
+                var query = HttpUtility.ParseQueryString(addressBuilder.Query);
+                query[nameof(model.BoatId)] = model.BoatId.ToString();
+                query[nameof(model.CertificationRequestId)] = model.CertificationRequestId.ToString();
+                query[nameof(model.SearchTerm)] = model.SearchTerm;
+
+                addressBuilder.Query = query.ToString();
+
+                var authHeader = new AuthenticationHeaderValue("bearer", this.userToken);
+                this.client.DefaultRequestHeaders.Authorization = authHeader;
+
+                var request = new HttpRequestMessage(HttpMethod.Get, addressBuilder.ToString());
+                request.Headers.Authorization = authHeader;
+
+                var response = await this.client.SendAsync(request);
+                if (response.IsSuccessStatusCode)
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    var requests = JsonConvert.DeserializeObject<CertificationRequestModel[]>(content);
+                    return requests;
+                }
+
+                return null;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region Instance Methods

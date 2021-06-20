@@ -221,5 +221,31 @@ namespace BlueMile.Certification.Web.ApiClient
         Task<bool> DoesItemExist(Guid itemId);
 
         #endregion
+
+        #region Certification Methods
+
+        /// <summary>
+        /// Creates a new <c>CertificationRequest</c> from the given <see cref="CertificationRequestModel"/>.
+        /// </summary>
+        /// <param name="model">
+        ///     The <see cref="CertificationRequestModel"/> containing all the properties for the new request.
+        /// </param>
+        /// <returns>
+        ///     Returns a unique identifier of the request created.
+        /// </returns>
+        Task<Guid> CreateCertificationRequest(CertificationRequestModel model);
+
+        /// <summary>
+        /// Finds a list of certification requests matching the filtering parameters given.
+        /// </summary>
+        /// <param name="model">
+        ///     The filtering criteria to find the <see cref="CertificationRequest"/>s with.
+        /// </param>
+        /// <returns>
+        ///     Returns the collection of <see cref="CertificationRequestModel"/> found.
+        /// </returns>
+        Task<CertificationRequestModel[]> FindCertificationRequests(FindCertificationRequestsModel model);
+
+        #endregion
     }
 }

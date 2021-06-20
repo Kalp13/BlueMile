@@ -1066,16 +1066,97 @@ namespace BlueMile.Certification.WebApi.Api.Controllers
 
         #endregion
 
-        #region Instance Methods
-        
+        #region Certification Methods
 
-		/// <summary>
-		/// Gets the name of the action where an error occurs.
-		/// </summary>
-		/// <returns>
-		///		Returns the string name of the action where the error occurred.
-		/// </returns>
-		private string GetControllerActionNames()
+        /// <summary>
+        /// Creates a new <c>CertificationRequest</c> with the given details.
+        /// </summary>
+        /// <param name="model">
+        ///     The <see cref="CreateCertificationRequestModel"/> containing the properties of the new request to create.
+        /// </param>
+        /// <returns></returns>
+        [method:
+            HttpPost,
+            Route("certification/create"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<IActionResult> CreateCertificationRequest(CreateCertificationRequestModel model)
+        {
+            try
+            {
+                this.logger.TraceRequest(model);
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                if (model == null)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
+
+                var requestId = await this.certificationRepository.CreateCertificationRequest(model);
+
+                if (requestId != Guid.Empty)
+                {
+                    this.logger.LogInformation($"Successfully created new request with unique identifier {requestId} for boat with unique identifier {model.BoatId}");
+                    return this.Ok(requestId);
+                }
+                else
+                {
+                    this.logger.LogInformation($"Could not create new request for boat with unique identifier {model.BoatId}");
+                    return this.BadRequest("Could not create new item.");
+                }
+            }
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
+        }
+
+        /// <summary>
+        /// Gets all the active certification requests in the system.
+        /// </summary>
+        /// <returns></returns>
+        [method:
+            HttpGet,
+            Route("certification"),
+            ProducesResponseType((int)HttpStatusCode.OK),
+            ProducesResponseType((int)HttpStatusCode.Unauthorized),
+            ProducesResponseType((int)HttpStatusCode.BadRequest),
+            ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+        public async Task<ActionResult<CertificationRequestModel>> GetCertificationRequests([FromQuery] FindCertificationRequestsModel model)
+        {
+            try
+            {
+                this.logger.TraceRequest(nameof(GetOwners));
+                this.logger.LogInformation($"{this.GetControllerActionNames()}: Attempting call.");
+
+                var requests = await this.certificationRepository.FindCertificationRequests(model);
+
+                this.logger.LogInformation($"Successfully retrieved {requests.Count()} owners.");
+
+                return this.Ok(requests);
+            }
+            catch (Exception exc)
+            {
+                this.logger.LogError(exc.Message);
+                return this.BadRequest(exc.Message);
+            }
+        }
+
+        #endregion
+
+        #region Instance Methods
+
+
+        /// <summary>
+        /// Gets the name of the action where an error occurs.
+        /// </summary>
+        /// <returns>
+        ///		Returns the string name of the action where the error occurred.
+        /// </returns>
+        private string GetControllerActionNames()
 		{
 			var controller = this.ControllerContext.ActionDescriptor.ControllerName;
 			var action = this.ControllerContext.ActionDescriptor.ActionName;
