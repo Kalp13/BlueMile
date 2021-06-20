@@ -10,6 +10,11 @@ namespace BlueMile.Certification.Web.ApiModels
 
         public Guid BoatId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the name of the boat linked to this request.
+        /// </summary>
+        public string BoatName { get; set; }
+
         public int RequestStateId { get; set; }
 
         public DateTime? RequestedOn { get; set; }

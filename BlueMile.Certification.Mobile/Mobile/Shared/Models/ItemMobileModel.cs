@@ -7,11 +7,13 @@ namespace BlueMile.Certification.Mobile.Models
 {
     public class ItemMobileModel
     {
-        [AutoIncrement, PrimaryKey]
+        /// <summary>
+        /// Gets or sets the unique primary identifier of the <see cref="ItemMobileModel"/>.
+        /// </summary>
         public Guid Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the unique indexed foreign key to the <see cref="BoatEntity"/> for this <see cref="RequiredItemEntity"/>.
+        /// Gets or sets the unique identifier of the boat linked to this item.
         /// </summary>
         public Guid BoatId { get; set; }
 

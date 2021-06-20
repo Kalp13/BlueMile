@@ -73,5 +73,35 @@ namespace BlueMile.Certification.Mobile.Helpers
             };
             return doc;
         }
+
+        public static CertificationRequestMobileModel ToCertificationRequestMobileModel(CertificationRequestModel model)
+        {
+            var request = new CertificationRequestMobileModel()
+            {
+                ApprovedOn = model.ApprovedOn,
+                BoatId = model.BoatId,
+                CompletedOn = model.CompletedOn,
+                Id = model.Id,
+                RejectedOn = model.RejectedOn,
+                RequestedOn = model.RequestedOn,
+                RequestStateId = model.RequestStateId
+            };
+            return request;
+        }
+
+        public static CertificationRequestModel ToCertificationRequestModel(CertificationRequestMobileModel model)
+        {
+            var request = new CertificationRequestModel()
+            {
+                ApprovedOn = model.ApprovedOn,
+                BoatId = model.BoatId,
+                CompletedOn = model.CompletedOn,
+                Id = model.Id,
+                RejectedOn = model.RejectedOn,
+                RequestedOn = model.RequestedOn,
+                RequestStateId = model.RequestStateId
+            };
+            return request;
+        }
     }
 }

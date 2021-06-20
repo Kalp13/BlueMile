@@ -601,6 +601,78 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
 
         #endregion
 
+        #region Certification Methods
+
+        /// <inheritdoc/>
+        public async Task<Guid> CreateCertificationRequest(CertificationRequestMobileModel model)
+        {
+            try
+            {
+                if (model == null)
+                {
+                    throw new ArgumentNullException(nameof(model));
+                }
+
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+
+                if (!await this.HasInternetConnectionAsync())
+                {
+                    throw new WebException("No Internet Connection");
+                }
+
+                if (!await this.client.IsServiceActive())
+                {
+                    throw new WebException("Services cannot be contacted.");
+                }
+
+                var result = await this.client.CreateCertificationRequest(BoatModelHelper.ToCertificationRequestModel(model));
+                return result;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        /// <inheritdoc/>
+        public async Task<List<CertificationRequestMobileModel>> FindCertificationRequests(Guid boatId)
+        {
+            try
+            {
+                if (this.client == null)
+                {
+                    this.client = CreateClient();
+                }
+
+                if (!await this.HasInternetConnectionAsync())
+                {
+                    throw new WebException("No Internet Connection");
+                }
+
+                if (!await this.client.IsServiceActive())
+                {
+                    throw new WebException("Services cannot be contacted.");
+                }
+
+                var results = await this.client.FindCertificationRequests(new FindCertificationRequestsModel()
+                {
+                    BoatId = boatId,
+                    SearchTerm = String.Empty,
+                });
+
+                return results.Select(x => BoatModelHelper.ToCertificationRequestMobileModel(x)).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        #endregion
+
         #region Class Methods
 
         /// <summary>

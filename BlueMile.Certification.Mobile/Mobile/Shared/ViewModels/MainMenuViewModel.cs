@@ -18,6 +18,12 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
+        public ICommand CertificationsCommand
+        {
+            get;
+            private set;
+        }
+
         #endregion
 
         #region Constructor
@@ -37,6 +43,26 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 await this.OpenBoatListAsync();
             });
+            this.CertificationsCommand = new Command(async () =>
+            {
+                await this.GoToCertificationRequests();
+            });
+        }
+
+        private async Task GoToCertificationRequests()
+        {
+            try
+            {
+                UserDialogs.Instance.ShowLoading("Loading...");
+                ShellNavigationState state = Shell.Current.CurrentState;
+                await Shell.Current.GoToAsync($"{Constants.allCertificationRequestsRoute}", true);
+                Shell.Current.FlyoutIsPresented = false;
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Navigation Error");
+            }
         }
 
         private async Task OpenBoatListAsync()
@@ -45,7 +71,7 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
                 ShellNavigationState state = Shell.Current.CurrentState;
-                await Shell.Current.GoToAsync($"{Constants.boatsRoute}");
+                await Shell.Current.GoToAsync($"{Constants.boatsRoute}", true);
                 Shell.Current.FlyoutIsPresented = false;
             }
             catch (Exception exc)

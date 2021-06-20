@@ -16,9 +16,9 @@
                    Aspect="AspectFit"/>
             <Button Text="My Boats"
                     Command="{Binding BoatsCommand}"/>
-            <Button Text="My COF Requests"
-                    Command="{Binding}"/>
-            <Button Text="My Profile"
+            <Button Text="COF Requests"
+                    Command="{Binding CertificationsCommand}"/>
+            <Button Text="Servicing"
                     Command="{Binding}"/>
         </StackLayout>
     </ContentPage.Content>

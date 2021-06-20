@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using BlueMile.Certification.Mobile.Data.Static;
 using BlueMile.Certification.Mobile.Models;
 using BlueMile.Certification.Mobile.Services;
 using BlueMile.Certification.Mobile.Services.ExternalServices;
@@ -79,12 +80,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
             private set;
         }
 
-        public ICommand SubmitForCertificationCommand
-        {
-            get;
-            private set;
-        }
-
         public ICommand SaveCommand
         {
             get;
@@ -147,12 +142,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 await UserDialogs.Instance.AlertAsync(await RequirementValidationService.GetRequiredItems(this.CurrentBoat.Id));
             });
-            this.SubmitForCertificationCommand = new Command(async () =>
-            {
-                UserDialogs.Instance.ShowLoading("Submitting...");
-                UserDialogs.Instance.HideLoading();
-            });
-
             this.SaveCommand = new Command(async () =>
             {
                 await this.SaveBoatDetails();
@@ -165,7 +154,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     await this.GetBoat();
                 }
             });
-
             this.EditBoatCommand = new Command(async () =>
             {
                 this.EditBoat = true;
@@ -173,22 +161,58 @@ namespace BlueMile.Certification.Mobile.ViewModels
                 await Shell.Current.GoToAsync($"{Constants.boatEditRoute}?boatId={this.CurrentBoat.Id}", true);
                 Shell.Current.FlyoutIsPresented = false;
             });
-
             this.SyncCommand = new Command(async () =>
             {
                 UserDialogs.Instance.ShowLoading("Loading...");
                 await this.UploadItemToServer();
             });
-
             this.RequestCertificateCommand = new Command(async () =>
             {
+                UserDialogs.Instance.ShowLoading("Loading...");
                 await this.RequestNewBoatCOF();
             });
         }
 
-        private Task RequestNewBoatCOF()
+        private async Task RequestNewBoatCOF()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (this.apiService == null)
+                {
+                    this.apiService = new ServiceCommunication();
+                }
+
+                Guid requestId;
+                try
+                {
+                    requestId = await this.apiService.CreateCertificationRequest(new CertificationRequestMobileModel()
+                    {
+                        Id = Guid.NewGuid(),
+                        BoatId = this.CurrentBoat.Id,
+                        RequestStateId = (int)RequestStatesEnum.Requested
+                    });
+
+                }
+                catch (WebException webExc)
+                {
+                    requestId = Guid.Empty;
+                    await UserDialogs.Instance.AlertAsync("Could not request new COF:" + webExc.Message, "Failed COF Request");
+                }
+
+                if (requestId != Guid.Empty)
+                {
+                    UserDialogs.Instance.Toast("Successfully requested a new COF");
+                }
+            }
+            catch (Exception exc)
+            {
+                Crashes.TrackError(exc);
+                await UserDialogs.Instance.AlertAsync(exc.Message, "Certification Submit Error");
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
+            }
         }
 
         private async Task UploadItemToServer()
@@ -277,7 +301,6 @@ namespace BlueMile.Certification.Mobile.ViewModels
                     UserDialogs.Instance.Toast("Successfully updated " + this.CurrentBoat.Name);
                     this.EditBoat = false;
                     await this.GetBoat();
-                    UserDialogs.Instance.HideLoading();
                 }
                 else
                 {
@@ -288,6 +311,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             {
                 Crashes.TrackError(exc);
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Save Details Error");
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -322,6 +349,10 @@ namespace BlueMile.Certification.Mobile.ViewModels
             catch (Exception exc)
             {
                 await UserDialogs.Instance.AlertAsync(exc.Message, "Get Boat Error");
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
             }
         }
 

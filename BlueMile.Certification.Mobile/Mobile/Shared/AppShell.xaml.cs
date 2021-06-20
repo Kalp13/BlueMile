@@ -29,6 +29,9 @@ namespace BlueMile.Certification.Mobile
             Routing.RegisterRoute(Constants.itemNewRoute, typeof(NewItemPage));
             Routing.RegisterRoute(Constants.itemEditRoute, typeof(EditRequiredItemPage));
 
+            //Certification Pages
+            Routing.RegisterRoute(Constants.allCertificationRequestsRoute, typeof(CertificationRequestsPage));
+
             //User Pages
             Routing.RegisterRoute(nameof(RegisterUserPage), typeof(RegisterUserPage));
             Routing.RegisterRoute(nameof(LoginPage), typeof(LoginPage));

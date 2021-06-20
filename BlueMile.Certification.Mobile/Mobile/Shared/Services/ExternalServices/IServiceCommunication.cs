@@ -202,5 +202,31 @@ namespace BlueMile.Certification.Mobile.Services.ExternalServices
         Task<bool> DoesItemExist(Guid itemId);
 
         #endregion
+
+        #region Certification Methods
+
+        /// <summary>
+        /// Creates a new <c>CertificationRequest</c> from the given <see cref="CertificationRequestModel"/>.
+        /// </summary>
+        /// <param name="model">
+        ///     The <see cref="CertificationRequestModel"/> containing all the properties for the new request.
+        /// </param>
+        /// <returns>
+        ///     Returns a unique identifier of the request created.
+        /// </returns>
+        Task<Guid> CreateCertificationRequest(CertificationRequestMobileModel model);
+
+        /// <summary>
+        /// Finds a list of certification requests with the given unique boat identifier.
+        /// </summary>
+        /// <param name="boatId">
+        ///     The unique identifier of the boat.
+        /// </param>
+        /// <returns>
+        ///     Returns the collection of <see cref="CertificationRequestModel"/> found.
+        /// </returns>
+        Task<List<CertificationRequestMobileModel>> FindCertificationRequests(Guid boatId);
+
+        #endregion
     }
 }

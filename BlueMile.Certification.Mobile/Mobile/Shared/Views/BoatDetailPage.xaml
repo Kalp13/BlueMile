@@ -84,7 +84,7 @@
                      Command="{Binding ViewRequirementsCommand}"
                      Order="Secondary"/>
         <ToolbarItem Text="Request Certification"
-                     Command="{Binding SubmitForCocCommand}"
+                     Command="{Binding RequestCertificateCommand}"
                      Order="Secondary"
                      Priority="1"/>
     </ContentPage.ToolbarItems>

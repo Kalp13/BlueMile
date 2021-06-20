@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace BlueMile.Certification.Mobile.Converters
 {
-    public class CategoryDescriptionConverter : IValueConverter
+    public class RequestDescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -16,7 +16,7 @@ namespace BlueMile.Certification.Mobile.Converters
                 return String.Empty;
             }
 
-            return GetDescription((BoatCategoryEnum)value);
+            return GetDescription((RequestStatesEnum)value);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -24,7 +24,7 @@ namespace BlueMile.Certification.Mobile.Converters
             return value;
         }
 
-        public static string GetDescription(BoatCategoryEnum x)
+        public static string GetDescription(RequestStatesEnum x)
         {
             Type type = x.GetType();
             MemberInfo[] memInfo = type.GetMember(x.ToString());
