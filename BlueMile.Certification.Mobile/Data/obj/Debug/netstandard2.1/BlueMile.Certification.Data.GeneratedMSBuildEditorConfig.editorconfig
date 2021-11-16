@@ -1,0 +1,3 @@
+is_global = true
+build_property.RootNamespace = BlueMile.Certification.Data
+build_property.ProjectDir = C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Data\
