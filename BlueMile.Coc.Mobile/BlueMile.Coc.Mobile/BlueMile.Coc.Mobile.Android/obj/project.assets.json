@@ -3708,26 +3708,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\rfkal\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\Rudolph\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.Android\\BlueMile.Coc.Mobile.Android.csproj",
+      "projectUniqueName": "C:\\VSTS\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.Android\\BlueMile.Coc.Mobile.Android.csproj",
       "projectName": "BlueMile.Coc.Mobile.Android",
-      "projectPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.Android\\BlueMile.Coc.Mobile.Android.csproj",
-      "packagesPath": "C:\\Users\\rfkal\\.nuget\\packages\\",
-      "outputPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.Android\\obj\\",
+      "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.Android\\BlueMile.Coc.Mobile.Android.csproj",
+      "packagesPath": "C:\\Users\\Rudolph\\.nuget\\packages\\",
+      "outputPath": "C:\\VSTS\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\rfkal\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+        "C:\\Users\\Rudolph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "monoandroid90"
@@ -3739,8 +3739,8 @@
       "frameworks": {
         "monoandroid90": {
           "projectReferences": {
-            "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj": {
-              "projectPath": "C:\\VSTS\\Personal\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj"
+            "C:\\VSTS\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj": {
+              "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile\\BlueMile.Coc.Mobile.csproj"
             }
           }
         }

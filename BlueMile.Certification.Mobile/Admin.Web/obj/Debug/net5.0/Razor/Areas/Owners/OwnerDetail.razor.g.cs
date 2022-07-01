@@ -121,7 +121,7 @@ else
 #line hidden
 #nullable disable
             __builder.OpenComponent<BlueMile.Certification.Admin.Web.Shared.LoadingDisplay>(3);
-            __builder.AddAttribute(4, "IsLoading", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Boolean>(
+            __builder.AddAttribute(4, "IsLoading", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Boolean>(
 #nullable restore
 #line 13 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
                                this.IsLoading
@@ -138,99 +138,85 @@ else
                 __builder2.OpenElement(10, "tr");
                 __builder2.AddMarkupContent(11, "<td>Name</td>\r\n                    ");
                 __builder2.OpenElement(12, "td");
-                __builder2.AddContent(13, 
 #nullable restore
 #line 18 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
-                          this.Model.FirstName + " " + this.Model.LastName
+__builder2.AddContent(13, this.Model.FirstName + " " + this.Model.LastName);
 
 #line default
 #line hidden
 #nullable disable
-                );
                 __builder2.CloseElement();
                 __builder2.AddMarkupContent(14, "\r\n                    ");
                 __builder2.AddMarkupContent(15, "<td>Identification</td>\r\n                    ");
                 __builder2.OpenElement(16, "td");
-                __builder2.AddContent(17, 
 #nullable restore
 #line 20 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
-                         this.Model.Identification
+__builder2.AddContent(17, this.Model.Identification);
 
 #line default
 #line hidden
 #nullable disable
-                );
                 __builder2.CloseElement();
                 __builder2.CloseElement();
                 __builder2.AddMarkupContent(18, "\r\n                ");
                 __builder2.OpenElement(19, "tr");
                 __builder2.AddMarkupContent(20, "<td>Contact Number</td>\r\n                    ");
                 __builder2.OpenElement(21, "td");
-                __builder2.AddContent(22, 
 #nullable restore
 #line 24 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
-                         this.Model.ContactNumber
+__builder2.AddContent(22, this.Model.ContactNumber);
 
 #line default
 #line hidden
 #nullable disable
-                );
                 __builder2.CloseElement();
                 __builder2.AddMarkupContent(23, "\r\n                    ");
                 __builder2.AddMarkupContent(24, "<td>Email</td>\r\n                    ");
                 __builder2.OpenElement(25, "td");
-                __builder2.AddContent(26, 
 #nullable restore
 #line 26 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
-                         this.Model.Email
+__builder2.AddContent(26, this.Model.Email);
 
 #line default
 #line hidden
 #nullable disable
-                );
                 __builder2.CloseElement();
                 __builder2.CloseElement();
                 __builder2.AddMarkupContent(27, "\r\n                ");
                 __builder2.OpenElement(28, "tr");
                 __builder2.AddMarkupContent(29, "<td>Skippers License</td>\r\n                    ");
                 __builder2.OpenElement(30, "td");
-                __builder2.AddContent(31, 
 #nullable restore
 #line 30 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
-                         this.Model.SkippersLicenseNumber
+__builder2.AddContent(31, this.Model.SkippersLicenseNumber);
 
 #line default
 #line hidden
 #nullable disable
-                );
                 __builder2.CloseElement();
                 __builder2.AddMarkupContent(32, "\r\n                    ");
                 __builder2.AddMarkupContent(33, "<td>VHF License</td>\r\n                    ");
                 __builder2.OpenElement(34, "td");
-                __builder2.AddContent(35, 
 #nullable restore
 #line 32 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
-                         this.Model.VhfOperatorsLicense
+__builder2.AddContent(35, this.Model.VhfOperatorsLicense);
 
 #line default
 #line hidden
 #nullable disable
-                );
                 __builder2.CloseElement();
                 __builder2.CloseElement();
                 __builder2.AddMarkupContent(36, "\r\n                ");
                 __builder2.OpenElement(37, "tr");
                 __builder2.AddMarkupContent(38, "<td>VHF License</td>\r\n                    ");
                 __builder2.OpenElement(39, "td");
-                __builder2.AddContent(40, 
 #nullable restore
 #line 36 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Areas\Owners\OwnerDetail.razor"
-                         this.Model.VhfOperatorsLicense
+__builder2.AddContent(40, this.Model.VhfOperatorsLicense);
 
 #line default
 #line hidden
 #nullable disable
-                );
                 __builder2.CloseElement();
                 __builder2.CloseElement();
                 __builder2.CloseElement();

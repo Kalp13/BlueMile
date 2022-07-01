@@ -1,6 +1,5 @@
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Mobile.deps.json
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Mobile.dll
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\ref\BlueMile.Certification.Mobile.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Mobile.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.dll
@@ -33,3 +32,5 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstanda
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\ref\BlueMile.Certification.Mobile.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\Views\CertificationRequestsPage.xaml.g.cs
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\BlueMile.Certification.Mobile.GeneratedMSBuildEditorConfig.editorconfig
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Mobile\Shared\obj\Debug\netstandard2.1\refint\BlueMile.Certification.Mobile.dll

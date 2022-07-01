@@ -150,15 +150,13 @@ using System.Globalization;
                 __builder2.AddAttribute(23, "class", "nav-link");
                 __builder2.AddAttribute(24, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
                     __builder3.AddMarkupContent(25, "<span class=\"oi oi-account-login\" aria-hidden=\"true\" b-yp32a8xbhi></span> ");
-                    __builder3.AddContent(26, 
 #nullable restore
 #line 14 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\NavMenu.razor"
-                                                                                      context.User.Identity.Name
+__builder3.AddContent(26, context.User.Identity.Name);
 
 #line default
 #line hidden
 #nullable disable
-                    );
                 }
                 ));
                 __builder2.CloseComponent();
@@ -170,7 +168,7 @@ using System.Globalization;
                 __builder2.OpenComponent<Microsoft.AspNetCore.Components.Routing.NavLink>(31);
                 __builder2.AddAttribute(32, "class", "nav-link");
                 __builder2.AddAttribute(33, "href", "logout");
-                __builder2.AddAttribute(34, "Match", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
+                __builder2.AddAttribute(34, "Match", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
 #nullable restore
 #line 18 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\NavMenu.razor"
                                                                    NavLinkMatch.All
@@ -194,7 +192,7 @@ using System.Globalization;
                 __builder2.OpenComponent<Microsoft.AspNetCore.Components.Routing.NavLink>(41);
                 __builder2.AddAttribute(42, "class", "nav-link");
                 __builder2.AddAttribute(43, "href", "login");
-                __builder2.AddAttribute(44, "Match", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
+                __builder2.AddAttribute(44, "Match", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
 #nullable restore
 #line 25 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\NavMenu.razor"
                                                                   NavLinkMatch.All
@@ -216,7 +214,7 @@ using System.Globalization;
                 __builder2.OpenComponent<Microsoft.AspNetCore.Components.Routing.NavLink>(51);
                 __builder2.AddAttribute(52, "class", "nav-link");
                 __builder2.AddAttribute(53, "href", "register");
-                __builder2.AddAttribute(54, "Match", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
+                __builder2.AddAttribute(54, "Match", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
 #nullable restore
 #line 30 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\NavMenu.razor"
                                                                      NavLinkMatch.All
@@ -241,7 +239,7 @@ using System.Globalization;
             __builder.OpenComponent<Microsoft.AspNetCore.Components.Routing.NavLink>(61);
             __builder.AddAttribute(62, "class", "nav-link");
             __builder.AddAttribute(63, "href", "");
-            __builder.AddAttribute(64, "Match", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
+            __builder.AddAttribute(64, "Match", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.Routing.NavLinkMatch>(
 #nullable restore
 #line 37 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\NavMenu.razor"
                                                      NavLinkMatch.All

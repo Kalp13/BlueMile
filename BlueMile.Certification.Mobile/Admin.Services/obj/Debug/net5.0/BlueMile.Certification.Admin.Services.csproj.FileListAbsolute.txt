@@ -11,7 +11,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\B
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Admin.Services.runtimeconfig.json
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Admin.Services.runtimeconfig.dev.json
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Admin.Services.dll
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\ref\BlueMile.Certification.Admin.Services.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Admin.Services.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Data.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\bin\Debug\net5.0\BlueMile.Certification.Web.ApiClient.dll
@@ -32,3 +31,4 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\obj\Debug\net5.0\B
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\obj\Debug\net5.0\ref\BlueMile.Certification.Admin.Services.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\obj\Debug\net5.0\BlueMile.Certification.Admin.Services.genruntimeconfig.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Services\obj\Debug\net5.0\refint\BlueMile.Certification.Admin.Services.dll

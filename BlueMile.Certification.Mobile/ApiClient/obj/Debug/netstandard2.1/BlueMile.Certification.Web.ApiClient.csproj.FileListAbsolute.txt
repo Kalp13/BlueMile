@@ -22,3 +22,4 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\ApiClient\bin\Debug\netstandard2.
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\ApiClient\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\ApiClient\bin\Debug\netstandard2.1\BlueMile.Certification.Web.ApiModels.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.csproj.CopyComplete
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\ApiClient\obj\Debug\netstandard2.1\BlueMile.Certification.Web.ApiClient.GeneratedMSBuildEditorConfig.editorconfig

@@ -101,15 +101,13 @@ using System.Globalization;
             __builder.OpenElement(0, "div");
             __builder.AddAttribute(1, "class", "alert alert-dismissible alert-danger");
             __builder.OpenElement(2, "h5");
-            __builder.AddContent(3, 
 #nullable restore
 #line 2 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\ErrorMessage.razor"
-         Message
+__builder.AddContent(3, Message);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.CloseElement();
         }

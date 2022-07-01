@@ -109,15 +109,13 @@ using BlueMile.Certification.WebApi.Shared;
             __builder.OpenElement(18, "div");
             __builder.AddAttribute(19, "class", "content px-4");
             __builder.AddAttribute(20, "b-268ejvrew2");
-            __builder.AddContent(21, 
 #nullable restore
 #line 15 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\Shared\MainLayout.razor"
-             Body
+__builder.AddContent(21, Body);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.CloseElement();
             __builder.CloseElement();

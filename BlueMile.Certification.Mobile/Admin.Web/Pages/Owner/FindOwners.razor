@@ -1,0 +1,43 @@
+﻿<h3 class="card-title">Find Owners</h3>
+<br />
+<hr />
+<br />
+
+<AuthorizeView Roles="Administrator">
+    <a href="books/create" class="btn btn-primary">
+        <span class="oi oi-plus"></span>
+        Create New Owner
+    </a>
+</AuthorizeView>
+
+<LoadingDisplay IsLoading="this.Owners == null">
+    <MatTable Items="this.Owners">
+        <MatTableHeader>
+            <th>Name</th>
+            <th>Identification</th>
+            <th>Contact Number</th>
+            <th>Email</th>
+            <th>Skipper License</th>
+        </MatTableHeader>
+        <MatTableRow>
+            <td>
+                <a>@(context.FirstName + " " + context.LastName)</a>
+            </td>
+            <td>
+                @context.Identification
+            </td>
+            <td>
+                @context.ContactNumber
+            </td>
+            <td>
+                @context.Email
+            </td>
+            <td>
+                @context.SkippersLicenseNumber
+            </td>
+        </MatTableRow>
+    </MatTable>
+</LoadingDisplay>
+
+@code {
+}

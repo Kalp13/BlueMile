@@ -109,15 +109,13 @@ using System.Globalization;
 #line default
 #line hidden
 #nullable disable
-            __builder.AddContent(0, 
 #nullable restore
 #line 5 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\LoadingDisplay.razor"
-         LoadingTemplate
+__builder.AddContent(0, LoadingTemplate);
 
 #line default
 #line hidden
 #nullable disable
-            );
 #nullable restore
 #line 5 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\LoadingDisplay.razor"
                         
@@ -131,15 +129,13 @@ using System.Globalization;
             __builder.AddMarkupContent(1, "<div class=\"spinner\"></div>\r\n        ");
             __builder.OpenElement(2, "span");
             __builder.AddAttribute(3, "style", "display: inline-block; vertical-align: super");
-            __builder.AddContent(4, 
 #nullable restore
 #line 10 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\LoadingDisplay.razor"
-                                                                    LoadingText
+__builder.AddContent(4, LoadingText);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
 #nullable restore
 #line 11 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\LoadingDisplay.razor"
@@ -152,15 +148,13 @@ else
 #line default
 #line hidden
 #nullable disable
-            __builder.AddContent(5, 
 #nullable restore
 #line 15 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\LoadingDisplay.razor"
-     ChildContent
+__builder.AddContent(5, ChildContent);
 
 #line default
 #line hidden
 #nullable disable
-            );
 #nullable restore
 #line 15 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\LoadingDisplay.razor"
                  

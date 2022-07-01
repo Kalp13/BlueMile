@@ -115,15 +115,13 @@ using System.Globalization;
             __builder.OpenElement(12, "div");
             __builder.AddAttribute(13, "class", "content px-4");
             __builder.AddAttribute(14, "b-51euoovddw");
-            __builder.AddContent(15, 
 #nullable restore
 #line 14 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\Shared\MainLayout.razor"
-             Body
+__builder.AddContent(15, Body);
 
 #line default
 #line hidden
 #nullable disable
-            );
             __builder.CloseElement();
             __builder.CloseElement();
             __builder.CloseElement();

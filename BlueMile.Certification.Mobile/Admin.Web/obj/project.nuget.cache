@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "njS3EsPyMDMX1lamvue+Ym2OhSu73ovoj/+FLBXOAxCS7TAUjTyWfGGat1cldp1B+L8EzYmUOWnj7v8fzUhFow==",
+  "dgSpecHash": "8creE5dVBqW7oY6KNriTarN89reTo9jshYoGSGjyWXINWkcRwgtBXJOfW1QDtZ7OiFcOGKL89SgfTZ9RNpBLDg==",
   "success": true,
   "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\Admin.Web\\BlueMile.Certification.Admin.Web.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Rudolph\\.nuget\\packages\\blazor-dragdrop\\2.3.0\\blazor-dragdrop.2.3.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\blazored.localstorage\\4.1.1\\blazored.localstorage.4.1.1.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\blazored.texteditor\\1.0.3\\blazored.texteditor.1.0.3.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\blazored.toast\\3.2.2\\blazored.toast.3.2.2.nupkg.sha512",
+    "C:\\Users\\Rudolph\\.nuget\\packages\\blazorinputfile\\0.2.0\\blazorinputfile.0.2.0.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\bootstrapblazor\\5.0.34\\bootstrapblazor.5.0.34.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\bunit.core\\1.1.5\\bunit.core.1.1.5.nupkg.sha512",
     "C:\\Users\\Rudolph\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",

@@ -99,7 +99,7 @@ using System.Globalization;
         protected override void BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder)
         {
             __builder.OpenComponent<Microsoft.AspNetCore.Components.Routing.Router>(0);
-            __builder.AddAttribute(1, "AppAssembly", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Reflection.Assembly>(
+            __builder.AddAttribute(1, "AppAssembly", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Reflection.Assembly>(
 #nullable restore
 #line 1 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\App.razor"
                       typeof(Program).Assembly
@@ -108,7 +108,7 @@ using System.Globalization;
 #line hidden
 #nullable disable
             ));
-            __builder.AddAttribute(2, "PreferExactMatches", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Boolean>(
+            __builder.AddAttribute(2, "PreferExactMatches", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Boolean>(
 #nullable restore
 #line 1 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\App.razor"
                                                                      true
@@ -119,7 +119,7 @@ using System.Globalization;
             ));
             __builder.AddAttribute(3, "Found", (Microsoft.AspNetCore.Components.RenderFragment<Microsoft.AspNetCore.Components.RouteData>)((routeData) => (__builder2) => {
                 __builder2.OpenComponent<Microsoft.AspNetCore.Components.RouteView>(4);
-                __builder2.AddAttribute(5, "RouteData", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.RouteData>(
+                __builder2.AddAttribute(5, "RouteData", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.RouteData>(
 #nullable restore
 #line 3 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\App.razor"
                                routeData
@@ -128,7 +128,7 @@ using System.Globalization;
 #line hidden
 #nullable disable
                 ));
-                __builder2.AddAttribute(6, "DefaultLayout", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Type>(
+                __builder2.AddAttribute(6, "DefaultLayout", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Type>(
 #nullable restore
 #line 3 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\App.razor"
                                                           typeof(MainLayout)
@@ -142,7 +142,7 @@ using System.Globalization;
             ));
             __builder.AddAttribute(7, "NotFound", (Microsoft.AspNetCore.Components.RenderFragment)((__builder2) => {
                 __builder2.OpenComponent<Microsoft.AspNetCore.Components.LayoutView>(8);
-                __builder2.AddAttribute(9, "Layout", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Type>(
+                __builder2.AddAttribute(9, "Layout", global::Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<System.Type>(
 #nullable restore
 #line 6 "C:\VSTS\BlueMile\BlueMile.Certification.Mobile\Admin.Web\App.razor"
                              typeof(MainLayout)

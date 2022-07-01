@@ -23,7 +23,7 @@
       <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"></meta-data>
     </provider>
     <activity android:configChanges="orientation|smallestScreenSize|screenLayout|screenSize|uiMode" android:icon="@mipmap/icon" android:label="BlueMile.Certification.Mobile" android:theme="@style/MainTheme" android:name="crc64e0052b341385bb98.MainActivity" />
-    <activity android:noHistory="true" android:theme="@style/MyTheme.Splash" android:name="crc64e0052b341385bb98.SplashActivity">
+    <activity android:noHistory="true" android:theme="@style/MyTheme.Splash" android:name="crc64e0052b341385bb98.SplashActivity" android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />

@@ -1,7 +1,11 @@
+using Blazored.LocalStorage;
+using BlueMile.Certification.Admin.Contracts;
 using BlueMile.Certification.Admin.Web.Data;
+using BlueMile.Certification.Admin.Web.Providers;
 using MatBlazor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Plk.Blazor.DragDrop;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -28,10 +33,19 @@ namespace BlueMile.Certification.Admin.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
-            services.AddBlazorDragDrop();
+            services.AddBlazoredLocalStorage();
+            services.AddBlazoredToast();
+            services.AddHttpClient();
+            services.AddScoped<ApiAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(p => p.GetRequiredService<ApiAuthenticationStateProvider>());
+            services.AddScoped<JwtSecurityTokenHandler>();
+            services.AddTransient<IAuthenticationRepository, AuthenticationRepository>();
+            services.AddTransient<IAuthorRepository, AuthorRepository>();
+            services.AddTransient<IOwnerRepository, BookRepository>();
+            services.AddTransient<IFileUpload, FileUpload>(); ;
 
             services.AddMatToaster(config =>
             {

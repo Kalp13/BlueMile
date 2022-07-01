@@ -1,0 +1,12 @@
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\bin\Debug\net6.0\BlueMile.Data.deps.json
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\bin\Debug\net6.0\BlueMile.Data.dll
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\bin\Debug\net6.0\BlueMile.Data.pdb
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.csproj.AssemblyReference.cache
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.AssemblyInfoInputs.cache
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.AssemblyInfo.cs
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.csproj.CoreCompileInputs.cache
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.dll
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\refint\BlueMile.Data.dll
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.pdb
+C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\ref\BlueMile.Data.dll

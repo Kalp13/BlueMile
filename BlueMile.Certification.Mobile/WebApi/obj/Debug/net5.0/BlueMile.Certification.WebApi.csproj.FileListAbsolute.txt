@@ -138,7 +138,6 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\BlueMile.
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\BlueMile.Certification.WebApi.runtimeconfig.json
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\BlueMile.Certification.WebApi.runtimeconfig.dev.json
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\BlueMile.Certification.WebApi.dll
-C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\ref\BlueMile.Certification.WebApi.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\BlueMile.Certification.WebApi.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\BlueMile.Certification.WebApi.xml
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\bin\Debug\net5.0\BlueMile.Certification.WebApi.Views.dll
@@ -262,3 +261,4 @@ C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\obj\Debug\net5.0\BlueMile.
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\obj\Debug\net5.0\ref\BlueMile.Certification.WebApi.dll
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.pdb
 C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\obj\Debug\net5.0\BlueMile.Certification.WebApi.genruntimeconfig.cache
+C:\VSTS\BlueMile\BlueMile.Certification.Mobile\WebApi\obj\Debug\net5.0\refint\BlueMile.Certification.WebApi.dll
