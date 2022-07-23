@@ -10,3 +10,15 @@ C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.dll
 C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\refint\BlueMile.Data.dll
 C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.pdb
 C:\VSTS\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\ref\BlueMile.Data.dll
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\bin\Debug\net6.0\BlueMile.Data.deps.json
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\bin\Debug\net6.0\BlueMile.Data.dll
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\bin\Debug\net6.0\BlueMile.Data.pdb
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.csproj.AssemblyReference.cache
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.AssemblyInfoInputs.cache
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.AssemblyInfo.cs
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.csproj.CoreCompileInputs.cache
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.dll
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\refint\BlueMile.Data.dll
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\BlueMile.Data.pdb
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Data\obj\Debug\net6.0\ref\BlueMile.Data.dll

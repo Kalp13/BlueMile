@@ -1,5 +1,4 @@
 ﻿using BlueMile.Data.Models;
-using BlueMile.Data.Models.StaticData;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

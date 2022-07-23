@@ -1,6 +1,8 @@
 ﻿using BlueMile.Certification.Data;
 using BlueMile.Data.Mappings;
 using BlueMile.Data.Models;
+using IdentityServer4.EntityFramework.Entities;
+using IdentityServer4.EntityFramework.Interfaces;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -9,19 +11,47 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BlueMile.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, IDataProtectionKeyContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, IDataProtectionKeyContext, IPersistedGrantDbContext
     {
-        public virtual DbSet<IndividualOwner> IndividualsOwners { get; set; }
+		#region Legal Entities
+
+		public virtual DbSet<LegalEntity> LegalEnitites { get; set; }
+
+		public virtual DbSet<Individual> Individuals { get; set; }
+
+		public virtual DbSet<Organisation> Organisations { get; set; }
+
+		public virtual DbSet<OrganisationUnit> OrganisationUnits { get; set; }
+
+		public virtual DbSet<OrganisationType> OrganisationTypes { get; set; }
 
 		public virtual DbSet<LegalEntityDocument> LegalEntityDocuments { get; set; }
+		
+		public virtual DbSet<LegalEntityAddress> LegalEntityAddresses { get; set; }
 
-		public virtual DbSet<LegalEntityAddress> LegalEntityAddress { get; set; }
+		public virtual DbSet<LegalEntityRelationshipState> LegalEntityRelationshipStates { get; set; }
+
+		public virtual DbSet<LegalEntityRelationshipType> LegalEntityRelationshipTypes { get; set; }
 
 		public virtual DbSet<ContactDetailType> ContactDetailTypes { get; set; }
 
 		public virtual DbSet<LegalEntityContactDetail> LegalEntityContactDetails { get; set; }
 
+		public virtual DbSet<LegalEntityRelationship> LegalEntityRelationships { get; set; }
+
+		public virtual DbSet<Owner> Owners { get; set; }
+
+		public virtual DbSet<Gender> Genders { get; set; }
+
+		public virtual DbSet<Salutation> Salutations { get; set; }
+
+		public virtual DbSet<IdentificationType> IdentificationTypes { get; set; }
+
 		public virtual DbSet<DocumentType> DocumentTypes { get; set; }
+
+		#endregion
+
+		#region Boats
 
 		public virtual DbSet<Boat> Boats { get; set; }
 
@@ -31,13 +61,25 @@ namespace BlueMile.Data
 
 		public virtual DbSet<CertificationRequest> CertificationRequests { get; set; }
 
+		public virtual DbSet<RequestState> RequestStates { get; set; }
+
+		#endregion
+
+		#region Items
+
 		public virtual DbSet<Item> Items { get; set; }
+
+		public virtual DbSet<ItemType> ItemTypes { get; set; }
 
 		public virtual DbSet<ItemDocument> ItemDocuments { get; set; }
 
 		public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
+        public DbSet<PersistedGrant> PersistedGrants { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public DbSet<DeviceFlowCodes> DeviceFlowCodes { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
-		public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IAuditUserProvider auditUserProvider)
+        #endregion
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IAuditUserProvider auditUserProvider)
 			: base(options)
 		{
 			// Validate Parameters.
@@ -66,13 +108,22 @@ namespace BlueMile.Data
 			builder.ApplyConfiguration(new ApplicationUserMap());
 
 			builder.ApplyConfiguration(new LegalEntityMap());
-			builder.ApplyConfiguration(new IndividualOwnerMap());
+			builder.ApplyConfiguration(new LegalEntityRelationshipTypeMap());
+			builder.ApplyConfiguration(new LegalEntityRelationshipStateMap());
+			builder.ApplyConfiguration(new LegalEntityRelationshipMap());
 			builder.ApplyConfiguration(new LegalEntityContactDetailsMap());
 			builder.ApplyConfiguration(new LegalEntityAddressMap());
 			builder.ApplyConfiguration(new ContactDetailTypeMap());
-			builder.ApplyConfiguration(new LegalEntityDocumentMap());
-
+			builder.ApplyConfiguration(new OrganisationTypeMap());
+			builder.ApplyConfiguration(new OrganisationMap());
+			builder.ApplyConfiguration(new OrganisationUnitMap());
+			builder.ApplyConfiguration(new GenderMap());
+			builder.ApplyConfiguration(new SalutationMap());
+			builder.ApplyConfiguration(new IdentificationTypeMap());
+			builder.ApplyConfiguration(new IndividualMap());
 			builder.ApplyConfiguration(new DocumentTypeMap());
+			builder.ApplyConfiguration(new LegalEntityDocumentMap());
+			builder.ApplyConfiguration(new OwnerMap());
 
 			builder.ApplyConfiguration(new BoatsMap());
 			builder.ApplyConfiguration(new BoatDocumentMap());
@@ -191,8 +242,13 @@ namespace BlueMile.Data
 			}
 		}
 
-		#endregion
+        public Task<int> SaveChangesAsync()
+        {
+            throw new NotImplementedException();
+        }
 
-		private IAuditUserProvider auditUserProvider;
+        #endregion
+
+        private IAuditUserProvider auditUserProvider;
 	}
 }

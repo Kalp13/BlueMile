@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj": {}
+    "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj": {}
   },
   "projects": {
-    "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj": {
+    "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj",
+        "projectUniqueName": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj",
         "projectName": "BlueMile.Web.Client",
-        "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj",
-        "packagesPath": "C:\\Users\\Rudolph\\.nuget\\packages\\",
-        "outputPath": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\obj\\",
+        "projectPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\BlueMile.Web.Client.csproj",
+        "packagesPath": "C:\\Users\\rfkal\\.nuget\\packages\\",
+        "outputPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Rudolph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rfkal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -34,8 +33,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj": {
-                "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj"
+              "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj": {
+                "projectPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj"
               }
             }
           }
@@ -52,16 +51,16 @@
           "dependencies": {
             "Microsoft.AspNetCore.Components.WebAssembly": {
               "target": "Package",
-              "version": "[6.0.5, )"
+              "version": "[6.0.7, )"
             },
             "Microsoft.AspNetCore.Components.WebAssembly.Authentication": {
               "target": "Package",
-              "version": "[6.0.5, )"
+              "version": "[6.0.7, )"
             },
             "Microsoft.AspNetCore.Components.WebAssembly.DevServer": {
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.5, )"
+              "version": "[6.0.7, )"
             },
             "Microsoft.Extensions.Http": {
               "target": "Package",
@@ -74,22 +73,17 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Runtime.Mono.browser-wasm",
-              "version": "[6.0.5, 6.0.5]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
         }
       },
       "runtimes": {
@@ -98,21 +92,20 @@
         }
       }
     },
-    "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj": {
+    "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj",
+        "projectUniqueName": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj",
         "projectName": "BlueMile.Web.Shared",
-        "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj",
-        "packagesPath": "C:\\Users\\Rudolph\\.nuget\\packages\\",
-        "outputPath": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\obj\\",
+        "projectPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj",
+        "packagesPath": "C:\\Users\\rfkal\\.nuget\\packages\\",
+        "outputPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Rudolph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rfkal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -145,7 +138,8 @@
             "net47",
             "net471",
             "net472",
-            "net48"
+            "net48",
+            "net481"
           ],
           "assetTargetFallback": true,
           "warn": true,
@@ -154,7 +148,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
         }
       }
     }

@@ -1,25 +1,34 @@
-using BlueMile.Web.Server.Data;
-using BlueMile.Web.Server.Models;
+using BlueMile.Data;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContextFactory<ApplicationDbContext>(
+    options => options.UseSqlServer(connectionString,
+    sqOptions => sqOptions.CommandTimeout((int)TimeSpan.FromMinutes(2).TotalSeconds).EnableRetryOnFailure(3)),
+    ServiceLifetime.Transient);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
-builder.Services.AddIdentityServer()
-    .AddApiAuthorization<ApplicationUser, ApplicationDbContext>();
+builder.Services.AddIdentityCore<ApplicationUser>().AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddAuthentication()
     .AddIdentityServerJwt();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+                        b => b.AllowAnyMethod().AllowAnyHeader().AllowAnyOrigin());
+});
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();

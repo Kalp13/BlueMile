@@ -1,0 +1,12 @@
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\bin\Debug\net6.0\BlueMile.Web.Shared.deps.json
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\bin\Debug\net6.0\BlueMile.Web.Shared.dll
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\bin\Debug\net6.0\BlueMile.Web.Shared.pdb
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\BlueMile.Web.Shared.csproj.AssemblyReference.cache
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\BlueMile.Web.Shared.GeneratedMSBuildEditorConfig.editorconfig
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\BlueMile.Web.Shared.AssemblyInfoInputs.cache
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\BlueMile.Web.Shared.AssemblyInfo.cs
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\BlueMile.Web.Shared.csproj.CoreCompileInputs.cache
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\BlueMile.Web.Shared.dll
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\refint\BlueMile.Web.Shared.dll
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\BlueMile.Web.Shared.pdb
+C:\Repos\Kalp13\BlueMile\BlueMile.Web\BlueMile.Web\Shared\obj\Debug\net6.0\ref\BlueMile.Web.Shared.dll

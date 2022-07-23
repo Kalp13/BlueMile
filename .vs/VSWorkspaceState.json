@@ -1,7 +1,12 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\BlueMile.Certification.Mobile",
+    "\\BlueMile.Certification.Mobile\\Admin.Web",
+    "\\BlueMile.Certification.Mobile\\Admin.Web\\Services",
+    "\\BlueMile.Web",
+    "\\BlueMile.Web\\BlueMile.Data"
   ],
-  "SelectedNode": "\\RenewalReminder.sln",
+  "SelectedNode": "\\BlueMile.Certification.Mobile\\Admin.Web\\Services\\AuthenticationRepository.cs",
   "PreviewInSolutionExplorer": false
 }

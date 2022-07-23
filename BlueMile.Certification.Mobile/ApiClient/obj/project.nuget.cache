@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "FgCIVenvDqi4wQrHURLq3cF2kxSONj+TdD2XfOuKHG+IX5fQa10aFN++9c1YkXP+/JVu3Z9/G9XlD1dGeb4UDg==",
+  "dgSpecHash": "a3xQ2WKykn80d5Inor9hpcN/YvlKg3aVn5iSNcpVv5ohtN64RaEopIlbwEIQRPvpdWUGJD3L4xQTjyz/GShetA==",
   "success": true,
-  "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\BlueMile.Certification.Web.ApiClient.csproj",
+  "projectFilePath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\BlueMile.Certification.Web.ApiClient.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Rudolph\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
-    "C:\\Users\\Rudolph\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
+    "C:\\Users\\rfkal\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\rfkal\\.nuget\\packages\\system.componentmodel.annotations\\5.0.0\\system.componentmodel.annotations.5.0.0.nupkg.sha512"
   ],
   "logs": []
 }

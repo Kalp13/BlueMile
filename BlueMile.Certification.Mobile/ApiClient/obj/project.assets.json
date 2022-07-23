@@ -5,19 +5,27 @@
       "Newtonsoft.Json/13.0.1": {
         "type": "package",
         "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
         }
       },
       "System.ComponentModel.Annotations/5.0.0": {
         "type": "package",
         "compile": {
-          "ref/netstandard2.1/System.ComponentModel.Annotations.dll": {}
+          "ref/netstandard2.1/System.ComponentModel.Annotations.dll": {
+            "related": ".xml"
+          }
         },
         "runtime": {
-          "lib/netstandard2.1/System.ComponentModel.Annotations.dll": {}
+          "lib/netstandard2.1/System.ComponentModel.Annotations.dll": {
+            "related": ".xml"
+          }
         }
       },
       "BlueMile.Certification.Web.ApiModels/1.0.0": {
@@ -166,25 +174,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Rudolph\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\rfkal\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\BlueMile.Certification.Web.ApiClient.csproj",
+      "projectUniqueName": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\BlueMile.Certification.Web.ApiClient.csproj",
       "projectName": "BlueMile.Certification.Web.ApiClient",
-      "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\BlueMile.Certification.Web.ApiClient.csproj",
-      "packagesPath": "C:\\Users\\Rudolph\\.nuget\\packages\\",
-      "outputPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\obj\\",
+      "projectPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\BlueMile.Certification.Web.ApiClient.csproj",
+      "packagesPath": "C:\\Users\\rfkal\\.nuget\\packages\\",
+      "outputPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiClient\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Rudolph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\rfkal\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -200,8 +206,8 @@
         "netstandard2.1": {
           "targetAlias": "netstandard2.1",
           "projectReferences": {
-            "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj": {
-              "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj"
+            "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj": {
+              "projectPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj"
             }
           }
         }
@@ -237,7 +243,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22301.10\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
       }
     }
   }

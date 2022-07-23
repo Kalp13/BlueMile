@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "R1HeGVRxdQbCntX4bcsjmpastSNFO6XCVPst0MDLggsELjKzYdMRZgEaiz0DpHcZDBXpFQpLKxHr2Cwm9VUMVw==",
+  "dgSpecHash": "zVX5ES8l7DHLGhHPT1DDjOh/x40SvVQVR+WpnvbUPe44sCz8AsYRKiBv6RAKR4u8bxTncXG8t+nd95IEVQfEuQ==",
   "success": true,
-  "projectFilePath": "C:\\VSTS\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj",
+  "projectFilePath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Web\\BlueMile.Web\\Shared\\BlueMile.Web.Shared.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

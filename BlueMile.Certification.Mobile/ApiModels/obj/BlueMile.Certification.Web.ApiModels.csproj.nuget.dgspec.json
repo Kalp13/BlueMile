@@ -1,24 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj": {}
+    "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj": {}
   },
   "projects": {
-    "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj": {
+    "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj",
+        "projectUniqueName": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj",
         "projectName": "BlueMile.Certification.Web.ApiModels",
-        "projectPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj",
-        "packagesPath": "C:\\Users\\Rudolph\\.nuget\\packages\\",
-        "outputPath": "C:\\VSTS\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\obj\\",
+        "projectPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\BlueMile.Certification.Web.ApiModels.csproj",
+        "packagesPath": "C:\\Users\\rfkal\\.nuget\\packages\\",
+        "outputPath": "C:\\Repos\\Kalp13\\BlueMile\\BlueMile.Certification.Mobile\\ApiModels\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Rudolph\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\rfkal\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -67,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22301.10\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400-preview.22330.6\\RuntimeIdentifierGraph.json"
         }
       }
     }

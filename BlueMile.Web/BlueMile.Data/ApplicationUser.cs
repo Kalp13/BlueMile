@@ -7,7 +7,7 @@ namespace BlueMile.Data
 	{
 		public Guid? OwnerId { get; set; }
 
-		public LegalEntity Owner { get; set; }
+		public Owner Owner { get; set; }
 
 		public DateTime? LastLogin { get; set; }
 	}

@@ -11,7 +11,6 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap4")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("BlueMile.Certification.WASM.Server-5BD32229-8F74-4442-90FE-7C2A491C6312")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("BlueMile.Certification.WASM.Server")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
